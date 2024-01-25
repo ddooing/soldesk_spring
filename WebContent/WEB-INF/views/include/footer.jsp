@@ -4,14 +4,15 @@
 <html>
 <head>
 <meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-
-	 
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 	<title>ARTMEE</title>
-	
-	<link rel="icon" type="image/x-icon" href="assets/ARTMEE_PAGELOGO.png" />
+
+	<link rel="icon" type="image/x-icon" href="img/ARTMEE_PAGELOGO.png" />
+
+	<!-- Font Awesome icons (free version)-->
+	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
 	<!-- Google fonts-->
 	<link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900"
@@ -21,38 +22,27 @@
 
 	<!-- Bootstrap core JS-->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Core theme JS-->
+	<script src="../js/scripts.js"></script>
+
+	<!-- JQuery 자바스크립트-->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+	<!-- CSS -->
+	<link href="../css/styles.css" rel="stylesheet" />
+
 	<!-- Carousel 자바스크립트-->
 	<script src='https://www.gmarwaha.com/script/lib/jquery-1.11.1.js'></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing-1.3.js"></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 	<script src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
-	
-		<!-- Font Awesome icons (free version)-->
-	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-	
-		<link rel="preconnect" href="https://fonts.gstatic.com">
+
+
+	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-	
-	
-	<!-- Core theme JS-->
-	<script src="../js/scripts.js"></script>
-	
-	<script src="../js/mypage.js"></script> 
-	<!-- JQuery 자바스크립트-->
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-
-	<!-- CSS -->
-	<link href="css/styles.css" rel="stylesheet" />
-	<link href="css/Mypage.css" rel="stylesheet" />
-	
-	
-	
-   <!-- Font Awesome icons (free version) -->
-  <!--   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
--->
-<title>Insert title here</title>
 </head>
 <body>
 	<footer class="py-5 navbar-custom" style="margin-top: 200px; background-color: navbar-color;">
