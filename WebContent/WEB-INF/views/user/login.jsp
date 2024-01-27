@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<c:set var="root" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,14 +41,6 @@
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 	<script src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
-
-	<script type="text/javascript">
-		$(document).ready(function () {
-
-			$("#headers").load("component/header.html");
-			$("#footer").load("component/footer.html");
-		});
-	</script>
 
 	<style>
 		#jcl-demo {
@@ -125,79 +119,29 @@
 			<div class="row d-flex align-items-center justify-content-center h-100">
 				<div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1" style="margin-top: 100px;">
 					<div class="text-center mb-4">
-						<img src="assets/img/ARTMEE.png" alt="Artmee Logo" style="width: 250px; height: 100px;">
+						<img src="../img/ARTMEE.png" style="width: 250px; height: 100px;">
 					</div>
-					<form>
-
+					
+					<form:form action="${root }/user/login_pro" method="post" modelAttribute="tempLoginUserBean">
 						<div class="form-outline mb-4">
-							<input type="email" id="email" class="form-control form-control-lg" name="email"
-								placeholder="이메일주소" />
+							<form:input path="id" class="form-control form-control-lg" />
 						</div>
-
+						
 						<div class="form-outline mb-4">
-							<input type="password" id="password" class="form-control form-control-lg" name="password"
-								placeholder="비밀번호" />
+							<form:password path="pw" class="form-control form-control-lg" />
 						</div>
-
-						<div class="d-flex justify-content-around align-items-center mb-4">
-							<div class="form-check">
-								<input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
-								<label class="form-check-label" for="form1Example3"> 아이디 기억하기 </label>
-							</div>
-							<a href="#!" style="color: black;">비밀번호 찾기</a>
-						</div>
-
-						<button type="submit" class="btn btn-primary btn-lg btn-block w-100"
-							style="background-color: #000; color: #fff; border:none;">로그인</button>
-
-						<button type="button" class="btn btn-primary btn-lg btn-block w-100"
-							style="margin-top: 30px; background-color: #000; color: #fff;border:none;">회원가입</button>
-
-						<div class="divider d-flex align-items-center my-4">
-							<p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
-						</div>
-
-						<a class="btn btn-primary btn-lg d-flex align-items-center justify-content-center"
-							style="background-color:#ffeb3b; border: black; color: #fff;" onclick="kakaoLogin()"
-							role="button">
-							<img src="assets/img/kakaotalk.png" alt="카카오톡"
-								style="width: 20px; height: 20px; margin-right: 15px;" />
-							<span style="color: black;">카카오 로그인</span>
-
-						</a>
-
-						<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-						<script>
-							Kakao.init('7b2cf06203fb94dc8e07b3948ec6405a'); //발급받은 키 중 javascript키를 사용해준다.
-							console.log(Kakao.isInitialized()); // sdk초기화여부판단
-							//카카오로그인
-							function kakaoLogin() {
-								Kakao.Auth.login({
-									success: function (response) {
-										Kakao.API.request({
-											url: '/v2/user/me',
-											success: function (response) {
-												console.log(response)
-											},
-											fail: function (error) {
-												console.log(error)
-											},
-										})
-									},
-									fail: function (error) {
-										console.log(error)
-									},
-								})
-							}  
-						</script>
-
-					</form>
+						
+						<form:button type="submit" class="btn btn-primary btn-lg btn-block w-100" style="background-color: #000; color: #fff; border:none;">로그인</form:button>
+					
+					
+					</form:form>
+					
 
 					<!--밑부분 배너-->
 					<section style="margin-top: 100px;">
 						<div class="container px-1">
 							<div class="d-flex justify-content-center">
-								<img src="assets/img/banner1.png" alt="banner1" style="border: 1px solid black;">
+								<img src="../img/banner1.png" alt="banner1" style="border: 1px solid black;">
 							</div>
 						</div>
 					</section>

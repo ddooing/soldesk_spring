@@ -113,8 +113,13 @@
 
 <body id="page-top">
 	<!-- 메뉴바 -->
+<<<<<<< HEAD
 	 <c:import url="/WEB-INF/views/include/header.jsp"/> 
 
+=======
+	<c:import url="/WEB-INF/views/include/header.jsp"/>
+	
+>>>>>>> branch 'jaeho' of https://github.com/ddooing/soldesk_spring.git
 	<!-- 상단 케러셀-->
 	<header class="masthead">
 		<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">

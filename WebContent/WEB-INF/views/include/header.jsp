@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<c:set var="root" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +11,14 @@
 	<meta name="author" content="" />
 	<title>ARTMEE</title>
 
+<<<<<<< HEAD
 	<link rel="icon" type="image/x-icon" href="img/ARTMEE_PAGELOGO.png" />
+=======
+	<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
+
+	<!-- Font Awesome icons (free version)-->
+	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+>>>>>>> branch 'jaeho' of https://github.com/ddooing/soldesk_spring.git
 
 	<!-- Font Awesome icons (free version)-->
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -48,7 +57,7 @@
 	<!-- 메뉴바 -->
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
 		<div class="container px-5">
-			<a class="navbar-brand" href="index.html"><img src="../img/ARTMEE.png"
+			<a class="navbar-brand" href="${root}/view/index"><img src="../img/ARTMEE.png"
 					style="width: 160px; height: 60px;" /></a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
 				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -82,9 +91,22 @@
 						<a class="nav-link" href="#!"><img src="../img/cart.png"
 								style="width: 30px; height: 30px; margin-right: 30px;" /></a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="login.html">로그인</a>
-					</li>
+					<c:choose>
+					
+		               <c:when test="${loginUserBean.userLogin == false}">
+		                  <li class="nav-item"><a href="${root}/user/login" class="nav-link">로그인</a>
+		                  </li>
+		                  <li class="nav-item"><a href="${root}/user/join" class="nav-link">회원가입</a>
+		                  </li>
+		               </c:when>
+		               
+		               <c:otherwise>
+		                  <li class="nav-item"><a href="${root}/user/mypage"
+		                     class="nav-link">마이페이지</a></li>
+		                  <li class="nav-item"><a href="${root }/user/logout" class="nav-link">로그아웃</a>
+		                  </li>
+		               </c:otherwise>
+		           </c:choose>
 				</ul>
 			</div>
 		</div>

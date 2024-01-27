@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+    <c:set var="root" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -127,13 +129,7 @@ transform: scale(1.3);
 transform-origin: top;
 }
 </style>
-<script type="text/javascript">
-      $(document).ready(function () {
 
-         $("#headers").load("component/header.html");
-         $("#footer").load("component/footer.html");
-      });
-   </script>
 </head>
 
 <body id="page-top">
@@ -143,118 +139,78 @@ transform-origin: top;
 
 	<!--로그인 부분-->
 	<section id="readg"class="text-center" style="margin-top: 100px;">
-		<form action="login.html" method="post">
+		
+		
+		<form:form action="${root }/user/join_pro" method="post" modelAttribute="joinUserBean">
 			<div class="container h-100 align-items-center justify-content-center">
 				<h2>회원가입</h2>
-				
 				<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
-
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
+				
+				<div class="d-flex align-items-center justify-content-center" style="margin-top: 20px;">
 					<div style="width: 150px; text-align: left;">
-						<label for="nickname" style="font-size: 20px;">닉네임</label>
-					</div>  
-					<div style="margin-left: 20px;">
-						<input type="text" name="nickname" />
+						<form:label path="name" style="font-size: 20px;">닉네임</form:label>
+						<form:input path="name" />
 					</div>
 					<div style="margin-left: 20px; width: 100px;">
-						<input type="button" class="btn btn-dark" value="중복확인" />
+						<button type="button" class="btn btn-dark">중복확인</button>
 					</div>
 				</div>
-
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
+				
+				<div class="d-flex align-items-center justify-content-center" style="margin-top: 20px;">
 					<div style="width: 150px; text-align: left;">
-						<label for="id" style="font-size: 20px;">아이디</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="text" name="id" />
+						<form:label path="id" style="font-size: 20px;">아이디</form:label>
+						<form:input path="id" />
 					</div>
 					<div style="margin-left: 20px; width: 100px;">
-						<input type="button" class="btn btn-dark" value="중복확인" />
+						<button type="button" class="btn btn-dark">중복확인</button>
 					</div>
 				</div>
-
+				
+				<div class="d-flex align-items-center justify-content-center" style="margin-top: 20px;">
+					<div style="width: 150px; text-align: left;">
+						<form:label path="email" style="font-size: 20px;">이메일</form:label>
+						<form:input path="email" />
+					</div>
+				</div>
+				
+				
 				<div class="d-flex align-items-center justify-content-center"
 					style="margin-top: 20px;">
 					<div style="width: 150px; text-align: left;">
-						<label for="pw" style="font-size: 20px;">비밀번호</label>
+						<form:label path="user_pw" style="font-size: 20px;">비밀번호</form:label>
 					</div>
 					<div style="margin-left: 20px;">
-						<input type="password" name="pw" />
+						<form:password path="user_pw" />
 					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
 				</div>
-
+				
 				<div class="d-flex align-items-center justify-content-center"
 					style="margin-top: 20px;">
 					<div style="width: 150px; text-align: left;">
-						<label for="pw1" style="font-size: 20px;">비밀번호 확인</label>
+						<form:label path="user_pw2" style="font-size: 20px;">비밀번호 확인</form:label>
 					</div>
 					<div style="margin-left: 20px;">
-						<input type="password" name="pw1" />
+						<form:password path="user_pw2" />
 					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
 				</div>
-
+				
 				<div class="d-flex align-items-center justify-content-center"
 					style="margin-top: 20px;">
 					<div style="width: 150px; text-align: left;">
-						<label for="email" style="font-size: 20px;">이메일</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="email" name="email" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
-				</div>
-
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="gender" style="font-size: 20px; text-align: left;">성별</label>
+						<form:label path="user_gender" style="font-size: 20px; text-align: left;">성별</form:label>
 					</div>
 					<div style="margin-left: 20px; width: 218px;">
-						<input type="radio" name="gender" id="man"
-							style="margin-right: 20px;" /> <label for="man">남</label> <input
-							type="radio" name="gender" id="woman"
-							style="margin-left: 50px; margin-right: 20px;" /> <label
-							for="woman">여</label>
-					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
-				</div>
-
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="gender" style="font-size: 20px; text-align: left;">연령대</label>
-					</div>
-					<div style="width: 400px;">
-						<table>
-							<tr>
-								<td style="border: 0px;">
-									<input type="button" id="age_10" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('10')" value="10대"/>
-			                        <input type="button" id="age_20" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('20')" value="20대"/>   
-			                        <input type="button" id="age_30" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('30')" value="30대"/>
-			                        <input type="button" id="age_40" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('40')" value="40대"/>
-			                        <input type="button" id="age_50" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('50')" value="50대"/>
-			                        <input type="button" id="age_60" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('60')" value="60대"/>
-
-								</td>
-							</tr>
-						</table>
+						<form:radiobutton path="user_gender" value="man" style="margin-right: 20px;" />남자
+						<form:radiobutton path="user_gender" value="woman" style="margin-right: 20px;" />여자
 					</div>
 				</div>
-				<div style="margin-top: 50px">
-					<button class="btn btn-dark"type="submit">회원가입</button>
-				</div>
+				
+				
 			</div>
-		</form>
+		</form:form>
+		
+
+		
 	</section>
 
 <script>
