@@ -114,7 +114,7 @@
 <body id="page-top">
 	<!-- 메뉴바 -->
 	<c:import url="/WEB-INF/views/include/header.jsp"/>
-
+	
 	<!-- 상단 케러셀-->
 	<header class="masthead">
 		<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">

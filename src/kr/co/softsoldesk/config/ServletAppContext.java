@@ -1,26 +1,40 @@
 package kr.co.softsoldesk.config;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.mapper.UserMapper;
+
 
 
 
 @Configuration
-@EnableWebMvc //½ºÄµÇÑ ÆÐÅ°Áö ³»ºÎÀÇ Å¬·¡½º Áß Controller ¾î³ëÅ×ÀÌ¼ÇÀ» °¡Áö°í ÀÖ´Â Å¬·¡½ºµéÀ» Controller·Î µî·Ï
+@EnableWebMvc //ï¿½ï¿½Äµï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Controller ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Controllerï¿½ï¿½ ï¿½ï¿½ï¿½
 @ComponentScan("kr.co.softsoldesk.controller")
+@ComponentScan("kr.co.softsoldesk.dao")
+@ComponentScan("kr.co.softsoldesk.Service")
 @PropertySource("/WEB-INF/properties/db.properties")
 public class ServletAppContext implements WebMvcConfigurer{
-//Spring MVC ÇÁ·ÎÁ§Æ®¿¡ °ü·ÃµÈ ¼³Á¤À» ÇÏ´Â Å¬·¡½º
+//Spring MVC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 	
-	@Value("${db.classname}")
-	   private String db_classname;
+		@Value("${db.classname}")
+		private String db_classname;
 	   
 	   @Value("${db.url}")
 	   private String db_url;
@@ -31,11 +45,13 @@ public class ServletAppContext implements WebMvcConfigurer{
 	   @Value("${db.password}")
 	   private String db_password;
 	   
+	   @Resource(name = "loginUserBean")
+	   private UserBean loginUserBean;
 
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-	//Á¤Àû ÆÄÀÏ °æ·Î ¸ÅÇÎ
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/");
 		//registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/assets/");
@@ -43,12 +59,12 @@ public class ServletAppContext implements WebMvcConfigurer{
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-	//ControllerÀÇ ¸Þ¼­µå°¡ ¹ÝÈ¯ÇÏ´Â ÆÄÀÏ ¾ÕµÚ¿¡ °æ·ÎÀÇ È®ÀåÁö Ãß°¡
+	//Controllerï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½å°¡ ï¿½ï¿½È¯ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ÕµÚ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 		WebMvcConfigurer.super.configureViewResolvers(registry);
 		registry.jsp("/WEB-INF/views/",".jsp");
 	}
 
-	/*
+	
 	@Bean
 	public BasicDataSource dataSource() {
 		BasicDataSource source = new BasicDataSource();
@@ -70,14 +86,29 @@ public class ServletAppContext implements WebMvcConfigurer{
 		return factory;
 	}
 	
+	@Bean
+	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) throws Exception{
+		
+		MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<UserMapper>(UserMapper.class);
+		
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+		
+	}
+	
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
+		
+		return new PropertySourcesPlaceholderConfigurer();
+	}
 
 	
-	//¿¡·¯ ÇÁ·ÎÆÛÆ¼ ÆÄÀÏÀ» ¸Þ½ÃÁö·Î µî·Ï
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
 		ReloadableResourceBundleMessageSource res = new ReloadableResourceBundleMessageSource();
 		res.setBasename("/WEB-INF/properties/error_message");
 		return res;
 	}
-	*/
+	
 }
