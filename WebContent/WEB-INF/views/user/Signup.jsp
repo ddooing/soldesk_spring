@@ -148,9 +148,8 @@ transform-origin: top;
 				
 				<div class="d-flex align-items-center justify-content-center" style="margin-top: 20px;">
 					<div style="width: 150px; text-align: left;">
-						<form:label path="user_nickname" style="font-size: 20px;">닉네임</form:label>
-						<form:input path="user_nickname" />
-						<form:errors path="user_nickname" style="color:red" />
+						<form:label path="name" style="font-size: 20px;">닉네임</form:label>
+						<form:input path="name" />
 					</div>
 					<div style="margin-left: 20px; width: 100px;">
 						<button type="button" class="btn btn-dark">중복확인</button>
@@ -159,12 +158,18 @@ transform-origin: top;
 				
 				<div class="d-flex align-items-center justify-content-center" style="margin-top: 20px;">
 					<div style="width: 150px; text-align: left;">
-						<form:label path="user_email" style="font-size: 20px;">이메일</form:label>
-						<form:input path="user_email" />
-						<form:errors path="user_email" style="color:red" />
+						<form:label path="id" style="font-size: 20px;">아이디</form:label>
+						<form:input path="id" />
 					</div>
 					<div style="margin-left: 20px; width: 100px;">
 						<button type="button" class="btn btn-dark">중복확인</button>
+					</div>
+				</div>
+				
+				<div class="d-flex align-items-center justify-content-center" style="margin-top: 20px;">
+					<div style="width: 150px; text-align: left;">
+						<form:label path="email" style="font-size: 20px;">이메일</form:label>
+						<form:input path="email" />
 					</div>
 				</div>
 				
@@ -200,20 +205,6 @@ transform-origin: top;
 					</div>
 				</div>
 				
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<form:label path="user_age" style="font-size: 20px; text-align: left;">연령대</form:label>
-					</div>
-					<div style="width: 400px;">
-						<table>
-							<tr>
-								<td style="border: 0px;">
-								<!-- 라디오 버튼 넣어 -->
-								</td>
-							</tr>
-						</table>
-					</div>
 				
 			</div>
 		</form:form>

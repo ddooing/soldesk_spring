@@ -85,7 +85,6 @@
 								style="width: 30px; height: 30px; margin-right: 30px;" /></a>
 					</li>
 					<c:choose>
-					<c:out value="${loginUserBean.userLogin}" />
 					
 		               <c:when test="${loginUserBean.userLogin == false}">
 		                  <li class="nav-item"><a href="${root}/user/login" class="nav-link">로그인</a>
@@ -96,7 +95,7 @@
 		               
 		               <c:otherwise>
 		                  <li class="nav-item"><a href="${root}/user/mypage"
-		                     class="nav-link">정보수정</a></li>
+		                     class="nav-link">마이페이지</a></li>
 		                  <li class="nav-item"><a href="${root }/user/logout" class="nav-link">로그아웃</a>
 		                  </li>
 		               </c:otherwise>
