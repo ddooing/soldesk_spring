@@ -67,6 +67,20 @@
           <version>2.0.1.Final</version>
       </dependency>
       
+      
+      <!-- 아임포트 결제 api 
+      <dependency>
+		<groupId>org.apache.logging.log4j</groupId>
+		<artifactId>log4j-core</artifactId>
+		<version>2.11.2</version>
+	</dependency>
+	-->
+	<dependency>
+	    <groupId>com.github.iamport</groupId>
+	    <artifactId>iamport-rest-client-java</artifactId>
+	    <version>0.2.23</version>
+	</dependency>
+      
 <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
 <dependency>
     <groupId>org.hibernate.validator</groupId>

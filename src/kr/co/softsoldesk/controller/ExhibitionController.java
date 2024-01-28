@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
@@ -31,5 +32,15 @@ public class ExhibitionController {
 	@GetMapping("/exhibition_click")
 	public String exhibition_click() {
 		return "exhibition/exhibition_click";
+	}
+	
+	@GetMapping("/payment")
+	public String payment() {
+		return "exhibition/payment";
+	}
+	
+	@PostMapping("/payment_pro")
+	public String payment_pro() {
+		return "exhibition/payment_pro";
 	}
 }
