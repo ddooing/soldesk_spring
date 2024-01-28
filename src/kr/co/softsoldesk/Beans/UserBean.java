@@ -5,15 +5,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
-
 public class UserBean {
 	
 	private boolean userIdExist;
 	private boolean userLogin;
 	
 	public UserBean() {
-		
 		this.userIdExist = false;
 		this.userLogin = false;
 	}
@@ -23,9 +20,5 @@ public class UserBean {
 	private String id;
 	private String pw;
 	private String pw2;
-	
-	
-	
-	
 
 }

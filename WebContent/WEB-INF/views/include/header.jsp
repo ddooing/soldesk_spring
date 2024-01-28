@@ -11,17 +11,11 @@
 	<meta name="author" content="" />
 	<title>ARTMEE</title>
 
-<<<<<<< HEAD
-	<link rel="icon" type="image/x-icon" href="img/ARTMEE_PAGELOGO.png" />
-=======
 	<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 
 	<!-- Font Awesome icons (free version)-->
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
->>>>>>> branch 'jaeho' of https://github.com/ddooing/soldesk_spring.git
 
-	<!-- Font Awesome icons (free version)-->
-	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
 	<!-- Google fonts-->
 	<link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900"
@@ -69,7 +63,7 @@
 						<a class="nav-link" href="BoardNoticeList.html" style="margin-right: 20px; margin-left: 50px;">공지사항</a>
 					</li>
 					<li class="nav-item mr-5">
-						<a class="nav-link" href="exhibition.html" style="margin-right: 20px; margin-left: 20px;">전시회</a>
+						<a class="nav-link" href="${root }/exhibition/exhibition" style="margin-right: 20px; margin-left: 20px;">전시회</a>
 					</li>
 					
 					<li class="nav-item mr-5">

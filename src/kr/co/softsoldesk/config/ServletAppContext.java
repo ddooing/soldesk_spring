@@ -20,54 +20,52 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
+import kr.co.softsoldesk.mapper.ExhibitionMapper;
 import kr.co.softsoldesk.mapper.UserMapper;
 
-
-
-
 @Configuration
-@EnableWebMvc //��ĵ�� ��Ű�� ������ Ŭ���� �� Controller ������̼��� ������ �ִ� Ŭ�������� Controller�� ���
+@EnableWebMvc // ��ĵ�� ��Ű�� ������ Ŭ���� �� Controller ������̼��� ������ �ִ� Ŭ��������
+				// Controller�� ���
 @ComponentScan("kr.co.softsoldesk.controller")
 @ComponentScan("kr.co.softsoldesk.dao")
 @ComponentScan("kr.co.softsoldesk.Service")
 @PropertySource("/WEB-INF/properties/db.properties")
-public class ServletAppContext implements WebMvcConfigurer{
+public class ServletAppContext implements WebMvcConfigurer {
 //Spring MVC ������Ʈ�� ���õ� ������ �ϴ� Ŭ����
-	
-		@Value("${db.classname}")
-		private String db_classname;
-	   
-	   @Value("${db.url}")
-	   private String db_url;
-	   
-	   @Value("${db.username}")
-	   private String db_username;
-	   
-	   @Value("${db.password}")
-	   private String db_password;
-	   
-	   @Resource(name = "loginUserBean")
-	   private UserBean loginUserBean;
 
-	
+	@Value("${db.classname}")
+	private String db_classname;
+
+	@Value("${db.url}")
+	private String db_url;
+
+	@Value("${db.username}")
+	private String db_username;
+
+	@Value("${db.password}")
+	private String db_password;
+
+	@Resource(name = "loginUserBean")
+	private UserBean loginUserBean;
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-	//���� ���� ��� ����
+		// ���� ���� ��� ����
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/");
-		//registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/assets/");
+		// registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/assets/");
 	}
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-	//Controller�� �޼��尡 ��ȯ�ϴ� ���� �յڿ� ����� Ȯ���� �߰�
+		// Controller�� �޼��尡 ��ȯ�ϴ� ���� �յڿ� ����� Ȯ���� �߰�
 		WebMvcConfigurer.super.configureViewResolvers(registry);
-		registry.jsp("/WEB-INF/views/",".jsp");
+		registry.jsp("/WEB-INF/views/", ".jsp");
 	}
 
-	
 	@Bean
 	public BasicDataSource dataSource() {
 		BasicDataSource source = new BasicDataSource();
@@ -75,53 +73,61 @@ public class ServletAppContext implements WebMvcConfigurer{
 		source.setUrl(db_url);
 		source.setUsername(db_username);
 		source.setPassword(db_password);
-		
+
 		return source;
 	}
-	
+
 	@Bean
-	public SqlSessionFactory factory(BasicDataSource source) throws Exception{
-		
+	public SqlSessionFactory factory(BasicDataSource source) throws Exception {
+
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(source);
 		SqlSessionFactory factory = factoryBean.getObject();
-		
+
 		return factory;
 	}
-	
+
 	@Bean
-	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) throws Exception{
-		
+	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) throws Exception {
+
 		MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<UserMapper>(UserMapper.class);
-		
+
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;
-		
+
 	}
-	
+
+	@Bean		// 전시회 조회 
+	public MapperFactoryBean<ExhibitionMapper> getExhibitionMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<ExhibitionMapper> factoryBean = new MapperFactoryBean<ExhibitionMapper>(ExhibitionMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
+
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
-		
+
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
-	
-	//���� ������Ƽ ������ �޽����� ���
+	// ���� ������Ƽ ������ �޽����� ���
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
 		ReloadableResourceBundleMessageSource res = new ReloadableResourceBundleMessageSource();
 		res.setBasename("/WEB-INF/properties/error_message");
 		return res;
 	}
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(loginUserBean);
-		
+
 		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
 		reg1.addPathPatterns("/**");
-		
+
 	}
-	
-	
+
 }

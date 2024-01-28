@@ -45,8 +45,8 @@
 
 
 	<!-- CSS -->
-	<link href="css/styles.css" rel="stylesheet" />
-	<link href="css/Mypage.css" rel="stylesheet" />
+	<link href="../css/styles.css" rel="stylesheet" />
+	<link href="../css/Mypage.css" rel="stylesheet" />
 	
 	
 	
@@ -87,7 +87,7 @@
 					
 			<!-- 이미지 -->
 			<div style="display: flex; flex-direction: column;">
-				<img src="./assets/img/profileImg.png" style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;"/>
+				<img src="../img/profileImg.png" style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;"/>
 				<button class="button-2" role="button" onclick="profileEditor()">프로필 수정</button>
 			</div>
 			
@@ -133,7 +133,7 @@
 											style="display: inline-block; text-align: center; width: 170px; border-right: 1px solid black;">
 											<p style="font-size:25px">LV.1</p>
 					
-											<img src="./assets/img/profile_Lv1.png"
+											<img src="../img/level/profile_Lv1.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
 											<br /><br /><br />
 											<b style="margin-top: 10px;">1% 적립</b><br />
@@ -144,7 +144,7 @@
 											style="display: inline-block; text-align: center; width: 170px; border-right: 1px solid black;">
 											<p style="font-size:25px">LV.2</p>
 					
-											<img src="./assets/img/profileImg.png"
+											<img src="../img/profileImg.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
 											<br /><br /><br />
 											<b style="margin-top: 10px;">3% 적립</b><br />
@@ -154,7 +154,7 @@
 										<div style="display: inline-block; text-align: center; width: 170px;">
 											<p style="font-size:25px">LV.3</p>
 					
-											<img src="./assets/img/profile_Lv3.png"
+											<img src="../img/level/profile_Lv3.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
 											<br /><br /><br />
 											<b style="margin-top: 10px;">5% 적립</b><br />

@@ -113,13 +113,9 @@
 
 <body id="page-top">
 	<!-- 메뉴바 -->
-<<<<<<< HEAD
+
 	 <c:import url="/WEB-INF/views/include/header.jsp"/> 
 
-=======
-	<c:import url="/WEB-INF/views/include/header.jsp"/>
-	
->>>>>>> branch 'jaeho' of https://github.com/ddooing/soldesk_spring.git
 	<!-- 상단 케러셀-->
 	<header class="masthead">
 		<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -186,12 +182,24 @@
 			</div>
 			<hr style="margin:auto; width: 80px; color: black;" />
 
-			<div id="sidebar_menu" data-bs-toggle="modal" data-bs-target="#qnaModal"
-				style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
-				<div style="justify-content: center;">
-					<p1>Q&A</p1>
+			<c:choose>
+			    <c:when test="${loginUserBean.userLogin == false}">
+				    <div id="sidebar_menu" onclick="location.href='${root}/user/not_login'" style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+								<div style="justify-content: center;">
+									<p1>Q&A</p1>
+								</div>
+					</div>
+				</c:when>
+			
+			<c:otherwise>
+				<div id="sidebar_menu" data-bs-toggle="modal" data-bs-target="#qnaModal"
+						style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+							<div style="justify-content: center;">
+								<p1>Q&A</p1>
+							</div>
 				</div>
-			</div>
+			</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 
