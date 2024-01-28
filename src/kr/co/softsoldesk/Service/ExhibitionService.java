@@ -18,4 +18,10 @@ public class ExhibitionService {
 		
 		return exhibitionDao.getExhibitionInfo();
 	}
+	
+	public ExhibitionBean getExhibitionDetailInfo(int exhibition_idx) {
+		
+		return exhibitionDao.getExhibitionDetailInfo(exhibition_idx);
+	}
+	
 }

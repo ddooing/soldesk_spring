@@ -18,4 +18,10 @@ public class ExhibitionDao {
 		
 		return exhibitionMapper.getExhibitionInfo();
 	}
+	
+	
+	public ExhibitionBean getExhibitionDetailInfo(int exhibition_idx) {
+		
+		return exhibitionMapper.getExhibitionDetailInfo(exhibition_idx);
+	}
 }

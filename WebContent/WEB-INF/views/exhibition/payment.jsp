@@ -127,24 +127,24 @@
 				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 정보</h3>
 			</div>
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="assets/img/poster1.png" alt="예약포스터"
+				<img src="${exhibitionBean.main_poster_filepath }" alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
 
 				<div style="margin-left: 200px;">
-					<h3>ex)한국의 기하학적 추상미술</h3>
+					<h3>${exhibitionBean.title }</h3>
 
 					<div style="display: flex; margin-top: 40px;">
 						<div style="margin-right: 10px; width: 200px;">
 							<a style="font-size: 20px;">예약 날짜</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px; ">ex)2023.12.23</a>
+							<a style="font-size: 20px; ">${ReserveBean.reserve_date }</a>
 						</div>
 					</div>
 
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">관람 시간</a>
+							<a style="font-size: 20px;">관람 시간(삭제?)</a>
 						</div>
 						<div style="margin-left: auto;">
 							<a style="font-size: 20px;">ex)10:00 ~ 19:20</a>
@@ -156,7 +156,7 @@
 							<a style="font-size: 20px;">티켓 수량</a style="font-size: 20px;">
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)2매</a style="font-size: 20px;">
+							<a style="font-size: 20px;">${ReserveBean.ticket_count }</a style="font-size: 20px;">
 						</div>
 					</div>
 
@@ -165,56 +165,7 @@
 							<a style="font-size: 20px;">결제 금액</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)20,000원</a>
-						</div>
-					</div>
-				</div>
-			</div>
-			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
-
-			<div>
-				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 정보2</h3>
-			</div>
-			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="assets/img/poster1.png" alt="예약포스터"
-					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
-
-				<div style="margin-left: 200px;">
-					<h3>ex)한국의 기하학적 추상미술</h3>
-
-					<div style="display: flex; margin-top: 40px;">
-						<div style="margin-right: 10px; width: 200px;">
-							<a style="font-size: 20px;">예약 날짜</a>
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px; ">ex)2023.12.23</a>
-						</div>
-					</div>
-
-					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">관람 시간</a>
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)10:00 ~ 19:20</a>
-						</div>
-					</div>
-
-					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">티켓 수량</a style="font-size: 20px;">
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)2매</a style="font-size: 20px;">
-						</div>
-					</div>
-
-					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">결제 금액</a>
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)20,000원</a>
+							<a style="font-size: 20px;">${exhibitionBean.price * ReserveBean.ticket_count} 원</a>
 						</div>
 					</div>
 				</div>
