@@ -14,12 +14,13 @@ public class ExhibitionDao {
 	@Autowired
 	ExhibitionMapper exhibitionMapper;
 	
+	// 인기 순 조회
 	public List<ExhibitionBean> getExhibitionInfo() {
 		
 		return exhibitionMapper.getExhibitionInfo();
 	}
 	
-	
+	// 전시회 상세 조회 & 예매 정보넘길때 사용
 	public ExhibitionBean getExhibitionDetailInfo(int exhibition_idx) {
 		
 		return exhibitionMapper.getExhibitionDetailInfo(exhibition_idx);

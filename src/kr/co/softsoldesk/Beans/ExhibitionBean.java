@@ -21,6 +21,7 @@ public class ExhibitionBean {
 	private String address;
 	private String place;
 	private String site;
+	private int views;
 	private double X;
 	private double Y;
 	private int state;

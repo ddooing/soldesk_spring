@@ -20,15 +20,21 @@ public class UserService {
 	public void getLoginUserInfo(UserBean tempLoginUserBean) {
         UserBean tempLoginUserBean2 = userDao.getLoginUserInfo(tempLoginUserBean);
 
-        if (tempLoginUserBean2 != null) {
+        if (tempLoginUserBean2 != null) {		// 로그인된 객체 모든 정보 저장
         	loginUserBean.setUser_idx(tempLoginUserBean2.getUser_idx());
-            loginUserBean.setName(tempLoginUserBean2.getName());
+            loginUserBean.setId(tempLoginUserBean2.getId());
+            loginUserBean.setPw(tempLoginUserBean2.getPw());
+            
             loginUserBean.setUserLogin(true); // 로그인 성공 시 userLogin을 true로 설정
 
             System.out.println(loginUserBean.isUserLogin()); // 이 부분에서 로그인 상태 확인
-        } else {
-        	loginUserBean.setUserLogin(false); // 로그인 실패 시 userLogin을 false로 설정
-        }
+        } 
     }
+	
+	// 로그인 된 모든 정보 가져옴
+	public UserBean getLoginUserAllInfo(int user_idx) {
+		
+		return userDao.getLoginUserAllInfo(user_idx);
+	}
 	
 }

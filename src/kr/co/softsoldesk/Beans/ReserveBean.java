@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.Beans;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +17,7 @@ public class ReserveBean {
 	private int point_use;
 	private int cash_use;
 	private int ticket_count;
-	private String regdate;
-	
+	private String reserve_time;
+	private int state;
+		
 }

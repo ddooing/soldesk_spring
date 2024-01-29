@@ -12,9 +12,7 @@ import kr.co.softsoldesk.Service.ExhibitionService;
 @RestController
 public class RestApiController {
 
-	@Autowired
-	private ExhibitionService exhibitionService;
-	
+
 	
 	
 }

@@ -14,9 +14,15 @@ public class ReserveDao {
 	@Autowired
 	private ReserveMapper reserveMapper;
 	
+	/*
 	public ReserveBean reserveTicket(ReserveBean tempReserveBean, UserBean loginUserBean, ExhibitionBean exhibitioninfoBean) {
 		
 		return reserveMapper.reserveTicket(tempReserveBean, loginUserBean, exhibitioninfoBean);
 		
+	}
+	*/
+	
+	public void reserve_ing(ReserveBean ReserveBean) {
+		 reserveMapper.reserve_ing(ReserveBean);
 	}
 }

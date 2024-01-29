@@ -194,7 +194,7 @@
 								action="payment?exhibition_idx=${exhibitionBean.exhibition_idx}"
 								method="post" modelAttribute="tempReserveBean">
 								<form:input path="ticket_count" />
-								<form:input path="reserve_date" />
+								<input type="date" id="birth" name="reserve_date" value="<fmt:formatDate value="${reserve_date}" pattern="yyyy-MM-dd" "/>
 								<c:choose>
 									<c:when test="${loginUserBean.userLogin == false}">
 										<button class="btn btn-dark"
@@ -461,7 +461,7 @@
 		<!--전시회 상세-->
 		<hr style="margin: auto; margin-top: 50px; width: 800px;" />
 		<div class="text-center">
-			<img src="${exhibitionBean.main_poster_filepath }"
+			<img src="${exhibitionBean.detail_poster_filepath }"
 				style="width: 800px;" alt="전시회 이미지" />
 		</div>
 

@@ -20,13 +20,31 @@ public class ReserveService {
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
 
+	/*
 	public ReserveBean reserveTicket(ReserveBean tempReserveBean, UserBean loginUserBean, ExhibitionBean exhibitioninfoBean) {
 		
 		return reserveDao.reserveTicket(tempReserveBean, loginUserBean, exhibitioninfoBean);
 	}
+	*/
 	
+	// 전시회 상세 페이지에서 예약하기 버튼 클릭
 	public ReserveBean reservebtn_click(ReserveBean tempReserveBean) {
 		
 		 return tempReserveBean;
+	}
+	
+	public boolean point_use(int current_point, int use_point) {	// point 사용자 보유 포인트 use_point 사용 point
+		
+		if(current_point>=use_point) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	public void reserve_ing(ReserveBean ReserveBean) {
+		
+		 reserveDao.reserve_ing(ReserveBean);
 	}
 }
