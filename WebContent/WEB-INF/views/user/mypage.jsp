@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -234,6 +233,7 @@
 			    <ul id="crmMenu" class="submenu " >
 					<li id="faq" >자주 묻는 질문</li>
 	                <li id="qna">Q&A</li>
+	                <li id="delete">회원탈퇴</li>
 		        </ul>
 		 		
 		 	</div>
@@ -523,7 +523,7 @@
 					</table>
 				</div>
 				<div>
-					<button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#qnaModal" style="align-self: flex-end; margin-top: 10px;">문의 작성</button>
+					<button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#qnaModal" style="align-self: flex-end; margin-top: 10px; margin-left:740px;">문의 작성</button>
 				</div>
 				
 			</div>
@@ -571,8 +571,61 @@
 				</div>
 			</div>
 			<!-- QnA 모달 종료 -->
-			
-			
+
+			<!-- 회원 탈퇴 -->
+			<div class="delete" style="position: fixed;">
+				<div class="deletemodal"
+					style="position: fixed; display: none; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 650px; height: 500px; padding: 20px; background-color: white; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); border-radius: 10px; z-index: 1000;">
+					<div class="deletemodal_body"
+						style="position: relative; width: 100%; height: 100%;">
+						<!-- 흰부분 -->
+						<button class="archivediv btn-close-deletemodal"
+							style="position: absolute; top: 0px; right: 10px;">
+							<!-- SVG for close button -->
+							<svg xmlns="http://www.w3.org/2000/svg" width="2.0m" height="2.0em"opacity="0.8" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+								  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+							</svg>
+						</button>
+						<div style="margin-top: 20px; text-align: center;">
+							<p style="font-size: 30px; font-weight: bold;text-align: center;">회원탈퇴</p>
+						</div>
+						<div style="text-align: center; font-size: 35px;">
+							<p class="custom-message">
+								회원 정보를 <span class="highlight-text" style="color: red;">안전하게
+									보관</span>하기 위해<br>비밀번호를 다시 확인합니다.
+							</p>
+						</div>
+						<div class="delete"
+							style="margin: auto; width: 465px; height: 270px; border-radius: 20px; padding: 10px;">
+							<!-- 입력 필드 및 버튼 -->
+
+
+							<div class="mb-3 text-center">
+								<div class="form-label-group">
+									<input type="text" class="form-control" placeholder="아이디"
+										id="userId" required>
+								</div>
+							</div>
+
+							<div class="mb-3 text-center">
+								<div class="form-label-group">
+									<input type="password" class="form-control" placeholder="비밀번호"
+										id="password" required>
+								</div>
+							</div>
+
+							<div class="mb-3 text-center">
+								<div class="form-label-group">
+									<input type="password" class="form-control"
+										placeholder="비밀번호 확인" id="confirmPassword" required>
+								</div>
+							</div>
+							<button type="submit" class="btn btn-danger" style="margin-left:177px;">회원 탈퇴</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			<!-- 북마크 -->
 			<div class="bookmark"> 
 				<div class="bookmarkgrid" style="grid-auto-rows: minmax(350px, auto);
@@ -688,7 +741,6 @@
 								</svg>
 							</button>
 				           
-				           
 				           <div style="display: flex; margin-top: 20px;">
 							<div style="float: left;">
 								<img src="https://png.pngtree.com/png-clipart/20210704/original/pngtree-colorful-abstract-art-exhibition-poster-png-image_6488081.jpg"
@@ -736,8 +788,6 @@
 						/>
 					</div>
 					
-					
-					
 					<div  class="archivediv btn-open-reivewmodal" >
 						<img src="https://png.pngtree.com/png-clipart/20210704/original/pngtree-colorful-abstract-art-exhibition-poster-png-image_6488081.jpg" 
 						/>
@@ -774,19 +824,17 @@
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/> 
 	
-	
 	<script>
-  // JavaScript 함수
-  function updateCheckboxValue(checkbox) {
-    if (checkbox.checked) {
-      checkbox.value = "on";
-    } else {
-      // 만약 체크가 해제되면 여전히 "on"으로 유지
-      checkbox.value = "on";
-    }
-  }
-</script>
-<script>
+	// JavaScript 함수
+	function updateCheckboxValue(checkbox) {
+		if (checkbox.checked) {
+	    	checkbox.value = "on";
+	    } else { // 만약 체크가 해제되면 여전히 "on"으로 유지
+	    	checkbox.value = "on";
+	    }
+	}
+	</script>
+	<script>
 	
 	//소감문 수정
 	function goReviewEditor() {
@@ -876,17 +924,14 @@
 		});
 	
 	
-		 // #leftToRight의 높이를 가져옴
-		    var leftToRightHeight = document.getElementById('leftToRight').offsetHeight;
-		    
-		    var mypageMenutHeight = document.getElementById('mypageMenu').offsetHeight;
-		    // #index_wrap의 높이를 설정
-		    document.getElementById('index_wrap').style.height = leftToRightHeight +mypageMenutHeight+ 'px';
-		    
-		    
+		// #leftToRight의 높이를 가져옴
+		var leftToRightHeight = document.getElementById('leftToRight').offsetHeight;
+		var mypageMenutHeight = document.getElementById('mypageMenu').offsetHeight;
+		
+		// #index_wrap의 높이를 설정
+		document.getElementById('index_wrap').style.height = leftToRightHeight +mypageMenutHeight+ 'px';
 
-
-			 //툴 모달창 
+		//툴 모달창 
         const toolOpenButton = document.querySelector('.bi.bi-question-circle-fill');
         const toolCloseBuuton = document.querySelector('.tool-btn-close-modal');
         const toolModal = document.querySelector('.tool-modal');
@@ -904,10 +949,7 @@
         	toolModal.style.display="none";
 		  document.getElementsByTagName('body')[0].style.overflow = 'visible';
 		 }
-        
-     
 	});
-
 	
     function addMenuParam(menuName) {
         // 현재 URL 가져오기
@@ -923,20 +965,16 @@
 
         // 새로운 URL로 이동
         window.location.href = updatedUrl;
-    }
-    
-    </script>	
-    
-    
-   <script>//소감문 모달창 
+    }  
+    </script>
+
+	<script>//소감문 모달창 
 	document.addEventListener('DOMContentLoaded', () => {
     	//소감문 모달창 
 		    const modal = document.querySelector('.reivewmodal');
 	        const btnOpenModal=document.querySelector('.btn-open-reivewmodal');
 			const btnCloseModal=document.querySelector('.btn-close-reivewmodal');
 	       	const body =  document.querySelector('#page-top');
-	       
-	       
 	       
 	       btnOpenModal.addEventListener("click", ()=>{
 	            modal.style.display="flex";
@@ -946,20 +984,16 @@
 	        btnCloseModal.addEventListener("click", ()=>{
 	        	close();
 	        });
-	        
-	        
+	         
 	        window.addEventListener('click',  (e) => {
 	        e.target === modal ?  close() : false
 	        })
 	        
-	        
 	        function close(){
 			  modal.style.display="none";
 			  document.getElementsByTagName('body')[0].style.overflow = 'visible';
-			 }
-			 
+		}	 
 	});
-   
    </script>
    
     <script>
@@ -983,6 +1017,34 @@
 	    });
 	</script>
 	
+	<script>
+	// 모달창과 버튼 요소를 가져옵니다. 실행안댐
+	var deleteModal = document.querySelector('.deletemodal');
+	var openModalButton = document.getElementById('delete');
+	var closeModalButton = document.querySelector('.btn-close-deletemodal');
+	var mainContent = document.getElementById('main-content'); // 페이지의 주요 내용을 감싸는 요소의 ID
 	
+	// 모달창을 열기 위한 함수
+	openModalButton.onclick = function() {
+	  deleteModal.style.display = 'block';
+	  // 메인 컨텐츠에만 투명도 적용
+	  mainContent.style.opacity = '0.3';
+	};
+	
+	// 모달창을 닫기 위한 함수
+	closeModalButton.onclick = function() {
+	  deleteModal.style.display = 'none';
+	  // 투명도 제거
+	  mainContent.style.opacity = '1.0';
+	};
+	
+	// 모달창 외부를 클릭했을 때 닫히게 하는 기능
+	window.onclick = function(event) {
+	  if (event.target == deleteModal) {
+	    deleteModal.style.display = 'none';
+	    mainContent.style.opacity = '1.0';
+	  }
+	};
+	</script>
 </body>
 </html>
