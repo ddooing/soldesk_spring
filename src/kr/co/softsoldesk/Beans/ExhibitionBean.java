@@ -18,6 +18,7 @@ public class ExhibitionBean {
 	private String exhibition_end;
 	private String open;
 	private String holiday;
+	private int ticket_cnt;
 	private String address;
 	private String place;
 	private String site;

@@ -50,8 +50,9 @@ public class PaymentController {
 	
 	@PostMapping("/exhibition/reserve")
 	public String reserve_ing(@ModelAttribute("ReserveBean") ReserveBean reserveBean, Model model) {
-		
-		System.out.println(reserveBean.getReserve_date());
+		System.out.println(reserveBean.getTicket_count());
+		// 전시회 테이블에 cnt 값 예매 수만큼 증가
+		reserveService.reserveAfterExhibitionCntIncrease(reserveBean.getTicket_count(), reserveBean.getExhibition_idx());
 		
 		int cash_use = (reserveBean.getTotal_price() - reserveBean.getPoint_use());
 		

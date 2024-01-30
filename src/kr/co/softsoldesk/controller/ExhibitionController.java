@@ -40,7 +40,7 @@ public class ExhibitionController {
 	@GetMapping("/exhibition")
 	public String exhibition(Model model) {
 		
-		List<ExhibitionBean> exhibition = exhibitionService.getExhibitionInfo();
+		List<ExhibitionBean> exhibition = exhibitionService.getPopularExhibitionInfo();
 		
         model.addAttribute("getExhibitionInfo", exhibition);
         
@@ -51,7 +51,10 @@ public class ExhibitionController {
 	
 	@GetMapping("/exhibition_click")
 	public String exhibition_detail(@RequestParam("exhibition_idx") int exhibition_idx, @ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, Model model) {
-	    ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_idx);
+	    
+		exhibitionService.increaseViewsExhibition(exhibition_idx);
+		
+		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_idx);
 	    model.addAttribute("exhibitionBean", exhibitionBean);
 	    
 	    return "exhibition/exhibition_click";

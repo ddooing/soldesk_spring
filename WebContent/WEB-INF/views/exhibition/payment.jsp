@@ -513,14 +513,19 @@ input[type="radio"]:checked+label {
 
 			<div
 				style="display: flex; align-items: baseline; margin-top: 50px; margin-left: 800px;">
+				<h5>포인트 사용 :</h5>
+				<a style="font-size: 20px; margin-left: 10px;">${ReserveBean.point_use} P</a>	
+			</div>
+			
+			<div
+				style="display: flex; align-items: baseline; margin-top: 10px; margin-left: 800px;">
 				<h3>총 결제 금액 :</h3>
-				<a style="font-size: 30px; margin-left: 10px;">20,000 원</a>
+				<a style="font-size: 30px; margin-left: 10px;">${exhibitionBean.price * ReserveBean.ticket_count} 원</a>
 			</div>
 
 			<div
 				style="display: flex; align-items: baseline; margin-top: 80px; margin-left: 850px;">
-				<button class="btn btn-dark"
-					style="margin-left: 30px; width: 100px; height: 50px;">돌아가기</button>
+				<a href="${root }/exhibition/exhibition_click?exhibition_idx=${exhibitionBean.exhibition_idx}" class="btn btn-dark" style="margin-left: 30px; width: 100px; height: 50px;">돌아가기</a>
 				<!-- <button onclick="validatePaymentMethod()" class="btn btn-dark"
 					style="margin-left: 30px; width: 100px; height: 50px;">결제하기</button> -->
 				<form:button type="submit" class="btn btn-dark" style="margin-left: 30px; width: 100px; height: 50px;">결제하기</form:button>

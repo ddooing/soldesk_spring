@@ -197,11 +197,10 @@
 								<input type="date" id="birth" name="reserve_date" value="<fmt:formatDate value="${reserve_date}" pattern="yyyy-MM-dd" "/>
 								<c:choose>
 									<c:when test="${loginUserBean.userLogin == false}">
-										<button class="btn btn-dark"
-											onclick="location.href='${root}/user/not_login'">예매하기</button>
+										<a href="${root}/user/not_login" class="btn btn-dark">예매하기</a>
 									</c:when>
 									<c:otherwise>
-										<button type="submit" class="btn btn-dark">예매하기</button>
+										<form:button type="submit" class="btn btn-dark">예매하기</form:button>
 									</c:otherwise>
 								</c:choose>
 

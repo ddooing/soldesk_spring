@@ -25,4 +25,8 @@ public class ReserveDao {
 	public void reserve_ing(ReserveBean ReserveBean) {
 		 reserveMapper.reserve_ing(ReserveBean);
 	}
+	
+	public void reserveAfterExhibitionCntIncrease(int ticket_count, int exhibition_idx) {
+		reserveMapper.reserveAfterExhibitionCntIncrease(ticket_count, exhibition_idx);
+	}
 }

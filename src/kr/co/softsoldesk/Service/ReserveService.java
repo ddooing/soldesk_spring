@@ -47,4 +47,8 @@ public class ReserveService {
 		
 		 reserveDao.reserve_ing(ReserveBean);
 	}
+	
+	public void reserveAfterExhibitionCntIncrease(int ticket_count, int exhibition_idx) {
+		reserveDao.reserveAfterExhibitionCntIncrease(ticket_count,exhibition_idx);
+	}
 }

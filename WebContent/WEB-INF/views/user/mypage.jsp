@@ -88,7 +88,7 @@
 			<!-- 이미지 -->
 			<div style="display: flex; flex-direction: column;">
 				<img src="../img/profileImg.png" style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;"/>
-				<button class="button-2" role="button" onclick="profileEditor()">프로필 수정</button>
+				<button class="button-2" role="button" onclick="">프로필 수정</button>
 			</div>
 			
 			<!-- 닉네임, 게이지, 포인트  -->

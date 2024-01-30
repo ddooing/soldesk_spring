@@ -26,7 +26,6 @@ public class UserBean {
 	private String gender;
 	private String email;
 	
-	
 	private int point;
 	private String tel;
 	private int exp;

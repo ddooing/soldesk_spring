@@ -15,14 +15,19 @@ public class ExhibitionDao {
 	ExhibitionMapper exhibitionMapper;
 	
 	// 인기 순 조회
-	public List<ExhibitionBean> getExhibitionInfo() {
+	public List<ExhibitionBean> getPopularExhibitionInfo() {
 		
-		return exhibitionMapper.getExhibitionInfo();
+		return exhibitionMapper.getPopularExhibitionInfo();
 	}
 	
 	// 전시회 상세 조회 & 예매 정보넘길때 사용
 	public ExhibitionBean getExhibitionDetailInfo(int exhibition_idx) {
 		
 		return exhibitionMapper.getExhibitionDetailInfo(exhibition_idx);
+	}
+	
+	public void increaseViewsExhibition(int exhibition_idx) {
+		
+		 exhibitionMapper.increaseViewsExhibition(exhibition_idx);
 	}
 }
