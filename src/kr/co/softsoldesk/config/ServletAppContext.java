@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.config;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -57,7 +60,7 @@ public class ServletAppContext implements WebMvcConfigurer {
 		// ���� ���� ��� ����
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/");
-		// registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/assets/");
+		.setCacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES));
 	}
 
 	@Override

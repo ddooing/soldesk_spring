@@ -176,7 +176,7 @@ input[type="radio"]:checked+label {
 				</div>
 			</div>
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
-			<form:form action="${root }/exhibition/reserve" method="post"
+			<form:form action="${root }/" method="post"
 				modelAttribute="ReserveBean">
 				<form:hidden path="reserve_date" value="${ReserveBean.reserve_date }"/>
 				<form:hidden path="ticket_count" value="${ReserveBean.ticket_count }"/>
@@ -379,118 +379,45 @@ input[type="radio"]:checked+label {
 				}
 			</script>
 
-
-			<!--아임포트 결제 자바스크립트-->
-			<script type="text/javascript"
-				src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-			<!-- iamport.payment.js -->
-			<script type="text/javascript"
-				src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-
+			<!-- 토스페이먼츠 결제창 SDK 추가 -->
+			<script src="https://js.tosspayments.com/v1/payment"></script>
 			<script>
-				var IMP = window.IMP;
-				IMP.init("imp02486446");
-
-				function requestPay() {
-					var paymentMethod = document
-							.querySelector('input[name="paymentMethod"]:checked').value;
-
-					if (paymentMethod === 'card') {
-						requestcardPay();
-					} else if (paymentMethod === 'kakao') {
-						requestkakaoPay();
-					}
-				}
-
-				function requestcardPay() {
-					IMP
-							.request_pay(
-									{
-										pg : 'html5_inicis', //카카오페이 : kakaopay.TC0ONETIME , nhn kcp : kcp 
-										pay_method : 'card',
-										merchant_uid : "570088-3312234124234344",
-										name : '전시회 티켓',
-										amount : 12,
-										buyer_email : 'Iamport@chai.finance',
-										buyer_name : '포트원 기술지원팀',
-										buyer_tel : '010-1234-5678',
-										buyer_addr : '서울특별시 강남구 삼성동',
-										buyer_postcode : '123-456'
-									},
-									function(rsp) {
-										if (rsp.success) {
-											// 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-											// jQuery로 HTTP 요청
-											jQuery
-													.ajax(
-															{
-																url : "localhost:8080/example/payment_complete.html",
-																method : "POST",
-																headers : {
-																	"Content-Type" : "application/json"
-																},
-																data : {
-																	imp_uid : rsp.imp_uid, // 결제 고유번호
-																	merchant_uid : rsp.merchant_uid
-																// 주문번호
-																}
-															}).done(
-															function(data) {
-																// 가맹점 서버 결제 API 성공시 로직
-															})
-											location.href = "http://localhost:8080/example/payment_complete.html"
-										} else {
-											alert("결제에 실패하였습니다. 에러 내용: "
-													+ rsp.error_msg);
-										}
-									});
-				}
-
-				function requestkakaoPay() {
-					IMP
-							.request_pay(
-									{
-										pg : 'kakaopay.TC0ONETIME', //카카오페이 : kakaopay.TC0ONETIME , nhn kcp : kcp 
-										pay_method : 'card',
-										merchant_uid : "5706-765123412234",
-										name : '전시회 티켓',
-										amount : 12,
-										buyer_email : 'Iamport@chai.finance',
-										buyer_name : '포트원 기술지원팀',
-										buyer_tel : '010-1234-5678',
-										buyer_addr : '서울특별시 강남구 삼성동',
-										buyer_postcode : '123-456'
-									},
-									function(rsp) {
-										if (rsp.success) {
-											// 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-											// jQuery로 HTTP 요청
-											jQuery
-													.ajax(
-															{
-																url : "localhost:8080/example/payment_complete.html",
-																method : "POST",
-																headers : {
-																	"Content-Type" : "application/json"
-																},
-																data : {
-																	imp_uid : rsp.imp_uid, // 결제 고유번호
-																	merchant_uid : rsp.merchant_uid
-																// 주문번호
-																}
-															}).done(
-															function(data) {
-																// 가맹점 서버 결제 API 성공시 로직
-															})
-											location.href = "http://localhost:8080/example/payment_complete.html" // 결제 완료 페이지 넘어가는코드
-										} else {
-											alert("결제에 실패하였습니다. 에러 내용: "
-													+ rsp.error_msg);
-										}
-									});
-				}
-			</script>
-
+		        function initiatePayment() {
+		            var amount = 100;//${amount}; // 서버에서 전달받은 amount 값 사용
+		
+		            // 클라이언트 키로 객체 초기화
+		            var clientKey = 'test_ck_mBZ1gQ4YVXKORgvZXBwR3l2KPoqN';
+		            
+		            var tossPayments = TossPayments(clientKey);
+		            
+		         	// 서버에서 받은 orderId를 변수에 할당합니다.
+		            //var orderid = '${orderid}';
+		           ;
+		           var button = document.getElementById('payment-button') // 충전하기 버튼
+		           button.addEventListener('click', function () {
+		            // 결제창 띄우기
+		            tossPayments.requestPayment('카드', {
+		                amount: amount, // 서버에서 받은 금액 사용
+		                orderId: '7_XR8395y-HtJQb7Wb60L',//'7_XR8395y-HtJQb7Wb60L', // 주문 ID
+		                orderName: '테스트 결제', // 주문명
+		                customerName: '김도영', // 구매자 이름
+		                successUrl: 'http://localhost:8080/Spring_Project_Dream/toss/success',
+		                failUrl: 'http://localhost:8080/Spring_Project_Dream/toss/fail',
+		            }).catch(function (error) {
+		                // 에러 처리
+		                if (error.code === 'USER_CANCEL') {
+				        // 결제 고객이 결제창을 닫았을 때 에러 처리
+				      } else if (error.code === 'INVALID_CARD_COMPANY') {
+				        // 유효하지 않은 카드 코드에 대한 에러 처리
+				      }
+		            });
+		           }
+		        }
+		
+		        // 페이지 로드 시 결제창 초기화
+		        window.onload = initiatePayment;
+		    </script>
+					
 
 			<!--결제 부분-->
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
@@ -528,28 +455,11 @@ input[type="radio"]:checked+label {
 				<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id}" class="btn btn-dark" style="margin-left: 30px; width: 100px; height: 50px;">돌아가기</a>
 				<!-- <button onclick="validatePaymentMethod()" class="btn btn-dark"
 					style="margin-left: 30px; width: 100px; height: 50px;">결제하기</button> -->
-				<form:button type="submit" class="btn btn-dark" style="margin-left: 30px; width: 100px; height: 50px;">결제하기</form:button>
+				<form:button type="submit" id="payment-button" class="payment-button" style="margin-left: 30px; width: 100px; height: 50px;">결제하기</form:button>
 			</div>
 			</form:form> 
 		</div>
 	</section>
-	
-<!--
-	<script>
-		function validatePaymentMethod() {
-			var cardPayment = document.getElementById('cardPayment').checked;
-			var kakaoPayment = document.getElementById('kakaoPayment').checked;
-
-			if (!cardPayment && !kakaoPayment) {
-				alert('결제 방법을 선택해주세요!');
-				return false;
-			}
-
-			requestPay();
-			return true;
-		}
-	</script>
--->
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp" />

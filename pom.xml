@@ -74,6 +74,46 @@
     <artifactId>hibernate-validator</artifactId>
     <version>6.1.5.Final</version>
 </dependency>
+
+
+<!-- 승연 -->
+<dependency>
+         <groupId>org.hibernate.validator</groupId>
+         <artifactId>hibernate-validator</artifactId>
+         <version>6.1.5.Final</version>
+      </dependency>
+      
+      <dependency>
+          <groupId>commons-io</groupId>
+          <artifactId>commons-io</artifactId>
+          <version>2.11.0</version>
+      </dependency>
+
+		<dependency>
+    <groupId>javax.annotation</groupId>
+    <artifactId>javax.annotation-api</artifactId>
+    <version>1.3.2</version> 
+</dependency>
+
+<!-- JSON  파싱을 위한 의존성 -->
+<dependency>
+    <groupId>com.googlecode.json-simple</groupId>
+    <artifactId>json-simple</artifactId>
+    <version>1.1.1</version> 
+</dependency>
+<!-- Logger  -->
+<dependency>
+    <groupId>org.slf4j</groupId>
+    <artifactId>slf4j-api</artifactId>
+    <version>1.7.32</version> <!-- 또는 필요한 버전 -->
+</dependency>
+
+<!-- Jackson 라이브러리의 일부로, JSON 데이터와 Java 객체 간의 변환 (직렬화 및 역직렬화)을 담당 -->
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.1</version>
+</dependency>
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>

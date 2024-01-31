@@ -73,6 +73,10 @@ public class ExhibitionController {
 		UserBean LoginAllInfoBean = UserService.getLoginUserAllInfo(loginUserBean.getUser_id());
 		model.addAttribute("LoginAllInfoBean",LoginAllInfoBean);
 		
+		
+		System.out.println("exhibition_id : "+exhibitionBean.getExhibition_id());
+		System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getTicket_count());
+		System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getReserve_date());
 		return "exhibition/payment";
 	}
 	
