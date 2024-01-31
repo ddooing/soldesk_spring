@@ -128,7 +128,7 @@
 						</div>
 						
 						<div class="form-outline mb-4">
-							<form:password path="pw" class="form-control form-control-lg" />
+							<form:password path="password" class="form-control form-control-lg" />
 						</div>
 						
 						<form:button type="submit" class="btn btn-primary btn-lg btn-block w-100" style="background-color: #000; color: #fff; border:none;">로그인</form:button>
@@ -136,7 +136,6 @@
 					
 					</form:form>
 					
-
 					<!--밑부분 배너-->
 					<section style="margin-top: 100px;">
 						<div class="container px-1">

@@ -14,8 +14,21 @@ public class ExhibitionDao {
 	@Autowired
 	ExhibitionMapper exhibitionMapper;
 	
-	public List<ExhibitionBean> getExhibitionInfo() {
+	// 인기 순 조회
+	public List<ExhibitionBean> getPopularExhibitionInfo() {
 		
-		return exhibitionMapper.getExhibitionInfo();
+		return exhibitionMapper.getPopularExhibitionInfo();
+	}
+	
+	// 전시회 상세 조회 & 예매 정보넘길때 사용
+	public ExhibitionBean getExhibitionDetailInfo(int exhibition_id) {
+		
+		return exhibitionMapper.getExhibitionDetailInfo(exhibition_id);
+	}
+	
+	// 조회수 증가
+	public void increaseViewsExhibition(int exhibition_id) {
+		
+		 exhibitionMapper.increaseViewsExhibition(exhibition_id);
 	}
 }

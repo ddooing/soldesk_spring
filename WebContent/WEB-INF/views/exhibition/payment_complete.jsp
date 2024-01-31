@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath }"/>    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,14 +45,6 @@
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-	
-	<script type="text/javascript">
-		$(document).ready(function () {
-
-			$("#headers").load("component/header.html");
-			$("#footer").load("component/footer.html");
-		});
-	</script>
 
 </head>
 
@@ -68,36 +61,37 @@
 				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 정보</h3>
 			</div>
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="assets/img/poster1.png" alt="예약포스터"
+				<img src="${ExhibitionBean.main_poster_path}${ExhibitionBean.main_poster_name} " alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
 
 				<div style="margin-left: 200px;">
-					<h3>한국의 기하학적 추상미술</h3>
+					<h3>${ExhibitionBean.title}</h3>
 
 					<div style="display: flex; margin-top: 40px;">
 						<div style="margin-right: 10px; width: 200px;">
 							<a style="font-size: 20px;">예약 날짜</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px; ">ex)2023.12.23</a>
+							<a style="font-size: 20px; ">${reserveBean.reserve_date} </a>
 						</div>
 					</div>
+					
 
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">관람 시간</a>
+							<a style="font-size: 20px;">티켓 수량</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)10:00 ~ 19:20</a>
+							<a style="font-size: 20px;">${reserveBean.ticket_count} 매</a>
 						</div>
 					</div>
-
+					
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">티켓 수량</a style="font-size: 20px;">
+							<a style="font-size: 20px;">포인트 결제 금액</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)2매</a style="font-size: 20px;">
+							<a style="font-size: 20px;">${reserveBean.point_deduction} p</a>
 						</div>
 					</div>
 
@@ -106,7 +100,7 @@
 							<a style="font-size: 20px;">결제 금액</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)20,000원</a>
+							<a style="font-size: 20px;">${reserveBean.payment} 원</a>
 						</div>
 					</div>
 				</div>
@@ -115,11 +109,11 @@
 			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
 			<div style="display: flex; align-items: baseline; margin-top: 50px; margin-left: 800px;">
 				<h3>총 결제 금액 : </h3>
-				<a style="font-size: 30px; margin-left: 10px;">20,000 원</a>
+				<a style="font-size: 30px; margin-left: 10px;">${reserveBean.total_price} 원</a>
 			</div>
 
 			<div class="text-center" style="margin-top: 50px;">
-				<button onclick="window.location.href = 'index.html'" class="btn btn-dark"
+				<button onclick="window.location.href = '${root}/view/index'" class="btn btn-dark"
 					style="margin-right: 20px; width:150px; height: 50px;">메인페이지</button>
 				<button onclick="" class="btn btn-dark" style="width: 150px; height: 50px;">마이페이지</button>
 			</div>

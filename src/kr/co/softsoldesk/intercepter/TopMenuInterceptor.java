@@ -10,7 +10,7 @@ import kr.co.softsoldesk.Beans.UserBean;
 public class TopMenuInterceptor implements HandlerInterceptor{
 	
 	private UserBean loginUserBean;
-	
+	  
 	public TopMenuInterceptor(UserBean loginUserBean) {
 		this.loginUserBean = loginUserBean;
 	}

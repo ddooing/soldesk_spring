@@ -65,6 +65,7 @@ public class UserController {
         }
         
     }
+<<<<<<< HEAD
    
    @GetMapping("/logout")
    public String logout() {
@@ -89,3 +90,32 @@ public class UserController {
    }
    
 }
+=======
+	
+	@GetMapping("/logout")
+	public String logout() {
+		loginUserBean.setUser_id(0);
+		loginUserBean.setId(null);
+		loginUserBean.setPassword(null);
+		
+		loginUserBean.setUserLogin(false);
+		
+		return "user/logout";
+	}
+	
+	@GetMapping("/not_login")
+	public String not_login() {
+		
+		return "user/not_login";
+	}
+	
+	
+	//-----------------------------------------------------------
+	
+	@GetMapping("/Signup")
+	public String Signup() {
+	    return "user/Signup";
+	}
+	
+}
+>>>>>>> ef4afa8659c23aa2dc46115798ad0aa1fdd4ebbc

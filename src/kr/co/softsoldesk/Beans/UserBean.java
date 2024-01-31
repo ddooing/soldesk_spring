@@ -15,11 +15,21 @@ public class UserBean {
 		this.userLogin = false;
 	}
 	
-	private int user_idx;
-	private String name;
+	private int user_id;
 	private String id;
-	private String pw;
-	private String pw2;
+	private String name;
+	private String password;
+	private String password2;
+	private String nickname;
+	private String birth;
+	private String gender;
+	private String email;
+	private int point;
+	private String telephone;
+	private int exp;
+	private String create_date;
+	private String modify_date;
+	private int state;
 
 	public boolean isUserIdExist() {
 		return userIdExist;
