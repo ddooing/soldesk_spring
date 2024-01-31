@@ -1302,35 +1302,35 @@
 				}
 			</script>
 	</script>
-<script>
-var deleteModal = document.querySelector('.deletemodal');
-var backdrop = document.querySelector('.backdrop'); // 추가
-var deleteButton = document.getElementById('delete');
-var closeModalButton = document.querySelector('.btn-close-deletemodal');
-
-// 회원탈퇴 버튼 클릭 시
-deleteButton.onclick = function() {
-    backdrop.style.display = 'block'; // 배경 레이어 표시
-    deleteModal.style.display = 'block';
-    body.style.overflow = 'hidden';
-};
-
-// 닫기 버튼 클릭 시
-closeModalButton.onclick = function() {
-    backdrop.style.display = 'none'; // 배경 레이어 숨김
-    deleteModal.style.display = 'none';
-    body.style.overflow = 'auto';
-};
-
-// 배경 레이어 클릭 시
-backdrop.onclick = function(event) {
-    if (event.target == backdrop) {
-        backdrop.style.display = 'none';
-        deleteModal.style.display = 'none';
-        body.style.overflow = 'auto';
-    }
-};
-
-</script>
+	<script>
+	var deleteModal = document.querySelector('.deletemodal');
+	var backdrop = document.querySelector('.backdrop'); // 추가
+	var deleteButton = document.getElementById('delete');
+	var closeModalButton = document.querySelector('.btn-close-deletemodal');
+	
+	// 회원탈퇴 버튼 클릭 시
+	deleteButton.onclick = function() {
+	    backdrop.style.display = 'block'; // 배경 레이어 표시
+	    deleteModal.style.display = 'block';
+	    body.style.overflow = 'hidden';
+	};
+	
+	// 닫기 버튼 클릭 시
+	closeModalButton.onclick = function() {
+	    backdrop.style.display = 'none'; // 배경 레이어 숨김
+	    deleteModal.style.display = 'none';
+	    body.style.overflow = 'auto';
+	};
+	
+	// 배경 레이어 클릭 시
+	backdrop.onclick = function(event) {
+	    if (event.target == backdrop) {
+	        backdrop.style.display = 'none';
+	        deleteModal.style.display = 'none';
+	        body.style.overflow = 'auto';
+	    }
+	};
+	
+	</script>
 </body>
 </html>
