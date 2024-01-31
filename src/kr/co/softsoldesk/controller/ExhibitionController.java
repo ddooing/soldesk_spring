@@ -8,11 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-<<<<<<< HEAD
-=======
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
->>>>>>> ef4afa8659c23aa2dc46115798ad0aa1fdd4ebbc
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,17 +60,6 @@ public class ExhibitionController {
 	    return "exhibition/exhibition_click";
 	}
 	
-<<<<<<< HEAD
-	@GetMapping("/payment")
-	public String payment() {
-		return "exhibition/payment";
-	}
-	
-	@PostMapping("/payment_pro")
-	public String payment_pro() {
-		return "exhibition/payment_pro";
-	}
-=======
 	
 	@PostMapping("/payment")
 	public String exhibition_reserve(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, @RequestParam("exhibition_id") int exhibition_id, Model model) {
@@ -93,5 +79,4 @@ public class ExhibitionController {
 
 	
 
->>>>>>> ef4afa8659c23aa2dc46115798ad0aa1fdd4ebbc
 }

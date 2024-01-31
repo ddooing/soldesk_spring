@@ -403,39 +403,6 @@ input[type="radio"]:checked+label {
 				}
 
 				function requestcardPay() {
-<<<<<<< HEAD
-					IMP.request_pay({
-						pg: 'html5_inicis', //카카오페이 : kakaopay.TC0ONETIME , nhn kcp : kcp 
-						pay_method: 'card',
-						merchant_uid: "ORD20180131-0000011",
-						name: '전시회 티켓',
-						amount: 12, // 갖고와야함
-						buyer_email: 'Iamport@chai.finance', //주문자 이메일 가져와
-						buyer_name: '포트원 기술지원팀',//주문자 이름 가져와
-						buyer_tel: '010-1234-5678', // 주문자 번호 가져오기 
-						buyer_addr: '서울특별시 강남구 삼성동',// 주문자 주소 안가져오기 
-						buyer_postcode: '123-456'// 주문자 우편번호 안가져오기 
-					}, function (rsp) {
-						if (rsp.success) {
-							// 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-							// jQuery로 HTTP 요청
-							jQuery.ajax({
-								url: "localhost:8080/example/payment_complete.html",
-								method: "POST",
-								headers: {"Content-Type": "application/json"},
-								data: {
-									imp_uid: rsp.imp_uid,            // 결제 고유번호
-									merchant_uid: rsp.merchant_uid   // 주문번호
-								}
-							}).done(function (data) {
-								// 가맹점 서버 결제 API 성공시 로직
-							})
-							location.href = "http://localhost:8080/example/payment_complete.html"
-						} else {
-							alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
-						}
-					});
-=======
 					IMP
 							.request_pay(
 									{
@@ -477,7 +444,6 @@ input[type="radio"]:checked+label {
 													+ rsp.error_msg);
 										}
 									});
->>>>>>> ef4afa8659c23aa2dc46115798ad0aa1fdd4ebbc
 				}
 
 				function requestkakaoPay() {
