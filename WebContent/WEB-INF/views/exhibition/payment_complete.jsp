@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath }"/>    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,14 +45,6 @@
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-	
-	<script type="text/javascript">
-		$(document).ready(function () {
-
-			$("#headers").load("component/header.html");
-			$("#footer").load("component/footer.html");
-		});
-	</script>
 
 </head>
 
@@ -68,7 +61,7 @@
 				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 정보</h3>
 			</div>
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="${ExhibitionBean.main_poster_filepath} " alt="예약포스터"
+				<img src="${ExhibitionBean.main_poster_path}${ExhibitionBean.main_poster_name} " alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
 
 				<div style="margin-left: 200px;">
@@ -98,7 +91,7 @@
 							<a style="font-size: 20px;">포인트 결제 금액</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${reserveBean.point_use} p</a>
+							<a style="font-size: 20px;">${reserveBean.point_deduction} p</a>
 						</div>
 					</div>
 
@@ -107,7 +100,7 @@
 							<a style="font-size: 20px;">결제 금액</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${reserveBean.cash_use} 원</a>
+							<a style="font-size: 20px;">${reserveBean.payment} 원</a>
 						</div>
 					</div>
 				</div>
@@ -120,7 +113,7 @@
 			</div>
 
 			<div class="text-center" style="margin-top: 50px;">
-				<button onclick="window.location.href = 'index'" class="btn btn-dark"
+				<button onclick="window.location.href = '${root}/view/index'" class="btn btn-dark"
 					style="margin-right: 20px; width:150px; height: 50px;">메인페이지</button>
 				<button onclick="" class="btn btn-dark" style="width: 150px; height: 50px;">마이페이지</button>
 			</div>

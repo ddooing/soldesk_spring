@@ -68,9 +68,9 @@ public class UserController {
 	
 	@GetMapping("/logout")
 	public String logout() {
-		loginUserBean.setUser_idx(0);
+		loginUserBean.setUser_id(0);
 		loginUserBean.setId(null);
-		loginUserBean.setPw(null);
+		loginUserBean.setPassword(null);
 		
 		loginUserBean.setUserLogin(false);
 		

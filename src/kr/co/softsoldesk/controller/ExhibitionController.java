@@ -41,8 +41,8 @@ public class ExhibitionController {
 	public String exhibition(Model model) {
 		
 		List<ExhibitionBean> exhibition = exhibitionService.getPopularExhibitionInfo();
-		
-        model.addAttribute("getExhibitionInfo", exhibition);
+	
+        model.addAttribute("getPopularExhibitionInfo", exhibition);
         
 		
 		return "exhibition/exhibition";
@@ -50,11 +50,11 @@ public class ExhibitionController {
 	
 	
 	@GetMapping("/exhibition_click")
-	public String exhibition_detail(@RequestParam("exhibition_idx") int exhibition_idx, @ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, Model model) {
+	public String exhibition_detail(@RequestParam("exhibition_id") int exhibition_id, @ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, Model model) {
 	    
-		exhibitionService.increaseViewsExhibition(exhibition_idx);
+		exhibitionService.increaseViewsExhibition(exhibition_id);
 		
-		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_idx);
+		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);
 	    model.addAttribute("exhibitionBean", exhibitionBean);
 	    
 	    return "exhibition/exhibition_click";
@@ -62,15 +62,15 @@ public class ExhibitionController {
 	
 	
 	@PostMapping("/payment")
-	public String exhibition_reserve(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, @RequestParam("exhibition_idx") int exhibition_idx, Model model) {
+	public String exhibition_reserve(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, @RequestParam("exhibition_id") int exhibition_id, Model model) {
 		
-		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_idx);	
+		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);	
 	    model.addAttribute("exhibitionBean", exhibitionBean);		// 전시회 정보 객체
 		
 		ReserveBean ReserveBean = reserveService.reservebtn_click(tempReserveBean);
 		model.addAttribute("ReserveBean",ReserveBean);				// 전시회 상세조회 페이지에서 선택한 티켓수와 날짜 객체에 담아서 payment로 보낼 객체
 		
-		UserBean LoginAllInfoBean = UserService.getLoginUserAllInfo(loginUserBean.getUser_idx());
+		UserBean LoginAllInfoBean = UserService.getLoginUserAllInfo(loginUserBean.getUser_id());
 		model.addAttribute("LoginAllInfoBean",LoginAllInfoBean);
 		
 		return "exhibition/payment";

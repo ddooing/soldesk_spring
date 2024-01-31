@@ -19,9 +19,9 @@ public class UserDao {
 		
 	}
 	
-	// 세션객체에서 가져온 user_idx 값을 가지고 로그인 된 모든 정보를 가져옴
-	public UserBean getLoginUserAllInfo(int user_idx) {
+	// 세션객체에서 가져온 user_id 값을 가지고 로그인 된 모든 정보를 가져옴
+	public UserBean getLoginUserAllInfo(int user_id) {
 		
-		return userMapper.getLoginUserAllInfo(user_idx);
+		return userMapper.getLoginUserAllInfo(user_id);
 	}
 }

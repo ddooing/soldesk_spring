@@ -52,16 +52,16 @@ public class PaymentController {
 	public String reserve_ing(@ModelAttribute("ReserveBean") ReserveBean reserveBean, Model model) {
 		System.out.println(reserveBean.getTicket_count());
 		// 전시회 테이블에 cnt 값 예매 수만큼 증가
-		reserveService.reserveAfterExhibitionCntIncrease(reserveBean.getTicket_count(), reserveBean.getExhibition_idx());
+		reserveService.reserveAfterExhibitionCntIncrease(reserveBean.getTicket_count(), reserveBean.getExhibition_id());
 		
-		int cash_use = (reserveBean.getTotal_price() - reserveBean.getPoint_use());
+		int payment = (reserveBean.getTotal_price() - reserveBean.getPoint_deduction());	// 
 		
-		reserveBean.setCash_use(cash_use);
+		reserveBean.setPayment(payment);
 		
 		reserveService.reserve_ing(reserveBean);
 		
-		ExhibitionBean ExhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveBean.getExhibition_idx());
-		UserBean loginUserDetailBean = UserService.getLoginUserAllInfo(reserveBean.getUser_idx());
+		ExhibitionBean ExhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveBean.getExhibition_id());
+		UserBean loginUserDetailBean = UserService.getLoginUserAllInfo(reserveBean.getUser_id());
 		
 		model.addAttribute("loginUserDetailBean",loginUserDetailBean);
 		

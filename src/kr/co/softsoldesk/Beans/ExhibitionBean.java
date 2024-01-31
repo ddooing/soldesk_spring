@@ -6,12 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ExhibitionBean {
-
-	private int exhibition_idx;
+	
+	// 테이블 요소
+	private int exhibition_id;
 	private String title;
 	private String regdate;
-	private String show_start;
-	private String show_end;
 	private String author;
 	private int price;
 	private String exhibition_start;
@@ -23,10 +22,22 @@ public class ExhibitionBean {
 	private String place;
 	private String site;
 	private int views;
-	private double X;
-	private double Y;
+	private double latitude;
+	private double longitude;
 	private int state;
-	private String main_poster_filepath;
-	private String detail_poster_filepath;
+	private int main_poster_file_id;
+	private int detail_poster_file_id;
+	
+	
+	
+	// select 쿼리문 사용
+	private String main_poster_path;
+	private String main_poster_name;
+	
+	private String detail_poster_path;
+	private String detail_poster_name;
+	
+	
+	
 	
 }

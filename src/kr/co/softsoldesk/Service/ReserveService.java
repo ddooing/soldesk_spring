@@ -33,9 +33,9 @@ public class ReserveService {
 		 return tempReserveBean;
 	}
 	
-	public boolean point_use(int current_point, int use_point) {	// point 사용자 보유 포인트 use_point 사용 point
+	public boolean point_use(int current_point, int point_deduction) {	// point 사용자 보유 포인트 use_point 사용 point
 		
-		if(current_point>=use_point) {
+		if(current_point>=point_deduction) {
 			return true;
 		} else {
 			return false;
@@ -48,7 +48,7 @@ public class ReserveService {
 		 reserveDao.reserve_ing(ReserveBean);
 	}
 	
-	public void reserveAfterExhibitionCntIncrease(int ticket_count, int exhibition_idx) {
-		reserveDao.reserveAfterExhibitionCntIncrease(ticket_count,exhibition_idx);
+	public void reserveAfterExhibitionCntIncrease(int ticket_count, int exhibition_id) {
+		reserveDao.reserveAfterExhibitionCntIncrease(ticket_count,exhibition_id);
 	}
 }

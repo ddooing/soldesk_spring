@@ -21,13 +21,14 @@ public class ExhibitionDao {
 	}
 	
 	// 전시회 상세 조회 & 예매 정보넘길때 사용
-	public ExhibitionBean getExhibitionDetailInfo(int exhibition_idx) {
+	public ExhibitionBean getExhibitionDetailInfo(int exhibition_id) {
 		
-		return exhibitionMapper.getExhibitionDetailInfo(exhibition_idx);
+		return exhibitionMapper.getExhibitionDetailInfo(exhibition_id);
 	}
 	
-	public void increaseViewsExhibition(int exhibition_idx) {
+	// 조회수 증가
+	public void increaseViewsExhibition(int exhibition_id) {
 		
-		 exhibitionMapper.increaseViewsExhibition(exhibition_idx);
+		 exhibitionMapper.increaseViewsExhibition(exhibition_id);
 	}
 }

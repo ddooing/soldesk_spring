@@ -128,6 +128,19 @@
 	color: black;
 	text-decoration: none;
 }
+
+#right-side-menu {
+	position: absolute;
+	top: 300px;
+	right: 10px;
+	width: 400px;
+	transition: top 0.3s;
+}
+
+#sidebar_menu:hover {
+	cursor: pointer;
+	background-color: rgb(192, 192, 192);
+}
 </style>
 
 
@@ -143,7 +156,7 @@
 		<div class="container mb-1">
 			<!--전시회 부분-->
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="${exhibitionBean.main_poster_filepath }" alt="포스터"
+				<img src="${exhibitionBean.main_poster_path}${exhibitionBean.main_poster_name}" alt="포스터"
 					style="width: 280px; height: 400px; margin-left: 200px; margin-top: 40px;" />
 
 				<div style="margin-left: 50px;">
@@ -157,13 +170,13 @@
 
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 20px;">
-							<a style="font-size: 25px;">${exhibitionBean.exhibition_start.substring(0, 10) }~${exhibitionBean.exhibition_end.substring(0, 10) }</a>
+							<a style="font-size: 25px;">${exhibitionBean.exhibition_start.substring(0, 10) } ~ ${exhibitionBean.exhibition_end.substring(0, 10) }</a>
 						</div>
 					</div>
 
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 10px;">
-							<a style="font-size: 20px;">관람 시간</a style="font-size: 20px;">
+							<a style="font-size: 20px;">관람 시간</a>
 						</div>
 						<div style="">
 							<a style="font-size: 20px;">${exhibitionBean.open}</a>
@@ -172,7 +185,7 @@
 
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 10px;">
-							<a style="font-size: 20px;">입장료</a style="font-size: 20px;">
+							<a style="font-size: 20px;">입장료</a>
 						</div>
 						<div style="">
 							<a style="font-size: 20px;">${exhibitionBean.price}원</a>
@@ -181,7 +194,7 @@
 
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 10px;">
-							<a style="font-size: 20px;">주소</a style="font-size: 20px;">
+							<a style="font-size: 20px;">주소</a>
 						</div>
 						<div style="">
 							<a style="font-size: 20px;">${exhibitionBean.address}</a>
@@ -191,10 +204,11 @@
 					<div style="display: flex; margin-top: 50px;">
 						<div style="margin-right: 10px;">
 							<form:form
-								action="payment?exhibition_idx=${exhibitionBean.exhibition_idx}"
+								action="payment?exhibition_id=${exhibitionBean.exhibition_id}"
 								method="post" modelAttribute="tempReserveBean">
 								<form:input path="ticket_count" />
-								<input type="date" id="birth" name="reserve_date" value="<fmt:formatDate value="${reserve_date}" pattern="yyyy-MM-dd" "/>
+								<input type="date" id="birth" name="reserve_date"
+									value="<fmt:formatDate value="${reserve_date}" pattern="yyyy-MM-dd" " />
 								<c:choose>
 									<c:when test="${loginUserBean.userLogin == false}">
 										<a href="${root}/user/not_login" class="btn btn-dark">예매하기</a>
@@ -275,6 +289,50 @@
 						onclick="copyLink()">링크 복사</button>
 				</div>
 			</div>
+
+			<div id="right-side-menu">
+				<div style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">
+					<div id="sidebar_menu" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 400px; height: 100px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style="justify-content: center;">
+							<a href="Exhibition_Enroll.html" style="color: black; text-decoration: none;"> 
+								<p1>전시회 등록</p1>
+							</a>
+						</div>
+					</div>
+					<hr style="margin: auto; width: 80px; color: black;" />
+
+					<div id="sidebar_menu" style="border: 1px solid #e7e7e7; border-top: none; border-bottom: none; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style="justify-content: center;">
+							<a href="" style="color: black; text-decoration: none;">
+								<p1>배너 신청</p1>
+							</a>
+						</div>
+					</div>
+					<hr style="margin: auto; width: 80px; color: black;" />
+
+					<div id="sidebar_menu" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style="justify-content: center;">
+							<a href="#" style="color: black; text-decoration: none;"> 
+								<p1>FAQ</p1>
+							</a>
+						</div>
+					</div>
+					<hr style="margin: auto; width: 80px; color: black;" />
+
+					
+				</div>
+			</div>
+
+			<script>
+				window.addEventListener('scroll', function() {
+					var scrollPosition = window.pageYOffset
+							|| document.documentElement.scrollTop;
+					var menu = document.getElementById('right-side-menu');
+
+					menu.style.top = (300 + scrollPosition) + 'px'; // 스크롤 위치에 따라 메뉴 위치 업데이트
+				});
+			</script>
+
 
 			<script>
 				// 공유 버튼 클릭 이벤트
@@ -460,7 +518,7 @@
 		<!--전시회 상세-->
 		<hr style="margin: auto; margin-top: 50px; width: 800px;" />
 		<div class="text-center">
-			<img src="${exhibitionBean.detail_poster_filepath }"
+			<img src="${exhibitionBean.detail_poster_path }${exhibitionBean.detail_poster_name }"
 				style="width: 800px;" alt="전시회 이미지" />
 		</div>
 
@@ -637,8 +695,8 @@
 	<script>
 		var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
 
-		var X = parseFloat('${exhibitionBean.x}');
-		var Y = parseFloat('${exhibitionBean.y}');
+		var X = parseFloat('${exhibitionBean.latitude}');
+		var Y = parseFloat('${exhibitionBean.longitude}');
 
 		var mapOption = {
 			center : new kakao.maps.LatLng(X, Y), // 지도의 중심좌표
