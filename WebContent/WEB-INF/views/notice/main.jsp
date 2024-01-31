@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -213,7 +214,6 @@ a:hover {
 	color: #000;
 	width: 900px;
 	margin: 0 auto;
-	padding: 50px 0 0 0;
 }
 
 div {
@@ -414,7 +414,7 @@ input {
     margin-top: 30px; /* 필요에 따라 조절 */
 }
 .banner1{
-	border: 1px solid black; width : 900px; height : 100px; margin-right:10px;
+	border: 1px solid black; width : 900px; height : 100px; margin-left: 30px;
 }
 .pagination a {
     color: black;
@@ -499,63 +499,63 @@ a:hover {
 							<tr>
 								<td><strong class="ico_imp"><span>중요</span></strong></td>
 								<td>전체</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2578"
+								<td class="text_l"><a href="${root }/notice/post" id="2578"
 									class="txt_color01">공지사항 중요 게시글입니다.</a></td>
 								<td>2023-09-13</td>
 							</tr>
 							<tr>
 								<td><strong class="ico_imp"><span>중요</span></strong></td>
 								<td>전체</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2541"
+								<td class="text_l"><a href="${root }/notice/post" id="2541"
 									class="txt_color01">공지사항 중요 게시글입니다.</a></td>
 								<td>2023-06-08</td>
 							</tr>
 							<tr>
 								<td>28</td>
 								<td>전체</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2606"
+								<td class="text_l"><a href="${root }/notice/post" id="2606"
 									class="txt_color01">공지사항 게시글입니다.</a></td>
 								<td>2023-12-07</td>
 							</tr>
 							<tr>
 								<td>27</td>
 								<td>전체</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2605"
+								<td class="text_l"><a href="${root }/notice/post" id="2605"
 									class="txt_color01">공지사항 게시글입니다.</a></td>
 								<td>2023-12-01</td>
 							</tr>
 							<tr>
 								<td>26</td>
 								<td>전체</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2602"
+								<td class="text_l"><a href="${root }/notice/post" id="2602"
 									class="txt_color01">공지사항 게시글입니다.</a></td>
 								<td>2023-12-01</td>
 							</tr>
 							<tr>
 								<td>25</td>
 								<td>전체</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2596"
+								<td class="text_l"><a href="${root }/notice/post" id="2596"
 									class="txt_color01">공지사항 게시글입니다.</a></td>
 								<td>2023-11-16</td>
 							</tr>
 							<tr>
 								<td>24</td>
 								<td>전체</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2594"
+								<td class="text_l"><a href="${root }/notice/post" id="2594"
 									class="txt_color01">공지사항 게시글입니다.</a></td>
 								<td>2023-12-06</td>
 							</tr>
 							<tr>
 								<td>23</td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2591"
+								<td class="text_l"><a href="${root }/notice/post" id="2591"
 									class="txt_color01">공지사항 전시회 게시글입니다.</a></td>
 								<td>2023-10-13</td>
 							</tr>
 							<tr>
 								<td>22</td>
 								<td>전체</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2590"
+								<td class="text_l"><a href="${root }/notice/post" id="2590"
 									class="">공지사항 게시글입니다.</td>
 							</tr>
 							<tr>
@@ -593,7 +593,7 @@ a:hover {
 				<section style="margin-top: -8spx;">
 					<div class="container px-1">
 						<div class="d-flex justify-content-center">
-							<img src="assets/img/banner1.png" class="banner1" alt="banner1">
+							<img src="../img/banner1.png" class="banner1" alt="banner1">
 						</div>
 					</div>
 				</section>
@@ -639,68 +639,68 @@ a:hover {
 							<tr>
 								<td><strong class="ico_imp"><span>중요</span></strong></td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2578"
+								<td class="text_l"><a href="${root }/notice/post" id="2578"
 									class="txt_color01">공지사항 전시회 중요 게시글입니다.</a></td>
 								<td>2023-09-13</td>
 							</tr>
 							<tr>
 								<td><strong class="ico_imp"><span>중요</span></strong></td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2541"
+								<td class="text_l"><a href="${root }/notice/post" id="2541"
 									class="txt_color01">공지사항 전시회 중요 게시글입니다.</a></td>
 								<td>2023-06-08</td>
 							</tr>
 							<tr>
 								<td>18</td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2606"
+								<td class="text_l"><a href="${root }/notice/post" id="2606"
 									class="">공지사항 전시회 게시글입니다.</a></td>
 								<td>2023-12-07</td>
 							</tr>
 							<tr>
 								<td>17</td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2605"
+								<td class="text_l"><a href="${root }/notice/post" id="2605"
 									class="">공지사항 전시회 게시글입니다.</a></td>
 								<td>2023-12-01</td>
 							</tr>
 							<tr>
 								<td>16</td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2602"
+								<td class="text_l"><a href="${root }/notice/post" id="2602"
 									class="">공지사항 전시회 게시글입니다.</a></td>
 								<td>2023-12-01</td>
 							</tr>
 							<tr>
 								<td>15</td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2596"
+								<td class="text_l"><a href="${root }/notice/post" id="2596"
 									class="">공지사항 전시회 게시글입니다.</a></td>
 								<td>2023-11-16</td>
 							</tr>
 							<tr>
 								<td>14</td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2594"
+								<td class="text_l"><a href="${root }/notice/post" id="2594"
 									class="">공지사항 전시회 게시글입니다.</td>
 							</tr>
 							<tr>
 								<td>13</td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2591"
+								<td class="text_l"><a href="${root }/notice/post" id="2591"
 									class="">공지사항 전시회 게시글입니다.</a></td>
 								<td>2023-10-13</td>
 							</tr>
 							<tr>
 								<td>12</td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2590"
+								<td class="text_l"><a href="${root }/notice/post" id="2590"
 									class="">공지사항 전시회 게시글입니다.</td>
 							</tr>
 							<tr>
 								<td>11</td>
 								<td>전시회</td>
-								<td class="text_l"><a href="BoardNoticePost.html" id="2587"
+								<td class="text_l"><a href="${root }/notice/post" id="2587"
 									class="">공지사항 전시회 게시글입니다.</td>
 							</tr>
 						</tbody>
@@ -724,11 +724,12 @@ a:hover {
 				</div>  
 				-->
 				</div>
-				<!-- 배너부분 -->
-				<section style="margin-top: -8spx;">
+				<!--밑부분 배너-->
+				<section style="margin-top: 100px;">
 					<div class="container px-1">
 						<div class="d-flex justify-content-center">
-							<img src="assets/img/banner1.png" class="banner1" alt="banner1">
+							<img src="../img/banner1.png" alt="banner1"
+								style="border: 1px solid black;">
 						</div>
 					</div>
 				</section>

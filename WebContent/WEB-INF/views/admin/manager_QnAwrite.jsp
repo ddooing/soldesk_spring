@@ -15,7 +15,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
 	rel="stylesheet" />
-<link href="css/styles_manager.css" rel="stylesheet" />
+<link href="../css/styles_manager.css" rel="stylesheet" />
 <!--부트스트랩 아이콘 사용-->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"

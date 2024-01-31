@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath }" />   
 <!DOCTYPE html>
 <html>
 <head>
@@ -362,7 +363,7 @@ input {
 	border: 1px solid black;
 	width: 830px;
 	height: 100px;
-	margin-right: 10px;
+	margin-left: 30px;
 	margin-top:0px;
 	margin-bottom: 20px;
 }
@@ -578,19 +579,18 @@ ul, ol {
 					</div>
 				</li>
 				<div class="btn_btm_wrap">
-					<a href="BoardNoticeList.html" class="btn_col2 ty6">목록</a>
+					<a href="${root}/notice/main" class="btn_col2 ty6">목록</a>
 				</div>
 			</ul>
 		</div>
 
-		<!-- 배너부분 -->
-		<section style="margin-top: -8spx;">
-			<div class="container px-1">
-				<div class="d-flex justify-content-center">
-					<img src="assets/img/banner1.png" class="banner1" alt="banner1">
-				</div>
-			</div>
-		</section>
+			<section style="margin-top: -8spx;">
+						<div class="container px-1">
+							<div class="d-flex justify-content-center">
+								<img src="../img/banner1.png" class="banner1" alt="banner1">
+							</div>
+						</div>
+			</section>
 		</div>
 	</div>
 	<!-- 푸터-->

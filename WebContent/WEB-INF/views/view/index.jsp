@@ -113,7 +113,8 @@
 
 <body id="page-top">
 	<!-- 메뉴바 -->
-	<c:import url="/WEB-INF/views/include/header.jsp"/>
+
+	 <c:import url="/WEB-INF/views/include/header.jsp"/> 
 
 	<!-- 상단 케러셀-->
 	<header class="masthead">
@@ -149,7 +150,7 @@
 		</div>
 	</header>
 
-	<div id="right-side-menu">
+	<%-- <div id="right-side-menu">
 		<div style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">
 			<div id="sidebar_menu"
 				style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
@@ -181,14 +182,26 @@
 			</div>
 			<hr style="margin:auto; width: 80px; color: black;" />
 
-			<div id="sidebar_menu" data-bs-toggle="modal" data-bs-target="#qnaModal"
-				style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
-				<div style="justify-content: center;">
-					<p1>Q&A</p1>
+			<c:choose>
+			    <c:when test="${loginUserBean.userLogin == false}">
+				    <div id="sidebar_menu" onclick="location.href='${root}/user/not_login'" style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+								<div style="justify-content: center;">
+									<p1>Q&A</p1>
+								</div>
+					</div>
+				</c:when>
+			
+			<c:otherwise>
+				<div id="sidebar_menu" data-bs-toggle="modal" data-bs-target="#qnaModal"
+						style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+							<div style="justify-content: center;">
+								<p1>Q&A</p1>
+							</div>
 				</div>
-			</div>
+			</c:otherwise>
+			</c:choose>
 		</div>
-	</div>
+	</div> --%>
 
 	<!--Q&A 모달 창-->
 	<div class="modal fade" id="qnaModal" tabindex="-1" aria-labelledby="qnaModalLabel" aria-hidden="true">
@@ -312,8 +325,9 @@
 							style="cursor: pointer; font-size: 30px;">인기 전시</label>
 					</div>
 				</div>
-				<label id="morelook" class="form-check-label" for="morelook"
-					style="cursor: pointer; font-size: 20px;">더보기</label>
+				<label id="morelook" class="form-check-label" for="morelook" style="cursor: pointer; font-size: 20px; text-decoration: none; color: black;">
+				    <a href="${root}/exhibition/exhibition" style="text-decoration: none; color: black;">더보기</a>
+				</label>
 			</div>
 			<br /><br />
 
@@ -490,7 +504,7 @@
 	</section>
 
 	<!-- 푸터-->
-	<c:import url="/WEB-INF/views/include/footer.jsp"/> 
+	 <c:import url="/WEB-INF/views/include/footer.jsp"/> 
 
 
 	<script>
@@ -529,5 +543,4 @@
 	</script>
 
 </body>
-
 </html>

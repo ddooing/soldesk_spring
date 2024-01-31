@@ -1,54 +1,71 @@
 package kr.co.softsoldesk.config;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
-
+import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
+import kr.co.softsoldesk.mapper.ExhibitionMapper;
+import kr.co.softsoldesk.mapper.UserMapper;
 
 @Configuration
-@EnableWebMvc //½ºÄµÇÑ ÆĞÅ°Áö ³»ºÎÀÇ Å¬·¡½º Áß Controller ¾î³ëÅ×ÀÌ¼ÇÀ» °¡Áö°í ÀÖ´Â Å¬·¡½ºµéÀ» Controller·Î µî·Ï
+@EnableWebMvc // ï¿½ï¿½Äµï¿½ï¿½ ï¿½ï¿½Å°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Controller ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				// Controllerï¿½ï¿½ ï¿½ï¿½ï¿½
 @ComponentScan("kr.co.softsoldesk.controller")
+@ComponentScan("kr.co.softsoldesk.dao")
+@ComponentScan("kr.co.softsoldesk.Service")
 @PropertySource("/WEB-INF/properties/db.properties")
-public class ServletAppContext implements WebMvcConfigurer{
-//Spring MVC ÇÁ·ÎÁ§Æ®¿¡ °ü·ÃµÈ ¼³Á¤À» ÇÏ´Â Å¬·¡½º
-	
-	@Value("${db.classname}")
-	   private String db_classname;
-	   
-	   @Value("${db.url}")
-	   private String db_url;
-	   
-	   @Value("${db.username}")
-	   private String db_username;
-	   
-	   @Value("${db.password}")
-	   private String db_password;
-	   
+public class ServletAppContext implements WebMvcConfigurer {
+//Spring MVC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
 
-	
+	@Value("${db.classname}")
+	private String db_classname;
+
+	@Value("${db.url}")
+	private String db_url;
+
+	@Value("${db.username}")
+	private String db_username;
+
+	@Value("${db.password}")
+	private String db_password;
+
+	@Resource(name = "loginUserBean")
+	private UserBean loginUserBean;
+
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-	//Á¤Àû ÆÄÀÏ °æ·Î ¸ÅÇÎ
+		// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/");
-		//registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/assets/");
+		// registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/assets/");
 	}
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-	//ControllerÀÇ ¸Ş¼­µå°¡ ¹İÈ¯ÇÏ´Â ÆÄÀÏ ¾ÕµÚ¿¡ °æ·ÎÀÇ È®ÀåÁö Ãß°¡
+		// Controllerï¿½ï¿½ ï¿½Ş¼ï¿½ï¿½å°¡ ï¿½ï¿½È¯ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ÕµÚ¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 		WebMvcConfigurer.super.configureViewResolvers(registry);
-		registry.jsp("/WEB-INF/views/",".jsp");
+		registry.jsp("/WEB-INF/views/", ".jsp");
 	}
 
-	/*
 	@Bean
 	public BasicDataSource dataSource() {
 		BasicDataSource source = new BasicDataSource();
@@ -56,28 +73,61 @@ public class ServletAppContext implements WebMvcConfigurer{
 		source.setUrl(db_url);
 		source.setUsername(db_username);
 		source.setPassword(db_password);
-		
+
 		return source;
 	}
-	
+
 	@Bean
-	public SqlSessionFactory factory(BasicDataSource source) throws Exception{
-		
+	public SqlSessionFactory factory(BasicDataSource source) throws Exception {
+
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(source);
 		SqlSessionFactory factory = factoryBean.getObject();
-		
+
 		return factory;
 	}
-	
 
-	
-	//¿¡·¯ ÇÁ·ÎÆÛÆ¼ ÆÄÀÏÀ» ¸Ş½ÃÁö·Î µî·Ï
+	@Bean
+	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<UserMapper>(UserMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
+
+	@Bean		// ì „ì‹œíšŒ ì¡°íšŒ 
+	public MapperFactoryBean<ExhibitionMapper> getExhibitionMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<ExhibitionMapper> factoryBean = new MapperFactoryBean<ExhibitionMapper>(ExhibitionMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
+
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
+
+		return new PropertySourcesPlaceholderConfigurer();
+	}
+
+	// ì—ëŸ¬ë©”ì„¸ì§€
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
 		ReloadableResourceBundleMessageSource res = new ReloadableResourceBundleMessageSource();
 		res.setBasename("/WEB-INF/properties/error_message");
 		return res;
 	}
-	*/
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(loginUserBean);
+
+		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
+		reg1.addPathPatterns("/**");
+
+	}
+
 }

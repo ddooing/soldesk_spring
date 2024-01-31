@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,8 +45,8 @@
 
 
 	<!-- CSS -->
-	<link href="css/styles.css" rel="stylesheet" />
-	<link href="css/Mypage.css" rel="stylesheet" />
+	<link href="../css/styles.css" rel="stylesheet" />
+	<link href="../css/Mypage.css" rel="stylesheet" />
 	
 	
 	
@@ -86,7 +87,7 @@
 					
 			<!-- 이미지 -->
 			<div style="display: flex; flex-direction: column;">
-				<img src="./assets/img/profileImg.png" style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;"/>
+				<img src="../img/profileImg.png" style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;"/>
 				<button class="button-2" role="button" onclick="profileEditor()">프로필 수정</button>
 			</div>
 			
@@ -132,7 +133,7 @@
 											style="display: inline-block; text-align: center; width: 170px; border-right: 1px solid black;">
 											<p style="font-size:25px">LV.1</p>
 					
-											<img src="./assets/img/profile_Lv1.png"
+											<img src="../img/level/profile_Lv1.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
 											<br /><br /><br />
 											<b style="margin-top: 10px;">1% 적립</b><br />
@@ -143,7 +144,7 @@
 											style="display: inline-block; text-align: center; width: 170px; border-right: 1px solid black;">
 											<p style="font-size:25px">LV.2</p>
 					
-											<img src="./assets/img/profileImg.png"
+											<img src="../img/profileImg.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
 											<br /><br /><br />
 											<b style="margin-top: 10px;">3% 적립</b><br />
@@ -153,7 +154,7 @@
 										<div style="display: inline-block; text-align: center; width: 170px;">
 											<p style="font-size:25px">LV.3</p>
 					
-											<img src="./assets/img/profile_Lv3.png"
+											<img src="../img/level/profile_Lv3.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
 											<br /><br /><br />
 											<b style="margin-top: 10px;">5% 적립</b><br />
@@ -200,9 +201,7 @@
 					</div>
 					<span style="font-size: 1.5em; margin-right:auto;  " > &#x1F4B8;현재 적립 포인트 : 60P</span>
 				</div>
-	
 
-				
 			</div>
 		</div>
 		
@@ -221,11 +220,11 @@
 				  	</ul>
 	 			</div>
  			
- 			
+
  			<div class="ullist visible" style="padding-top:20px;">
 			   <ul id="mypageMenu" class="submenu visible">
 					<li id="reservationList" class="sel">예매내역</li>
-	                <li id="promotionList">견적내역</li>
+	                <!-- 견적 <li id="promotionList">견적내역</li>-->
 	                <li id="poinList">포인트 적립/이용 내역</li>
 	                <li id="postList">작성한 글</li>
 		        </ul>
@@ -235,12 +234,9 @@
 	                <li id="qna">Q&A</li>
 	                <li id="delete">회원탈퇴</li>
 		        </ul>
-		 		
 		 	</div>
 		</div>
-		
 	</div>
-		
 		<!-- 내용 -->
 		<div style="display: flex;justify-content: center;width: 80%;margin: auto;"  class="content">
 				
@@ -257,9 +253,7 @@
 						<p>2023.12.31 (금) 15:00
 						<p>2매 
 						<p>20,000 원
-						
 						<p style=" color:gray;">예매 상태 : <span>결제완료</span>	
-						
 						<button class="reserCancel" >예매취소</button>
 					</div>
 				</div>
@@ -276,17 +270,14 @@
 						<p>2매 
 						<p>20,000 원
 						<p style=" color:gray;">예매 상태 : <span>예매완료</span>	
-						
 					</div>
 				</div>
-				
 			</div>
 			<!-- 견적 내역 -->	
 			<div class="promotionList"> 
 				<div style=" width:860px; display: flex;  padding: 30px; " >
 					<table class="board-table" style="width:100%;">
 						<thead >
-						
 						    <tr>
 						        <th>번호</th>
 						        <th>분류</th>
@@ -295,7 +286,6 @@
 						        <th>신청 날짜</th>
 						    </tr>
 						 </thead>
-						 
 						 <tbody >
 						    <tr >
 						        <td >1</td>
@@ -349,12 +339,12 @@
 				<div style="background :#d3d3d32e;  width:860px; display: flex;  padding: 30px; border-radius:15px;" >
 					<table class="point-table" style="width:100%;">
 
-					    <tr >
+					    <tr>
 					        <td >2022-05-18</td>   
 					        <td >소감문 포인트 적립</td>
 					        <td style="color:green;">+30P</td>   
 					    </tr>
-					    <tr >
+					    <tr>
 					        <td >2022-05-18</td>   
 					        <td >예매 포인트 적립</td>
 					        <td style="color:green;">+300P</td>   
@@ -422,108 +412,338 @@
 			
 			<!-- 자주 묻는 질문 -->
 			<div class="faq">
-				<div style=" width:860px;height:40vh; display: flex;  padding: 30px; " >
-					<table class="post-table" style="width:100%;">
-						<thead >
-						
-						    <tr >
-						        <th>번호</th>
-						        <th>제목</th>
-						        <th>날짜</th>
-						    </tr>
-						 </thead>
-						 
-						 <tbody >
-						    <tr >
-						        <td >1</td>
-						        <td >게시글 1 입니다.</td>
-						        <td >2022-05-18</td>   
-						    </tr>
-						  </tbody>
-						  <tbody >
-						    <tr >
-						        <td >2</td>
-						        <td >게시글 2 입니다.</td>
-						        <td >2022-05-18</td>    
-						    </tr>
-						  </tbody>
-						  <tbody >
-						    <tr >
-						        <td >3</td>
-						        <td >게시글 3 입니다.</td>
-						        <td >2022-05-18</td>   
-						    </tr>
-						  </tbody>
-						   <tbody >
-						    <tr >
-						        <td >4</td>
-						        <td >게시글 4 입니다.</td>
-						        <td >2022-05-18</td>    
-						    </tr>
-						  </tbody>
-						   <tbody >
-						    <tr >
-						        <td >5</td>
-						        <td >게시글 5 입니다.</td>
-						        <td >2022-05-18</td>    
-						    </tr>
-						  </tbody>
-					</table>
+				<div style=" width:860px; display: flex;  padding: 30px; margin-right: 110px;" >
+					<section class="notice" style="width:860px; display: flex;  padding: 30px;">
+						<div id="board-list">
+							<div style="width: 835px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;">
+								<div style="display: flex; justify-content: center; text-align: center; margin-top: 20px;">
+									<div style="width: 100px;">
+										<p>번호</p>
+									</div>
+									<div style="width: 700px;">
+										<p>제목</p>
+									</div>
+									<div style="width: 200px;">
+										<p>날짜</p>
+									</div>
+								</div>
+								<!--내용-->
+								<div id="FAQ_1"
+									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
+									<div style="width: 100px; padding: 14px 0px;">
+										<p1>1</p1>
+									</div>
+									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
+										<a href="#" style="color: black;text-decoration: none">
+											<p1>게시글 1 입니다.</p1>
+										</a>
+									</div>
+									<div style="width: 200px; padding: 14px 0px;">
+										<p1>2023.12.28</p1>
+									</div>
+								</div>
+		
+								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
+									id="FAQ_1_click">
+									<p1>
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									</p1>
+								</div>
+		
+								<div id="FAQ_2"
+									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
+									<div style="width: 100px; padding: 14px 0px;">
+										<p1>2</p1>
+									</div>
+									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
+										<a href="#" style="color: black;text-decoration: none">
+											<p1>게시글 2 입니다.</p1>
+										</a>
+									</div>
+									<div style="width: 200px; padding: 14px 0px;">
+										<p1>2023.12.28</p1>
+									</div>
+								</div>
+		
+								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
+									id="FAQ_2_click">
+									<p1>
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									</p1>
+								</div>
+		
+								<div id="FAQ_3"
+									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
+									<div style="width: 100px; padding: 14px 0px;">
+										<p1>3</p1>
+									</div>
+									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
+										<a href="#" style="color: black;text-decoration: none">
+											<p1>게시글 3 입니다.</p1>
+										</a>
+									</div>
+									<div style="width: 200px; padding: 14px 0px;">
+										<p1>2023.12.28</p1>
+									</div>
+								</div>
+		
+								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
+									id="FAQ_3_click">
+									<p1>
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									</p1>
+								</div>
+		
+								<div id="FAQ_4"
+									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
+									<div style="width: 100px; padding: 14px 0px;">
+										<p1>4</p1>
+									</div>
+									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
+										<a href="#" style="color: black;text-decoration: none">
+											<p1>게시글 4 입니다.</p1>
+										</a>
+									</div>
+									<div style="width: 200px; padding: 14px 0px;">
+										<p1>2023.12.28</p1>
+									</div>
+								</div>
+		
+								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
+									id="FAQ_4_click">
+									<p1>
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									</p1>
+								</div>
+		
+								<div id="FAQ_5"
+									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
+									<div style="width: 100px; padding: 14px 0px;">
+										<p1>5</p1>
+									</div>
+									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
+										<a href="#" style="color: black; text-decoration: none">
+											<p1>게시글 5 입니다.</p1>
+										</a>
+									</div>
+									<div style="width: 200px; padding: 14px 0px;">
+										<p1>2023.12.28</p1>
+									</div>
+								</div>
+		
+								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
+									id="FAQ_5_click">
+									<p1>
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
+									</p1>
+								</div>
+		
+							</div>
+						</div>
+					</section>
 				</div>
 			</div>
 			
 			<!-- 문의사항 -->
 			<div class="qna">
-				<div style=" width:860px; display: flex;  padding: 30px; " >
-					<table class="post-table" style="width:100%;">
-						<thead >
-						
-						    <tr >
-						        <th>번호</th>
-						        <th>제목</th>
-						        <th>날짜</th>
-						    </tr>
-						 </thead>
-						 
-						 <tbody >
-						    <tr >
-						        <td >1</td>
-						        <td ><a style="color:black;" href="QnA_info.html">이거이거 신청했는데 언제되나요?</a></td>
-						        <td >2024.01.15</td>   
-						    </tr>
-						  </tbody>
-						  <tbody >
-						    <tr >
-						        <td >2</td>
-						        <td >게시글 2 입니다.</td>
-						        <td >2022-05-18</td>    
-						    </tr>
-						  </tbody>
-						  <tbody >
-						    <tr >
-						        <td >3</td>
-						        <td >게시글 3 입니다.</td>
-						        <td >2022-05-18</td>   
-						    </tr>
-						  </tbody>
-						   <tbody >
-						    <tr >
-						        <td >4</td>
-						        <td >게시글 4 입니다.</td>
-						        <td >2022-05-18</td>    
-						    </tr>
-						  </tbody>
-						   <tbody >
-						    <tr >
-						        <td >5</td>
-						        <td >게시글 5 입니다.</td>
-						        <td >2022-05-18</td>    
-						    </tr>
-						  </tbody>
-					</table>
+				<div style=" width:860px; display: flex;  padding: 30px; margin-right: 110px;" >
+					<section class="notice" style="width:860px; display: flex;  padding: 30px;">
+						<div id="board-list">
+							<div style="width: 835px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;">
+								<div style="display: flex; justify-content: center; text-align: center; margin-top: 20px;">
+									<div style="width: 100px;">
+										<p>번호</p>
+									</div>
+									<div style="width: 700px;">
+										<p>제목</p>
+									</div>
+									<div style="width: 200px;">
+										<p>날짜</p>
+									</div>
+								</div>
+								<!--내용-->
+								<div id="review_1"
+									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
+									<div style="width: 100px; padding: 14px 0px;">
+										<p1>1</p1>
+									</div>
+									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
+										<a href="#" style="color: black;text-decoration: none">
+											<p1>[질문] 게시글 1 입니다.</p1>
+										</a>
+									</div>
+									<div style="width: 200px; padding: 14px 0px;">
+										<p1>2023.12.28</p1>
+									</div>
+								</div>
+		
+								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
+									id="review_1_click">
+									<div>이거 어떻게 해야해요?</div>
+									<br>
+									<div>
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+										  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+										</svg>
+										[답변]
+									</div>
+									
+									<p1>
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+									</p1>
+								</div>
+		
+								<div id="review_2"
+									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
+									<div style="width: 100px; padding: 14px 0px;">
+										<p1>2</p1>
+									</div>
+									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
+										<a href="#" style="color: black;text-decoration: none">
+											<p1>[질문] 게시글 2 입니다.</p1>
+										</a>
+									</div>
+									<div style="width: 200px; padding: 14px 0px;">
+										<p1>2023.12.28</p1>
+									</div>
+								</div>
+		
+								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
+									id="review_2_click">
+									<div>이거 어떻게 해야해요?</div>
+									<br>
+									<div>
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+										  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+										</svg>
+										[답변]
+									</div>
+									
+									<p1>
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+									</p1>
+								</div>
+		
+								<div id="review_3"
+									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
+									<div style="width: 100px; padding: 14px 0px;">
+										<p1>3</p1>
+									</div>
+									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;text-decoration: none">
+										<a href="#" style="color: black;text-decoration: none">
+											<p1>[질문] 게시글 3 입니다.</p1>
+										</a>
+									</div>
+									<div style="width: 200px; padding: 14px 0px;">
+										<p1>2023.12.28</p1>
+									</div>
+								</div>
+		
+								
+								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
+									id="review_3_click">
+									<div>이거 어떻게 해야해요?</div>
+									<br>
+									<div>
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+										  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+										</svg>
+										[답변]
+									</div>
+									
+									<p1>
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+									</p1>
+								</div>
+		
+								<div id="review_4"
+									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
+									<div style="width: 100px; padding: 14px 0px;">
+										<p1>4</p1>
+									</div>
+									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
+										<a href="#" style="color: black;text-decoration: none">
+											<p1>[질문] 게시글 4 입니다.</p1>
+										</a>
+									</div>
+									<div style="width: 200px; padding: 14px 0px;">
+										<p1>2023.12.28</p1>
+									</div>
+								</div>
+		
+								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
+									id="review_4_click">
+									<div>이거 어떻게 해야해요?</div>
+									<br>
+									<div>
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+										  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+										</svg>
+										[답변]
+									</div>
+									
+									<p1>
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+									</p1>
+								</div>
+		
+								<div id="review_5"
+									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
+									<div style="width: 100px; padding: 14px 0px;">
+										<p1>5</p1>
+									</div>
+									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
+										<a href="#" style="color: black;text-decoration: none">
+											<p1>[질문] 게시글 5 입니다.</p1>
+										</a>
+									</div>
+									<div style="width: 200px; padding: 14px 0px;">
+										<p1>2023.12.28</p1>
+									</div>
+								</div>
+		
+								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
+									id="review_5_click">
+									<div>이거 어떻게 해야해요?</div>
+									<br>
+									<div>
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+										  <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+										</svg>
+										[답변]
+									</div>
+									
+									<p1>
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+										아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.아트미 QnA입니다.
+									</p1>
+								</div>
+		
+							</div>
+						</div>
+					</section>
 				</div>
 				<div>
-					<button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#qnaModal" style="align-self: flex-end; margin-top: 10px; margin-left:740px;">문의 작성</button>
+					<button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#qnaModal" style="align-self: flex-end; margin-top: 10px; margin-left: 800px;">문의 작성</button>
 				</div>
 				
 			</div>
@@ -573,9 +793,9 @@
 			<!-- QnA 모달 종료 -->
 
 			<!-- 회원 탈퇴 -->
-			<div class="delete" style="position: fixed;">
-				<div class="deletemodal"
-					style="position: fixed; display: none; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 650px; height: 500px; padding: 20px; background-color: white; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); border-radius: 10px; z-index: 1000;">
+			<div class="backdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.2); z-index: 999;"> 
+		    <!-- 회원 탈퇴 모달창 -->
+		    <div class="deletemodal" style="position: fixed; display: none; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 650px; height: 500px; padding: 20px;  background-color: rgba(255, 255, 255, 1); box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3); border-radius: 10px; z-index: 1000;">
 					<div class="deletemodal_body"
 						style="position: relative; width: 100%; height: 100%;">
 						<!-- 흰부분 -->
@@ -595,7 +815,7 @@
 									보관</span>하기 위해<br>비밀번호를 다시 확인합니다.
 							</p>
 						</div>
-						<div class="delete"
+						<div class="delete_filed"
 							style="margin: auto; width: 465px; height: 270px; border-radius: 20px; padding: 10px;">
 							<!-- 입력 필드 및 버튼 -->
 
@@ -625,6 +845,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- 모달 끝 -->
 
 			<!-- 북마크 -->
 			<div class="bookmark"> 
@@ -741,6 +962,7 @@
 								</svg>
 							</button>
 				           
+				           
 				           <div style="display: flex; margin-top: 20px;">
 							<div style="float: left;">
 								<img src="https://png.pngtree.com/png-clipart/20210704/original/pngtree-colorful-abstract-art-exhibition-poster-png-image_6488081.jpg"
@@ -788,6 +1010,8 @@
 						/>
 					</div>
 					
+					
+					
 					<div  class="archivediv btn-open-reivewmodal" >
 						<img src="https://png.pngtree.com/png-clipart/20210704/original/pngtree-colorful-abstract-art-exhibition-poster-png-image_6488081.jpg" 
 						/>
@@ -824,17 +1048,19 @@
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/> 
 	
+	
 	<script>
-	// JavaScript 함수
-	function updateCheckboxValue(checkbox) {
-		if (checkbox.checked) {
-	    	checkbox.value = "on";
-	    } else { // 만약 체크가 해제되면 여전히 "on"으로 유지
-	    	checkbox.value = "on";
-	    }
-	}
-	</script>
-	<script>
+  // JavaScript 함수
+  function updateCheckboxValue(checkbox) {
+    if (checkbox.checked) {
+      checkbox.value = "on";
+    } else {
+      // 만약 체크가 해제되면 여전히 "on"으로 유지
+      checkbox.value = "on";
+    }
+  }
+</script>
+<script>
 	
 	//소감문 수정
 	function goReviewEditor() {
@@ -924,14 +1150,17 @@
 		});
 	
 	
-		// #leftToRight의 높이를 가져옴
-		var leftToRightHeight = document.getElementById('leftToRight').offsetHeight;
-		var mypageMenutHeight = document.getElementById('mypageMenu').offsetHeight;
-		
-		// #index_wrap의 높이를 설정
-		document.getElementById('index_wrap').style.height = leftToRightHeight +mypageMenutHeight+ 'px';
+		 // #leftToRight의 높이를 가져옴
+		    var leftToRightHeight = document.getElementById('leftToRight').offsetHeight;
+		    
+		    var mypageMenutHeight = document.getElementById('mypageMenu').offsetHeight;
+		    // #index_wrap의 높이를 설정
+		    document.getElementById('index_wrap').style.height = leftToRightHeight +mypageMenutHeight+ 'px';
+		    
+		    
 
-		//툴 모달창 
+
+			 //툴 모달창 
         const toolOpenButton = document.querySelector('.bi.bi-question-circle-fill');
         const toolCloseBuuton = document.querySelector('.tool-btn-close-modal');
         const toolModal = document.querySelector('.tool-modal');
@@ -949,7 +1178,10 @@
         	toolModal.style.display="none";
 		  document.getElementsByTagName('body')[0].style.overflow = 'visible';
 		 }
+        
+     
 	});
+
 	
     function addMenuParam(menuName) {
         // 현재 URL 가져오기
@@ -965,16 +1197,20 @@
 
         // 새로운 URL로 이동
         window.location.href = updatedUrl;
-    }  
-    </script>
-
-	<script>//소감문 모달창 
+    }
+    
+    </script>	
+    
+    
+   <script>//소감문 모달창 
 	document.addEventListener('DOMContentLoaded', () => {
     	//소감문 모달창 
 		    const modal = document.querySelector('.reivewmodal');
 	        const btnOpenModal=document.querySelector('.btn-open-reivewmodal');
 			const btnCloseModal=document.querySelector('.btn-close-reivewmodal');
 	       	const body =  document.querySelector('#page-top');
+	       
+	       
 	       
 	       btnOpenModal.addEventListener("click", ()=>{
 	            modal.style.display="flex";
@@ -984,16 +1220,20 @@
 	        btnCloseModal.addEventListener("click", ()=>{
 	        	close();
 	        });
-	         
+	        
+	        
 	        window.addEventListener('click',  (e) => {
 	        e.target === modal ?  close() : false
 	        })
 	        
+	        
 	        function close(){
 			  modal.style.display="none";
 			  document.getElementsByTagName('body')[0].style.overflow = 'visible';
-		}	 
+			 }
+			 
 	});
+   
    </script>
    
     <script>
@@ -1016,35 +1256,81 @@
 	        });
 	    });
 	</script>
+   	</script>
+	<script>
+	<!-- 리뷰내용 -->
+				for (var i = 1; i <= 5; i++) {
+					(function (index) {
+						document.querySelector('#review_' + index + ' a').addEventListener('click', function (event) {
+							event.preventDefault(); // 기본 링크 동작 방지
+
+							// 다른 모든 리뷰의 내용을 숨깁니다.
+							for (var j = 1; j <= 5; j++) {
+								if (j !== index) {
+									document.getElementById('review_' + j + '_click').style.display = 'none';
+								}
+							}
+
+							// 클릭된 리뷰의 내용을 토글합니다.
+							var content = document.getElementById('review_' + index + '_click');
+							content.style.display = content.style.display === 'block' ? 'none' : 'block';
+						});
+					})(i);
+				}
+			</script>
+	</script>
 	
 	<script>
-	// 모달창과 버튼 요소를 가져옵니다. 실행안댐
-	var deleteModal = document.querySelector('.deletemodal');
-	var openModalButton = document.getElementById('delete');
-	var closeModalButton = document.querySelector('.btn-close-deletemodal');
-	var mainContent = document.getElementById('main-content'); // 페이지의 주요 내용을 감싸는 요소의 ID
-	
-	// 모달창을 열기 위한 함수
-	openModalButton.onclick = function() {
-	  deleteModal.style.display = 'block';
-	  // 메인 컨텐츠에만 투명도 적용
-	  mainContent.style.opacity = '0.3';
-	};
-	
-	// 모달창을 닫기 위한 함수
-	closeModalButton.onclick = function() {
-	  deleteModal.style.display = 'none';
-	  // 투명도 제거
-	  mainContent.style.opacity = '1.0';
-	};
-	
-	// 모달창 외부를 클릭했을 때 닫히게 하는 기능
-	window.onclick = function(event) {
-	  if (event.target == deleteModal) {
-	    deleteModal.style.display = 'none';
-	    mainContent.style.opacity = '1.0';
-	  }
-	};
+	<!-- FAQ내용 -->
+				for (var i = 1; i <= 5; i++) {
+					(function (index) {
+						document.querySelector('#FAQ_' + index + ' a').addEventListener('click', function (event) {
+							event.preventDefault(); // 기본 링크 동작 방지
+
+							// 다른 모든 FAQ의 내용을 숨깁니다.
+							for (var j = 1; j <= 5; j++) {
+								if (j !== index) {
+									document.getElementById('FAQ_' + j + '_click').style.display = 'none';
+								}
+							}
+
+							// 클릭된 FAQ의 내용을 토글합니다.
+							var content = document.getElementById('FAQ_' + index + '_click');
+							content.style.display = content.style.display === 'block' ? 'none' : 'block';
+						});
+					})(i);
+				}
+			</script>
 	</script>
+<script>
+var deleteModal = document.querySelector('.deletemodal');
+var backdrop = document.querySelector('.backdrop'); // 추가
+var deleteButton = document.getElementById('delete');
+var closeModalButton = document.querySelector('.btn-close-deletemodal');
+
+// 회원탈퇴 버튼 클릭 시
+deleteButton.onclick = function() {
+    backdrop.style.display = 'block'; // 배경 레이어 표시
+    deleteModal.style.display = 'block';
+    body.style.overflow = 'hidden';
+};
+
+// 닫기 버튼 클릭 시
+closeModalButton.onclick = function() {
+    backdrop.style.display = 'none'; // 배경 레이어 숨김
+    deleteModal.style.display = 'none';
+    body.style.overflow = 'auto';
+};
+
+// 배경 레이어 클릭 시
+backdrop.onclick = function(event) {
+    if (event.target == backdrop) {
+        backdrop.style.display = 'none';
+        deleteModal.style.display = 'none';
+        body.style.overflow = 'auto';
+    }
+};
+
+</script>
 </body>
 </html>

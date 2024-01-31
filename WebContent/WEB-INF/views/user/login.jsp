@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -124,7 +125,7 @@
 			<div class="row d-flex align-items-center justify-content-center h-100">
 				<div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1" style="margin-top: 100px;">
 					<div class="text-center mb-4">
-						<img src="assets/img/ARTMEE.png" alt="Artmee Logo" style="width: 250px; height: 100px;">
+						<img src="../img/ARTMEE.png" alt="Artmee Logo" style="width: 250px; height: 100px;">
 					</div>
 					<form>
 
@@ -159,7 +160,7 @@
 						<a class="btn btn-primary btn-lg d-flex align-items-center justify-content-center"
 							style="background-color:#ffeb3b; border: black; color: #fff;" onclick="kakaoLogin()"
 							role="button">
-							<img src="assets/img/kakaotalk.png" alt="카카오톡"
+							<img src="../img/kakaotalk.png" alt="카카오톡"
 								style="width: 20px; height: 20px; margin-right: 15px;" />
 							<span style="color: black;">카카오 로그인</span>
 
@@ -196,7 +197,7 @@
 					<section style="margin-top: 100px;">
 						<div class="container px-1">
 							<div class="d-flex justify-content-center">
-								<img src="assets/img/banner1.png" alt="banner1" style="border: 1px solid black;">
+								<img src="../img/banner1.png" alt="banner1" style="border: 1px solid black;">
 							</div>
 						</div>
 					</section>

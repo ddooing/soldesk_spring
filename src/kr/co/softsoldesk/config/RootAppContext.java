@@ -1,8 +1,19 @@
 package kr.co.softsoldesk.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.annotation.SessionScope;
+
+import kr.co.softsoldesk.Beans.UserBean;
 
 @Configuration
 public class RootAppContext {
-//ÇÁ·ÎÁ§Æ® ÀÛ¾÷ ½Ã »ç¿ëÇÒ beanÀ» Á¤ÀÇÇÏ´Â Å¬·¡½º
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Û¾ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ beanï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
+	
+	@Bean("loginUserBean")
+	@SessionScope
+	public UserBean loginUserBean() {
+	    return new UserBean();
+	}
+	
 }

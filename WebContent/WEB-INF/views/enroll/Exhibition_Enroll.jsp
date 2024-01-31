@@ -254,9 +254,9 @@
 
 		<section style="margin-top: 150px;" id="enroll_second">
 			<center>
-				<img src="./assets/img/ARTMEE.png" alt="아트미 로고" style="width: 300px; height: 140px;" />
+				<img src="../img/ARTMEE.png" alt="아트미 로고" style="width: 300px; height: 140px;" />
 				<br /><br />
-				<img src="./assets/img/enroll_secondimg.png" alt="등록 두번째" style="width: 450px; height: 110px;" />
+								<img src="../img/enroll_secondimg.png" alt="등록 두번째" style="width: 450px; height: 110px;" />
 				<br /><br />
 				<div style="width: 700px; height: 800px; border: 1px solid lightgray; border-radius: 5%;">
 

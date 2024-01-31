@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -268,25 +268,12 @@ body, input, select, textarea {
 	padding-top: 30px;
 }
 
-#contents {
-	line-height: 1.1;
-	letter-spacing: -0.03em;
-	font-family: "Noto Sans KR", "Roboto", "dotum", "sans-serif";
-	font-size: 12px;
-	color: #000;
-	width: 980px;
-	margin: 0 auto;
-	padding: 50px 0 0 0;
-	margin-top: 10px;
-}
-
 .tab_wrap {
 	position: relative;
 }
 
 ul, ol {
 	/* list-style: none; */
-	
 }
 
 body, h1, h2, h3, h4, h5, h6, fieldset, ul, ol, dl, dt, dd, p, figure {
@@ -441,18 +428,6 @@ input:not([type="file" i], [type="image" i], [type="checkbox" i], [type="radio"
 
 .content div.contentshow {
 	display: block;
-}
-
-#contents {
-	line-height: 1.1;
-	letter-spacing: -0.03em;
-	font-family: "Noto Sans KR", "Roboto", "dotum", "sans-serif";
-	font-size: 12px;
-	color: #000;
-	width: 980px;
-	margin: 0 auto;
-	padding: 50px 0 0 0;
-	margin-top: 10px;
 }
 
 body {
@@ -632,13 +607,15 @@ a:hover {
 			<textarea id="smarteditor" name="content" placeholder="내용을 입력하세요."
 				style="width: 100%;"></textarea>
 			<!-- 생략된 파일 업로드 및 기타 폼 요소 -->
-
-			<input type="submit" value="작성완료" style="margin-left: 688px;">
-			<button type="button">취소</button>
+			
+			<div>
+			<form action="${root}/board/main" style="display: inline-block;">
+			    <!-- form 내용 -->
+			    <input type="submit" value="작성완료" style="margin-left: 685px;">
+			</form>
+			<button type="button" onclick="window.history.back()" style="display: inline-block; border-radius: 7px;">취소</button>
+			</div>
 		</form>
-
-		<!-- 푸터-->
-		<c:import url="/WEB-INF/views/include/footer.jsp" />
 
 		<!-- SmartEditor2 JS -->
 		<script type="text/javascript">
@@ -677,6 +654,7 @@ a:hover {
 			// 예: function multiImageUpload() { ... }
 		</script>
 	</div>
-
+<!-- 푸터-->
+<c:import url="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

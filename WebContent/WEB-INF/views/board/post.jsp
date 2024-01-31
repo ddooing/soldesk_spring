@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -454,7 +455,7 @@ input {
 
 .tbl_dtal tr.tb_info>td {
 	background: #F8F8F8;
-	padding-left: 40px;
+	padding-left: 18px;
 }
 
 .tbl_dtal th, .tbl_dtal td {
@@ -593,12 +594,12 @@ ul, ol {
 
 
 .comment-box {
-	max-width: 740px;
-	margin: 20px auto;
+	max-width: 725px;
 
 	padding: 20px;
 	/* border-radius: 10px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+	margin-left: 144px
 }
 
 .comment-box h3 {
@@ -626,11 +627,11 @@ ul, ol {
 	border: 1px solid #414141;
 	background-color: #414141;
 	color: white;
-	padding: 10px 20px;
+	padding: 10px 15px;
 	border-radius: 4px 4px 4px 4px; /* 왼쪽 상단과 하단의 둥근 모서리 제거 */
 	box-sizing: border-box; /* padding과 border를 width에 포함 */
 	cursor: pointer;
-	font-size: 1rem;
+	font-size: 15px;
 	transition: background-color 0.3s;
 }
 
@@ -729,7 +730,7 @@ ul, ol {
  	border-bottom:1px solid #d5d5d5;
 }
 #comments-list {
-	margin-left:15px;
+	margin-left:-20px;
 	width: 670px;
 }
 .btn3{
@@ -767,7 +768,7 @@ ul, ol {
 	<div id="contents" class="contents_customer area_movingvar litype5">
 
 		<div class="board_title" style="margin-top : 80px; margin-bottom:15px;">
-		    <h3><a href="BoardList.html" style="font-size: 35px; margin-left: 155px;">게시판</a></h3>
+		    <h3><a href="${root }/board/main" style="font-size: 35px; margin-left: 180px;">게시판</a></h3>
 		</div>
 		<div>
 			<div class="active">
@@ -814,9 +815,9 @@ ul, ol {
 					</div>
 				</li>
 				<div class= "btn3"> <!-- 수정 ?-->
-					<button><a href="BoardList.html">목록</a></button>
-					<button><a href="#">수정</a></button>
-					<button><a href="#">삭제</a></button>
+					<button><a href="${root}/board/main">목록</a></button>
+					<button><a href="${root}/board/modify">수정</a></button>
+					<button><a href="${root}/board/delete">삭제</a></button>
 				</div>
 			</ul>
 		</div>
@@ -846,8 +847,7 @@ ul, ol {
 			</div>
 		</div>
 	</div>
-	<!-- 푸터-->
-	<c:import url="/WEB-INF/views/include/footer.jsp"/>
+
 	
 	<script>
 	let comments = [];
@@ -1010,5 +1010,7 @@ ul, ol {
 	    adjustTextareaHeight();
 	});
 	</script>
+	<!-- 푸터-->
+	<c:import url="/WEB-INF/views/include/footer.jsp"/>
 </body>
 </html>

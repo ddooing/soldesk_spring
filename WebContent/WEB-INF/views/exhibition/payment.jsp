@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- ${root }board 두번 방지 -->
+<c:set var="root" value="${pageContext.request.contextPath }" />  
 <!DOCTYPE html>
 <html lang="en">
 
@@ -127,7 +128,7 @@
 				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 정보</h3>
 			</div>
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="assets/img/poster1.png" alt="예약포스터"
+				<img src="../img/poster1.png" alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
 
 				<div style="margin-left: 200px;">
@@ -176,7 +177,7 @@
 				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 정보2</h3>
 			</div>
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="assets/img/poster1.png" alt="예약포스터"
+				<img src="../img/poster1.png" alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
 
 				<div style="margin-left: 200px;">
@@ -299,7 +300,7 @@
 							style="display: inline-block; text-align: center; width: 200px; border-right: 1px solid black;">
 							<h5>LV.1</h5>
 
-							<img src="./assets/img/profile_Lv1.png"
+							<img src="../img/profile_Lv1.png"
 								style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
 							<br /><br /><br />
 							<b style="margin-top: 10px;">구매금액의 1% 적립</b><br />
@@ -310,7 +311,7 @@
 							style="display: inline-block; text-align: center; width: 200px; border-right: 1px solid black;">
 							<h5>LV.2</h5>
 
-							<img src="./assets/img/profileImg.png"
+							<img src="../img/profileImg.png"
 								style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
 							<br /><br /><br />
 							<b style="margin-top: 10px;">구매금액의 3% 적립</b><br />
@@ -320,7 +321,7 @@
 						<div style="display: inline-block; text-align: center; width: 200px;">
 							<h5>LV.3</h5>
 
-							<img src="./assets/img/profile_Lv3.png"
+							<img src="../img/profile_Lv3.png"
 								style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
 							<br /><br /><br />
 							<b style="margin-top: 10px;">구매금액의 5% 적립</b><br />

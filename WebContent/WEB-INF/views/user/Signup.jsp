@@ -211,7 +211,7 @@ transform-origin: top;
 				<div class="d-flex align-items-center justify-content-center"
 					style="margin-top: 20px;">
 					<div style="width: 150px; text-align: left;">
-						<label for="gender" style="font-size: 20px; text-align: left;">성별</label>
+						<label for="gender" style="font-size: 20px; text-align: left; margin-left:18px;">성별</label>
 					</div>
 					<div style="margin-left: 20px; width: 218px;">
 						<input type="radio" name="gender" id="man"
@@ -226,7 +226,7 @@ transform-origin: top;
 				<div class="d-flex align-items-center justify-content-center"
 					style="margin-top: 20px;">
 					<div style="width: 150px; text-align: left;">
-						<label for="gender" style="font-size: 20px; text-align: left;">연령대</label>
+						<label for="gender" style="font-size: 20px; text-align: left; margin-left:39px;">연령대</label>
 					</div>
 					<div style="width: 400px;">
 						<table>
