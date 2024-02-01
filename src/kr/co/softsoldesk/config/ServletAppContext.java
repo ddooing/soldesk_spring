@@ -57,15 +57,13 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// ���� ���� ��� ����
 		WebMvcConfigurer.super.addResourceHandlers(registry);
-		registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/");
+		registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/")
 		.setCacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES));
 	}
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-		// Controller�� �޼��尡 ��ȯ�ϴ� ���� �յڿ� ����� Ȯ���� �߰�
 		WebMvcConfigurer.super.configureViewResolvers(registry);
 		registry.jsp("/WEB-INF/views/", ".jsp");
 	}

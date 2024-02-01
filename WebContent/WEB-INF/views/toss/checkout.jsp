@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8" />
     <title>결제하기</title>
-    <!-- 토스페이먼츠 결제창 SDK 추가 -->
+   <!-- 토스페이먼츠 결제창 SDK 추가 -->
     <script src="https://js.tosspayments.com/v1/payment"></script>
 </head>
 <body>
@@ -28,12 +28,18 @@
                 orderId: orderid,//'7_XR8395y-HtJQb7Wb60L', // 주문 ID
                 orderName: '테스트 결제', // 주문명
                 customerName: '김도영', // 구매자 이름
-                successUrl: 'http://localhost:8080/SpringMiniProject/toss/success',
-                failUrl: 'http://localhost:8080/SpringMiniProject/toss/fail',
-            }).catch(function (error) {
-                // 에러 처리
+                successUrl: 'http://localhost:8080/Spring_Project_Dream/toss/success',
+                failUrl: 'http://localhost:8080/Spring_Project_Dream/toss/fail',
+            }).catch(function (error) {// 에러 처리
+            	console.log(error.code)
+          
+            	// 결제 고객이 결제창을 닫았을 때 에러 처리
                 if (error.code === 'USER_CANCEL') {
-		        // 결제 고객이 결제창을 닫았을 때 에러 처리
+                	alert('결제를 취소합니다.');
+                	
+                	// payment 창으로 가야하는데 이때, 
+                	//window.location.href = 'http://localhost:8080/Spring_Project_Dream/exhibition/payment?exhibition_id=${exhibitionBean.exhibition_id}';
+                	
 		      } else if (error.code === 'INVALID_CARD_COMPANY') {
 		        // 유효하지 않은 카드 코드에 대한 에러 처리
 		      }

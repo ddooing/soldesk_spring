@@ -57,13 +57,6 @@
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
 	rel="stylesheet">
 
-<script type="text/javascript">
-	$(document).ready(function() {
-
-		$("#headers").load("component/header.html");
-		$("#footer").load("component/footer.html");
-	});
-</script>
 
 <style>
 input[type="radio"] {
@@ -176,7 +169,7 @@ input[type="radio"]:checked+label {
 				</div>
 			</div>
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
-			<form:form action="${root }/" method="post"
+			<form:form action="${root }/toss/checkout_pro" method="post"
 				modelAttribute="ReserveBean">
 				<form:hidden path="reserve_date" value="${ReserveBean.reserve_date }"/>
 				<form:hidden path="ticket_count" value="${ReserveBean.ticket_count }"/>
@@ -379,44 +372,7 @@ input[type="radio"]:checked+label {
 				}
 			</script>
 
-			<!-- 토스페이먼츠 결제창 SDK 추가 -->
-			<script src="https://js.tosspayments.com/v1/payment"></script>
-			<script>
-		        function initiatePayment() {
-		            var amount = 100;//${amount}; // 서버에서 전달받은 amount 값 사용
-		
-		            // 클라이언트 키로 객체 초기화
-		            var clientKey = 'test_ck_mBZ1gQ4YVXKORgvZXBwR3l2KPoqN';
-		            
-		            var tossPayments = TossPayments(clientKey);
-		            
-		         	// 서버에서 받은 orderId를 변수에 할당합니다.
-		            //var orderid = '${orderid}';
-		           ;
-		           var button = document.getElementById('payment-button') // 충전하기 버튼
-		           button.addEventListener('click', function () {
-		            // 결제창 띄우기
-		            tossPayments.requestPayment('카드', {
-		                amount: amount, // 서버에서 받은 금액 사용
-		                orderId: '7_XR8395y-HtJQb7Wb60L',//'7_XR8395y-HtJQb7Wb60L', // 주문 ID
-		                orderName: '테스트 결제', // 주문명
-		                customerName: '김도영', // 구매자 이름
-		                successUrl: 'http://localhost:8080/Spring_Project_Dream/toss/success',
-		                failUrl: 'http://localhost:8080/Spring_Project_Dream/toss/fail',
-		            }).catch(function (error) {
-		                // 에러 처리
-		                if (error.code === 'USER_CANCEL') {
-				        // 결제 고객이 결제창을 닫았을 때 에러 처리
-				      } else if (error.code === 'INVALID_CARD_COMPANY') {
-				        // 유효하지 않은 카드 코드에 대한 에러 처리
-				      }
-		            });
-		           }
-		        }
-		
-		        // 페이지 로드 시 결제창 초기화
-		        window.onload = initiatePayment;
-		    </script>
+			
 					
 
 			<!--결제 부분-->
@@ -452,10 +408,10 @@ input[type="radio"]:checked+label {
 
 			<div
 				style="display: flex; align-items: baseline; margin-top: 80px; margin-left: 850px;">
-				<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id}" class="btn btn-dark" style="margin-left: 30px; width: 100px; height: 50px;">돌아가기</a>
+				<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitioBean.exhibition_id}" class="btn btn-dark" style="margin-left: 30px; width: 100px; height: 50px;">돌아가기</a>
 				<!-- <button onclick="validatePaymentMethod()" class="btn btn-dark"
 					style="margin-left: 30px; width: 100px; height: 50px;">결제하기</button> -->
-				<form:button type="submit" id="payment-button" class="payment-button" style="margin-left: 30px; width: 100px; height: 50px;">결제하기</form:button>
+				<form:button id="payment-button" class="payment-button" style="margin-left: 30px; width: 100px; height: 50px;">결제하기</form:button>
 			</div>
 			</form:form> 
 		</div>

@@ -31,4 +31,5 @@ public class ExhibitionDao {
 		
 		 exhibitionMapper.increaseViewsExhibition(exhibition_id);
 	}
+
 }

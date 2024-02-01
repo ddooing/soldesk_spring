@@ -51,6 +51,7 @@ public class PaymentController {
 	@PostMapping("/exhibition/reserve")
 	public String reserve_ing(@ModelAttribute("ReserveBean") ReserveBean reserveBean, Model model) {
 		System.out.println(reserveBean.getTicket_count());
+		
 		// 전시회 테이블에 cnt 값 예매 수만큼 증가
 		reserveService.reserveAfterExhibitionCntIncrease(reserveBean.getTicket_count(), reserveBean.getExhibition_id());
 		
@@ -70,5 +71,21 @@ public class PaymentController {
 		model.addAttribute("reserveBean", reserveBean);
 		
 		return "exhibition/payment_complete";
+	}
+	
+	
+	@GetMapping("/exhibition/payment_complete")
+	public String showPaymentComplete(@ModelAttribute("ReserveBean") ReserveBean checkReserveBean,
+	                                  @ModelAttribute("exhibition_id") int exhibitionId,
+	                                  Model model) {
+	    // 데이터 출력
+	    System.out.println("ReserveBean: " + checkReserveBean);
+	    System.out.println("Exhibition ID: " + exhibitionId);
+
+	    // 뷰에 데이터 추가
+	    model.addAttribute("ReserveBean", checkReserveBean);
+	    model.addAttribute("exhibition_id", exhibitionId);
+
+	    return "exhibition/payment_complete";
 	}
 }

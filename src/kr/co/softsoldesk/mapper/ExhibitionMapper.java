@@ -20,5 +20,9 @@ public interface ExhibitionMapper {
 	// 전시회 클릭시 조회수 증가
 	@Update("UPDATE exhibition SET views = views + 1 WHERE exhibition_id = #{exhibition_id}")
 	void increaseViewsExhibition(int exhibition_id);
+	
+	
+	
+	
 
 }	

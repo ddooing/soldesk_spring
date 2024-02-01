@@ -32,4 +32,5 @@ public class ExhibitionService {
 		exhibitionDao.increaseViewsExhibition(exhibition_id);
 	}
 	
+
 }
