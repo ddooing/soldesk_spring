@@ -93,9 +93,7 @@ public class TossController {
 	    model.addAttribute("loginUserDetailBean",loginUserDetailBean);
 	    model.addAttribute("title",title);
 	    
-	    // 화면에 넣어야 할 객체 
-	    // orderid
-	    // 예매하려는 
+	
 		return "toss/checkout";
 		
 	}
@@ -105,11 +103,12 @@ public class TossController {
             @RequestParam String orderId, 
             @RequestParam String paymentKey, 
             @RequestParam int amount,HttpServletRequest request, Model model) throws Exception  {
-		//System.out.println(" success - reserve : "+reserve.getOrderid());
-		//System.out.println("paymentType :"+paymentType);
+		//
 		System.out.println("orderId :"+orderId);
 		System.out.println("paymentKey :"+paymentKey);
 		System.out.println("amount :"+amount);
+		
+		//
         return "toss/success"; 
     }
 

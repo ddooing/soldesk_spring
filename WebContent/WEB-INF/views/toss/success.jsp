@@ -26,6 +26,7 @@
       console.log("Payment Key: ", paymentKey);
       console.log("Order ID: ", orderId);
       console.log("Amount: ", amount);
+
       async function confirm() {
         const requestData = {
           paymentKey: paymentKey,
