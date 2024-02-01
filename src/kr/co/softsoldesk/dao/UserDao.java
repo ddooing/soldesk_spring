@@ -24,4 +24,9 @@ public class UserDao {
 		
 		return userMapper.getLoginUserAllInfo(user_id);
 	}
+	
+	// 유저의 등급 가져오기
+	public UserBean getUserGrade(int user_id) {
+		return userMapper.getUserGrade(user_id);
+	}
 }

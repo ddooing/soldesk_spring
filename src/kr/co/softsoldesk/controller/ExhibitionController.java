@@ -1,6 +1,7 @@
 package kr.co.softsoldesk.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -57,6 +58,7 @@ public class ExhibitionController {
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);
 	    model.addAttribute("exhibitionBean", exhibitionBean);
 	    
+	    
 	    return "exhibition/exhibition_click";
 	}
 	
@@ -72,6 +74,16 @@ public class ExhibitionController {
 		
 		UserBean LoginAllInfoBean = UserService.getLoginUserAllInfo(loginUserBean.getUser_id());
 		model.addAttribute("LoginAllInfoBean",LoginAllInfoBean);
+		
+		// 로그인 된 유저 객체에 추가해도 되는데 조인 어려워서 유저 grade만 받아오는 객체 따로 생성 (grade에만 값있고 다른거 다 null)
+		UserBean UserGradeBean = UserService.getUserGrade(tempReserveBean.getUser_id());
+		System.out.println(tempReserveBean.getUser_id());
+		model.addAttribute("UserGradeBean", UserGradeBean);
+		
+		// 임시로 order_id에 랜덤값 넣으려고 보내는값 order_id(결제번호) 값 처리시 꼭 삭제
+		String randomValue = UUID.randomUUID().toString();
+        model.addAttribute("randomValue", randomValue);
+		
 		
 		return "exhibition/payment";
 	}

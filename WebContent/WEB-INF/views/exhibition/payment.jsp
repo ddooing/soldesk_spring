@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
@@ -50,6 +52,15 @@
 	src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 <script
 	src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+
+<script>
+  document.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault(); // 기본 동작(폼의 submit) 막기
+    }
+  });
+</script>
 
 
 <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -105,6 +116,7 @@ input[type="radio"]:checked+label {
 	padding: 30px;
 	border: 1px solid #888;
 	width: 700px;
+	max-width: 30%;
 }
 
 .close {
@@ -113,13 +125,20 @@ input[type="radio"]:checked+label {
 	font-size: 28px;
 	font-weight: bold;
 	width: 25px;
-	margin-left: 625px;
+	margin-left: 550px;
 }
 
 .close:hover, .close:focus {
 	color: #000;
 	text-decoration: none;
 	cursor: pointer;
+}
+
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button
+	{
+	-webkit-appearance: none;
+	appearance: none;
+	margin: 0;
 }
 </style>
 
@@ -186,6 +205,7 @@ input[type="radio"]:checked+label {
 				<form:hidden path="exhibition_id"
 					value="${exhibitionBean.exhibition_id }" />
 				<form:hidden path="state" value="1" />
+				<form:hidden path="order_id" value="${randomValue}"/>			<!-- order_id unique 값으로 임시로 해놓음 -->
 				<!-- 예약상태 -->
 
 				<!--주문자 정보 부분-->
@@ -228,31 +248,79 @@ input[type="radio"]:checked+label {
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 			<div style="display: flex; align-items: baseline;">
 				<h3 style="margin-left: 180px; margin-top: 50px;">포인트 사용</h3>
-				<a style="font-size: 20px; margin-left: 100px; color: gray; margin-right: 5px;">보유 포인트 : </a> <a style="font-size: 20px; color: gray;">${LoginAllInfoBean.point } p</a>
+				<a style="font-size: 20px; margin-left: 100px; color: gray; margin-right: 5px;">보유 포인트 : </a> <a style="font-size: 20px; color: gray;" id="ownpoint">${LoginAllInfoBean.point } p</a>
 			</div>
-
-			<%--<div style="margin-top: 50px; margin-left: 300px; display: flex; align-items: center;">
-				<a style="font-size: 20px; margin-right:30px;">포인트</a>
-				
-				     <form:form action="${root}/exhibition/point_use" method="post" >
-					    
-					    <form:input path="use_point"/>
-					    <form:errors path="use_point">${impossible}</form:errors>
-						
-						<form:hidden path="exhibition_idx" value="${exhibitionBean.exhibition_idx }"/>
-					    <form:hidden path="current_point" value="${LoginAllInfoBean.point}"/>
-						
-					    <button type="submit" class="btn btn-dark" style="margin-left: 30px;">사용</button>
-					    <button type="submit" class="btn btn-dark" style="margin-left: 30px;">전액사용</button>
-					</form:form> 
-			</div>--%>
 			
 			<div style="margin-top: 50px; margin-left: 300px; display: flex;">
 	            <a style="font-size: 20px;">포인트</a>
-	            <form:input path="point_deduction" style="width: 150px; margin-left: 30px;" />
-	            <button class="btn btn-dark" style="margin-left: 30px;">사용</button>
-	            <button class="btn btn-dark" style="margin-left: 30px;">전액사용</button>
+	            <form:input type="number" path="point_deduction" style="width: 150px; margin-left: 30px;" id="pointinput" />
+	            <button type="button" class="btn btn-dark" style="margin-left:30px;" id="pointuse" onclick="usePoints()">사용</button>
+    			<button type="button" class="btn btn-dark" style="margin-left:30px;" id="allpointuse" onclick="useAllPoints()">전액사용</button>
          	</div>
+         	
+         	<script>
+         	function updatePoints() {
+                var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
+                var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
+                var inputPoints = parseInt(document.getElementById('pointinput').value);
+                var adjustedPoints = inputPoints;
+
+                if (inputPoints > maxPoints) {
+                    adjustedPoints = maxPoints;
+                } else {
+                    var minUnit = 10;
+                    adjustedPoints = Math.floor(inputPoints / minUnit) * minUnit; // 10원 단위로 조정
+                }
+
+                document.getElementById('pointinput').value = adjustedPoints;
+                document.getElementById('view_point_use').innerHTML = adjustedPoints + " p";
+                document.getElementById('view_total_price').innerHTML = totalPrice - adjustedPoints + " 원";
+                document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - adjustedPoints + " p";
+            }
+
+            document.getElementById('pointinput').addEventListener('input', updatePoints);
+         	
+         	function usePoints() {
+         	    var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
+         	    var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
+         	    var minUnit = 10;
+         	    var inputPoints = parseInt(document.getElementById('pointinput').value);
+
+         	    if (inputPoints > maxPoints) {
+         	        alert('최대 사용가능 포인트는 ' + maxPoints + 'p 입니다.');
+         	        document.getElementById('pointinput').value = maxPoints;
+         	        document.getElementById('view_point_use').innerHTML = maxPoints + " p";
+         	        document.getElementById('view_total_price').innerHTML = totalPrice - maxPoints + " 원";
+         	        document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - maxPoints + " p";
+         	        return;
+         	    } else if (inputPoints % minUnit !== 0) {
+         	        alert('포인트 사용 최소 단위는 ' + minUnit + '원 입니다.');
+         	        var adjustedPoints = Math.floor(inputPoints / minUnit) * minUnit; // 10원 단위로 조정
+         	        document.getElementById('pointinput').value = adjustedPoints;
+         	        document.getElementById('view_point_use').innerHTML = adjustedPoints + " p";
+         	        document.getElementById('view_total_price').innerHTML = totalPrice - adjustedPoints + " 원";
+         	        document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - adjustedPoints + " p";
+         	        return;
+         	    } else {
+         	        document.getElementById('view_point_use').innerHTML = inputPoints + " p";
+         	        document.getElementById('view_total_price').innerHTML = totalPrice - inputPoints + " 원";
+         	        document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - inputPoints + " p";
+         	    }
+         	}
+
+         	function useAllPoints() {
+         	    var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
+         	    var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
+         	    document.getElementById('pointinput').value = maxPoints;
+         	    document.getElementById('view_point_use').innerHTML = maxPoints + " p";
+         	    document.getElementById('view_total_price').innerHTML = totalPrice - maxPoints + " 원";
+         	    document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - maxPoints +" p";
+         	}
+
+
+
+			</script>
+
 
 			<div style="margin-top: 50px; margin-left: 300px;">
 				<a style="font-size: 20px;">포인트 혜택</a>
@@ -268,13 +336,40 @@ input[type="radio"]:checked+label {
 						<path
 							d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
 					</svg>
-					<a style="font-size: 20px; margin-left: auto;">ex) 300</a>
+					<c:choose>
+					    <c:when test="${UserGradeBean.grade == 'level1'}">
+					        <c:set var="savings" value="${(exhibitionBean.price * ReserveBean.ticket_count) * 0.05}" />
+					        <c:set var="roundedSavings" value="${(savings - savings % 10)}" />
+					        <a style="font-size: 20px; margin-left: auto;">
+					            <fmt:formatNumber value="${roundedSavings}" pattern="#"/> p
+					        </a>
+					    </c:when>
+					    
+					    <c:when test="${UserGradeBean.grade == 'level2'}">
+					        <c:set var="savings" value="${(exhibitionBean.price * ReserveBean.ticket_count) * 0.1}" />
+					        <c:set var="roundedSavings" value="${(savings - savings % 10)}" />
+					        <a style="font-size: 20px; margin-left: auto;">
+					            <fmt:formatNumber value="${roundedSavings}" pattern="#"/> p
+					        </a>
+					    </c:when>
+					    
+					    <c:otherwise>
+					        <c:set var="savings" value="${(exhibitionBean.price * ReserveBean.ticket_count) * 0.2}" />
+					        <c:set var="roundedSavings" value="${(savings - savings % 10)}" />
+					        <a style="font-size: 20px; margin-left: auto;">
+					            <fmt:formatNumber value="${roundedSavings}" pattern="#"/> p
+					        </a>
+					    </c:otherwise>
+					</c:choose>
+
+
+
 				</div>
-				<div
+				<!-- <div
 					style="margin-left: 50px; margin-top: 20px; display: flex; width: 300px; text-align: center;">
 					<a style="font-size: 20px; margin-right: 10px;">소감문 적립</a> <a
 						style="font-size: 20px; margin-left: auto;">ex) 50</a>
-				</div>
+				</div> -->
 			</div>
 
 			<!-- 회원 등급 클릭 모달 -->
@@ -290,7 +385,7 @@ input[type="radio"]:checked+label {
 
 							<img src="../img/level/profile_Lv1.png"
 								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 1%
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 5%
 								적립</b><br /> <b style="margin-top: 10px;">exp 0 ~ 299</b>
 
 						</div>
@@ -300,7 +395,7 @@ input[type="radio"]:checked+label {
 
 							<img src="../img/profileImg.png"
 								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 3%
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 10%
 								적립</b><br /> <b style="margin-top: 10px;">exp 300 ~ 899</b>
 
 						</div>
@@ -310,7 +405,7 @@ input[type="radio"]:checked+label {
 
 							<img src="../img/level/profile_Lv3.png"
 								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 5%
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 20%
 								적립</b><br /> <b style="margin-top: 10px;">exp 900 ~</b>
 
 						</div>
@@ -380,176 +475,33 @@ input[type="radio"]:checked+label {
 			</script>
 
 
-			<!--아임포트 결제 자바스크립트-->
-			<script type="text/javascript"
-				src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-			<!-- iamport.payment.js -->
-			<script type="text/javascript"
-				src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
-
-			<script>
-				var IMP = window.IMP;
-				IMP.init("imp02486446");
-
-				function requestPay() {
-					var paymentMethod = document
-							.querySelector('input[name="paymentMethod"]:checked').value;
-
-					if (paymentMethod === 'card') {
-						requestcardPay();
-					} else if (paymentMethod === 'kakao') {
-						requestkakaoPay();
-					}
-				}
-
-				function requestcardPay() {
-					IMP
-							.request_pay(
-									{
-										pg : 'html5_inicis', //카카오페이 : kakaopay.TC0ONETIME , nhn kcp : kcp 
-										pay_method : 'card',
-										merchant_uid : "570088-3312234124234344",
-										name : '전시회 티켓',
-										amount : 12,
-										buyer_email : 'Iamport@chai.finance',
-										buyer_name : '포트원 기술지원팀',
-										buyer_tel : '010-1234-5678',
-										buyer_addr : '서울특별시 강남구 삼성동',
-										buyer_postcode : '123-456'
-									},
-									function(rsp) {
-										if (rsp.success) {
-											// 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-											// jQuery로 HTTP 요청
-											jQuery
-													.ajax(
-															{
-																url : "localhost:8080/example/payment_complete.html",
-																method : "POST",
-																headers : {
-																	"Content-Type" : "application/json"
-																},
-																data : {
-																	imp_uid : rsp.imp_uid, // 결제 고유번호
-																	merchant_uid : rsp.merchant_uid
-																// 주문번호
-																}
-															}).done(
-															function(data) {
-																// 가맹점 서버 결제 API 성공시 로직
-															})
-											location.href = "http://localhost:8080/example/payment_complete.html"
-										} else {
-											alert("결제에 실패하였습니다. 에러 내용: "
-													+ rsp.error_msg);
-										}
-									});
-				}
-
-				function requestkakaoPay() {
-					IMP
-							.request_pay(
-									{
-										pg : 'kakaopay.TC0ONETIME', //카카오페이 : kakaopay.TC0ONETIME , nhn kcp : kcp 
-										pay_method : 'card',
-										merchant_uid : "5706-765123412234",
-										name : '전시회 티켓',
-										amount : 12,
-										buyer_email : 'Iamport@chai.finance',
-										buyer_name : '포트원 기술지원팀',
-										buyer_tel : '010-1234-5678',
-										buyer_addr : '서울특별시 강남구 삼성동',
-										buyer_postcode : '123-456'
-									},
-									function(rsp) {
-										if (rsp.success) {
-											// 결제 성공 시: 결제 승인 또는 가상계좌 발급에 성공한 경우
-											// jQuery로 HTTP 요청
-											jQuery
-													.ajax(
-															{
-																url : "localhost:8080/example/payment_complete.html",
-																method : "POST",
-																headers : {
-																	"Content-Type" : "application/json"
-																},
-																data : {
-																	imp_uid : rsp.imp_uid, // 결제 고유번호
-																	merchant_uid : rsp.merchant_uid
-																// 주문번호
-																}
-															}).done(
-															function(data) {
-																// 가맹점 서버 결제 API 성공시 로직
-															})
-											location.href = "http://localhost:8080/example/payment_complete.html" // 결제 완료 페이지 넘어가는코드
-										} else {
-											alert("결제에 실패하였습니다. 에러 내용: "
-													+ rsp.error_msg);
-										}
-									});
-				}
-			</script>
-
-
 			<!--결제 부분-->
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
-			<div>
-				<h3 style="margin-left: 180px; margin-top: 50px;">결제 방법</h3>
-			</div>
-			<div
-				style="display: flex; align-items: center; margin-top: 50px; margin-left: 300px;">
-				<div>
-					<input type="radio" id="cardPayment" name="paymentMethod"
-						value="card" hidden> <label for="cardPayment">카드
-						결제</label>
-				</div>
-
-				<div style="margin-left: 30px;">
-					<input type="radio" id="kakaoPayment" name="paymentMethod"
-						value="kakao" hidden> <label for="kakaoPayment">카카오페이</label>
-				</div>
-			</div>
+			
 
 			<div
 				style="display: flex; align-items: baseline; margin-top: 50px; margin-left: 800px;">
 				<h5>포인트 사용 :</h5>
-				<a style="font-size: 20px; margin-left: 10px;">${ReserveBean.point_deduction} P</a>	
+				<a style="font-size: 20px; margin-left: 10px;" id="view_point_use">${ReserveBean.point_deduction} P</a>	
 			</div>
 			
 			<div
 				style="display: flex; align-items: baseline; margin-top: 10px; margin-left: 800px;">
 				<h3>총 결제 금액 :</h3>
-				<a style="font-size: 30px; margin-left: 10px;">${exhibitionBean.price * ReserveBean.ticket_count} 원</a>
+				<a style="font-size: 30px; margin-left: 10px;" id="view_total_price">${exhibitionBean.price * ReserveBean.ticket_count} 원</a>
 			</div>
 
 			<div
-				style="display: flex; align-items: baseline; margin-top: 80px; margin-left: 850px;">
+				style="display: flex; align-items: center; justify-content:center; margin-top: 80px; margin-left: 850px;">
 				<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id}" class="btn btn-dark" style="margin-left: 30px; width: 100px; height: 50px;">돌아가기</a>
-				<!-- <button onclick="validatePaymentMethod()" class="btn btn-dark"
-					style="margin-left: 30px; width: 100px; height: 50px;">결제하기</button> -->
+				
 				<form:button type="submit" class="btn btn-dark" style="margin-left: 30px; width: 100px; height: 50px;">결제하기</form:button>
 			</div>
 			</form:form> 
 		</div>
 	</section>
 	
-<!--
-	<script>
-		function validatePaymentMethod() {
-			var cardPayment = document.getElementById('cardPayment').checked;
-			var kakaoPayment = document.getElementById('kakaoPayment').checked;
 
-			if (!cardPayment && !kakaoPayment) {
-				alert('결제 방법을 선택해주세요!');
-				return false;
-			}
-
-			requestPay();
-			return true;
-		}
-	</script>
--->
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp" />

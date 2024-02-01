@@ -30,5 +30,9 @@ public class UserBean {
 	private String create_date;
 	private String modify_date;
 	private int state;
+	
+	
+	// 테이블 외 조인 변수들
+	private String grade;
 
 }

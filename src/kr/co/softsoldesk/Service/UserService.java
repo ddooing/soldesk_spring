@@ -40,4 +40,9 @@ public class UserService {
 		return userDao.getLoginUserAllInfo(user_id);
 	}
 	
+	// 유저의 등급 가져오기
+	public UserBean getUserGrade(int user_id) {
+		return userDao.getUserGrade(user_id);
+	}
+	
 }
