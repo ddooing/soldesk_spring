@@ -254,7 +254,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			<div style="margin-top: 50px; margin-left: 300px; display: flex;">
 	            <a style="font-size: 20px;">포인트</a>
 	            <form:input type="number" path="point_deduction" style="width: 150px; margin-left: 30px;" id="pointinput" />
-	            <button type="button" class="btn btn-dark" style="margin-left:30px;" id="pointuse" onclick="usePoints()">사용</button>
     			<button type="button" class="btn btn-dark" style="margin-left:30px;" id="allpointuse" onclick="useAllPoints()">전액사용</button>
          	</div>
          	
@@ -262,16 +261,17 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
          	function updatePoints() {
                 var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
                 var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
-                var inputPoints = parseInt(document.getElementById('pointinput').value);
+                var inputPoints = parseInt(document.getElementById('pointinput').value) || 0; // 입력값이 없는 경우 0으로 처리
                 var adjustedPoints = inputPoints;
 
                 if (inputPoints > maxPoints) {
                     adjustedPoints = maxPoints;
                 } else {
                     var minUnit = 10;
-                    adjustedPoints = Math.floor(inputPoints / minUnit) * minUnit; // 10원 단위로 조정
+                    adjustedPoints = Math.max(0, Math.floor(inputPoints / minUnit) * minUnit); // 10원 단위로 조정하고 음수 방지
                 }
 
+                // 업데이트된 포인트 값이 입력 필드에 설정됨
                 document.getElementById('pointinput').value = adjustedPoints;
                 document.getElementById('view_point_use').innerHTML = adjustedPoints + " p";
                 document.getElementById('view_total_price').innerHTML = totalPrice - adjustedPoints + " 원";
@@ -280,33 +280,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
             document.getElementById('pointinput').addEventListener('input', updatePoints);
          	
-         	function usePoints() {
-         	    var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
-         	    var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
-         	    var minUnit = 10;
-         	    var inputPoints = parseInt(document.getElementById('pointinput').value);
-
-         	    if (inputPoints > maxPoints) {
-         	        alert('최대 사용가능 포인트는 ' + maxPoints + 'p 입니다.');
-         	        document.getElementById('pointinput').value = maxPoints;
-         	        document.getElementById('view_point_use').innerHTML = maxPoints + " p";
-         	        document.getElementById('view_total_price').innerHTML = totalPrice - maxPoints + " 원";
-         	        document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - maxPoints + " p";
-         	        return;
-         	    } else if (inputPoints % minUnit !== 0) {
-         	        alert('포인트 사용 최소 단위는 ' + minUnit + '원 입니다.');
-         	        var adjustedPoints = Math.floor(inputPoints / minUnit) * minUnit; // 10원 단위로 조정
-         	        document.getElementById('pointinput').value = adjustedPoints;
-         	        document.getElementById('view_point_use').innerHTML = adjustedPoints + " p";
-         	        document.getElementById('view_total_price').innerHTML = totalPrice - adjustedPoints + " 원";
-         	        document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - adjustedPoints + " p";
-         	        return;
-         	    } else {
-         	        document.getElementById('view_point_use').innerHTML = inputPoints + " p";
-         	        document.getElementById('view_total_price').innerHTML = totalPrice - inputPoints + " 원";
-         	        document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - inputPoints + " p";
-         	    }
-         	}
+         	
 
          	function useAllPoints() {
          	    var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
