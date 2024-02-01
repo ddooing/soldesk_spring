@@ -74,7 +74,7 @@
 			<div style="margin-top: 50px; display: flex; text-align: center; justify-content: center;">
 			<c:forEach items="${getPopularExhibitionInfo}" var="exhibition">
 				<div style="padding: 10px;">
-					<a href="${root}/exhibition/exhibition_click?exhibition_id=${exhibition.exhibition_id } "><img src="${exhibition.main_poster_path}${exhibition.main_poster_name}" alt="포스터"
+					<a href="${root}/exhibition/exhibition_click?exhibition_id=${exhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${exhibition.main_poster_path}${exhibition.main_poster_name}" alt="포스터"
 							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
 					<p style="font-size: 20px; text-align: center;">${exhibition.title }</p>
 				</div>

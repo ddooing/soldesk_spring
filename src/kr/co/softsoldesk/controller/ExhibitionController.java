@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.co.softsoldesk.Beans.BookMarkBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Service.BookMarkService;
 import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.UserService;
@@ -35,6 +37,9 @@ public class ExhibitionController {
 	@Autowired
 	private UserService UserService;
 	
+	@Autowired
+	private BookMarkService bookMarkService;
+	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
 	
@@ -51,15 +56,53 @@ public class ExhibitionController {
 	
 	
 	@GetMapping("/exhibition_click")
-	public String exhibition_detail(@RequestParam("exhibition_id") int exhibition_id, @ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, Model model) {
-	    
+	public String exhibition_detail(@RequestParam("exhibition_id") int exhibition_id,@RequestParam("user_id") int user_id ,@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, Model model) {
+	    // 전시회 클릭시 조회수 1증가
 		exhibitionService.increaseViewsExhibition(exhibition_id);
+		
+		// 로그인 되어있을때만 북마크 여부 확인
+		if(user_id != 0) {
+			int bookmarksure = bookMarkService.BookMarkSure(user_id, exhibition_id);
+			System.out.println("bookmarksure : " + bookmarksure);
+			model.addAttribute("bookmarksure",bookmarksure);
+		}
 		
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);
 	    model.addAttribute("exhibitionBean", exhibitionBean);
 	    
 	    
 	    return "exhibition/exhibition_click";
+	}
+	
+	@GetMapping("/bookmark")	// 북마크 추가 삭제
+	public String bookmark(@RequestParam("exhibition_id") int exhibition_id, @RequestParam("user_id") int user_id,Model model) {
+		// 현재 북마크라면 1 아니라면 0 반환
+		int bookmarksure = bookMarkService.BookMarkSure(user_id, exhibition_id);
+		
+		if(bookmarksure == 0) {
+			//북마크 추가 메소드
+			BookMarkBean bookmarkbean = new BookMarkBean();
+			bookmarkbean.setExhibition_id(exhibition_id);
+			bookmarkbean.setUser_id(user_id);
+			
+			bookMarkService.addBookMark(bookmarkbean);
+			model.addAttribute("exhibition_id",exhibition_id);
+			model.addAttribute("user_id",user_id);
+			
+			return "exhibition/bookmark_add";
+			
+		} else {
+			//북마크 삭제 메소드
+			BookMarkBean bookmarkbean = new BookMarkBean();
+			bookmarkbean.setExhibition_id(exhibition_id);
+			bookmarkbean.setUser_id(user_id);
+			
+			bookMarkService.deleteBookMark(bookmarkbean);
+			model.addAttribute("exhibition_id",exhibition_id);
+			model.addAttribute("user_id",user_id);
+			
+			return "exhibition/bookmark_delete";
+		} 
 	}
 	
 	
@@ -86,6 +129,11 @@ public class ExhibitionController {
 		
 		
 		return "exhibition/payment";
+	}
+	
+	@GetMapping("bookmark_not_login")
+	public String bookmark_not_login() {
+		return "exhibition/bookmark_not_login";
 	}
 	
 

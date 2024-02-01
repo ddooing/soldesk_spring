@@ -23,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
+import kr.co.softsoldesk.mapper.BookMarkMapper;
 import kr.co.softsoldesk.mapper.ExhibitionMapper;
 import kr.co.softsoldesk.mapper.PointDetailMapper;
 import kr.co.softsoldesk.mapper.ReserveMapper;
@@ -121,6 +122,18 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	}
 
+	@Bean // 북마크 매퍼
+	public MapperFactoryBean<BookMarkMapper> getBookmarkMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<BookMarkMapper> factoryBean = new MapperFactoryBean<BookMarkMapper>(
+				BookMarkMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
+	
+	
 	@Bean // 예약 매퍼
 	public MapperFactoryBean<ReserveMapper> getReserveMapper(SqlSessionFactory factory) throws Exception {
 
