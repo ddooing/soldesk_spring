@@ -114,6 +114,12 @@ input[type="radio"]:checked+label {
 	text-decoration: none;
 	cursor: pointer;
 }
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button
+	{
+	-webkit-appearance: none;
+	appearance: none;
+	margin: 0;
+}
 </style>
 
 </head>
@@ -174,8 +180,7 @@ input[type="radio"]:checked+label {
 				<form:hidden path="reserve_date" value="${ReserveBean.reserve_date }"/>
 				<form:hidden path="ticket_count" value="${ReserveBean.ticket_count }"/>
 				<form:hidden path="user_id" value="${LoginAllInfoBean.user_id }" />
-				<form:hidden path="total_price"
-					value="${exhibitionBean.price * ReserveBean.ticket_count}" />
+				<form:hidden path="payment" id="payment-field" /> <!--  결제 금액  -->
 				<form:hidden path="exhibition_id"
 					value="${exhibitionBean.exhibition_id }" />
 				<form:hidden path="state" value="1" />
@@ -221,32 +226,54 @@ input[type="radio"]:checked+label {
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 			<div style="display: flex; align-items: baseline;">
 				<h3 style="margin-left: 180px; margin-top: 50px;">포인트 사용</h3>
-				<a style="font-size: 20px; margin-left: 100px; color: gray; margin-right: 5px;">보유 포인트 : </a> <a style="font-size: 20px; color: gray;">${LoginAllInfoBean.point } p</a>
+				<a style="font-size: 20px; margin-left: 100px; color: gray; margin-right: 5px;">보유 포인트 : </a> <a style="font-size: 20px; color: gray;" id="ownpoint">${LoginAllInfoBean.point } p</a>
 			</div>
-
-			<%--<div style="margin-top: 50px; margin-left: 300px; display: flex; align-items: center;">
-				<a style="font-size: 20px; margin-right:30px;">포인트</a>
-				
-				     <form:form action="${root}/exhibition/point_use" method="post" >
-					    
-					    <form:input path="use_point"/>
-					    <form:errors path="use_point">${impossible}</form:errors>
-						
-						<form:hidden path="exhibition_idx" value="${exhibitionBean.exhibition_idx }"/>
-					    <form:hidden path="current_point" value="${LoginAllInfoBean.point}"/>
-						
-					    <button type="submit" class="btn btn-dark" style="margin-left: 30px;">사용</button>
-					    <button type="submit" class="btn btn-dark" style="margin-left: 30px;">전액사용</button>
-					</form:form> 
-			</div>--%>
 			
 			<div style="margin-top: 50px; margin-left: 300px; display: flex;">
-	            <a style="font-size: 20px;">포인트</a>
-	            <form:input path="point_deduction" style="width: 150px; margin-left: 30px;" />
-	            <button class="btn btn-dark" style="margin-left: 30px;">사용</button>
-	            <button class="btn btn-dark" style="margin-left: 30px;">전액사용</button>
-         	</div>
+               <a style="font-size: 20px;">포인트</a>
+               <form:input type="number" path="point_deduction" style="width: 150px; margin-left: 30px;" id="pointinput" />
+             <button type="button" class="btn btn-dark" style="margin-left:30px;" id="allpointuse" onclick="useAllPoints()">전액사용</button>
+            </div>
+            
+            <script>
+            function updatePoints() {
+                var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
+                var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
+                var inputPoints = parseInt(document.getElementById('pointinput').value) || 0; // 입력값이 없는 경우 0으로 처리
+                var adjustedPoints = inputPoints;
 
+                if (inputPoints > maxPoints) {
+                    adjustedPoints = maxPoints;
+                } else {
+                    var minUnit = 10;
+                    adjustedPoints = Math.max(0, Math.floor(inputPoints / minUnit) * minUnit); // 10원 단위로 조정하고 음수 방지
+                }
+
+                // 업데이트된 포인트 값이 입력 필드에 설정됨
+                document.getElementById('pointinput').value = adjustedPoints;
+                document.getElementById('view_point_use').innerHTML = adjustedPoints + " p";
+                document.getElementById('view_total_price').innerHTML = totalPrice - adjustedPoints + " 원";
+                document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - adjustedPoints + " p";
+            }
+
+            document.getElementById('pointinput').addEventListener('input', updatePoints);
+            
+            
+
+            function useAllPoints() {
+                var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
+                var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
+                document.getElementById('pointinput').value = maxPoints;
+                document.getElementById('view_point_use').innerHTML = maxPoints + " p";
+                document.getElementById('view_total_price').innerHTML = totalPrice - maxPoints + " 원";
+                document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - maxPoints +" p";
+            }
+
+         </script>
+
+		<!--  결제하기 버튼 클릭 시,최종  view_total_price ( 결제 금액) 을 
+		 -->
+		
 			<div style="margin-top: 50px; margin-left: 300px;">
 				<a style="font-size: 20px;">포인트 혜택</a>
 				<div
@@ -377,43 +404,53 @@ input[type="radio"]:checked+label {
 
 			<!--결제 부분-->
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
-			<div>
-				<h3 style="margin-left: 180px; margin-top: 50px;">결제 방법</h3>
-			</div>
-			<div
-				style="display: flex; align-items: center; margin-top: 50px; margin-left: 300px;">
-				<div>
-					<input type="radio" id="cardPayment" name="paymentMethod"
-						value="card" hidden> <label for="cardPayment">카드
-						결제</label>
-				</div>
-
-				<div style="margin-left: 30px;">
-					<input type="radio" id="kakaoPayment" name="paymentMethod"
-						value="kakao" hidden> <label for="kakaoPayment">카카오페이</label>
-				</div>
-			</div>
-
 			<div
 				style="display: flex; align-items: baseline; margin-top: 50px; margin-left: 800px;">
 				<h5>포인트 사용 :</h5>
-				<a style="font-size: 20px; margin-left: 10px;">${ReserveBean.point_deduction} P</a>	
+				<a style="font-size: 20px; margin-left: 10px;" id="view_point_use">${ReserveBean.point_deduction} P</a>	
 			</div>
 			
 			<div
 				style="display: flex; align-items: baseline; margin-top: 10px; margin-left: 800px;">
 				<h3>총 결제 금액 :</h3>
-				<a style="font-size: 30px; margin-left: 10px;">${exhibitionBean.price * ReserveBean.ticket_count} 원</a>
+				<a style="font-size: 30px; margin-left: 10px;" id="view_total_price">${exhibitionBean.price * ReserveBean.ticket_count} 원</a>
 			</div>
 
 			<div
 				style="display: flex; align-items: baseline; margin-top: 80px; margin-left: 850px;">
 				<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitioBean.exhibition_id}" class="btn btn-dark" style="margin-left: 30px; width: 100px; height: 50px;">돌아가기</a>
-				<!-- <button onclick="validatePaymentMethod()" class="btn btn-dark"
-					style="margin-left: 30px; width: 100px; height: 50px;">결제하기</button> -->
-				<form:button id="payment-button" class="payment-button" style="margin-left: 30px; width: 100px; height: 50px;">결제하기</form:button>
+				<button id="payment-button" class="payment-button" style="margin-left: 30px; width: 100px; height: 50px;">결제하기</button>
 			</div>
 			</form:form> 
+			
+			
+			<script>
+			document.getElementById('payment-button').addEventListener('click', function() {
+			    var totalPriceElement = document.getElementById('view_total_price').innerHTML;
+			    var priceWithoutCurrency = totalPriceElement.replace('원', '').trim();
+			
+			    
+			    console.log("script : " + priceWithoutCurrency); // 콘솔에 출력
+
+			    // 데이터 타입 확인
+			    console.log(typeof priceWithoutCurrency); // 데이터 타입을 콘솔에 출력
+			    var numericPrice = parseInt(priceWithoutCurrency, 10); // 문자열을 정수로 변환
+			    console.log(numericPrice); // 콘솔에 출력
+			    console.log(typeof numericPrice); // 데이터 타입을 콘솔에 출력 ('number'가 됩니다)
+			    
+			    
+			    // 숨겨진 폼 필드의 값을 설정합니다.
+			    document.getElementById('payment-field').value = priceWithoutCurrency;
+			
+			    // 폼 객체를 가져와서 제출합니다. id를 사용하여 폼을 찾습니다.
+			    var form = document.getElementById('payment-form');
+			    
+			    
+			  
+			    
+			    //form.submit();
+			});
+			</script>
 		</div>
 	</section>
 

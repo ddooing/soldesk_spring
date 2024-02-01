@@ -55,9 +55,11 @@ public class PaymentController {
 		// 전시회 테이블에 cnt 값 예매 수만큼 증가
 		reserveService.reserveAfterExhibitionCntIncrease(reserveBean.getTicket_count(), reserveBean.getExhibition_id());
 		
+		// 실제 결제 금액 = 총 티켓 가격 - 포인트 사용
 		int payment = (reserveBean.getTotal_price() - reserveBean.getPoint_deduction());	// 
 		
-		reserveBean.setPayment(payment);
+		// bean의 payment(결제 금액) 에 set 
+		reserveBean.setPayment(payment); 
 		
 		reserveService.reserve_ing(reserveBean);
 		

@@ -31,5 +31,8 @@ public class ExhibitionDao {
 		
 		 exhibitionMapper.increaseViewsExhibition(exhibition_id);
 	}
-
+	//전시회 제목 
+	public String getExhibitionTitle(int exhibition_id) {
+		return exhibitionMapper.getExhibitionTitle(exhibition_id);
+	}
 }

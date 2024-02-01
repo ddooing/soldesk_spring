@@ -32,5 +32,8 @@ public class ExhibitionService {
 		exhibitionDao.increaseViewsExhibition(exhibition_id);
 	}
 	
-
+	//전시회 제목 
+	public String getExhibitionTitle(int exhibition_id) {
+		return exhibitionDao.getExhibitionTitle(exhibition_id);
+	}
 }

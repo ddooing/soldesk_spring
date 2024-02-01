@@ -14,50 +14,54 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.softsoldesk.Beans.ReserveBean;
-import kr.co.softsoldesk.Beans.ReserveInfoBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.ExhibitionService;
+import kr.co.softsoldesk.Service.UserService;
 
 @Controller
 @RequestMapping("/toss")
 public class TossController {
 	
-	private ReserveInfoBean reserve;
 
 	@Resource(name="loginUserBean") // 로그인한 유저 알기위함
 	private UserBean loginUserBean;
 
-	
-	
-
 	@Autowired
-    private ExhibitionService exhibitionService;
+	private UserService UserService;
 	
-	
+	@Autowired
+	private ExhibitionService exhibitionService;
 	
 	@PostMapping("/checkout_pro")
 	public String checkout_pro(@ModelAttribute("ReserveBean")ReserveBean ckeckreserverBean,
 			@RequestParam("exhibition_id") int exhibition_id,
 			RedirectAttributes redirectAttributes) {
-		//int totalPrice = ckeckreserverBean.getTotal_price(); // 이 메서드로 total_price 값을 가져옵니다.
+		
+		/* /exhibition/reserve 에서 
+		 * <form:hidden path="total_price"
+					value="${exhibitionBean.price * ReserveBean.ticket_count}" />
+					를 받는 totalPrice
+		 */
+		//결제할 금액 
+		int payment = ckeckreserverBean.getPayment();
 
 		// 0일 때 확인용
-		int totalPrice=0;
+		//int totalPrice=0;
 		
-		System.out.println("가격 : "+ totalPrice); // 포인트 사용 금액+ 티켓 총 가격 
+		System.out.println("가격 : "+ payment); // 포인트 사용 금액+ 티켓 총 가격 
 		
 		
-		  // 데이터를 RedirectAttributes에 추가합니다.
+		// /exhibition/reserve 의 ReserveBean와 exhibition_id 
 	    redirectAttributes.addFlashAttribute("ReserveBean", ckeckreserverBean);
 	    redirectAttributes.addFlashAttribute("exhibition_id", exhibition_id);
 		//결제 금액이 0 이면 바로 예매 완료 페이지로 이동
-		if(totalPrice == 0)
+		if(payment == 0)
 		{
 			return "redirect:/exhibition/payment_complete";
 		}
 		// 결제 금액이 0이 아니면 ckeckout page로 이동
 		else {
-			return "toss/checkout";
+			return "redirect:/toss/checkout";
 		}
 		
 	}
@@ -65,12 +69,33 @@ public class TossController {
 	
 	@GetMapping("/checkout")
 	//@PostMapping("/checkout")
-	public String checkout(@ModelAttribute("ReserveBean")ReserveBean  reserverBean, HttpServletRequest request, Model model) throws Exception  {
-		//System.out.println(" check3 - reserve : "+reserve.getOrderid());
-		ReserveInfoBean reserveInfo = new ReserveInfoBean();
+	public String checkout(@ModelAttribute("ReserveBean") ReserveBean checkReserveBean,
+            @ModelAttribute("exhibition_id") int exhibitionId,
+            HttpServletRequest request, Model model) throws Exception  {
 		
-		 model.addAttribute("orderid", reserveInfo.getOrderid());
-		System.out.println(" check3 - reserve : "+reserveInfo.getOrderid());
+		//orderid 생성하기 위함 
+		ReserveBean reserveInfo = new ReserveBean(); // orderid 생성위함.........
+		
+		//예매하려는 유저 아이디 찾기
+		UserBean loginUserDetailBean = UserService.getLoginUserAllInfo(checkReserveBean.getUser_id());
+		
+		//예매하려는 전시회 제목=> orderName 찾기
+		String title = exhibitionService.getExhibitionTitle(exhibitionId);
+	
+		System.out.println(" check3 - reserve : "+reserveInfo.getOrder_id());// orderid 확인
+	    System.out.println("ReserveBean.payment: " + checkReserveBean.getPayment());
+	    System.out.println("Exhibition ID: " + exhibitionId);
+
+	    
+		model.addAttribute("orderid", reserveInfo.getOrder_id()); 
+	    model.addAttribute("ReserveBean", checkReserveBean);
+	    model.addAttribute("exhibition_id", exhibitionId);
+	    model.addAttribute("loginUserDetailBean",loginUserDetailBean);
+	    model.addAttribute("title",title);
+	    
+	    // 화면에 넣어야 할 객체 
+	    // orderid
+	    // 예매하려는 
 		return "toss/checkout";
 		
 	}

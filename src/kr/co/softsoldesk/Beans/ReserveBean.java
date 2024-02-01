@@ -1,6 +1,6 @@
 package kr.co.softsoldesk.Beans;
 
-import java.util.Date;
+import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,5 +23,8 @@ public class ReserveBean {
 	private String order_id;
 	private String paymentkey;
 
+	public ReserveBean(){
+		this.order_id= UUID.randomUUID().toString();
+	}
 
 }

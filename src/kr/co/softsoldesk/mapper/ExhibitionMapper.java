@@ -22,7 +22,8 @@ public interface ExhibitionMapper {
 	void increaseViewsExhibition(int exhibition_id);
 	
 	
-	
-	
+	//전시회 exhibition_id 로 제목 조회 
+	@Select("select title from exhibition where exhibition_id=#{exhibition_id}")
+	String getExhibitionTitle(int exhibition_id);
 
 }	
