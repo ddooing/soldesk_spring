@@ -45,4 +45,19 @@ public class UserService {
 		return userDao.getUserGrade(user_id);
 	}
 	
+	// 유저테이블 포인트 적립
+	public void UpdatepointPlus(int point, int user_id) {
+		userDao.UpdatepointPlus(point, user_id);
+	}
+	
+	// 유저테이블 포인트 사용
+	public void UpdatepointMinus(int point, int user_id) {
+		userDao.UpdatepointMinus(point, user_id);
+	}
+	
+	// 경험치 증가
+	public void IncreaseExp(int exp, int user_id) {
+		userDao.IncreaseExp(exp, user_id);
+	}
+	
 }

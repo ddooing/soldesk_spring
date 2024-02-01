@@ -83,6 +83,12 @@ public class UserController {
 		return "user/not_login";
 	}
 	
+	@GetMapping("/paymentpage_error")
+	public String paymentpage_error() {
+		
+		return "user/paymentpage_error";
+	}
+	
 	
 	//-----------------------------------------------------------
 	

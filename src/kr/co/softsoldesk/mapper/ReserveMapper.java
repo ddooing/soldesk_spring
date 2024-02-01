@@ -23,5 +23,4 @@ public interface ReserveMapper {
 	@Select("SELECT reserve_id, order_id from reserve where order_id = #{order_id}")
 	ReserveBean getReserve_idForMakeReview(String order_id);
 	
-	
 }

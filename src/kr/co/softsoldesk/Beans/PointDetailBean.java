@@ -1,5 +1,10 @@
 package kr.co.softsoldesk.Beans;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class PointDetailBean {
 
 	private int point_id;

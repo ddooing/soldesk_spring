@@ -23,5 +23,7 @@ public class ReserveBean {
 	private String order_id;
 	private String paymentkey;
 
+	// 추가용
+	private float pointsaving;
 
 }
