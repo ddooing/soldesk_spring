@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.Service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +40,6 @@ public class ReserveService {
 	public ReserveBean getReserve_idForMakeReview(String order_id) {
 		return reserveDao.getReserve_idForMakeReview(order_id);
 	}
+	
+	
 }

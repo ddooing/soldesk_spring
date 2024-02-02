@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.controller;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.co.softsoldesk.Beans.PointDetailBean;
+import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Service.PointDetailService;
+import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.UserService;
 
 
@@ -23,15 +29,15 @@ public class UserController {
 	@Autowired
 	private UserService UserService;
 	
+	@Autowired
+	private PointDetailService pointDetailService;
+	
+	@Autowired
+	private ReserveService reserveService;
+	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
-	
 
-	@GetMapping("/mypage")
-	public String mypage() {
-		return "user/mypage";
-	}
-	
 	@GetMapping("/review_editor")
 	public String review_editor() {
 		return "user/review_editor";
@@ -71,6 +77,7 @@ public class UserController {
 		loginUserBean.setUser_id(0);
 		loginUserBean.setId(null);
 		loginUserBean.setPassword(null);
+		loginUserBean.setState(0);
 		
 		loginUserBean.setUserLogin(false);
 		

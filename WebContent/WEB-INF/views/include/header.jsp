@@ -72,14 +72,7 @@
 				</ul>
 
 				<ul class="navbar-nav ms-auto">
-					<li class="nav-item mr-5" style="margin-right: 60px; margin-top: 5px;">
-						<form class="d-flex">
-							<input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
-							<button class="btn btn-outline-light" type="submit">
-								<img src="../img/search.png" alt="Search" style="width: 20px; height: 20px;">
-							</button>
-						</form>
-					</li>
+					
 
 					<li class="nav-item mr-5">
 						<a class="nav-link" href="#!"><img src="../img/cart.png"
@@ -95,7 +88,7 @@
 		               </c:when>
 		               
 		               <c:otherwise>
-		                  <li class="nav-item"><a href="${root}/user/mypage"
+		                  <li class="nav-item"><a href="${root}/mypage/reservelist?user_id=${loginUserBean.user_id}"
 		                     class="nav-link">마이페이지</a></li>
 		                  <li class="nav-item"><a href="${root }/user/logout" class="nav-link">로그아웃</a>
 		                  </li>

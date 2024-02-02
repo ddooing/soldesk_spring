@@ -23,7 +23,10 @@ public class ReserveBean {
 	private String order_id;
 	private String paymentkey;
 
-	// 추가용
+	// 쿼리문에서 사용
 	private float pointsaving;
 
+	private String title;
+	private String main_poster_path;
+	private String main_poster_name;
 }

@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -19,8 +21,11 @@ public interface ReserveMapper {
 	// 전시회 예매시 exhibition 테이블 ticket_count 값 올리기
 	@Update("UPDATE exhibition SET ticket_cnt = ticket_cnt + #{ticket_count} WHERE exhibition_id = #{exhibition_id}")
 	void reserveAfterExhibitionCntIncrease(@Param("ticket_count") int ticket_count, @Param("exhibition_id") int exhibition_id);
-
+	
+	
 	@Select("SELECT reserve_id, order_id from reserve where order_id = #{order_id}")
 	ReserveBean getReserve_idForMakeReview(String order_id);
+	
+	
 	
 }

@@ -464,11 +464,15 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 				// 링크 복사 버튼 클릭 이벤트
 				function copyLink() {
-					var copyText = document.getElementById("shareLink");
-					copyText.select();
-					document.execCommand("copy");
-					alert("링크가 복사되었습니다.");
-				}
+			        var copyText = window.location.href; // 현재 주소창의 URL을 가져옵니다.
+			        var tempInput = document.createElement("input");
+			        document.body.appendChild(tempInput);
+			        tempInput.value = copyText;
+			        tempInput.select();
+			        document.execCommand("copy");
+			        document.body.removeChild(tempInput);
+			        alert("링크가 복사되었습니다.");
+			    }
 
 				function shareKakao() {
 					alert('카카오톡 공유');
@@ -478,43 +482,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					alert('인스타 공유');
 				}
 
-				document
-						.addEventListener(
-								'DOMContentLoaded',
-								function() { // 현재 페이지 링크 따서 공유창에 넣기
-									var currentPageUrl = window.location.href; // 현재 페이지의 URL을 가져옵니다.
-									document.getElementById('shareLink').value = currentPageUrl; // input 태그의 value 속성에 URL을 설정합니다.
-								});
 			</script>
-
-			<script>
-				//  하트 토글 버튼
-				// 변수 선언
-				let isHeartFilled = false;
-				const heartButton = document.getElementById('heartButton');
-				const fillHeartIcon = document.getElementById('fill_heart');
-				const emptyHeartIcon = document.getElementById('empty_heart');
-
-				// 하트 버튼 클릭 시 토글 함수
-				function toggleHeart() {
-					isHeartFilled = !isHeartFilled;
-
-					if (isHeartFilled) {
-						// 하트가 채워진 아이콘 표시, 빈 하트 아이콘 숨김
-						fillHeartIcon.style.display = 'inline-block';
-						emptyHeartIcon.style.display = 'none';
-					} else {
-						// 빈 하트 아이콘 표시, 하트가 채워진 아이콘 숨김
-						fillHeartIcon.style.display = 'none';
-						emptyHeartIcon.style.display = 'inline-block';
-					}
-				}
-
-				// 하트 버튼에 클릭 이벤트 리스너 추가
-				heartButton.addEventListener('click', toggleHeart);
-			</script>
-
-			
 
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 	</section>

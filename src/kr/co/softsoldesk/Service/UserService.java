@@ -25,6 +25,7 @@ public class UserService {
         	loginUserBean.setUser_id(tempLoginUserBean2.getUser_id());
             loginUserBean.setId(tempLoginUserBean2.getId());
             loginUserBean.setPassword(tempLoginUserBean2.getPassword());
+            loginUserBean.setState(tempLoginUserBean2.getState());
             
             System.out.println(loginUserBean.getUser_id());
             
@@ -59,5 +60,6 @@ public class UserService {
 	public void IncreaseExp(int exp, int user_id) {
 		userDao.IncreaseExp(exp, user_id);
 	}
+	
 	
 }

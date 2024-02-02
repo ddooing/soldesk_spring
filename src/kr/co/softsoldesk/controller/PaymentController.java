@@ -48,12 +48,10 @@ public class PaymentController {
 		int payment = (reserveBean.getTotal_price() - reserveBean.getPoint_deduction());	// 
 		
 		reserveBean.setPayment(payment);
+		
 		// 예약 열 추가
-		if(reserveBean.getPayment() != 0 ) {
-			reserveService.reserve_ing(reserveBean);
-		} else {
-			return "/user/paymentpage_error";
-		}
+		reserveService.reserve_ing(reserveBean);
+		
 
 		ExhibitionBean ExhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveBean.getExhibition_id());
 		UserBean loginUserDetailBean = UserService.getLoginUserAllInfo(reserveBean.getUser_id());
@@ -85,7 +83,8 @@ public class PaymentController {
 			
 			pointplusBean.setPoint(pointsavingInt);
 			pointplusBean.setUser_id(reserveBean.getUser_id());
-			pointplusBean.setPoint_state_code(1);
+			pointplusBean.setPoint_state_code(1);	// 포인트 1:+
+			pointplusBean.setPoint_type_code(1);	// 예매에서 적립
 			
 			// point_detail 테이블에 행추가
 			pointDetailService.PointList(pointplusBean);
@@ -93,7 +92,7 @@ public class PaymentController {
 			// 유저테이블 포인트 변경(+)			
 			UserService.UpdatepointPlus(pointsavingInt, reserveBean.getUser_id());
 		} else {
-			return "/user/paymentpage_error";
+			return "/user/paymentpage_error2";
 		}
 		
 		// 포인트 사용
@@ -103,16 +102,15 @@ public class PaymentController {
 			
 			pointminusBean.setPoint(reserveBean.getPoint_deduction());
 			pointminusBean.setUser_id(reserveBean.getUser_id());
-			pointminusBean.setPoint_state_code(0);
+			pointminusBean.setPoint_state_code(2);	// 포인트 2:-
+			pointminusBean.setPoint_type_code(1);	// 예매에서 사용
 			
 			// point_detail 테이블에 행추가
 			pointDetailService.PointList(pointminusBean);
 			
 			// 유저테이블 포인트 변경(-)			
 			UserService.UpdatepointMinus(reserveBean.getPoint_deduction(), reserveBean.getUser_id());
-		} else {
-			return "/user/paymentpage_error";
-		}
+		} 
 		
 		
 		// 경험치 증가 예매시 50(임시) 증가

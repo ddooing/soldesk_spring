@@ -152,13 +152,13 @@
 	.point-table tr {
          height:70px;
      }
-   .point-table td {
+   .point-table td, th {
          border-bottom: 1px solid #ccc;
          padding: 5px;
          font-size:20px;
      }
 
-     .point-table td {
+     .point-table td, th {
          text-align: center;
      }
  
@@ -191,6 +191,7 @@
     /*아카이브 style*/
     .archivegrid .archivediv{
         display: flex;
+        margin:auto;
     padding: 10px;
     justify-content: center;
     

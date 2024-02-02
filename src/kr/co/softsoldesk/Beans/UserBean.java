@@ -34,5 +34,9 @@ public class UserBean {
 	
 	// 테이블 외 조인 변수들
 	private String grade;
+	
+	// 마이페이지용
+	private int exp_to_next_level;
+	private String next_grade;
 
 }

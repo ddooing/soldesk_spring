@@ -115,7 +115,7 @@
 			<div class="text-center" style="margin-top: 50px;">
 				<button onclick="window.location.href = '${root}/view/index'" class="btn btn-dark"
 					style="margin-right: 20px; width:150px; height: 50px;">메인페이지</button>
-				<button onclick="" class="btn btn-dark" style="width: 150px; height: 50px;">마이페이지</button>
+				<button onclick="window.location.href = '${root}/user/mypage?user_id=${reserveBean.user_id }'" class="btn btn-dark" style="width: 150px; height: 50px;">마이페이지</button>
 			</div>
 		</div>
 	</section>

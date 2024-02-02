@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -36,4 +38,6 @@ public class ReserveDao {
 	public ReserveBean getReserve_idForMakeReview(String order_id) {
 		return reserveMapper.getReserve_idForMakeReview(order_id);
 	}
+	
+	
 }

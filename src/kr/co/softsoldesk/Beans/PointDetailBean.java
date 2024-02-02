@@ -11,6 +11,7 @@ public class PointDetailBean {
 	private int user_id;
 	private int point;
 	private int point_state_code;
+	private int point_type_code;
 	private String regdate;
 	
 }

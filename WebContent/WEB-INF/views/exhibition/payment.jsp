@@ -480,7 +480,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				<div
 					style="display: flex; align-items: center; justify-content: center; margin-top: 80px; margin-left: 850px;">
 					<a
-						href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id}"
+						href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}"
 						class="btn btn-dark"
 						style="margin-left: 30px; width: 100px; height: 50px;">돌아가기</a>
 

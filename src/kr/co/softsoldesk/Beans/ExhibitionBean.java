@@ -37,6 +37,7 @@ public class ExhibitionBean {
 	private String detail_poster_path;
 	private String detail_poster_name;
 	
+	private int user_id;
 	
 	
 	

@@ -25,6 +25,7 @@ import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
 import kr.co.softsoldesk.mapper.BookMarkMapper;
 import kr.co.softsoldesk.mapper.ExhibitionMapper;
+import kr.co.softsoldesk.mapper.MyPageMapper;
 import kr.co.softsoldesk.mapper.PointDetailMapper;
 import kr.co.softsoldesk.mapper.ReserveMapper;
 import kr.co.softsoldesk.mapper.ReviewMapper;
@@ -101,7 +102,7 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	}
 	
-	@Bean
+	@Bean	// 소감문 매퍼
 	public MapperFactoryBean<ReviewMapper> getReviewMapper(SqlSessionFactory factory) throws Exception {
 
 		MapperFactoryBean<ReviewMapper> factoryBean = new MapperFactoryBean<ReviewMapper>(ReviewMapper.class);
@@ -116,6 +117,17 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 		MapperFactoryBean<ExhibitionMapper> factoryBean = new MapperFactoryBean<ExhibitionMapper>(
 				ExhibitionMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
+	
+	@Bean // 전시회 매퍼
+	public MapperFactoryBean<MyPageMapper> getMypageMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<MyPageMapper> factoryBean = new MapperFactoryBean<MyPageMapper>(
+				MyPageMapper.class);
 
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;
