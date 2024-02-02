@@ -15,7 +15,7 @@
 <body>
 	
 	<form:form id="paymentForm" modelAttribute="tempReserveBean"
-		action="${root }/payment?exhibition_id=${exhibition_id}" method="post" >
+		action="${root }/exhibition/payment?exhibition_id=${tempReserveBean.exhibition_id}" method="post" >
 		<form:hidden path="reserve_date" value="${tempReserveBean.reserve_date }"/>
 		<form:hidden path="ticket_count" value="${tempReserveBean.ticket_count }"/>
 		<form:hidden path="user_id" value="${tempReserveBean.user_id }" />
@@ -61,6 +61,7 @@
                 	
 		      } else if (error.code === 'INVALID_CARD_COMPANY') {
 		        // 유효하지 않은 카드 코드에 대한 에러 처리
+		    	  alert('INVALID_CARD_COMPANY 오류로 결제를 취소합니다.');
 		      }	else if(error.code === 'INVALID_REQUEST'){
 		    	  alert('INVALID_REQUEST 오류로 결제를 취소합니다.');
 		      }

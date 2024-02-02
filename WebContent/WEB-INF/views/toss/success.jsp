@@ -31,18 +31,17 @@
         const requestData = {
           paymentKey: paymentKey,
           orderId: orderId,
-          amount: amount,
-        };
+          amount: amount,};
 
-        const response = await fetch("${root}/confirm", {
+        const response = await fetch("${root}/confirm",{
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-          },
+          			},
           body: JSON.stringify(requestData),
         });
 
-        const json = await response.json();
+        const json = await response.json(); // 응답
 
         if (!response.ok) {
           // 결제 실패 비즈니스 로직을 구현하세요.
@@ -53,6 +52,8 @@
         // 결제 성공 비즈니스 로직을 구현하세요.
         console.log(json);
       }
+      
+      //POST 요청
       confirm();
 
       const paymentKeyElement = document.getElementById("paymentKey");
