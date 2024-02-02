@@ -32,7 +32,7 @@ public class BoardController {
     // 게시판 목록 조회
     @GetMapping("/main")
     public String main(@RequestParam("board_id") int board_id, Model model) {
-    	 
+    	model.addAttribute("board_id", board_id);	// 
     	List<BoardBean> boards = boardService.getAllBoards();
          model.addAttribute("boards", boards);
          
