@@ -148,7 +148,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							<a style="font-size: 20px;">예약 날짜</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${ReserveBean.reserve_date }</a>
+							<a style="font-size: 20px;">${tempReserveBean.reserve_date }</a>
 						</div>
 					</div>
 
@@ -159,7 +159,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							<a style="font-size: 20px;">티켓 수량</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${ReserveBean.ticket_count} 매</a>
+							<a style="font-size: 20px;">${tempReserveBean.ticket_count} 매</a>
 						</div>
 					</div>
 
@@ -168,7 +168,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							<a style="font-size: 20px;">결제 금액</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${exhibitionBean.price * ReserveBean.ticket_count}
+							<a style="font-size: 20px;">${exhibitionBean.price * tempReserveBean.ticket_count}
 								원</a>
 						</div>
 					</div>
@@ -176,15 +176,14 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			</div>
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 			<form:form action="${root }/toss/checkout_pro" method="post"
-				modelAttribute="ReserveBean">
-				<form:hidden path="reserve_date" value="${ReserveBean.reserve_date }"/>
-				<form:hidden path="ticket_count" value="${ReserveBean.ticket_count }"/>
+				modelAttribute="tempReserveBean">
+				<form:hidden path="reserve_date" value="${tempReserveBean.reserve_date }"/>
+				<form:hidden path="ticket_count" value="${tempReserveBean.ticket_count }"/>
 				<form:hidden path="user_id" value="${LoginAllInfoBean.user_id }" />
-				<form:hidden path="payment" id="payment-field" /> <!--  결제 금액  -->
-				<form:hidden path="exhibition_id"
-					value="${exhibitionBean.exhibition_id }" />
-				<form:hidden path="state" value="1" />
-				<!-- 예약상태 -->
+				<form:hidden path="payment" id="payment-field" /> <!--  최종 결제 금액  -->
+				
+				
+				<form:hidden path="exhibition_id" value="${exhibitionBean.exhibition_id }" />
 
 				<!--주문자 정보 부분-->
 				<div>
@@ -226,7 +225,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 			<div style="display: flex; align-items: baseline;">
 				<h3 style="margin-left: 180px; margin-top: 50px;">포인트 사용</h3>
-				<a style="font-size: 20px; margin-left: 100px; color: gray; margin-right: 5px;">보유 포인트 : </a> <a style="font-size: 20px; color: gray;" id="ownpoint">${LoginAllInfoBean.point } p</a>
+				<a style="font-size: 20px; margin-left: 100px; color: gray; margin-right: 5px;">보유 포인트 :  
+					<a style="font-size: 20px; color: gray;" id="ownpoint">${LoginAllInfoBean.point } p</a>
+				</a>
 			</div>
 			
 			<div style="margin-top: 50px; margin-left: 300px; display: flex;">
@@ -237,7 +238,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
             
             <script>
             function updatePoints() {
-                var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
+                var totalPrice = ${exhibitionBean.price * tempReserveBean.ticket_count}; // 전체 가격
                 var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
                 var inputPoints = parseInt(document.getElementById('pointinput').value) || 0; // 입력값이 없는 경우 0으로 처리
                 var adjustedPoints = inputPoints;
@@ -261,7 +262,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
             
 
             function useAllPoints() {
-                var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
+                var totalPrice = ${exhibitionBean.price * tempReserveBean.ticket_count}; // 전체 가격
                 var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
                 document.getElementById('pointinput').value = maxPoints;
                 document.getElementById('view_point_use').innerHTML = maxPoints + " p";
@@ -407,13 +408,13 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			<div
 				style="display: flex; align-items: baseline; margin-top: 50px; margin-left: 800px;">
 				<h5>포인트 사용 :</h5>
-				<a style="font-size: 20px; margin-left: 10px;" id="view_point_use">${ReserveBean.point_deduction} P</a>	
+				<a style="font-size: 20px; margin-left: 10px;" id="view_point_use">${tempReserveBean.point_deduction} P</a>	
 			</div>
 			
 			<div
 				style="display: flex; align-items: baseline; margin-top: 10px; margin-left: 800px;">
 				<h3>총 결제 금액 :</h3>
-				<a style="font-size: 30px; margin-left: 10px;" id="view_total_price">${exhibitionBean.price * ReserveBean.ticket_count} 원</a>
+				<a style="font-size: 30px; margin-left: 10px;" id="view_total_price">${exhibitionBean.price * tempReserveBean.ticket_count} 원</a>
 			</div>
 
 			<div
@@ -425,18 +426,13 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			
 			
 			<script>
+			//최종 설정된 1.포인트 사용 금액 2. 결제할 금액
 			document.getElementById('payment-button').addEventListener('click', function() {
+				
 			    var totalPriceElement = document.getElementById('view_total_price').innerHTML;
 			    var priceWithoutCurrency = totalPriceElement.replace('원', '').trim();
-			
-			    
-			    console.log("script : " + priceWithoutCurrency); // 콘솔에 출력
-
-			    // 데이터 타입 확인
-			    console.log(typeof priceWithoutCurrency); // 데이터 타입을 콘솔에 출력
 			    var numericPrice = parseInt(priceWithoutCurrency, 10); // 문자열을 정수로 변환
-			    console.log(numericPrice); // 콘솔에 출력
-			    console.log(typeof numericPrice); // 데이터 타입을 콘솔에 출력 ('number'가 됩니다)
+
 			    
 			    
 			    // 숨겨진 폼 필드의 값을 설정합니다.

@@ -18,7 +18,7 @@ public class ReserveBean {
 	private int payment;
 	private int ticket_count;
 	private String reserve_time;
-	private int state;
+	private int state;// 
 	private int payment_state;
 	private String order_id;
 	private String paymentkey;

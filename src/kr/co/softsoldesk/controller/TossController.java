@@ -32,9 +32,9 @@ public class TossController {
 	@Autowired
 	private ExhibitionService exhibitionService;
 	
-	@PostMapping("/checkout_pro")
-	public String checkout_pro(@ModelAttribute("ReserveBean")ReserveBean ckeckreserverBean,
-			@RequestParam("exhibition_id") int exhibition_id,
+	@PostMapping("/checkout_pro")// 결제할 금액이 0인지 여부 확인
+	public String checkout_pro(@ModelAttribute("tempReserveBean")ReserveBean tempReserveBean,
+			@RequestParam("exhibition_id") int exhibition_id,Model model,
 			RedirectAttributes redirectAttributes) {
 		
 		/* /exhibition/reserve 에서 
@@ -43,25 +43,27 @@ public class TossController {
 					를 받는 totalPrice
 		 */
 		//결제할 금액 
-		int payment = ckeckreserverBean.getPayment();
+		int payment = tempReserveBean.getPayment();
 
-		// 0일 때 확인용
-		//int totalPrice=0;
-		
-		System.out.println("가격 : "+ payment); // 포인트 사용 금액+ 티켓 총 가격 
+		//loginAllInfoBean 확인
 		
 		
-		// /exhibition/reserve 의 ReserveBean와 exhibition_id 
-	    redirectAttributes.addFlashAttribute("ReserveBean", ckeckreserverBean);
-	    redirectAttributes.addFlashAttribute("exhibition_id", exhibition_id);
+		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ payment); // 포인트 사용 금액+ 티켓 총 가격 
+		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ tempReserveBean.getReserve_date());
+		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ tempReserveBean.getTicket_count());
+		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ tempReserveBean.getPoint_deduction());
+		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ tempReserveBean.getOrder_id()); // 주문 번호 확인
+
 		//결제 금액이 0 이면 바로 예매 완료 페이지로 이동
 		if(payment == 0)
 		{
-			return "redirect:/exhibition/payment_complete";
+			return "/exhibition/payment_complete";
 		}
 		// 결제 금액이 0이 아니면 ckeckout page로 이동
 		else {
-			return "redirect:/toss/checkout";
+			redirectAttributes.addFlashAttribute("tempReserveBean", tempReserveBean);
+	        redirectAttributes.addFlashAttribute("exhibition_id", exhibition_id);
+	        return "redirect:/toss/checkout";
 		}
 		
 	}
@@ -69,31 +71,34 @@ public class TossController {
 	
 	@GetMapping("/checkout")
 	//@PostMapping("/checkout")
-	public String checkout(@ModelAttribute("ReserveBean") ReserveBean checkReserveBean,
+	public String checkout(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
             @ModelAttribute("exhibition_id") int exhibitionId,
             HttpServletRequest request, Model model) throws Exception  {
 		
 		//orderid 생성하기 위함 
-		ReserveBean reserveInfo = new ReserveBean(); // orderid 생성위함.........
+		ReserveBean reserveOderId = new ReserveBean(); // orderid 생성위함.........
 		
 		//예매하려는 유저 아이디 찾기
-		UserBean loginUserDetailBean = UserService.getLoginUserAllInfo(checkReserveBean.getUser_id());
+		UserBean loginUserDetailBean = UserService.getLoginUserAllInfo(tempReserveBean.getUser_id());
 		
 		//예매하려는 전시회 제목=> orderName 찾기
 		String title = exhibitionService.getExhibitionTitle(exhibitionId);
 	
-		System.out.println(" check3 - reserve : "+reserveInfo.getOrder_id());// orderid 확인
-	    System.out.println("ReserveBean.payment: " + checkReserveBean.getPayment());
-	    System.out.println("Exhibition ID: " + exhibitionId);
+		
+		//확인
+		System.out.println(" /checkout - tempReserveBean oderid : "+tempReserveBean.getOrder_id());
+	    System.out.println(" /checkout ReserveBean.payment: " + tempReserveBean.getPayment());
+	    System.out.println("/checkout Exhibition ID: " + exhibitionId);
 
 	    
-		model.addAttribute("orderid", reserveInfo.getOrder_id()); 
-	    model.addAttribute("ReserveBean", checkReserveBean);
+		model.addAttribute("orderid", reserveOderId.getOrder_id()); 
+		
+	    model.addAttribute("tempReserveBean", tempReserveBean);
 	    model.addAttribute("exhibition_id", exhibitionId);
 	    model.addAttribute("loginUserDetailBean",loginUserDetailBean);
 	    model.addAttribute("title",title);
 	    
-	
+	    
 		return "toss/checkout";
 		
 	}

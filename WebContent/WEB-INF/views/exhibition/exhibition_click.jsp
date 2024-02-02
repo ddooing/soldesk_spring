@@ -15,6 +15,34 @@
 <title>ARTMEE</title>
 <link rel="icon" type="image/x-icon" href="img/ARTMEE_PAGELOGO.png" />
 
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.1.0/css/datepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.1.0/js/datepicker.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var today = new Date();
+        var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
+        var localToday = new Date(today.getTime() - offset);
+        var formattedToday = localToday.toISOString().substring(0, 10); // yyyy-mm-dd 형식으로 변환
+
+        $('#datepicker').datepicker({
+            language: {
+                daysMin: ['일', '월', '화', '수', '목', '금', '토'],
+                months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                monthsShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+                today: '오늘',
+                clear: '지우기',
+                dateFormat: 'yyyy-mm-dd',
+                firstDay: 0
+            },
+            inline: true,
+            minDate: new Date(),
+            dateFormat: 'yyyy-mm-dd',
+            startDate: localToday
+        });
+    });
+    </script>
+
 <!-- Font Awesome icons (free version)-->
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"></script>
@@ -30,8 +58,11 @@
 <!-- Bootstrap core JS-->
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <!-- Core theme JS-->
 <script src="../js/scripts.js"></script>
+
 
 <!-- JQuery 자바스크립트-->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -40,7 +71,7 @@
 <link href="../css/styles.css" rel="stylesheet" />
 
 <!-- Carousel 자바스크립트-->
-<script src='https://www.gmarwaha.com/script/lib/jquery-1.11.1.js'></script>
+
 <script src="https://www.gmarwaha.com/script/lib/jquery.easing-1.3.js"></script>
 <script
 	src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
@@ -48,6 +79,9 @@
 	src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 <script
 	src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
+
+
+
 
 <style>
 #jcl-demo {
@@ -131,15 +165,21 @@
 
 #right-side-menu {
 	position: absolute;
-	top: 300px;
+	top: 250px;
 	right: 10px;
 	width: 400px;
 	transition: top 0.3s;
 }
 
 #sidebar_menu:hover {
-	cursor: pointer;
 	background-color: rgb(192, 192, 192);
+}
+
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button
+	{
+	-webkit-appearance: none;
+	appearance: none;
+	margin: 0;
 }
 </style>
 
@@ -150,13 +190,13 @@
 <body id="page-top">
 	<c:import url="/WEB-INF/views/include/header.jsp" />
 
-
-
 	<section id="exhibition_info" style="margin-top: 150px;">
 		<div class="container mb-1">
 			<!--전시회 부분-->
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="${exhibitionBean.main_poster_path}${exhibitionBean.main_poster_name}" alt="포스터"
+				<img
+					src="${exhibitionBean.main_poster_path}${exhibitionBean.main_poster_name}"
+					alt="포스터"
 					style="width: 280px; height: 400px; margin-left: 200px; margin-top: 40px;" />
 
 				<div style="margin-left: 50px;">
@@ -170,7 +210,8 @@
 
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 20px;">
-							<a style="font-size: 25px;">${exhibitionBean.exhibition_start.substring(0, 10) } ~ ${exhibitionBean.exhibition_end.substring(0, 10) }</a>
+							<a style="font-size: 25px;">${exhibitionBean.exhibition_start.substring(0, 10) }
+								~ ${exhibitionBean.exhibition_end.substring(0, 10) }</a>
 						</div>
 					</div>
 
@@ -178,7 +219,7 @@
 						<div style="margin-right: 10px;">
 							<a style="font-size: 20px;">관람 시간</a>
 						</div>
-						<div style="">
+						<div>
 							<a style="font-size: 20px;">${exhibitionBean.open}</a>
 						</div>
 					</div>
@@ -202,50 +243,40 @@
 					</div>
 
 					<div style="display: flex; margin-top: 50px;">
-						<div style="margin-right: 10px;">
-							<form:form
-								action="payment?exhibition_id=${exhibitionBean.exhibition_id}"
-								method="post" modelAttribute="tempReserveBean">
-								<form:input path="ticket_count" />
-								<input type="date" id="birth" name="reserve_date"
-									value="<fmt:formatDate value="${reserve_date}" pattern="yyyy-MM-dd" " />
-								<c:choose>
-								
-									<c:when test="${loginUserBean.userLogin == false}">
-										<a href="${root}/user/not_login" class="btn btn-dark">예매하기</a>
-									</c:when>
-								
-									<c:otherwise>
-										<form:button type="submit" class="btn btn-dark">예매하기</form:button>
-									</c:otherwise>
-								</c:choose>
-
-							</form:form>
-
-						</div>
-
-						<div style="margin-left: auto;">
+						<div style="margin-left: 400px;">
 							<button id="shareButton"
 								style="background: none; border: none; margin-right: 20px;">
 								<img src="../img/shareicon.svg"
 									style="width: 30px; height: 30px;" alt="공유아이콘" />
 							</button>
-							<button id="heartButton" style="background: none; border: none;">
-								<svg id="empty_heart" xmlns="http://www.w3.org/2000/svg"
-									width="30" height="30" fill="currentColor" class="bi bi-heart"
-									viewBox="0 0 16 16">
-									<path
-										d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-								</svg>
+							
+						 
+							 <c:choose>
+							    <c:when test="${loginUserBean.user_id != 0 && bookmarksure == 1}">
+							        <button type="button" onclick="location.href='${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}'" id="heartButton" style="background: none; border: none;">
+							            <svg id="fill_heart" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16" style="fill: red;">
+							                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+							            </svg>
+							        </button>
+							    </c:when>
+							    <c:when test="${loginUserBean.user_id != 0 && bookmarksure == 0}">
+							        <button type="button" onclick="location.href='${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}'" id="heartButton" style="background: none; border: none;">
+							            <svg id="empty_heart" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+							                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.920 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+							            </svg>
+							        </button>
+							    </c:when>
+							    <c:otherwise>
+							        <button type="button" onclick="location.href='${root}/exhibition/bookmark_not_login'" id="heartButton" style="background: none; border: none;">
+							            <svg id="empty_heart" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+							                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.920 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+							            </svg>
+							        </button>
+							    </c:otherwise>
+							</c:choose>
 
-								<svg id="fill_heart" xmlns="http://www.w3.org/2000/svg"
-									width="30" height="30" fill="currentColor"
-									class="bi bi-heart-fill" viewBox="0 0 16 16"
-									style="fill: red; display: none;">
-									<path fill-rule="evenodd"
-										d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
-								</svg>
-							</button>
+							
+							
 						</div>
 					</div>
 
@@ -292,48 +323,125 @@
 				</div>
 			</div>
 
-			<div id="right-side-menu">
-				<div style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">
-					<div id="sidebar_menu" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 400px; height: 100px; text-align: center; align-items: center; justify-content: center; display: flex;">
-						<div style="justify-content: center;">
-							<a href="Exhibition_Enroll.html" style="color: black; text-decoration: none;"> 
-								<p1>전시회 등록</p1>
-							</a>
+
+
+			<c:choose>
+				<c:when test="${exhibitionBean.price} == 0">
+
+				</c:when>
+				<c:otherwise>
+					<form:form
+						action="payment?exhibition_id=${exhibitionBean.exhibition_id}"
+						method="post" modelAttribute="tempReserveBean">
+						<form:hidden path="user_id" value="${loginUserBean.user_id }"/>
+						<div id="right-side-menu">
+							<div
+								style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">
+								<div id="sidebar_menu" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 400px; height: 350px; text-align: center; align-items: center; justify-content: center; display: flex;">
+										<form:input type="date" path="reserve_date" />
+										<input type="text" id="datepicker">
+								</div>
+								<hr style="margin: auto; width: 400px; color: black;" />
+
+								<div id="sidebar_menu"
+									style="border: 1px solid #e7e7e7; border-top: none; border-bottom: none; border-radius: 5%; width: 400px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+									<div
+										style="justify-content: center; display: flex; margin-top: 10px; align-items: center;">
+										<div style="margin-left: auto;">
+											<div class="counter">
+												<b style="margin-right: 30px; font-size: 25px;">매수 : </b>
+												<button id="ticket_decrement" type="button"
+													style="border: none; background-color: transparent; width: 30px; height: 30px; margin-right: 10px;">
+													<i class="bi bi-dash-lg"
+														style="vertical-align: middle; color: black; font-size: 20px; font-weight: bold;"></i>
+												</button>
+												<form:input type="number" path="ticket_count"
+													id="ticket_count" style="width: 50px; text-align:center;"
+													value="1" />
+												<button id="ticket_increment" type="button"
+													style="border: none; background-color: transparent; width: 30px; height: 30px; margin-left: 10px;">
+													<i class="bi bi-plus-lg"
+														style="vertical-align: middle; color: black; font-size: 20px; font-weight: bold;"></i>
+												</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<script>
+									const decrementButton = document
+											.getElementById("ticket_decrement");
+									const incrementButton = document
+											.getElementById("ticket_increment");
+									const ticketCountInput = document
+											.getElementById("ticket_count");
+
+									decrementButton
+											.addEventListener(
+													"click",
+													function() {
+														const currentValue = parseInt(ticketCountInput.value) || 0;
+														if (currentValue > 1) {
+															ticketCountInput.value = currentValue - 1;
+														} else {
+															alert("최소 수량은 1입니다.");
+														}
+													});
+
+									incrementButton
+											.addEventListener(
+													"click",
+													function() {
+														const currentValue = parseInt(ticketCountInput.value) || 0;
+														ticketCountInput.value = currentValue + 1;
+													});
+								</script>
+
+
+								<hr style="margin: auto; width: 400px; color: black;" />
+
+								<div id="sidebar_menu"
+									style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 400px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+									<div style="justify-content: center;">
+										<c:choose>
+											<c:when test="${loginUserBean.userLogin == false}">
+												<!-- 로그인 안했을때 -->
+												<a href="${root}/user/not_login"
+													style="width: 120px; margin-right: 30px;"
+													class="btn btn-dark">예매하기</a>
+												<a href="${root}/user/not_login" style="width: 120px;"
+													class="btn btn-dark">장바구니</a>
+											</c:when>
+											<c:otherwise>
+												<form:button type="submit"
+													style="width:120px; margin-right:30px;"
+													class="btn btn-dark">예매하기</form:button>
+												<form:button type="submit" style="width:120px;"
+													class="btn btn-dark">장바구니</form:button>
+											</c:otherwise>
+										</c:choose>
+									</div>
+								</div>
+								<hr style="margin: auto; width: 80px; color: black;" />
+
+
+							</div>
 						</div>
-					</div>
-					<hr style="margin: auto; width: 80px; color: black;" />
 
-					<div id="sidebar_menu" style="border: 1px solid #e7e7e7; border-top: none; border-bottom: none; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
-						<div style="justify-content: center;">
-							<a href="" style="color: black; text-decoration: none;">
-								<p1>배너 신청</p1>
-							</a>
-						</div>
-					</div>
-					<hr style="margin: auto; width: 80px; color: black;" />
 
-					<div id="sidebar_menu" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
-						<div style="justify-content: center;">
-							<a href="#" style="color: black; text-decoration: none;"> 
-								<p1>FAQ</p1>
-							</a>
-						</div>
-					</div>
-					<hr style="margin: auto; width: 80px; color: black;" />
+						<script>
+							window.addEventListener('scroll', function() {
+								var scrollPosition = window.pageYOffset
+										|| document.documentElement.scrollTop;
+								var menu = document
+										.getElementById('right-side-menu');
 
-					
-				</div>
-			</div>
-
-			<script>
-				window.addEventListener('scroll', function() {
-					var scrollPosition = window.pageYOffset
-							|| document.documentElement.scrollTop;
-					var menu = document.getElementById('right-side-menu');
-
-					menu.style.top = (300 + scrollPosition) + 'px'; // 스크롤 위치에 따라 메뉴 위치 업데이트
-				});
-			</script>
+								menu.style.top = (250 + scrollPosition) + 'px'; // 스크롤 위치에 따라 메뉴 위치 업데이트
+							});
+						</script>
+					</form:form>
+				</c:otherwise>
+			</c:choose>
 
 
 			<script>
@@ -406,6 +514,7 @@
 				heartButton.addEventListener('click', toggleHeart);
 			</script>
 
+			
 
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 	</section>
@@ -520,7 +629,8 @@
 		<!--전시회 상세-->
 		<hr style="margin: auto; margin-top: 50px; width: 800px;" />
 		<div class="text-center">
-			<img src="${exhibitionBean.detail_poster_path }${exhibitionBean.detail_poster_name }"
+			<img
+				src="${exhibitionBean.detail_poster_path }${exhibitionBean.detail_poster_name }"
 				style="width: 800px;" alt="전시회 이미지" />
 		</div>
 
