@@ -26,24 +26,20 @@
 	
     <script>
         function initiatePayment() {
-            var amount = 100;//${amount}; // 서버에서 전달받은 amount 값 사용
-
             // 클라이언트 키로 객체 초기화
             var clientKey = 'test_ck_mBZ1gQ4YVXKORgvZXBwR3l2KPoqN';
             
             var tossPayments = TossPayments(clientKey);
-         	var payment = '${tempReserveBean.payment}';
-            var orderid = '${orderid}';
-            var title= '${title}';
+
           
             console.log("checkout - payment : "+payment);
             console.log("checkout - orderid : "+orderid);
             console.log("checkout - title : "+title);
             // 결제창 띄우기
             tossPayments.requestPayment('카드', {
-                amount: payment, // 서버에서 받은 금액 사용
-                orderId: orderid,//필수 )'7_XR8395y-HtJQb7Wb60L', // 주문 ID
-                orderName: title, // 필수 )주문명 
+                amount: '${tempReserveBean.payment}', // 서버에서 받은 금액 사용
+                orderId: '${orderid}',//필수 )'7_XR8395y-HtJQb7Wb60L', // 주문 ID
+                orderName: '${title}', // 필수 )주문명 
                 customerName: '김도영', // 구매자 이름//customerEmail: '',// 이메일 
                 successUrl: 'http://localhost:8080/Spring_Project_Dream/toss/success',//필수
                 failUrl: 'http://localhost:8080/Spring_Project_Dream/toss/fail',//필수

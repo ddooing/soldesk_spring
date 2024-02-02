@@ -74,9 +74,7 @@ public class TossController {
 	public String checkout(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
             				HttpServletRequest request, Model model) throws Exception  {
 		
-		//orderid 생성하기 위함 
-		ReserveBean reserveOderId = new ReserveBean(); // orderid 생성위함.........
-		
+	
 		//예매하려는 유저 아이디 찾기
 		UserBean loginUserDetailBean = UserService.getLoginUserAllInfo(tempReserveBean.getUser_id());
 		
@@ -90,7 +88,7 @@ public class TossController {
 	    //System.out.println("/checkout Exhibition ID: " + exhibitionId);
 
 	    
-		model.addAttribute("orderid", reserveOderId.getOrder_id()); 
+		model.addAttribute("orderid", tempReserveBean.getOrder_id()); 
 		
 	    model.addAttribute("tempReserveBean", tempReserveBean);
 	    model.addAttribute("exhibition_id", tempReserveBean.getExhibition_id());
@@ -101,6 +99,7 @@ public class TossController {
 		return "toss/checkout";
 		
 	}
+	
 	//@RequestParam String paymentType, 
 	@GetMapping("/success")
     public String successPage(
@@ -108,12 +107,17 @@ public class TossController {
             @RequestParam String paymentKey, 
             @RequestParam int amount,HttpServletRequest request, Model model) throws Exception  {
 		
+		//1.결제 승인 전 
+		
 		
 		System.out.println("orderId :"+orderId);
 		System.out.println("paymentKey :"+paymentKey);
 		System.out.println("amount :"+amount);
 		
-		//
+		//2.결제 승인 처리 
+		
+		
+		//3.결제 승인 후
         return "toss/success"; 
     }
 
