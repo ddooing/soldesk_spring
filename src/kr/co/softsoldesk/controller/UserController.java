@@ -14,15 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.softsoldesk.Beans.UserBean;
-import kr.co.softsoldesk.Service.UserService;
 
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 	
-	@Autowired
-	private UserService UserService;
+
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
@@ -63,26 +61,14 @@ public class UserController {
 	@PostMapping("/login_pro")
     public String login_pro(@ModelAttribute("tempLoginUserBean") UserBean tempLoginUserBean, BindingResult result) {
 		
-		if(result.hasErrors()) {
-			
-			return "user/login";
-			
-		}
+		return "user/login";
 		
-        UserService.getLoginUserInfo(tempLoginUserBean);
-        
-        if(loginUserBean.isUserLogin() == true) {
-        	return "user/login_success";
-        } else {
-        	return "user/login_fail";
-        }
+	
         
     }
 	
 	@GetMapping("/logout")
 	public String logout() {
-		
-		loginUserBean.setUserLogin(false);
 		
 		return "user/logout";
 	}

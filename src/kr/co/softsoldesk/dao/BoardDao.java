@@ -1,25 +1,40 @@
 package kr.co.softsoldesk.dao;
 
+import kr.co.softsoldesk.Beans.BoardBean;
+import kr.co.softsoldesk.mapper.BoardMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kr.co.softsoldesk.Beans.BoardBean;
-
-import kr.co.softsoldesk.mapper.BoardMapper;
+import java.util.List;
 
 @Repository
 public class BoardDao {
-	
-	/*
-	 * @Autowired private BoardMapper boardMapper;
-	 * 
-	 * public void addContentInfo(BoardBean writContentBean) {
-	 * boardMapper.addContentInfo(writContentBean); }
-	 * 
-	 * 
-	 * public String getBoardInfoName(int board_info_idx) { //게시글 번호 받아오기 0 return
-	 * boardMapper.getBoardInfoName(board_info_idx); }
-	 */
-	
-	
+
+    private final BoardMapper boardMapper;
+
+    @Autowired
+    public BoardDao(BoardMapper boardMapper) {
+        this.boardMapper = boardMapper;
+    }
+
+    public BoardBean getBoardById(int board_id) {
+        return boardMapper.getBoardById(board_id);
+    }
+
+    public List<BoardBean> getAllBoards() {
+        return boardMapper.getAllBoards();
+    }
+
+    public void addBoard(BoardBean board) {
+        boardMapper.addBoard(board);
+    }
+
+    public void modifyBoard(BoardBean board) {
+        boardMapper.modifyBoard(board);
+    }
+
+    public void deleteBoard(int board_id) {
+        boardMapper.deleteBoard(board_id);
+    }
 }

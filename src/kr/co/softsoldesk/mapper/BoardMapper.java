@@ -1,35 +1,33 @@
 package kr.co.softsoldesk.mapper;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.Delete;
-
 import kr.co.softsoldesk.Beans.BoardBean;
 
+@Mapper
 public interface BoardMapper {
-    @Insert("INSERT INTO board (board_idx, user_idx, title, create_date, views, contents, update_date, state) " +
-            "VALUES (board_idx_seq.NEXTVAL, #{userIdx}, #{title}, #{createDate}, #{views}, #{contents}, #{updateDate}, #{state})")
-    void insertBoard(BoardBean board);
 
-    @Select("SELECT board_idx, user_idx, title, create_date, views, contents, update_date, state " +
-            "FROM board " +
-            "WHERE board_idx = #{boardIdx}")
-    BoardBean selectBoard(int boardIdx);
+    @Select("SELECT * FROM board WHERE board_id = #{board_id}")
+    BoardBean getBoardById(int board_id);
 
-    @Select("SELECT board_idx, user_idx, title, create_date, views, contents, update_date, state " +
-            "FROM board")
-    List<BoardBean> selectAllBoards();
+    @Select("SELECT * FROM board")
+    List<BoardBean> getAllBoards();
 
-    @Update("UPDATE board " +
-            "SET title = #{title}, create_date = #{createDate}, views = #{views}, contents = #{contents}, " +
-            "update_date = #{updateDate}, state = #{state} " +
-            "WHERE board_idx = #{boardIdx}")
-    void updateBoard(BoardBean board);
+    @Insert("INSERT INTO board (board_id, user_id, title, create_date, views, contents, update_date, state) " +
+            "VALUES (#{board_id}, #{user_id}, #{title}, #{create_date}, #{views}, #{contents}, #{update_date}, #{state})")
+    void addBoard(BoardBean board);
+    
+    
+    @Update("UPDATE board SET title = #{title}, contents = #{contents}, update_date = #{update_date}, state = #{state} " +
+            "WHERE board_id = #{board_id}")
+    void modifyBoard(BoardBean board);
 
-    @Delete("DELETE FROM board " +
-            "WHERE board_idx = #{boardIdx}")
-    void deleteBoard(int boardIdx);
+    // 게시글 삭제(비공개)
+    @Update("UPDATE board SET state = 0 WHERE board_id = #{board_id}")
+    void deleteBoard(int board_id);
 }

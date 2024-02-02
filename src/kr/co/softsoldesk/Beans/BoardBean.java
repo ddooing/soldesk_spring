@@ -9,24 +9,25 @@ import lombok.Setter;
 @Setter
 @Getter
 public class BoardBean {
-	private Integer board_Id; // 게시판번호
-    private Integer user_Id; // 작성자
+	private Integer board_id; // 게시판번호
+    private Integer user_id; // 작성자
     private String title; // 제목
     private Date regDate;	// 등록일자
     private String contents; // 내용
     private Date updateDate;	// 수정날짜
     private Integer state;	// 상태
-	public Integer getBoard_Id() {
-		return board_Id;
+    
+	public Integer getBoard_id() {
+		return board_id;
 	}
-	public void setBoard_Id(Integer board_Id) {
-		this.board_Id = board_Id;
+	public void setBoard_id(Integer board_id) {
+		this.board_id = board_id;
 	}
-	public Integer getUser_Id() {
-		return user_Id;
+	public Integer getUser_id() {
+		return user_id;
 	}
-	public void setUser_Id(Integer user_Id) {
-		this.user_Id = user_Id;
+	public void setUser_id(Integer user_id) {
+		this.user_id = user_id;
 	}
 	public String getTitle() {
 		return title;
@@ -58,6 +59,6 @@ public class BoardBean {
 	public void setState(Integer state) {
 		this.state = state;
 	}
-    
+	
  
 }
