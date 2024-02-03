@@ -16,4 +16,7 @@ public class ReviewBean {
 	private String modify_date;
 	private String create_date;
 		
+	
+	// 경험치 업데이트 변수추가
+	private int exp;
 }
