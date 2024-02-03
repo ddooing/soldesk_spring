@@ -48,7 +48,7 @@ public interface MyPageMapper {
 		@Select("SELECT \r\n"
 				+ "    r.user_id, \r\n"
 				+ "    r.exhibition_id, \r\n"
-				+ "    r.reserve_date, \r\n"
+				+ "    TO_CHAR(r.reserve_date, 'yyyy-mm-dd') AS reserve_date, \r\n"
 				+ "    r.total_price, \r\n"
 				+ "    r.ticket_count, \r\n"
 				+ "    r.state,\r\n"
@@ -67,6 +67,7 @@ public interface MyPageMapper {
 		
 		// 마이페이지 북마크 메소드
 		@Select("SELECT \r\n"
+				+ "    b.bookmark_id,\r\n"
 				+ "    b.user_id,\r\n"
 				+ "    b.exhibition_id,\r\n"
 				+ "    f.path AS main_poster_path,\r\n"
@@ -78,7 +79,7 @@ public interface MyPageMapper {
 				+ "JOIN \r\n"
 				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
 				+ "WHERE \r\n"
-				+ "    b.user_id = #{user_id}")
+				+ "    b.user_id = #{user_id} order by bookmark_id desc")
 		List<ExhibitionBean> getMyPageBookmarkList(int user_id);
 		
 		// 아카이브 정보 가져오는 메소드
@@ -90,7 +91,7 @@ public interface MyPageMapper {
 				+ "    r.regdate,\r\n"
 				+ "    r.create_date,\r\n"
 				+ "    r.modify_date,\r\n"
-				+ "    rv.reserve_date,\r\n"
+				+ "    TO_CHAR(rv.reserve_date, 'yyyy-mm-dd') AS reserve_date,\r\n"
 				+ "    rv.ticket_count,\r\n"
 				+ "    rv.total_price,\r\n"
 				+ "    e.title,\r\n"
@@ -108,7 +109,7 @@ public interface MyPageMapper {
 				+ "LEFT JOIN \r\n"
 				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
 				+ "WHERE \r\n"
-				+ "    u.user_id = #{user_id}")
+				+ "    u.user_id = #{user_id} order by reserve_date asc")
 		List<ArchiveBean> getArciveAllInfo(int user_id);
 		
 		// 아카이브 1개 정보 reserve_id로 가져오기
@@ -141,13 +142,15 @@ public interface MyPageMapper {
 				+ "    rv.reserve_id = #{reserve_id}")
 		ArchiveBean getArchiveOneInfo(int reserve_id);
 		
+		//
+		
 		
 		// 마이페이지 아카이브 글등록(말이 등록이지 예매시 review 테이블에 insert한 부분 수정) 메소드
 		@Update("UPDATE review SET contents = #{contents}, rating = #{rating}, expose = #{expose}, create_date = sysdate WHERE reserve_id = #{reserve_id}")
 		void enrollArchive(ReviewBean reviewBean);
 		
 		// 마이페이지 아카이브 글수정 메소드
-		@Update("UPDATE review SET contents=#{contents}, rating=#{rating}, expose=#{expose}, modify_date=sysdate WHERE reserve_id ={#reserve_id}")
+		@Update("UPDATE review SET contents=#{contents}, rating=#{rating}, expose=#{expose, jdbcType=INTEGER}, modify_date=sysdate WHERE reserve_id=#{reserve_id}")
 		void modifyArchive(ReviewBean reviewBean);
 		
 		// 마이페이지 아카이브 글 등록시 user_table exp 증가

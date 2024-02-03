@@ -3,5 +3,5 @@
 <c:set var="root" value="${pageContext.request.contextPath }"/>
 <script>
    alert('아카이브가 추가되었습니다.');
-   location.href='${root}/mypage/archive_return?user_id=${user_id}';
+   location.href='${root}/mypage/archive?user_id=${user_id}';
 </script>

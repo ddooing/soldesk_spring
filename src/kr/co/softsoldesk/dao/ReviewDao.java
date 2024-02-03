@@ -3,6 +3,7 @@ package kr.co.softsoldesk.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.mapper.ReviewMapper;
 
 @Repository
@@ -15,6 +16,11 @@ public class ReviewDao {
 	public void reserve_review_create(int reserve_id) {
 
 		reviewMapper.reserve_review_create(reserve_id);
+	}
+	
+	// 리뷰 정보 전부 가져오기
+	public ReviewBean getAllReviewInfo() {
+		return reviewMapper.getAllReviewInfo();
 	}
 
 }

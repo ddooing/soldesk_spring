@@ -20,6 +20,7 @@ import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.MyPageService;
 import kr.co.softsoldesk.Service.PointDetailService;
 import kr.co.softsoldesk.Service.ReserveService;
+import kr.co.softsoldesk.Service.ReviewService;
 import kr.co.softsoldesk.Service.UserService;
 
 @Controller
@@ -33,7 +34,7 @@ public class MyPageController {
 	private PointDetailService pointDetailService;
 	
 	@Autowired
-	private ReserveService reserveService;
+	private ReviewService ReviewService;
 	
 	@Autowired
 	private MyPageService MyPageService;
@@ -53,13 +54,18 @@ public class MyPageController {
 		List<ArchiveBean> ArchiveAllInfoBean = MyPageService.getArciveAllInfo(user_id);
 		model.addAttribute("ArchiveAllInfoBean",ArchiveAllInfoBean);
 		
+		
 		return "/mypage/archive";
 	}
 	
 	@PostMapping("/archive_pro") 	// 아카이브(review 테이블) 글 등록
-	public String archive_pro(@ModelAttribute("reviewBean") ReviewBean reviewBean, @RequestParam("user_id") int user_id, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+	public String archive_pro(@ModelAttribute("reviewBean") ReviewBean reviewBean, @RequestParam("user_id") int user_id,@RequestParam("checkboxValue") int checkboxValue , Model model) {
+		
 		
 		model.addAttribute("user_id", user_id);
+		
+		// 체크박스 토글 버튼 스타일 유지를 위해 form:checkbox로 안넘기고 input type="checkbox"로 넘겨서 requestParam으로 받아와 set해줌
+		reviewBean.setExpose(checkboxValue);
 		
 		// 마이페이지 아카이브 글등록 메소드
 		MyPageService.enrollArchive(reviewBean);

@@ -87,6 +87,7 @@
 .star-rating label.hovered, .star-rating label.selected {
 	color: gold; /* 활성화된 별의 색상 */
 }
+
 .checkbox-wrapper-17 input[type=checkbox] {
 	    height: 0;
 	    width: 0;
@@ -224,14 +225,14 @@
 				</div>
 			
 			
-			<div class="checkbox-wrapper-17" 
-							style="margin-top: 30px; margin-left:250px; display: flex; align-items: center;">
-				<form:checkbox path="expose" id="switch-17" value="1" onchange="updateValue(this)" /><label for="switch-17"></label>
-				<span style="margin-left: 10px;">공개 여부</span>
-							
-				<button type="submit" class="btn btn-dark" style="margin-left: 580px;" role="button">저장하기</button>
-
+			<div class="checkbox-wrapper-17" style="margin-top: 30px; margin-left:250px; display: flex; align-items: center;">
+			  <input type="hidden" name="checkboxValue" id="hiddenCheckboxValue" value="0" />
+			  <input type="checkbox" id="switch-17" onchange="updateCheckboxValue(this)" />
+			  <label for="switch-17"></label>
+			  <span style="margin-left: 10px;">공개 여부</span>
+			  <button type="submit" class="btn btn-dark" style="margin-left: 580px;" role="button">저장하기</button>
 			</div>
+
 			
 			</div>
 			</form:form>
@@ -245,10 +246,19 @@
 
 <script>	// 공개여부 체크시 value : 1 해제시 value : 0
 function updateValue(checkbox) {
+	  if (checkbox.checked) {
+	    checkbox.value = "1";
+	  } else {
+	    checkbox.value = "0";
+	  }
+	}
+	
+function updateCheckboxValue(checkbox) {
+    var hiddenInput = document.getElementById('hiddenCheckboxValue');
     if (checkbox.checked) {
-        checkbox.value = "1";
+        hiddenInput.value = "1";
     } else {
-        checkbox.value = "0";
+        hiddenInput.value = "0";
     }
 }
 

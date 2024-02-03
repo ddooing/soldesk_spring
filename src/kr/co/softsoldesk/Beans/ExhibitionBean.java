@@ -38,7 +38,7 @@ public class ExhibitionBean {
 	private String detail_poster_name;
 	
 	private int user_id;
-	
+	private int bookmark_id;
 	
 	
 }
