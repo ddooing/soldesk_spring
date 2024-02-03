@@ -1,9 +1,18 @@
 package kr.co.softsoldesk.controller;
 
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.softsoldesk.Beans.ReserveBean;
@@ -18,7 +28,6 @@ import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.UserService;
-
 @Controller
 @RequestMapping("/toss")
 public class TossController {
@@ -36,6 +45,7 @@ public class TossController {
 	@Autowired
 	private ExhibitionService exhibitionService;
 	
+	String confirmUrl ="https://api.tosspayments.com/v1/payments/confirm";
 	@PostMapping("/checkout_pro")
 	public String checkout_pro(@ModelAttribute("tempReserveBean")ReserveBean tempReserveBean,
 			@RequestParam("exhibition_id") int exhibition_id,Model model,
@@ -122,22 +132,48 @@ public class TossController {
 		System.out.println("paymentKey :"+paymentKey);
 		System.out.println("amount :"+amount);
 
-		if(isOrderIdValid) {
-			// 1-1. 결제 요청 전의 결제 금액인 payment 와 결제 요청 결과의 결제 금액인 amount 같은지 체크
-			
-			int reqBeforePayment = reserveService.getPayment(orderId);//orderId로 payment 가져오기
-			
-			if(reqBeforePayment!=amount)
-			{
-				return "toss/fail";
-			}
-		}
-		else {
+		if(!isOrderIdValid) {
 			return "toss/fail";
 		}
 		
+		
+		// 1-1. 결제 요청 전의 결제 금액인 payment 와 결제 요청 결과의 결제 금액인 amount 같은지 체크
+		
+		int reqBeforePayment = reserveService.getPayment(orderId);//orderId로 payment 가져오기
 
-        return "toss/success"; 
+		if(reqBeforePayment!=amount)
+		{
+			System.out.println("reqBeforePayment!=amount");
+			return "toss/fail";
+		}
+		
+		
+		System.out.println("reqBeforePayment==amount, 결제 승인 전");
+		 //1. 결제 승인 
+        ResponseEntity<String> paymentConfirmationResponse = completePayment(paymentKey, orderId, amount);
+        System.out.println("결제 승인 후");
+        System.out.println("결제 승인 후, paymentConfirmationResponse 코드 확인 :" + paymentConfirmationResponse.getStatusCode());
+        System.out.println("결제 승인 후, paymentConfirmationResponse 헤더 확인 :" + paymentConfirmationResponse.getHeaders());
+        System.out.println("결제 승인 후, paymentConfirmationResponse 응답 본문 확인 :" + paymentConfirmationResponse.getBody());
+        
+        
+        
+        if (!paymentConfirmationResponse.getStatusCode().is2xxSuccessful()) {
+        	System.out.println("결제가 실패 .");
+            
+        }
+		
+        // 성공했을 때의 로직
+        System.out.println("결제가 성공적으로 처리되었습니다.");
+        String successWidgetInfo = prepareSuccessWidgetInfo(paymentKey, orderId, amount);
+        // 여기에 성공했을 때 실행할 코드 작성
+        // 예: 데이터베이스에 결제 정보 저장, 사용자에게 성공 메시지 보내기 등
+        model.addAttribute("successWidgetInfo", successWidgetInfo);
+        return "toss/success";
+		
+		
+
+        
     }
 
 	@GetMapping("/fail")
@@ -147,5 +183,44 @@ public class TossController {
 	
 		return "toss/fail";
 		
+	}
+	
+
+	
+	private String prepareSuccessWidgetInfo(String paymentKey, String orderId, int amount) {
+	    // "/success"가 위젯이 포함된 결제 성공 페이지가 렌더링되는 URL이라고 가정합니다.
+	    String successUrl 
+	    ="http://localhost:8080/Spring_Project_Dream/toss/success?orderId=" + orderId + "&amount=" + amount + "&paymentKey=" + paymentKey;
+	    return successUrl;
+	}
+	
+	
+	
+	private ResponseEntity<String> completePayment(String paymentKey, String orderId, int amount) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+
+            String apiKey = "test_sk_mBZ1gQ4YVX9wG14ZXOLarl2KPoqN";
+            // 기본 인증을 위한 API 키를 Base64로 인코딩
+            String encodedApiKey = Base64.getEncoder().encodeToString((apiKey + ":").getBytes("UTF-8"));
+            headers.set("Authorization", "Basic " + encodedApiKey);
+            headers.set("Content-Type", "application/json");
+            
+            Map<String, Object> requestBody = new HashMap<>();
+            requestBody.put("paymentKey", paymentKey);
+            requestBody.put("orderId", orderId);
+            requestBody.put("amount", amount);
+            
+            System.out.println("Map");
+            
+            HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+            System.out.println("HTTP POST 요청 전");
+            // HTTP POST 요청하기
+            RestTemplate restTemplate = new RestTemplate();
+            return restTemplate.exchange(confirmUrl, HttpMethod.POST, requestEntity, String.class);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error completing payment");
+        }
 	}
 }

@@ -86,4 +86,9 @@ public class PaymentController {
 
 	    return "exhibition/payment_complete";
 	}
+	@GetMapping("/exhibition/test_payment_complete")
+	public String testshowPaymentComplete() {
+		return "exhibition/test_payment_complete";
+	}
+	
 }
