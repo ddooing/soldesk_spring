@@ -31,4 +31,19 @@ public class ExhibitionDao {
 		
 		 exhibitionMapper.increaseViewsExhibition(exhibition_id);
 	}
+	
+	// 전시회 페이지 최근
+	public List<ExhibitionBean> getRecentExhibitionInfo() {
+		return exhibitionMapper.getRecentExhibitionInfo();
+	}
+	
+	// 전시회 페이지 곧종료
+	public List<ExhibitionBean> getSoonEndExhibitionInfo() {
+		return exhibitionMapper.getSoonEndExhibitionInfo();
+	}
+	
+	// 전시회 페이지 무료
+	public List<ExhibitionBean> getFreeExhibitionInfo() {
+		return exhibitionMapper.getFreeExhibitionInfo();
+	}
 }

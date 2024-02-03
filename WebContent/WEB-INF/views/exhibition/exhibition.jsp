@@ -69,18 +69,21 @@
 
 	<section id="인기">
 		<div class="text-center mb-4"
-			style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1500px;">
-
-			<div style="margin-top: 50px; display: flex; text-align: center; justify-content: center;">
-			<c:forEach items="${getPopularExhibitionInfo}" var="exhibition">
-				<div style="padding: 10px;">
-					<a href="${root}/exhibition/exhibition_click?exhibition_id=${exhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${exhibition.main_poster_path}${exhibition.main_poster_name}" alt="포스터"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: center;">${exhibition.title }</p>
-				</div>
-			</c:forEach>
-			</div>
+		    style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1500px;">
+		
+		    <div style="margin-top: 50px; display: flex; flex-wrap: wrap; justify-content: center;">
+		        <c:forEach items="${getPopularExhibitionInfo}" var="popularexhibition">
+		            <div style="padding: 10px; width: 280px;">
+		                <a href="${root}/exhibition/exhibition_click?exhibition_id=${popularexhibition.exhibition_id}&user_id=${loginUserBean.user_id}">
+		                    <img src="${popularexhibition.main_poster_path}${popularexhibition.main_poster_name}" alt="포스터"
+		                        style="width: 100%; height: auto; margin-bottom: 30px;" />
+		                </a>
+		                <p style="font-size: 20px; text-align: center;">${popularexhibition.title }</p>
+		            </div>
+		        </c:forEach>
+		    </div>
 		</div>
+
 
 		<!--페이징 부분-->
 		<div style="display: flex; justify-content: center; align-items: center;">
@@ -106,93 +109,21 @@
 
 	<section id="최신">
 		<div class="text-center mb-4"
-			style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1500px;">
-
-			<div style="margin-top: 50px; display: flex; text-align: center; justify-content: center;">
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster4.png" alt="포스터1"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터1제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster4.png" alt="포스터2"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터2제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster1.png" alt="포스터3"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터3제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster2.png" alt="포스터4"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터4제목</p>
-				</div>
-
-			</div>
-
-			<div style="margin-top: 30px; display: flex; text-align: center; justify-content: center;">
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster1.png" alt="포스터1"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터1제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster2.png" alt="포스터2"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터2제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster3.png" alt="포스터3"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터3제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster4.png" alt="포스터4"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터4제목</p>
-				</div>
-
-			</div>
-
-			<div style="margin-top: 30px; display: flex; text-align: center; justify-content: center;">
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster1.png" alt="포스터1"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터1제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster2.png" alt="포스터2"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터2제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster3.png" alt="포스터3"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터3제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster4.png" alt="포스터4"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터4제목</p>
-				</div>
-
-			</div>
-
+		    style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1500px;">
+		
+		    <div style="margin-top: 50px; display: flex;  flex-wrap: wrap; justify-content: start;">
+		        <c:forEach items="${getRecentExhibitionInfo}" var="recentexhibition">
+		            <div style="padding: 10px; width: calc(25%-30px); box-sizing: border-box;">
+		                <a href="${root}/exhibition/exhibition_click?exhibition_id=${recentexhibition.exhibition_id}&user_id=${loginUserBean.user_id}">
+		                    <img src="${recentexhibition.main_poster_path}${recentexhibition.main_poster_name}" alt="포스터"
+		                        style="width: 100%; height: auto; margin-bottom: 30px;" />
+		                </a>
+		                <p style="font-size: 20px; text-align: center;">${recentexhibition.title }</p>
+		            </div>
+		        </c:forEach>
+		    </div>
 		</div>
+
 
 		<!--페이징 부분-->
 		<div style="display: flex; justify-content: center; align-items: center;">
@@ -219,92 +150,19 @@
 
 	<section id="무료">
 		<div class="text-center mb-4"
-			style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1500px;">
-
-			<div style="margin-top: 50px; display: flex; text-align: center; justify-content: center;">
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster1.png" alt="포스터1"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터1제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster2.png" alt="포스터2"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터2제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster3.png" alt="포스터3"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터3제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster4.png" alt="포스터4"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터4제목</p>
-				</div>
-
-			</div>
-
-			<div style="margin-top: 30px; display: flex; text-align: center; justify-content: center;">
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster1.png" alt="포스터1"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터1제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster2.png" alt="포스터2"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터2제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster3.png" alt="포스터3"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터3제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster4.png" alt="포스터4"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터4제목</p>
-				</div>
-
-			</div>
-
-			<div style="margin-top: 30px; display: flex; text-align: center; justify-content: center;">
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster4.png" alt="포스터1"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터4제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster3.png" alt="포스터2"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터3제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster2.png" alt="포스터3"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터2제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster1.png" alt="포스터4"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터1제목</p>
-				</div>
-
-			</div>
-
+		    style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1500px;">
+		
+		    <div style="margin-top: 50px; display: flex; flex-wrap: wrap; justify-content: center;">
+		        <c:forEach items="${getFreeExhibitionInfo}" var="freeexhibition">
+		            <div style="padding: 10px; width: 280px;">
+		                <a href="${root}/exhibition/exhibition_click?exhibition_id=${freeexhibition.exhibition_id}&user_id=${loginUserBean.user_id}">
+		                    <img src="${freeexhibition.main_poster_path}${freeexhibition.main_poster_name}" alt="포스터"
+		                        style="width: 100%; height: auto; margin-bottom: 30px;" />
+		                </a>
+		                <p style="font-size: 20px; text-align: center;">${freeexhibition.title }</p>
+		            </div>
+		        </c:forEach>
+		    </div>
 		</div>
 
 		<!--페이징 부분-->
@@ -332,92 +190,19 @@
 
 	<section id="곧종료">
 		<div class="text-center mb-4"
-			style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1500px;">
-
-			<div style="margin-top: 50px; display: flex; text-align: center; justify-content: center;">
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster3.png" alt="포스터1"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터1제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster1.png" alt="포스터2"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터2제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster4.png" alt="포스터3"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터3제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster3.png" alt="포스터4"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터4제목</p>
-				</div>
-
-			</div>
-
-			<div style="margin-top: 30px; display: flex; text-align: center; justify-content: center;">
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster1.png" alt="포스터1"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터1제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster2.png" alt="포스터2"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터2제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster3.png" alt="포스터3"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터3제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster4.png" alt="포스터4"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터4제목</p>
-				</div>
-
-			</div>
-
-			<div style="margin-top: 30px; display: flex; text-align: center; justify-content: center;">
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster1.png" alt="포스터1"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터1제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster2.png" alt="포스터2"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터2제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster3.png" alt="포스터3"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터3제목</p>
-				</div>
-
-				<div style="padding: 10px;">
-					<a href=""><img src="../img/poster4.png" alt="포스터4"
-							style="width: 260px; height: 360px; margin-bottom: 30px;" /></a>
-					<p style="font-size: 20px; text-align: left;">포스터4제목</p>
-				</div>
-
-			</div>
-
+		    style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1500px;">
+		
+		    <div style="margin-top: 50px; display: flex; flex-wrap: wrap; justify-content: center;">
+		        <c:forEach items="${getSoonEndExhibitionInfo}" var="soonendexhibition">
+		            <div style="padding: 10px; width: 280px;">
+		                <a href="${root}/exhibition/exhibition_click?exhibition_id=${soonendexhibition.exhibition_id}&user_id=${loginUserBean.user_id}">
+		                    <img src="${soonendexhibition.main_poster_path}${soonendexhibition.main_poster_name}" alt="포스터"
+		                        style="width: 100%; height: auto; margin-bottom: 30px;" />
+		                </a>
+		                <p style="font-size: 20px; text-align: center;">${soonendexhibition.title }</p>
+		            </div>
+		        </c:forEach>
+		    </div>
 		</div>
 
 		<!--페이징 부분-->

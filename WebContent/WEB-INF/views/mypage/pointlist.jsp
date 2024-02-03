@@ -108,8 +108,34 @@
 		</div>
 	</div>
 		
-	
-			<!-- 포인트 적립/사용 내역 -->
+		<c:choose>
+				<c:when test="${empty UserReserveListBean}">
+					<div class="poinList" style="margin:auto; margin-top:30px;"> 
+				<div style="background :#d3d3d32e;  width:860px;  padding: 30px; margin:auto; border-radius:15px;" >
+				<div style="display: flex;">
+					<table class="point-table" style="width:100%;">
+						<tr style="border-bottom: 1px solid #ccc; padding: 5px;">
+							<th style="text-align:center; font-size:23px;">적립/사용일</th>
+							<th style="text-align:center; font-size:23px;">적립/사용내역</th>
+							<th style="text-align:center; font-size:23px;">적립/사용액</th>
+						</tr>
+					</table>
+				</div>		
+					<div class="test-center" style="margin:auto; margin-top:100px; display:flex; flex-direction:column; align-items:center;">
+					    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+					        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+					        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+					    </svg>
+					    <h3 style="margin-top:50px;">포인트 사용 내역이 없습니다</h3>
+					</div>
+					
+					</div>
+					
+					</div>
+					
+				</c:when>
+				<c:otherwise>
+					<!-- 포인트 적립/사용 내역 -->
 			<div class="poinList" style="margin:auto; margin-top:30px;"> 
 				<div style="background :#d3d3d32e;  width:860px; display: flex; padding: 30px; margin:auto; border-radius:15px;" >
 					<table class="point-table" style="width:100%;">
@@ -150,6 +176,9 @@
 					</table>
 				</div>
 			</div>	
+				</c:otherwise>
+		</c:choose>
+			
 		
 		
 	

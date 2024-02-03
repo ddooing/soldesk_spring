@@ -61,7 +61,6 @@ public class MyPageController {
 	@PostMapping("/archive_pro") 	// 아카이브(review 테이블) 글 등록
 	public String archive_pro(@ModelAttribute("reviewBean") ReviewBean reviewBean, @RequestParam("user_id") int user_id,@RequestParam("checkboxValue") int checkboxValue , Model model) {
 		
-		
 		model.addAttribute("user_id", user_id);
 		
 		// 체크박스 토글 버튼 스타일 유지를 위해 form:checkbox로 안넘기고 input type="checkbox"로 넘겨서 requestParam으로 받아와 set해줌
@@ -72,25 +71,6 @@ public class MyPageController {
 		
 		return "/mypage/archive_enroll_complete";
 	}
-	
-	@GetMapping("/archive_return")		// alert를 위한 jsp로 이동후 다시 마이페이지 아카이브로 이동
-	public String archive_return(@ModelAttribute("reviewBean") ReviewBean reviewBean, @RequestParam("user_id") int user_id, Model model) {
-		
-		// 모든 유저 인포 내용
-		UserBean UserAllInfoBean = UserService.getLoginUserAllInfo(user_id);
-		model.addAttribute("UserAllInfoBean", UserAllInfoBean);
-				
-		// 마이페이지 상단 인포
-		UserBean UserTopInfoBean = MyPageService.getMyPageTopInfo(user_id);
-		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
-		
-		// 해당 유저 아카이브 모든 정보 가져오기
-		List<ArchiveBean> ArchiveAllInfoBean = MyPageService.getArciveAllInfo(user_id);
-		model.addAttribute("ArchiveAllInfoBean",ArchiveAllInfoBean);
-		
-		return "/mypage/archive";
-	}
-	
 	
 	@GetMapping("/boardwritelist")	// 작성글 매핑
 	public String boardwritelist(@RequestParam("user_id") int user_id, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
@@ -209,24 +189,20 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/review_modify")	// 아카이브 수정후 다시 아카이브 리턴
-	public String review_modify(@ModelAttribute("reviewBean") ReviewBean reviewBean, @RequestParam("user_id") int user_id, Model model) {
+	public String review_modify(@RequestParam("expose") int expose,  @RequestParam("contents") String contents, @RequestParam("reserve_id") int reserve_id, @RequestParam("rating") int rating ,@RequestParam("user_id") int user_id, Model model) {
 		
-		// 모든 유저 인포 내용
-		UserBean UserAllInfoBean = UserService.getLoginUserAllInfo(user_id);
-		model.addAttribute("UserAllInfoBean", UserAllInfoBean);
-						
-		// 마이페이지 상단 인포
-		UserBean UserTopInfoBean = MyPageService.getMyPageTopInfo(user_id);
-		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
+		model.addAttribute("user_id",user_id);
 		
-		// 해당 유저 아카이브 모든 정보 가져오기
-		List<ArchiveBean> ArchiveAllInfoBean = MyPageService.getArciveAllInfo(user_id);
-		model.addAttribute("ArchiveAllInfoBean",ArchiveAllInfoBean);
+		ReviewBean r1 = new ReviewBean();
+		r1.setReserve_id(reserve_id);
+		r1.setRating(rating);
+		r1.setContents(contents);
+		r1.setExpose(expose);
 		
 		// 리뷰수정
-		MyPageService.modifyArchive(reviewBean);
+		MyPageService.modifyArchive(r1);
 		
-		return "/mypage/archive";
+		return "/mypage/archive_modify_complete";
 	}
 	
 	

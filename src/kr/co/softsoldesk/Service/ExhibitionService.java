@@ -32,4 +32,19 @@ public class ExhibitionService {
 		exhibitionDao.increaseViewsExhibition(exhibition_id);
 	}
 	
+	// 전시회 페이지 최근 카테고리 조회
+	public List<ExhibitionBean> getRecentExhibitionInfo() {
+		return exhibitionDao.getRecentExhibitionInfo();
+	}
+	
+	// 전시회 페이지 곧종료 카테고리 조회
+	public List<ExhibitionBean> getSoonEndExhibitionInfo() {
+		return exhibitionDao.getSoonEndExhibitionInfo();
+	}
+	
+	// 전시회 페이지 무료 카테고리 조회
+	public List<ExhibitionBean> getFreeExhibitionInfo() {
+		return exhibitionDao.getFreeExhibitionInfo();
+	}
+	
 }

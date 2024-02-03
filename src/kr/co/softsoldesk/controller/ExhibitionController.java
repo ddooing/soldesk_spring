@@ -46,11 +46,22 @@ public class ExhibitionController {
 	@GetMapping("/exhibition")
 	public String exhibition(Model model) {
 		
-		List<ExhibitionBean> exhibition = exhibitionService.getPopularExhibitionInfo();
-	
-        model.addAttribute("getPopularExhibitionInfo", exhibition);
+		// 인기 카테고리
+		List<ExhibitionBean> getPopularExhibitionInfo = exhibitionService.getPopularExhibitionInfo();
+        model.addAttribute("getPopularExhibitionInfo", getPopularExhibitionInfo);
         
-		
+        // 곧종료 카테고리
+        List<ExhibitionBean> getSoonEndExhibitionInfo = exhibitionService.getSoonEndExhibitionInfo();
+        model.addAttribute("getSoonEndExhibitionInfo", getSoonEndExhibitionInfo);
+        
+        // 최신 카테고리
+        List<ExhibitionBean> getRecentExhibitionInfo = exhibitionService.getRecentExhibitionInfo();
+        model.addAttribute("getRecentExhibitionInfo", getRecentExhibitionInfo);
+        
+        // 무료 카테고리
+        List<ExhibitionBean> getFreeExhibitionInfo = exhibitionService.getFreeExhibitionInfo();
+        model.addAttribute("getFreeExhibitionInfo", getFreeExhibitionInfo);
+        
 		return "exhibition/exhibition";
 	}
 	

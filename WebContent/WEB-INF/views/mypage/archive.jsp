@@ -84,6 +84,48 @@
 .modal-dialog {
 	margin-top: 700px; /* 또는 원하는 값으로 설정 */
 }
+
+.checkbox-wrapper-17 input[type=checkbox] {
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+.checkbox-wrapper-17 label { -
+	-size: 55px;
+	cursor: pointer;
+	width: var(- -size);
+	height: calc(var(- -size)/2);
+	background: grey;
+	display: block;
+	border-radius: 100px;
+	position: relative;
+}
+
+.checkbox-wrapper-17 label:after {
+	content: '';
+	position: absolute;
+	top: 6%;
+	left: 2.5%;
+	width: calc(50% - 5%);
+	height: calc(100% - 11%);
+	background: #fff;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+.checkbox-wrapper-17 input:checked+label {
+	background: #bada55;
+}
+
+.checkbox-wrapper-17 input:checked+label:after {
+	left: calc(100% - 2.5%);
+	transform: translateX(-100%);
+}
+
+.checkbox-wrapper-17 label:active:after {
+	width: 55%;
+}
 </style>
 
 </head>
@@ -143,163 +185,308 @@
 	</div>
 
 
-	<!-- 아카이브 -->
-	<div class="archive" style="margin: auto;">
-		<div class="archivegrid"
-			style="grid-auto-rows: minmax(350px, auto); display: grid; margin-left: 35px; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); padding: 30px; justify-content: center; margin: auto; \width: 860px;">
-
-
-			<c:forEach items="${ArchiveAllInfoBean}" var="archivelist">
-				<c:choose>
-					<c:when test="${!empty archivelist.create_date}">
-						<!-- 메인포스터 나오는 코드 -->
-						<div class="archivediv btn-open-reviewmodal" data-toggle="modal"
-							data-target="#modal-${archivelist.reserve_id}">
-							<img
-								src="${archivelist.main_poster_path}${archivelist.main_poster_name}" />
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="archivediv btn-open-reviewmodal">
-							<img
-								onclick="window.location.href='${root}/mypage/archive_write?user_id=${loginUserBean.user_id}&reserve_id=${archivelist.reserve_id}'"
-								src="${archivelist.main_poster_path}${archivelist.main_poster_name}" />
-						</div>
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
-			
-			
-			
-
-			<c:forEach items="${ArchiveAllInfoBean}" var="archivelist">
-				<!-- Modal -->
-				<div class="modal fade" id="modal-${archivelist.reserve_id}"
-					tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-					aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">소감문 수정</h5>
-								<button type="button" class="close" data-dismiss="modal"
-									aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								<div style="display: flex; margin-top: 20px;">
-									<div style="float: left;">
-										<img
-											src="${archivelist.main_poster_path}${archivelist.main_poster_name}"
-											style="width: 170px; height: 245px;" />
-									</div>
-									<div style="float: right; margin-left: 20px; text-align: left;">
-										<p style="font-size: 30px; font-weight: bold;">${archivelist.title}</p>
-										<p>${archivelist.place}</p>
-										<p>예약 날짜 &nbsp; ${archivelist.reserve_date}</p>
-										<p>티켓 수 &nbsp; ${archivelist.ticket_count} 매</p>
-										<p>티켓 가격 &nbsp; ${archivelist.total_price} 원</p>
-									</div>
-
-								</div>
-
-								<hr />
-								<form:form
-									action="${root }/mypage/review_modify?user_id=${loginUserBean.user_id }"
-									method="post" modelAttribute="reviewBean">
-									<form:hidden path="reserve_id"
-										value="${archivelist.reserve_id}" />
-									<div style="text-align: center; font-size: 35px;"
-										class="star-rating">
-										<form:radiobutton id="star1" path="rating" value="1"
-											style="display: none;" />
-										<label for="star1">&#9733;</label>
-										<form:radiobutton id="star2" path="rating" value="2"
-											style="display: none;" />
-										<label for="star2">&#9733;</label>
-										<form:radiobutton id="star3" path="rating" value="3"
-											style="display: none;" />
-										<label for="star3">&#9733;</label>
-										<form:radiobutton id="star4" path="rating" value="4"
-											style="display: none;" />
-										<label for="star4">&#9733;</label>
-										<form:radiobutton id="star5" path="rating" value="5"
-											style="display: none;" />
-										<label for="star5">&#9733;</label>
-									</div>
-
-
-									<div class="review"
-										style="width: 465px; height: 270px; border: none; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; border-radius: 20px; padding: 10px; outline: 0; resize: none;">
-										<form:textarea path="contents" />
-										<!-- 임시로 텍스트에디터 사용안함 -->
-									</div>
-									<!-- textarea에 대한 팝업 크기 조절 추가하기 -->
-
-									<div class="checkbox-wrapper-17"
-										style="margin-top: 10px; display: flex; align-items: center;">
-										<form:checkbox path="expose" id="switch-17" value="1"
-											onchange="updateValue(this)" />
-										<label for="switch-17"></label> <span
-											style="margin-left: 10px;">공개 여부</span>
-
-										<button type="submit" class="btn btn-dark"
-											style="margin-left: 270px;" role="button">수정</button>
-
-									</div>
-								</form:form>
-
-							</div>
-						</div>
+	<c:choose>
+		<c:when test="${empty ArchiveAllInfoBean}">
+			<div style="background :#d3d3d32e;  width:860px; height:300px; margin:auto; border-radius:15px;" >
+					<div class="test-center" style="margin:auto;   display:flex;  flex-direction:column; align-items:center;">
+					    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-x-circle" style="margin-top:80px;" viewBox="0 0 16 16">
+					        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+					        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+					    </svg>
+					    <h3 style="margin-top:50px;">아카이브 내역이 없습니다</h3>
 					</div>
+				</div>	
+		</c:when>
+		<c:otherwise>
+			<div class="archive" style="margin: auto;">
+				<div class="archivegrid"
+					style="grid-auto-rows: minmax(350px, auto); display: grid; margin-left: 35px; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); padding: 30px; justify-content: center; margin: auto; \width: 860px;">
+
+
+					<c:forEach items="${ArchiveAllInfoBean}" var="archivelist">
+						<c:choose>
+							<c:when test="${!empty archivelist.create_date}">
+								<!-- 메인포스터 나오는 코드 -->
+								<div class="archivediv btn-open-reviewmodal" data-toggle="modal"
+									data-target="#modal-${archivelist.reserve_id}">
+									<img
+										src="${archivelist.main_poster_path}${archivelist.main_poster_name}" />
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="archivediv btn-open-reviewmodal">
+									<img
+										onclick="window.location.href='${root}/mypage/archive_write?user_id=${loginUserBean.user_id}&reserve_id=${archivelist.reserve_id}'"
+										src="${archivelist.main_poster_path}${archivelist.main_poster_name}" />
+								</div>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+
+
+
+
+					<c:forEach items="${ArchiveAllInfoBean}" var="archivelist">
+						<!-- Modal -->
+						<div class="modal fade" id="modal-${archivelist.reserve_id}"
+							data-rating="${archivelist.rating}" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">소감문 수정</h5>
+										<button type="button" class="close" data-dismiss="modal"
+											aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div style="display: flex; margin-top: 20px;">
+											<div style="float: left;">
+												<img
+													src="${archivelist.main_poster_path}${archivelist.main_poster_name}"
+													style="width: 170px; height: 245px;" />
+											</div>
+											<div
+												style="float: right; margin-left: 20px; text-align: left;">
+												<p style="font-size: 30px; font-weight: bold;">${archivelist.title}</p>
+												<p>${archivelist.place}</p>
+												<p>예약 날짜 &nbsp; ${archivelist.reserve_date}</p>
+												<p>티켓 수 &nbsp; ${archivelist.ticket_count} 매</p>
+												<p>티켓 가격 &nbsp; ${archivelist.total_price} 원</p>
+											</div>
+
+										</div>
+
+										<hr />
+										<form
+											action="${root }/mypage/review_modify?user_id=${loginUserBean.user_id }"
+											method="post">
+											<input type="hidden" name="reserve_id"
+												value="${archivelist.reserve_id}" />
+											<div style="text-align: center; font-size: 35px;"
+												class="star-rating">
+												<c:choose>
+													<c:when test="${archivelist.rating == 1}">
+														<input type="radio" id="star1" name="rating" value="1"
+															style="display: none;" checked />
+														<label for="star1">&#9733;</label>
+														<input type="radio" id="star2" name="rating" value="2"
+															style="display: none;" />
+														<label for="star2">&#9733;</label>
+														<input type="radio" id="star3" name="rating" value="3"
+															style="display: none;" />
+														<label for="star3">&#9733;</label>
+														<input type="radio" id="star4" name="rating" value="4"
+															style="display: none;" />
+														<label for="star4">&#9733;</label>
+														<input type="radio" id="star5" name="rating" value="5"
+															style="display: none;" />
+														<label for="star5">&#9733;</label>
+													</c:when>
+													<c:when test="${archivelist.rating == 2}">
+														<input type="radio" id="star1" name="rating" value="1"
+															style="display: none;" />
+														<label for="star1">&#9733;</label>
+														<input type="radio" id="star2" name="rating" value="2"
+															style="display: none;" checked />
+														<label for="star2">&#9733;</label>
+														<input type="radio" id="star3" name="rating" value="3"
+															style="display: none;" />
+														<label for="star3">&#9733;</label>
+														<input type="radio" id="star4" name="rating" value="4"
+															style="display: none;" />
+														<label for="star4">&#9733;</label>
+														<input type="radio" id="star5" name="rating" value="5"
+															style="display: none;" />
+														<label for="star5">&#9733;</label>
+													</c:when>
+													<c:when test="${archivelist.rating == 3}">
+														<input type="radio" id="star1" name="rating" value="1"
+															style="display: none;" />
+														<label for="star1">&#9733;</label>
+														<input type="radio" id="star2" name="rating" value="2"
+															style="display: none;" />
+														<label for="star2">&#9733;</label>
+														<input type="radio" id="star3" name="rating" value="3"
+															style="display: none;" checked />
+														<label for="star3">&#9733;</label>
+														<input type="radio" id="star4" name="rating" value="4"
+															style="display: none;" />
+														<label for="star4">&#9733;</label>
+														<input type="radio" id="star5" name="rating" value="5"
+															style="display: none;" />
+														<label for="star5">&#9733;</label>
+													</c:when>
+													<c:when test="${archivelist.rating == 4}">
+														<input type="radio" id="star1" name="rating" value="1"
+															style="display: none;" />
+														<label for="star1">&#9733;</label>
+														<input type="radio" id="star2" name="rating" value="2"
+															style="display: none;" />
+														<label for="star2">&#9733;</label>
+														<input type="radio" id="star3" name="rating" value="3"
+															style="display: none;" />
+														<label for="star3">&#9733;</label>
+														<input type="radio" id="star4" name="rating" value="4"
+															style="display: none;" checked />
+														<label for="star4">&#9733;</label>
+														<input type="radio" id="star5" name="rating" value="5"
+															style="display: none;" />
+														<label for="star5">&#9733;</label>
+													</c:when>
+													<c:when test="${archivelist.rating == 5}">
+														<input type="radio" id="star1" name="rating" value="1"
+															style="display: none;" />
+														<label for="star1">&#9733;</label>
+														<input type="radio" id="star2" name="rating" value="2"
+															style="display: none;" />
+														<label for="star2">&#9733;</label>
+														<input type="radio" id="star3" name="rating" value="3"
+															style="display: none;" />
+														<label for="star3">&#9733;</label>
+														<input type="radio" id="star4" name="rating" value="4"
+															style="display: none;" />
+														<label for="star4">&#9733;</label>
+														<input type="radio" id="star5" name="rating" value="5"
+															style="display: none;" checked />
+														<label for="star5">&#9733;</label>
+													</c:when>
+													<c:otherwise>
+														<input type="radio" id="star1" name="rating" value="1"
+															style="display: none;" />
+														<label for="star1">&#9733;</label>
+														<input type="radio" id="star2" name="rating" value="2"
+															style="display: none;" />
+														<label for="star2">&#9733;</label>
+														<input type="radio" id="star3" name="rating" value="3"
+															style="display: none;" />
+														<label for="star3">&#9733;</label>
+														<input type="radio" id="star4" name="rating" value="4"
+															style="display: none;" />
+														<label for="star4">&#9733;</label>
+														<input type="radio" id="star5" name="rating" value="5"
+															style="display: none;" />
+														<label for="star5">&#9733;</label>
+													</c:otherwise>
+												</c:choose>
+											</div>
+
+
+											<div class="review"
+												style="width: 465px; height: 270px; border: none; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; border-radius: 20px; padding: 10px; outline: 0; resize: none;">
+
+												<textarea rows="10" cols="41" name="contents"
+													style="resize: none;">${archivelist.contents }</textarea>
+												<!-- 임시로 텍스트에디터 사용안함 -->
+											</div>
+											<!-- textarea에 대한 팝업 크기 조절 추가하기 -->
+
+											<div class="checkbox-wrapper-17"
+												style="margin-top: 10px; display: flex; align-items: center;">
+												<c:choose>
+													<c:when test="${archivelist.expose == 1}">
+														<input type="hidden" name="expose"
+															id="hiddenCheckboxValue-${archivelist.reserve_id}"
+															value="1" />
+														<input type="checkbox"
+															id="switch-17-${archivelist.reserve_id}"
+															onchange="updateCheckboxValue(this, '${archivelist.reserve_id}')"
+															checked />
+													</c:when>
+													<c:otherwise>
+														<input type="hidden" name="expose"
+															id="hiddenCheckboxValue-${archivelist.reserve_id}"
+															value="0" />
+														<input type="checkbox"
+															id="switch-17-${archivelist.reserve_id}"
+															onchange="updateCheckboxValue(this, '${archivelist.reserve_id}')" />
+													</c:otherwise>
+												</c:choose>
+												<label for="switch-17-${archivelist.reserve_id}"></label> <span
+													style="margin-left: 10px;">공개 여부</span>
+												<button type="submit" class="btn btn-dark"
+													style="margin-left: 270px;" role="button">수정</button>
+											</div>
+
+										</form>
+
+									</div>
+								</div>
+							</div>
+						</div>
+						<script>
+				document.addEventListener("DOMContentLoaded", function() {
+				    let stars = document.querySelectorAll('.star-rating label');
+				    let ratingInputs = document.querySelectorAll('.star-rating input[type="radio"]');
+				
+				    // 별 클릭 이벤트: 별점 선택 시 해당 라디오 버튼을 체크합니다.
+				    stars.forEach(function(star, index) {
+				        star.addEventListener('click', function() {
+				            ratingInputs[index].checked = true;
+				            highlightStars(index + 1);
+				        });
+				    });
+				
+				    // 라디오 버튼 변경 감지 이벤트: 별점 상태 업데이트
+				    ratingInputs.forEach(function(input, index) {
+				        input.addEventListener('change', function() {
+				            if(input.checked) {
+				                highlightStars(index + 1);
+				            }
+				        });
+				    });
+				
+				    function highlightStars(count) {
+				        stars.forEach(function(star, index) {
+				            if (index < count) {
+				                star.classList.add('selected');
+				            } else {
+				                star.classList.remove('selected');
+				            }
+				        });
+				    }
+				
+				   
+				});
+				</script>
+
+						<script>
+$(document).ready(function() {
+    // 모달 열기
+    $('.btn-open-reviewmodal').click(function() {
+        const modalId = $(this).data('target');
+        const rating = $(modalId).data('rating');
+        highlightStars(rating, modalId);
+        $(modalId).modal('show');
+    });
+
+    // 별점 하이라이트 함수
+    function highlightStars(count, modalId) {
+        let stars = $(modalId + ' .star-rating label');
+        stars.each(function(index) {
+            if (index < count) {
+                $(this).addClass('selected');
+            } else {
+                $(this).removeClass('selected');
+            }
+        });
+    }
+});
+</script>
+
+
+					</c:forEach>
 				</div>
-			</c:forEach>
-		</div>
 
 
 
 
-		<!-- 모달 끝 -->
+				<!-- 모달 끝 -->
 
-		<!-- 소감문 작성 전 - 소감문 작성 페이지로 이동 , 소감문 작성 후 - 소감문 모달창 -->
-		<script>
-		document.addEventListener("DOMContentLoaded", function() {
-		    let ratingValue = ${reviewBean.rating}; // 현재 평점 값
-		    let stars = document.querySelectorAll('.star-rating label');
+				<!-- 소감문 작성 전 - 소감문 작성 페이지로 이동 , 소감문 작성 후 - 소감문 모달창 -->
 
-		    // 현재 평점 값에 따라 별 활성화
-		    for (let i = 0; i < ratingValue; i++) {
-		        stars[i].classList.add('selected');
-		    }
-		    
-		    // 이벤트 리스너 추가
-		    stars.forEach(function(star, index) {
-		        star.addEventListener('mouseover', function() {
-		            highlightStars(index + 1);
-		        });
-
-		        star.addEventListener('mouseout', function() {
-		            highlightStars(ratingValue); // 마우스 아웃시 원래 평점으로 복원
-		        });
-
-		        star.addEventListener('click', function() {
-		            ratingValue = index + 1; // 새로운 평점 선택
-		        });
-		    });
-
-		    function highlightStars(count) {
-		        stars.forEach(function(star, index) {
-		            if (index < count) {
-		                star.classList.add('hovered');
-		            } else {
-		                star.classList.remove('hovered');
-		            }
-		        });
-		    }
-		});
-
-		</script>
-		<script>
+				<script>
 		$(document).ready(function() {
 		    // 모달 열기
 		    $('.btn-open-reviewmodal').click(function() {
@@ -320,24 +507,23 @@
 
 
 
-	</div>
-	</div>
+			</div>
+		</c:otherwise>
+	</c:choose>
+
+	<!-- 아카이브 -->
 
 
-
-	</div>
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
 
 
 	<script>	// 공개여부 체크시 value : 1 해제시 value : 0
-		function updateValue(checkbox) {
-		  if (checkbox.checked) {
-		    checkbox.value = "1";
-		  } else {
-		    checkbox.value = "0";
-		  }
-		}
+	function updateCheckboxValue(checkbox, reserveId) {
+	    var hiddenInput = document.getElementById('hiddenCheckboxValue-' + reserveId);
+	    hiddenInput.value = checkbox.checked ? "1" : "0";
+	}
+
 	</script>
 
 
@@ -372,44 +558,7 @@
 
 
 
-	<script>	// 별작동 모달
-	document.addEventListener("DOMContentLoaded", function() {
-	    let stars = document.querySelectorAll('.star-rating label');
-	    let ratingInputs = document.querySelectorAll('.star-rating input[type="radio"]');
 
-	    // 별 클릭 이벤트: 별점 선택 시 해당 라디오 버튼을 체크합니다.
-	    stars.forEach(function(star, index) {
-	        star.addEventListener('click', function() {
-	            ratingInputs[index].checked = true;
-	            highlightStars(index + 1);
-	        });
-	    });
-
-	    // 라디오 버튼 변경 감지 이벤트: 별점 상태 업데이트
-	    ratingInputs.forEach(function(input, index) {
-	        input.addEventListener('change', function() {
-	            if(input.checked) {
-	                highlightStars(index + 1);
-	            }
-	        });
-	    });
-
-	    function highlightStars(count) {
-	        stars.forEach(function(star, index) {
-	            if (index < count) {
-	                star.classList.add('selected');
-	            } else {
-	                star.classList.remove('selected');
-	            }
-	        });
-	    }
-
-	    // 초기 별점 상태 설정
-	    let initialRating = ${reviewBean.rating};
-	    highlightStars(initialRating);
-	});
-
-    </script>
 
 
 
