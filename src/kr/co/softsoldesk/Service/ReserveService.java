@@ -4,9 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.dao.ReserveDao;
@@ -42,13 +40,31 @@ public class ReserveService {
 		}
 		
 	}
-	
+	/*
 	public void reserve_ing(ReserveBean ReserveBean) {
 		
 		 reserveDao.reserve_ing(ReserveBean);
 	}
 	
+	
 	public void reserveAfterExhibitionCntIncrease(int ticket_count, int exhibition_id) {
 		reserveDao.reserveAfterExhibitionCntIncrease(ticket_count,exhibition_id);
+	}
+	*/
+	// /checkout 에 대한 예매 정보 저장
+	public void checkoutReserveInfo(ReserveBean checkoutReserveBean)
+	{
+		reserveDao.checkoutReserveInfo(checkoutReserveBean);
+	}
+	
+	// 인증 결과인 orderId가  결제 요청전의 order_id인지 체크 
+	public boolean checkOrderId(String orderId) {
+		return reserveDao.checkOrderId(orderId);
+	}
+	
+	//orderid 통해서 payment 가져오기 
+	public int getPayment(String orderId)
+	{
+		return reserveDao.getPayment(orderId);
 	}
 }

@@ -36,6 +36,144 @@ public class ExhibitionBean {
 	
 	private String detail_poster_path;
 	private String detail_poster_name;
+	public int getExhibition_id() {
+		return exhibition_id;
+	}
+	public void setExhibition_id(int exhibition_id) {
+		this.exhibition_id = exhibition_id;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+	public String getAuthor() {
+		return author;
+	}
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
+	public String getExhibition_start() {
+		return exhibition_start;
+	}
+	public void setExhibition_start(String exhibition_start) {
+		this.exhibition_start = exhibition_start;
+	}
+	public String getExhibition_end() {
+		return exhibition_end;
+	}
+	public void setExhibition_end(String exhibition_end) {
+		this.exhibition_end = exhibition_end;
+	}
+	public String getOpen() {
+		return open;
+	}
+	public void setOpen(String open) {
+		this.open = open;
+	}
+	public String getHoliday() {
+		return holiday;
+	}
+	public void setHoliday(String holiday) {
+		this.holiday = holiday;
+	}
+	public int getTicket_cnt() {
+		return ticket_cnt;
+	}
+	public void setTicket_cnt(int ticket_cnt) {
+		this.ticket_cnt = ticket_cnt;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getPlace() {
+		return place;
+	}
+	public void setPlace(String place) {
+		this.place = place;
+	}
+	public String getSite() {
+		return site;
+	}
+	public void setSite(String site) {
+		this.site = site;
+	}
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
+	}
+	public double getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+	public double getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
+	}
+	public int getMain_poster_file_id() {
+		return main_poster_file_id;
+	}
+	public void setMain_poster_file_id(int main_poster_file_id) {
+		this.main_poster_file_id = main_poster_file_id;
+	}
+	public int getDetail_poster_file_id() {
+		return detail_poster_file_id;
+	}
+	public void setDetail_poster_file_id(int detail_poster_file_id) {
+		this.detail_poster_file_id = detail_poster_file_id;
+	}
+	public String getMain_poster_path() {
+		return main_poster_path;
+	}
+	public void setMain_poster_path(String main_poster_path) {
+		this.main_poster_path = main_poster_path;
+	}
+	public String getMain_poster_name() {
+		return main_poster_name;
+	}
+	public void setMain_poster_name(String main_poster_name) {
+		this.main_poster_name = main_poster_name;
+	}
+	public String getDetail_poster_path() {
+		return detail_poster_path;
+	}
+	public void setDetail_poster_path(String detail_poster_path) {
+		this.detail_poster_path = detail_poster_path;
+	}
+	public String getDetail_poster_name() {
+		return detail_poster_name;
+	}
+	public void setDetail_poster_name(String detail_poster_name) {
+		this.detail_poster_name = detail_poster_name;
+	}
 	
 	
 	

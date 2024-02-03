@@ -16,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.ExhibitionService;
+import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.UserService;
 
 @Controller
@@ -30,29 +31,30 @@ public class TossController {
 	private UserService UserService;
 	
 	@Autowired
+	private ReserveService reserveService;
+	
+	@Autowired
 	private ExhibitionService exhibitionService;
 	
-	//1.결제 금액 = 티켓 가격 - 포인트 사용 금액 확인 - payment jsp에서 script문에서 처리함
-	//2. 결제할 금액이 0인지 여부 확인
 	@PostMapping("/checkout_pro")
 	public String checkout_pro(@ModelAttribute("tempReserveBean")ReserveBean tempReserveBean,
 			@RequestParam("exhibition_id") int exhibition_id,Model model,
 			RedirectAttributes redirectAttributes) {
 
-		//2.결제할 금액 확인
+		//결제할 금액 확인
 		int payment = tempReserveBean.getPayment();
 		
 		/* 
 		 //확인용 
 		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ payment); // 포인트 사용 금액+ 티켓 총 가격 
-		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ tempReserveBean.getReserve_date());
-		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ tempReserveBean.getTicket_count());
-		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ tempReserveBean.getPoint_deduction());
-		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ tempReserveBean.getOrder_id()); // 주문 번호 확인
-
-		 */
+		System.out.println("/checkout_pro 컨트롤러 -  예매날짜 : "+ tempReserveBean.getReserve_date());
+		System.out.println("/checkout_pro 컨트롤러 -  티켓 수 : "+ tempReserveBean.getTicket_count());
+		System.out.println("/checkout_pro 컨트롤러 -  포인트 사용금액 : "+ tempReserveBean.getPoint_deduction());
+		System.out.println("/checkout_pro 컨트롤러 -  주문번호 : "+ tempReserveBean.getOrder_id()); // 주문 번호 확인
 		System.out.println("/checkout_pro 컨트롤러 -  orderid : "+ tempReserveBean.getOrder_id());
 		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ tempReserveBean.getExhibition_id());
+		
+		 */
 		
 		//결제 금액이 0 이면 바로 예매 완료 페이지로 이동
 		if(payment == 0)
@@ -74,22 +76,26 @@ public class TossController {
 	public String checkout(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
             				HttpServletRequest request, Model model) throws Exception  {
 		
-	
 		//예매하려는 유저 아이디 찾기
 		UserBean loginUserDetailBean = UserService.getLoginUserAllInfo(tempReserveBean.getUser_id());
 		
 		//예매하려는 전시회 제목=> orderName 찾기
-		//String title = exhibitionService.getExhibitionTitle(exhibitionId);
 		String title = exhibitionService.getExhibitionTitle(tempReserveBean.getExhibition_id());
 		
+		
+		//결제 요청 전에 예매정보 데이터 저장
+		//checkout 지점 db 저장                                  *후에 임시 저장하는 방식으로 바꾸기 
+			//reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction,payment, ticket_count, order_id 저장함
+		reserveService.checkoutReserveInfo(tempReserveBean);
+		
+		/*
 		//확인
 		System.out.println(" /checkout - tempReserveBean oderid : "+tempReserveBean.getOrder_id());
 	    System.out.println(" /checkout ReserveBean.payment: " + tempReserveBean.getPayment());
-	    //System.out.println("/checkout Exhibition ID: " + exhibitionId);
-
+	    System.out.println("/checkout Exhibition ID: " + tempReserveBean.getExhibition_id());
+		*/
 	    
 		model.addAttribute("orderid", tempReserveBean.getOrder_id()); 
-		
 	    model.addAttribute("tempReserveBean", tempReserveBean);
 	    model.addAttribute("exhibition_id", tempReserveBean.getExhibition_id());
 	    model.addAttribute("loginUserDetailBean",loginUserDetailBean);
@@ -101,23 +107,36 @@ public class TossController {
 	}
 	
 	//@RequestParam String paymentType, 
-	@GetMapping("/success")
-    public String successPage(
-            @RequestParam String orderId, 
-            @RequestParam String paymentKey, 
-            @RequestParam int amount,HttpServletRequest request, Model model) throws Exception  {
+	@GetMapping("/success") // 결제 요청이 성공적이였을때
+    public String successPage(@RequestParam String orderId, 
+            					@RequestParam String paymentKey, 
+            					@RequestParam int amount,HttpServletRequest request, Model model) throws Exception  {
 		
-		//1.결제 승인 전 
+		// 결제 요청 전에 예매정보 데이터(/checkout 에서 저장한 정보)와 인증 결과(orderId,paymentKey,amount) 검증
+			//1. 인증 결과인 orderId가  결제 요청전의 order_id인지 체크 
+		boolean isOrderIdValid = reserveService.checkOrderId(orderId);
 		
-		
+		//확인
+		System.out.println("isOrderIdValid :"+isOrderIdValid);
 		System.out.println("orderId :"+orderId);
 		System.out.println("paymentKey :"+paymentKey);
 		System.out.println("amount :"+amount);
+
+		if(isOrderIdValid) {
+			// 1-1. 결제 요청 전의 결제 금액인 payment 와 결제 요청 결과의 결제 금액인 amount 같은지 체크
+			
+			int reqBeforePayment = reserveService.getPayment(orderId);//orderId로 payment 가져오기
+			
+			if(reqBeforePayment!=amount)
+			{
+				return "toss/fail";
+			}
+		}
+		else {
+			return "toss/fail";
+		}
 		
-		//2.결제 승인 처리 
-		
-		
-		//3.결제 승인 후
+
         return "toss/success"; 
     }
 

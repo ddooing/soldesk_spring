@@ -30,17 +30,20 @@
             var clientKey = 'test_ck_mBZ1gQ4YVXKORgvZXBwR3l2KPoqN';
             
             var tossPayments = TossPayments(clientKey);
+			
 
-          
-            console.log("checkout - payment : "+payment);
-            console.log("checkout - orderid : "+orderid);
-            console.log("checkout - title : "+title);
-            // 결제창 띄우기
+            console.log("checkout - payment : "+${tempReserveBean.payment});
+            //console.log("checkout - orderid : "+${orderid});
+            //console.log("checkout - title : "+${title});
+           // console.log("checkout - name : "+${loginUserDetailBean.name});
+            
+           
+           // 결제창 띄우기
             tossPayments.requestPayment('카드', {
-                amount: '${tempReserveBean.payment}', // 서버에서 받은 금액 사용
+                amount: ${tempReserveBean.payment}, // 서버에서 받은 금액 사용
                 orderId: '${orderid}',//필수 )'7_XR8395y-HtJQb7Wb60L', // 주문 ID
                 orderName: '${title}', // 필수 )주문명 
-                customerName: '김도영', // 구매자 이름//customerEmail: '',// 이메일 
+                customerName: '${loginUserDetailBean.name}', // 구매자 이름//customerEmail: '',// 이메일 
                 successUrl: 'http://localhost:8080/Spring_Project_Dream/toss/success',//필수
                 failUrl: 'http://localhost:8080/Spring_Project_Dream/toss/fail',//필수
             }).catch(function (error) {// 에러 처리
@@ -52,8 +55,6 @@
                 	alert('결제를 취소하셨습니다.');
                 	
                 	document.forms["paymentForm"].submit();
-                	// payment 창으로 가야하는데 이때, 
-                	//window.location.href = 'http://localhost:8080/Spring_Project_Dream/exhibition/payment?exhibition_id=${exhibitionBean.exhibition_id}';
                 	
 		      } else if (error.code === 'INVALID_CARD_COMPANY') {
 		        // 유효하지 않은 카드 코드에 대한 에러 처리

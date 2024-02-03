@@ -53,7 +53,8 @@ public class WidgetController {
     };
     JSONObject obj = new JSONObject();
     obj.put("orderId", orderId);
-    obj.put("amount", amount);
+    //obj.put("amount", amount);
+    obj.put("amount", 1000); //실패 시 확인용 
     obj.put("paymentKey", paymentKey);
     
     
@@ -67,6 +68,7 @@ public class WidgetController {
     Base64.Encoder encoder = Base64.getEncoder();
     byte[] encodedBytes = encoder.encode((apiKey + ":").getBytes("UTF-8"));
     String authorizations = "Basic " + new String(encodedBytes, 0, encodedBytes.length);
+    
     // 결제를 승인하면 결제수단에서 금액이 차감돼요.
     URL url = new URL("https://api.tosspayments.com/v1/payments/confirm");
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -80,13 +82,26 @@ public class WidgetController {
     
     int code = connection.getResponseCode();
     boolean isSuccess = code == 200 ? true : false;
-    
+    System.out.println("code : "+code);
     InputStream responseStream = isSuccess ? connection.getInputStream() : connection.getErrorStream();
-    
+    System.out.println("responseStream : "+responseStream);
     // 결제 성공 및 실패 비즈니스 로직을 구현하세요.
     Reader reader = new InputStreamReader(responseStream, StandardCharsets.UTF_8);
     JSONObject jsonObject = (JSONObject) parser.parse(reader);
     responseStream.close();
+    
+    if (isSuccess) {
+        // 성공 로직
+        System.out.println("connection 성공: " + jsonObject);
+        System.out.println("connection 성공 code : " + code);
+        // 추가 성공 처리 로직
+    } else {
+        // 실패 로직
+        System.out.println("connection 실패: " + jsonObject);
+        
+        System.out.println("connection 실패 code : " + code);
+        // 추가 실패 처리 로직
+    }
     
     return ResponseEntity.status(code).body(jsonObject);
   }

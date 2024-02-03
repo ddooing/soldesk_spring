@@ -5,12 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
-import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.UserService;
@@ -26,7 +22,7 @@ public class PaymentController {
 	
 	@Autowired
 	private UserService UserService;
-	
+	/*
 	@PostMapping("/exhibition/point_use")		// 포인트 사용 메서드 아직 사용안함 수정예정
 	public String point_use(@RequestParam("current_point") int current_point, @RequestParam("use_point") int use_point, @RequestParam("exhibition_idx") int exhibition_idx, @ModelAttribute("ReserveBean") ReserveBean ReserveBean ,Model model) {
 		
@@ -75,7 +71,7 @@ public class PaymentController {
 		return "exhibition/payment_complete";
 	}
 	
-	
+	*/
 	@GetMapping("/exhibition/payment_complete")
 	public String showPaymentComplete(@ModelAttribute("ReserveBean") ReserveBean checkReserveBean,
 	                                  @ModelAttribute("exhibition_id") int exhibitionId,

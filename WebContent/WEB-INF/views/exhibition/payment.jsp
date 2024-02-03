@@ -181,8 +181,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				<form:hidden path="ticket_count" value="${tempReserveBean.ticket_count }"/>
 				<form:hidden path="user_id" value="${LoginAllInfoBean.user_id }" />
 				<form:hidden path="payment" id="payment-field" /> <!--  최종 결제 금액  -->
-				
-				
+				<form:hidden path="total_price" value="${exhibitionBean.price * tempReserveBean.ticket_count}"/>
 				<form:hidden path="exhibition_id" value="${exhibitionBean.exhibition_id }" />
 
 				<!--주문자 정보 부분-->
