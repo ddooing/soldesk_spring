@@ -15,7 +15,7 @@ public class UserDao {
 	// 로그인 시에 최소 정보 가져옴 (세션객체)
 	public UserBean getLoginUserInfo(UserBean tempLoginUserBean) {
 		
-		System.out.println("userid"+tempLoginUserBean.getName());
+		System.out.println("userid : "+tempLoginUserBean.getName());
 		return userMapper.getLoginUserInfo(tempLoginUserBean);
 		
 	}
@@ -24,5 +24,11 @@ public class UserDao {
 	public UserBean getLoginUserAllInfo(int user_id) {
 		
 		return userMapper.getLoginUserAllInfo(user_id);
+	}
+	
+	//포인트와 경험치 증가 
+	public void point_expIncrease(int user_id)
+	{
+		userMapper.point_expIncrease(user_id);
 	}
 }

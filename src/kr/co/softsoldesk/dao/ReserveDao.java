@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.dao;
 
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -35,12 +37,29 @@ public class ReserveDao {
 		reserveMapper.checkoutReserveInfo(checkoutReserveBean);
 	}
 	
-	public boolean checkOrderId(String orderId) {
+	public String  checkOrderId(String orderId) {
 		return reserveMapper.checkOrderId(orderId);
 	}
 	
 	
+	public ReserveBean validcheckOrderId(String orderId){
+		
+		return reserveMapper.validcheckOrderId(orderId);
+	}
+	
 	public int getPayment(String orderId) {
 		return reserveMapper.getPayment(orderId);
 	}
+	
+	public void approvalBefore(String orderId,String paymentKey)
+	{
+		 reserveMapper.approvalBefore(orderId,paymentKey);
+	}
+	
+	public void realReserveState(String orderId,Timestamp timestampApprovedAt)
+	{
+		reserveMapper.realReserveState(orderId,timestampApprovedAt);
+	}
+	
+	
 }

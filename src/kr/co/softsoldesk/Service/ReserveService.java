@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.Service;
 
+import java.sql.Timestamp;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +60,13 @@ public class ReserveService {
 	}
 	
 	// 인증 결과인 orderId가  결제 요청전의 order_id인지 체크 
-	public boolean checkOrderId(String orderId) {
+	public String  checkOrderId(String orderId) {
 		return reserveDao.checkOrderId(orderId);
+	}
+	
+	public ReserveBean validcheckOrderId(String orderId){
+		
+		return reserveDao.validcheckOrderId(orderId);
 	}
 	
 	//orderid 통해서 payment 가져오기 
@@ -67,4 +74,22 @@ public class ReserveService {
 	{
 		return reserveDao.getPayment(orderId);
 	}
+	
+	//pay_approval_state : 승인 상태 true로 update &  paymentKey 저장 
+	public void approvalBefore(String orderId,String paymentKey)
+	{
+		 reserveDao.approvalBefore(orderId,paymentKey);
+	}
+	
+	// 정말로 결제되었음 - pay_state 결제 상태 :true 로 update &  state(0:예매,1: 예매 취소) 예매가 되었음을 0으로 저장
+	public void realReserveState(String orderId,Timestamp timestampApprovedAt)
+	{
+		reserveDao.realReserveState(orderId,timestampApprovedAt);
+	}
+	
+	
+	
+	
+	
+    
 }

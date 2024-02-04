@@ -35,4 +35,8 @@ public class ExhibitionDao {
 	public String getExhibitionTitle(int exhibition_id) {
 		return exhibitionMapper.getExhibitionTitle(exhibition_id);
 	}
+	
+	public void increase_exhibitionTotalTicket(int exhibition_id,int ticket_cnt) {
+		exhibitionMapper.increase_exhibitionTotalTicket(exhibition_id,ticket_cnt);
+	}
 }

@@ -1,6 +1,7 @@
 package kr.co.softsoldesk.mapper;
 
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import kr.co.softsoldesk.Beans.UserBean;
 
@@ -14,4 +15,8 @@ public interface UserMapper {
 	@Select("select user_id, id, name, password, nickname, birth, gender, email, point, telephone, exp, create_date, modify_date, state from user_table2 where user_id = #{user_id}")
 	UserBean getLoginUserAllInfo(int user_id);
 	
+	
+	//포인트와 경험치 증가
+	@Update("")
+	void point_expIncrease(int user_id);
 }

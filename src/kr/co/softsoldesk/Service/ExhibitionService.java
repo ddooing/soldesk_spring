@@ -36,4 +36,9 @@ public class ExhibitionService {
 	public String getExhibitionTitle(int exhibition_id) {
 		return exhibitionDao.getExhibitionTitle(exhibition_id);
 	}
+	
+	//예매된 티켓 수를 전시회 정보 update
+		public void increase_exhibitionTotalTicket(int exhibition_id,int ticket_cnt) {
+			exhibitionDao.increase_exhibitionTotalTicket(exhibition_id,ticket_cnt);
+		}
 }

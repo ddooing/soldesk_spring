@@ -26,11 +26,11 @@ public class UserService {
             loginUserBean.setId(tempLoginUserBean2.getId());
             loginUserBean.setPassword(tempLoginUserBean2.getPassword());
             
-            System.out.println(loginUserBean.getUser_id());
+            System.out.println("로그인한 유저 아이디 : "+loginUserBean.getUser_id());
             
             loginUserBean.setUserLogin(true); // 로그인 성공 시 userLogin을 true로 설정
 
-            System.out.println(loginUserBean.isUserLogin()); // 이 부분에서 로그인 상태 확인
+            System.out.println("로그인 여부 확인 :  "+loginUserBean.isUserLogin()); // 이 부분에서 로그인 상태 확인
         } 
     }
 	
@@ -39,5 +39,12 @@ public class UserService {
 		
 		return userDao.getLoginUserAllInfo(user_id);
 	}
+	
+	//포인트와 경험치 증가 
+	public void point_expIncrease(int user_id)
+	{
+		userDao.point_expIncrease(user_id);
+	}
+	
 	
 }
