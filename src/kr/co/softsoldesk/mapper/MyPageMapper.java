@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Update;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.Beans.UserBean;
@@ -158,4 +159,12 @@ public interface MyPageMapper {
 		// 마이페이지 아카이브 글 등록시 user_table exp 증가
 		@Update("UPDATE user_table SET exp = exp + #{exp} where user_id = #{user_id}")
 		void addArchiveUserExp(ReviewBean reviewBean);		// reviewBean에 exp 추가 ex) if(공개여부가 1 이면 100 공개여부가 0이면 50)
+		
+		// 해당 유저 QnA 작성 리스트 가져오기
+		@Select("select qna_id, user_id, title, TO_CHAR(regdate, 'yyyy-mm-dd') as regdate, contents, reply, state from qna where user_id = #{user_id}")
+		List<QnABean> getUserQnAList(int user_id);
+		
+		//QnA 등록 메소드
+		@Insert("INSERT INTO qna (qna_id, user_id, title, regdate, contents, state) VALUES (QnA_id_seq.nextval, #{user_id}, #{title}, To_char(sysdate, 'yyyy-mm-dd'), #{contents}, 0)")
+		void addUserQnA(QnABean qnaBean);
 }

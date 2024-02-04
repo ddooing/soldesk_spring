@@ -260,7 +260,7 @@
 
 										<hr />
 										<form
-											action="${root }/mypage/review_modify?user_id=${loginUserBean.user_id }"
+											action="${root }/mypage/archive_modify?user_id=${loginUserBean.user_id }"
 											method="post">
 											<input type="hidden" name="reserve_id"
 												value="${archivelist.reserve_id}" />

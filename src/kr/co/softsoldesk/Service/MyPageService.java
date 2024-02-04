@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.Beans.UserBean;
@@ -48,9 +49,19 @@ public class MyPageService {
 		myPageDao.enrollArchive(reviewBean);
 	}
 	
+	// 해당 유저 QnA 리스트 가져오는 메소드
+	public List<QnABean> getUserQnAList(int user_id) {
+		return myPageDao.getUserQnAList(user_id);
+	}
+	
 	// 마이페이지 아카이브 글수정 메소드
 	public void modifyArchive(ReviewBean reviewBean) {
 		myPageDao.modifyArchive(reviewBean);
+	}
+	
+	// 마이페이지 qna 등록 메소드
+	public void addUserQnA(QnABean qnaBean) {
+		myPageDao.addUserQnA(qnaBean);
 	}
 	
 	

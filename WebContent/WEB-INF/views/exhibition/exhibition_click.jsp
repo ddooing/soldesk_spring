@@ -16,32 +16,7 @@
 <link rel="icon" type="image/x-icon" href="img/ARTMEE_PAGELOGO.png" />
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.1.0/css/datepicker.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.1.0/js/datepicker.min.js"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var today = new Date();
-        var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
-        var localToday = new Date(today.getTime() - offset);
-        var formattedToday = localToday.toISOString().substring(0, 10); // yyyy-mm-dd 형식으로 변환
 
-        $('#datepicker').datepicker({
-            language: {
-                daysMin: ['일', '월', '화', '수', '목', '금', '토'],
-                months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-                monthsShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-                today: '오늘',
-                clear: '지우기',
-                dateFormat: 'yyyy-mm-dd',
-                firstDay: 0
-            },
-            inline: true,
-            minDate: new Date(),
-            dateFormat: 'yyyy-mm-dd',
-            startDate: localToday
-        });
-    });
-    </script>
 
 <!-- Font Awesome icons (free version)-->
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -66,6 +41,10 @@
 
 <!-- JQuery 자바스크립트-->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<!-- datepicker -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 
 <!-- CSS -->
 <link href="../css/styles.css" rel="stylesheet" />
@@ -351,8 +330,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							<div
 								style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">
 								<div id="sidebar_menu" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 400px; height: 350px; text-align: center; align-items: center; justify-content: center; display: flex;">
-										<form:input type="date" path="reserve_date" />
-										<input type="text" id="datepicker">
+										<form:hidden path="reserve_date" id="hiddenDateField" value=""/>
+										<div id="datepicker11"></div>
 								</div>
 								<hr style="margin: auto; width: 400px; color: black;" />
 
@@ -455,6 +434,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					</form:form>
 				</c:otherwise>
 			</c:choose>
+			
+			
 
 
 			<script>
@@ -819,6 +800,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 	</script>
 
 
+	
+
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
@@ -868,6 +851,35 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			return false;
 		});
 	</script>
+
+
+
+
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var today = new Date();
+        var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
+        var localToday = new Date(today.getTime() - offset);
+        var formattedToday = localToday.toISOString().substring(0, 10); // yyyy-mm-dd 형식으로 변환
+
+        $('#datepicker11').datepicker({
+            inline: true,
+            minDate: new Date(),
+            dateFormat: 'yy-mm-dd',
+            startDate: formattedToday,
+            onSelect: function(dateText) {
+                // 숨겨진 폼 필드의 값을 설정
+                $('#hiddenDateField').val(dateText);
+            }
+        }).datepicker('setDate', formattedToday); // 초기 날짜 설정
+        
+        $('#hiddenDateField').val(formattedToday);
+    });
+    
+   
+    </script>
 
 
 </body>

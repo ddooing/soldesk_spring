@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.co.softsoldesk.Beans.ArchiveBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
+import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.Beans.UserBean;
@@ -71,6 +72,43 @@ public class MyPageController {
 		
 		return "/mypage/archive_enroll_complete";
 	}
+	
+
+	@GetMapping("/archive_write")	// 아카이브 작성페이지 이동
+	public String archive_write(@ModelAttribute("reviewBean") ReviewBean reviewBean ,@RequestParam("reserve_id") int reserve_id , @RequestParam("user_id") int user_id, Model model) {
+		
+		// 모든 유저 인포 내용
+		UserBean UserAllInfoBean = UserService.getLoginUserAllInfo(user_id);
+		model.addAttribute("UserAllInfoBean", UserAllInfoBean);
+				
+		// 마이페이지 상단 인포
+		UserBean UserTopInfoBean = MyPageService.getMyPageTopInfo(user_id);
+		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
+		
+		// 해당 reserve_id로 아카이브 1개 모든 정보 가져오기
+		ArchiveBean ArchiveOneInfoBean = MyPageService.getArchiveOneInfo(reserve_id);
+		model.addAttribute("ArchiveOneInfoBean",ArchiveOneInfoBean);
+		
+		return "/mypage/archive_write";
+	}
+	
+	@PostMapping("/archive_modify")	// 아카이브 수정후 다시 아카이브 리턴
+	public String review_modify(@RequestParam("expose") int expose,  @RequestParam("contents") String contents, @RequestParam("reserve_id") int reserve_id, @RequestParam("rating") int rating ,@RequestParam("user_id") int user_id, Model model) {
+		
+		model.addAttribute("user_id",user_id);
+		
+		ReviewBean r1 = new ReviewBean();
+		r1.setReserve_id(reserve_id);
+		r1.setRating(rating);
+		r1.setContents(contents);
+		r1.setExpose(expose);
+		
+		// 리뷰수정
+		MyPageService.modifyArchive(r1);
+		
+		return "/mypage/archive_modify_complete";
+	}
+	
 	
 	@GetMapping("/boardwritelist")	// 작성글 매핑
 	public String boardwritelist(@RequestParam("user_id") int user_id, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
@@ -137,7 +175,7 @@ public class MyPageController {
 	}
 	
 	@GetMapping("/QnA")			//QnA 매핑
-	public String QnA(@RequestParam("user_id") int user_id, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+	public String QnA(@ModelAttribute("qnaBean") QnABean qnaBean ,@RequestParam("user_id") int user_id, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
 		// 모든 유저 인포 내용
 		UserBean UserAllInfoBean = UserService.getLoginUserAllInfo(user_id);
@@ -147,7 +185,22 @@ public class MyPageController {
 		UserBean UserTopInfoBean = MyPageService.getMyPageTopInfo(user_id);
 		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
 		
+		// 해당 유저 QnA 리스트 가져오기
+		List<QnABean> UserQnAInfoBean = MyPageService.getUserQnAList(user_id);
+		model.addAttribute("UserQnAInfoBean",UserQnAInfoBean);
+		
 		return "/mypage/QnA";
+	}
+	
+	@PostMapping("/QnA_add")			//QnA 매핑
+	public String QnA_add(@ModelAttribute("qnaBean") QnABean qnaBean, Model model) {
+		
+		MyPageService.addUserQnA(qnaBean);
+		
+		// 마이페이지 다시 가는 용도 user_id 넘김
+		model.addAttribute("user_id",qnaBean.getUser_id());
+		
+		return "/mypage/QnA_complete";
 	}
 	
 	@GetMapping("/reservelist")		// 예약내역 매핑
@@ -170,40 +223,6 @@ public class MyPageController {
 	
 
 	
-	@GetMapping("/archive_write")	// 아카이브 작성페이지 이동
-	public String archive_write(@ModelAttribute("reviewBean") ReviewBean reviewBean ,@RequestParam("reserve_id") int reserve_id , @RequestParam("user_id") int user_id, Model model) {
-		
-		// 모든 유저 인포 내용
-		UserBean UserAllInfoBean = UserService.getLoginUserAllInfo(user_id);
-		model.addAttribute("UserAllInfoBean", UserAllInfoBean);
-				
-		// 마이페이지 상단 인포
-		UserBean UserTopInfoBean = MyPageService.getMyPageTopInfo(user_id);
-		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
-		
-		// 해당 reserve_id로 아카이브 1개 모든 정보 가져오기
-		ArchiveBean ArchiveOneInfoBean = MyPageService.getArchiveOneInfo(reserve_id);
-		model.addAttribute("ArchiveOneInfoBean",ArchiveOneInfoBean);
-		
-		return "/mypage/archive_write";
-	}
-	
-	@PostMapping("/review_modify")	// 아카이브 수정후 다시 아카이브 리턴
-	public String review_modify(@RequestParam("expose") int expose,  @RequestParam("contents") String contents, @RequestParam("reserve_id") int reserve_id, @RequestParam("rating") int rating ,@RequestParam("user_id") int user_id, Model model) {
-		
-		model.addAttribute("user_id",user_id);
-		
-		ReviewBean r1 = new ReviewBean();
-		r1.setReserve_id(reserve_id);
-		r1.setRating(rating);
-		r1.setContents(contents);
-		r1.setExpose(expose);
-		
-		// 리뷰수정
-		MyPageService.modifyArchive(r1);
-		
-		return "/mypage/archive_modify_complete";
-	}
 	
 	
 }
