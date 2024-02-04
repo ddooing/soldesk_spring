@@ -23,11 +23,12 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
 import kr.co.softsoldesk.mapper.ExhibitionMapper;
+import kr.co.softsoldesk.mapper.PointDetailMapper;
 import kr.co.softsoldesk.mapper.ReserveMapper;
+import kr.co.softsoldesk.mapper.ReviewMapper;
 import kr.co.softsoldesk.mapper.UserMapper;
 
 @Configuration
@@ -89,7 +90,7 @@ public class ServletAppContext implements WebMvcConfigurer {
 		return factory;
 	}
 
-	@Bean
+	@Bean // 유저 매퍼 
 	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) throws Exception {
 
 		MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<UserMapper>(UserMapper.class);
@@ -121,6 +122,27 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	}
 
+	@Bean // 포인트디테일 매퍼
+	public MapperFactoryBean<PointDetailMapper> getPointDetailMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<PointDetailMapper> factoryBean = new MapperFactoryBean<PointDetailMapper>(
+				PointDetailMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
+	
+	@Bean	// 소감문 매퍼
+	public MapperFactoryBean<ReviewMapper> getReviewMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<ReviewMapper> factoryBean = new MapperFactoryBean<ReviewMapper>(ReviewMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
+	
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
 

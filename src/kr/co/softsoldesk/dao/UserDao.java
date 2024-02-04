@@ -26,9 +26,15 @@ public class UserDao {
 		return userMapper.getLoginUserAllInfo(user_id);
 	}
 	
-	//포인트와 경험치 증가 
-	public void point_expIncrease(int user_id)
+	//등급 가져오기
+	public String getLevel(int user_id)
 	{
-		userMapper.point_expIncrease(user_id);
+		return userMapper.getLevel(user_id);
+	}
+	
+	//포인트와 경험치 증가 
+	public void point_expIncrease(int user_id,int point)
+	{
+		userMapper.point_expIncrease(user_id,point);
 	}
 }

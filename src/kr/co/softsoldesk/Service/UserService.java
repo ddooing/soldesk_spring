@@ -41,10 +41,17 @@ public class UserService {
 	}
 	
 	//포인트와 경험치 증가 
-	public void point_expIncrease(int user_id)
+	public void point_expIncrease(int user_id,int point)
 	{
-		userDao.point_expIncrease(user_id);
+		userDao.point_expIncrease(user_id,point);
 	}
+	
+	//레벨 가져오기
+	public String getLevel(int user_id)
+	{
+		return userDao.getLevel(user_id);
+	}
+	
 	
 	
 }
