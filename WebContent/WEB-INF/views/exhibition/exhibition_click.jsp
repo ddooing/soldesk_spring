@@ -163,6 +163,7 @@
 	text-decoration: none;
 }
 
+/* 우측 예매 박스  */
 #right-side-menu {
 	position: absolute;
 	top: 250px;
@@ -223,14 +224,25 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							<a style="font-size: 20px;">${exhibitionBean.open}</a>
 						</div>
 					</div>
-
+					
+					
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 10px;">
 							<a style="font-size: 20px;">입장료</a>
 						</div>
-						<div style="">
-							<a style="font-size: 20px;">${exhibitionBean.price}원</a>
-						</div>
+						<c:choose>
+							<c:when test="${exhibitionBean.price == 0 }">
+								<div>
+									<a style="font-size: 20px;">무료</a>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div>
+									<a style="font-size: 20px;">${exhibitionBean.price} 원</a>
+								</div>
+							</c:otherwise>
+						</c:choose>
+						
 					</div>
 
 					<div style="display: flex; margin-top: 10px;">
@@ -322,12 +334,13 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 						onclick="copyLink()">링크 복사</button>
 				</div>
 			</div>
+			<!-- 공유 모달창 끝 -->
 
-
-
+			
+			<!-- 우측 예매 -->
 			<c:choose>
-				<c:when test="${exhibitionBean.price} == 0">
-
+				<c:when test="${exhibitionBean.price != null and exhibitionBean.price == 0 }">
+					
 				</c:when>
 				<c:otherwise>
 					<form:form

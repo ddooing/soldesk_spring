@@ -52,6 +52,7 @@ public interface MyPageMapper {
 				+ "    r.total_price, \r\n"
 				+ "    r.ticket_count, \r\n"
 				+ "    r.state,\r\n"
+				+ "    r.reserve_id,\r\n"
 				+ "    e.title, \r\n"
 				+ "    f.name AS main_poster_name,\r\n"
 				+ "    f.path AS main_poster_path\r\n"
@@ -62,7 +63,8 @@ public interface MyPageMapper {
 				+ "INNER JOIN \r\n"
 				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
 				+ "WHERE \r\n"
-				+ "    r.user_id = #{user_id}")
+				+ "    r.user_id = #{user_id}"
+				+ "order by r.reserve_id desc")
 		List<ReserveBean> getMyPageReserveList(int user_id);
 		
 		// 마이페이지 북마크 메소드
@@ -109,7 +111,7 @@ public interface MyPageMapper {
 				+ "LEFT JOIN \r\n"
 				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
 				+ "WHERE \r\n"
-				+ "    u.user_id = #{user_id} order by reserve_date asc")
+				+ "    u.user_id = #{user_id} order by reserve_id desc")
 		List<ArchiveBean> getArciveAllInfo(int user_id);
 		
 		// 아카이브 1개 정보 reserve_id로 가져오기

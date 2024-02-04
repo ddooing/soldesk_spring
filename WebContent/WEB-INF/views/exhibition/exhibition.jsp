@@ -152,18 +152,34 @@
 		<div class="text-center mb-4"
 		    style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1500px;">
 		
-		    <div style="margin-top: 50px; display: flex; flex-wrap: wrap; justify-content: center;">
-		        <c:forEach items="${getFreeExhibitionInfo}" var="freeexhibition">
-		            <div style="padding: 10px; width: 280px;">
+		    <div style="margin-top: 50px; display: flex; flex-wrap: wrap; justify-content: flex-start;">
+		        <c:forEach items="${getFreeExhibitionInfo}" var="freeexhibition" varStatus="status">
+		            <div style="padding: 10px; flex-grow: 1; min-width: calc(25% - 20px); box-sizing: border-box;">
 		                <a href="${root}/exhibition/exhibition_click?exhibition_id=${freeexhibition.exhibition_id}&user_id=${loginUserBean.user_id}">
 		                    <img src="${freeexhibition.main_poster_path}${freeexhibition.main_poster_name}" alt="포스터"
 		                        style="width: 100%; height: auto; margin-bottom: 30px;" />
 		                </a>
 		                <p style="font-size: 20px; text-align: center;">${freeexhibition.title }</p>
 		            </div>
+		            <!-- 마지막 줄에 남은 항목이 하나만 있을 경우 -->
+		            <c:if test="${status.last && (status.index % 4 == 0)}">
+		                <div style="padding: 20px; flex-grow: 1; min-width: calc(25% - 20px); box-sizing: border-box;"></div>
+		                <div style="padding: 20px; flex-grow: 1; min-width: calc(25% - 20px); box-sizing: border-box;"></div>
+		                <div style="padding: 20px; flex-grow: 1; min-width: calc(25% - 20px); box-sizing: border-box;"></div>
+		            </c:if>
+		            <!-- 마지막 줄에 남은 항목이 두 개만 있을 경우 -->
+		            <c:if test="${status.last && (status.index % 4 == 1)}">
+		                <div style="padding: 20px; flex-grow: 1; min-width: calc(25% - 20px); box-sizing: border-box;"></div>
+		                <div style="padding: 20px; flex-grow: 1; min-width: calc(25% - 20px); box-sizing: border-box;"></div>
+		            </c:if>
+		            <!-- 마지막 줄에 남은 항목이 세 개만 있을 경우 -->
+		            <c:if test="${status.last && (status.index % 4 == 2)}">
+		                <div style="padding: 20px; flex-grow: 1; min-width: calc(25% - 20px); box-sizing: border-box;"></div>
+		            </c:if>
 		        </c:forEach>
 		    </div>
 		</div>
+
 
 		<!--페이징 부분-->
 		<div style="display: flex; justify-content: center; align-items: center;">

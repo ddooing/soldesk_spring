@@ -49,7 +49,7 @@ public interface ExhibitionMapper {
 			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
 			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id \r\n"
 			+ "WHERE \r\n"
-			+ "    e.exhibition_start BETWEEN SYSDATE AND SYSDATE + INTERVAL '30' DAY")
+			+ "    e.exhibition_start BETWEEN SYSDATE - INTERVAL '30' DAY AND SYSDATE")
 	List<ExhibitionBean> getRecentExhibitionInfo();
 	
 	// 전시회 페이지 곧종료 리스트
