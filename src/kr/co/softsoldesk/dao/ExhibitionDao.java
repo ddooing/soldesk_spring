@@ -46,4 +46,14 @@ public class ExhibitionDao {
 	public List<ExhibitionBean> getFreeExhibitionInfo() {
 		return exhibitionMapper.getFreeExhibitionInfo();
 	}
+	
+	// 메인 인덱스 인기 전시 캐러셀
+	public List<ExhibitionBean> getIndexPagePopularExhibitionInfo() {
+		return exhibitionMapper.getIndexPagePopularExhibitionInfo();
+	}
+	
+	// 메인 인덱스 곧전시 전시 캐러셀
+	public List<ExhibitionBean> getIndexPageSoonExhibitionInfo() {
+		return exhibitionMapper.getIndexPageSoonExhibitionInfo();
+	}
 }

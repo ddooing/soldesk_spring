@@ -326,7 +326,7 @@
 					</div>
 				</div>
 				<label id="morelook" class="form-check-label" for="morelook"
-					style="cursor: pointer; font-size: 20px;">더보기</label>
+					style="cursor: pointer; font-size: 20px;" onclick="window.location.href='${root}/exhibition/exhibition_popular'">더보기</label>
 			</div>
 			<br /><br />
 
@@ -343,14 +343,14 @@
 							</button>
 							<div class="carousel">
 								<ul>
-									<li><img src="../img/poster1.png"></li>
-									<li><img src="../img/poster2.png"></li>
-									<li><img src="../img/poster3.png"></li>
 									<li><img src="../img/poster4.png"></li>
-									<li><img src="../img/poster1.png"></li>
-									<li><img src="../img/poster2.png"></li>
 									<li><img src="../img/poster3.png"></li>
+									<li><img src="../img/poster2.png"></li>
+									<li><img src="../img/poster1.png"></li>
 									<li><img src="../img/poster4.png"></li>
+									<li><img src="../img/poster3.png"></li>
+									<li><img src="../img/poster2.png"></li>
+									<li><img src="../img/poster1.png"></li>
 									<li><img src="../img/poster1.png"></li>
 									<li><img src="../img/poster2.png"></li>
 									<li><img src="../img/poster3.png"></li>
@@ -379,17 +379,9 @@
 						</button>
 						<div class="carousel">
 							<ul>
-								<li><img src="../img/poster4.png"></li>
-								<li><img src="../img/poster3.png"></li>
-								<li><img src="../img/poster2.png"></li>
-								<li><img src="../img/poster1.png"></li>
-								<li><img src="../img/poster4.png"></li>
-								<li><img src="../img/poster3.png"></li>
-								<li><img src="../img/poster2.png"></li>
-								<li><img src="../img/poster1.png"></li>
-								<li><img src="../img/poster1.png"></li>
-								<li><img src="../img/poster2.png"></li>
-								<li><img src="../img/poster3.png"></li>
+								<c:forEach items="${popularExhibitionInfo }" var="popularexhibition">
+									<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${popularexhibition.exhibition_id}"><img src="${popularexhibition.main_poster_path}${popularexhibition.main_poster_name}"></a></li>
+								</c:forEach>
 							</ul>
 						</div>
 						<div class="clear"></div>
@@ -452,7 +444,7 @@
 					</div>
 				</div>
 				<label id="morelook1" class="form-check-label" for="morelook1"
-					style="cursor: pointer; font-size: 20px;">더보기</label>
+					style="cursor: pointer; font-size: 20px;" onclick="window.location.href='${root}/exhibition/exhibition_popular'">더보기</label>
 			</div>
 			<br /><br />
 			<div id="jcl-demo" class="entry-content">
@@ -464,17 +456,9 @@
 					</button>
 					<div class="carousel">
 						<ul>
-							<li><img src="../img/poster2.png"></li>
-							<li><img src="../img/poster4.png"></li>
-							<li><img src="../img/poster1.png"></li>
-							<li><img src="../img/poster3.png"></li>
-							<li><img src="../img/poster2.png"></li>
-							<li><img src="../img/poster4.png"></li>
-							<li><img src="../img/poster1.png"></li>
-							<li><img src="../img/poster3.png"></li>
-							<li><img src="../img/poster2.png"></li>
-							<li><img src="../img/poster4.png"></li>
-							<li><img src="../img/poster1.png"></li>
+							<c:forEach items="${SoonExhibitionInfo }" var="soonexhibition">
+								<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${soonexhibition.exhibition_id}"><img src="${soonexhibition.main_poster_path}${soonexhibition.main_poster_name}"></a></li>
+							</c:forEach>
 						</ul>
 					</div>
 					<div class="clear"></div>

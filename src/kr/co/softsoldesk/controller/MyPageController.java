@@ -70,6 +70,13 @@ public class MyPageController {
 		// 마이페이지 아카이브 글등록 메소드
 		MyPageService.enrollArchive(reviewBean);
 		
+		// 아카이브 작성시 경험치 공개 시 100 증가 아닐시 50증가
+		if(reviewBean.getExpose() == 1) {
+			UserService.IncreaseExp(100, user_id);
+		} else {
+			UserService.IncreaseExp(50, user_id);
+		}
+		
 		return "/mypage/archive_enroll_complete";
 	}
 	

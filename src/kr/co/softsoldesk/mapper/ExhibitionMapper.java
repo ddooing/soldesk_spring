@@ -83,7 +83,7 @@ public interface ExhibitionMapper {
 			+ "    e.exhibition_end BETWEEN SYSDATE AND SYSDATE + INTERVAL '30' DAY")
 	List<ExhibitionBean> getSoonEndExhibitionInfo();
 	
-	
+	// 전시회 페이지 무료
 	@Select("SELECT \r\n"
 			+ "    e.exhibition_id, \r\n"
 			+ "    e.title, \r\n"
@@ -113,5 +113,22 @@ public interface ExhibitionMapper {
 			+ "WHERE \r\n"
 			+ "    e.price = 0")
 	List<ExhibitionBean> getFreeExhibitionInfo();
+	
+	// 메인 페이지 인덱스 인기 캐러셀
+	@Select("SELECT e.exhibition_id, e.title, e.ticket_cnt, f.path AS main_poster_path, f.name AS main_poster_name\r\n"
+			+ "FROM exhibition e\r\n"
+			+ "JOIN file_table f ON e.main_poster_file_id = f.file_id\r\n"
+			+ "ORDER BY e.ticket_cnt DESC\r\n"
+			+ "FETCH FIRST 8 ROWS ONLY")
+	List<ExhibitionBean> getIndexPagePopularExhibitionInfo();
+	
+	// 메인 페이지 인덱스 전시 예정 캐러셀
+	@Select("SELECT e.exhibition_id, e.title, e.ticket_cnt, f.path AS main_poster_path, f.name AS main_poster_name\r\n"
+			+ "FROM exhibition e\r\n"
+			+ "JOIN file_table f ON e.main_poster_file_id = f.file_id\r\n"
+			+ "WHERE e.exhibition_start >= CURRENT_DATE\r\n"
+			+ "ORDER BY e.exhibition_start ASC\r\n"
+			+ "FETCH FIRST 8 ROWS ONLY")
+	List<ExhibitionBean> getIndexPageSoonExhibitionInfo();
 	
 }	

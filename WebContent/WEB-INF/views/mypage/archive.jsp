@@ -235,10 +235,7 @@
 								<div class="modal-content">
 									<div class="modal-header">
 										<h5 class="modal-title" id="exampleModalLabel">소감문 수정</h5>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
+										
 									</div>
 									<div class="modal-body">
 										<div style="display: flex; margin-top: 20px;">
@@ -405,8 +402,10 @@
 												</c:choose>
 												<label for="switch-17-${archivelist.reserve_id}"></label> <span
 													style="margin-left: 10px;">공개 여부</span>
+												<button type="button" class="btn btn-danger btn-close-reviewmodal" data-target="#modal-${archivelist.reserve_id}"
+													style="margin-left: 200px;" role="button">취소</button>	
 												<button type="submit" class="btn btn-dark"
-													style="margin-left: 270px;" role="button">수정</button>
+													style="margin-left: 10px;" role="button">수정</button>
 											</div>
 
 										</form>
@@ -475,18 +474,7 @@ $(document).ready(function() {
 });
 </script>
 
-
-					</c:forEach>
-				</div>
-
-
-
-
-				<!-- 모달 끝 -->
-
-				<!-- 소감문 작성 전 - 소감문 작성 페이지로 이동 , 소감문 작성 후 - 소감문 모달창 -->
-
-				<script>
+<script>
 		$(document).ready(function() {
 		    // 모달 열기
 		    $('.btn-open-reviewmodal').click(function() {
@@ -502,6 +490,19 @@ $(document).ready(function() {
 		});
 
 				    </script>
+
+
+					</c:forEach>
+				</div>
+
+
+
+
+				<!-- 모달 끝 -->
+
+				<!-- 소감문 작성 전 - 소감문 작성 페이지로 이동 , 소감문 작성 후 - 소감문 모달창 -->
+
+				
 
 
 

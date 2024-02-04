@@ -38,5 +38,6 @@ public class UserBean {
 	// 마이페이지용
 	private int exp_to_next_level;
 	private String next_grade;
+	
 
 }

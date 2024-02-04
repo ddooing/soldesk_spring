@@ -47,4 +47,13 @@ public class ExhibitionService {
 		return exhibitionDao.getFreeExhibitionInfo();
 	}
 	
+	// 메인 인덱스 인기 캐러셀
+	public List<ExhibitionBean> getIndexPagePopularExhibitionInfo() {
+		return exhibitionDao.getIndexPagePopularExhibitionInfo();
+	}	
+	
+	// 메인 인덱스 곧전시 캐러셀
+	public List<ExhibitionBean> getIndexPageSoonExhibitionInfo() {
+		return exhibitionDao.getIndexPageSoonExhibitionInfo();
+	}
 }

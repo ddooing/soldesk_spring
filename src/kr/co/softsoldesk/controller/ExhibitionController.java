@@ -85,7 +85,7 @@ public class ExhibitionController {
 	
 	
 	@GetMapping("/exhibition_click")
-	public String exhibition_detail(@RequestParam("exhibition_id") int exhibition_id,@RequestParam("user_id") int user_id ,@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, Model model) {
+	public String exhibition_detail(@RequestParam("exhibition_id") int exhibition_id,@RequestParam(value = "user_id", defaultValue = "0") int user_id ,@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, Model model) {
 	    // 전시회 클릭시 조회수 1증가
 		exhibitionService.increaseViewsExhibition(exhibition_id);
 		
