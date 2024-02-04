@@ -43,26 +43,44 @@ public class ExhibitionController {
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
 	
-	@GetMapping("/exhibition")
-	public String exhibition(Model model) {
+	@GetMapping("/exhibition_popular")
+	public String exhibition_popular(Model model) {
 		
 		// 인기 카테고리
 		List<ExhibitionBean> getPopularExhibitionInfo = exhibitionService.getPopularExhibitionInfo();
         model.addAttribute("getPopularExhibitionInfo", getPopularExhibitionInfo);
         
-        // 곧종료 카테고리
+		return "exhibition/exhibition_popular";
+	}
+	
+	@GetMapping("/exhibition_soon_end")
+	public String exhibition_soon_end(Model model) {
+		
+		// 곧종료 카테고리
         List<ExhibitionBean> getSoonEndExhibitionInfo = exhibitionService.getSoonEndExhibitionInfo();
         model.addAttribute("getSoonEndExhibitionInfo", getSoonEndExhibitionInfo);
         
-        // 최신 카테고리
+		return "exhibition/exhibition_soon_end";
+	}
+	
+	@GetMapping("/exhibition_recent")
+	public String exhibition_recent(Model model) {
+		
+		// 최신 카테고리
         List<ExhibitionBean> getRecentExhibitionInfo = exhibitionService.getRecentExhibitionInfo();
         model.addAttribute("getRecentExhibitionInfo", getRecentExhibitionInfo);
         
-        // 무료 카테고리
+		return "exhibition/exhibition_recent";
+	}
+	
+	@GetMapping("/exhibition_free")
+	public String exhibition_free(Model model) {
+		
+		// 무료 카테고리
         List<ExhibitionBean> getFreeExhibitionInfo = exhibitionService.getFreeExhibitionInfo();
         model.addAttribute("getFreeExhibitionInfo", getFreeExhibitionInfo);
         
-		return "exhibition/exhibition";
+		return "exhibition/exhibition_free";
 	}
 	
 	

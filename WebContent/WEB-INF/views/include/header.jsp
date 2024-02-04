@@ -63,7 +63,7 @@
 						<a class="nav-link" href="BoardNoticeList.html" style="margin-right: 20px; margin-left: 50px;">공지사항</a>
 					</li>
 					<li class="nav-item mr-5">
-						<a class="nav-link" href="${root }/exhibition/exhibition" style="margin-right: 20px; margin-left: 20px;">전시회</a>
+						<a class="nav-link" href="${root }/exhibition/exhibition_popular" style="margin-right: 20px; margin-left: 20px;">전시회</a>
 					</li>
 					
 					<li class="nav-item mr-5">
