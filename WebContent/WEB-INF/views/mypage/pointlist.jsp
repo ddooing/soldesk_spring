@@ -109,7 +109,7 @@
 	</div>
 		
 		<c:choose>
-				<c:when test="${empty UserReserveListBean}">
+				<c:when test="${empty UserPointListBean}">
 					<div class="poinList" style="margin:auto; margin-top:30px;"> 
 				<div style="background :#d3d3d32e;  width:860px;  padding: 30px; margin:auto; border-radius:15px;" >
 				<div style="display: flex;">
