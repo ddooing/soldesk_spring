@@ -118,6 +118,7 @@
 
 <a href="${root }/admin/manager_QnAlist">관리자 qna list</a>	<br />
 <a href="${root }/admin/manager_QnAwrite">관리자 qna write</a>
+<a href="${root }/board/write?user_id=${loginUserBean.user_id}">유저 아이디 가져가기</a>
 
 
 	<!-- 상단 케러셀-->

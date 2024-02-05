@@ -14,7 +14,11 @@ public interface PointDetailMapper {
 	@Insert("INSERT INTO point_detail (point_id, user_id, point, point_state_code, point_type_code ,regdate) values (point_id_seq.nextval, #{user_id}, #{point}, #{point_state_code}, #{point_type_code}, sysdate)")
 	void PointList(PointDetailBean pointdetailBean);
 	
-	@Select("select point_id, user_id, point, point_state_code, point_type_code, TO_CHAR(regdate, 'yyyy-mm-dd') as regdate from point_detail where user_id = #{user_id}")
+	@Select("select point_id, user_id, point, point_state_code, point_type_code, TO_CHAR(regdate, 'yyyy-mm-dd') as regdate from point_detail where user_id = #{user_id} order by point_id desc")
 	List<PointDetailBean> GetMypagePointList(int user_id,  RowBounds rowBounds);
+	
+	// 페이징 처리 유저마다 포인트 디테일 테이블 개수 확인
+	@Select("select count(*) from point_detail where user_id = #{user_id}")
+	int getPointDetailCnt(int user_id);
 	
 }

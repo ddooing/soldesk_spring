@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.ReserveBean;
@@ -23,6 +24,7 @@ import kr.co.softsoldesk.Service.PointDetailService;
 import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.ReviewService;
 import kr.co.softsoldesk.Service.UserService;
+
 
 @Controller
 @RequestMapping("/mypage")
@@ -177,6 +179,9 @@ public class MyPageController {
 		// 마이페이지 포인트 내역 bean객체 담은 리스트
 		List<PointDetailBean> UserPointListBean = pointDetailService.GetMypagePointList(user_id,page);
 		model.addAttribute("UserPointListBean", UserPointListBean);
+		
+		PageBean pageBean = pointDetailService.getPointDetailCnt(user_id, page);
+		model.addAttribute("pageBean", pageBean);
 		
 		return "/mypage/pointlist";
 	}

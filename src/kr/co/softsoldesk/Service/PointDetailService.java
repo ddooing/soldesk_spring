@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.dao.PointDetailDao;
 
@@ -37,6 +38,16 @@ public class PointDetailService {
 		RowBounds rowBounds = new RowBounds(start, point_listcnt);
 		
 		return pointDetailDao.GetMypagePointList(user_id,rowBounds);
+	}
+	
+	// 페이징처리
+	public PageBean getPointDetailCnt(int user_id, int currentPage) {
+		
+		int point_cnt = pointDetailDao.getPointDetailCnt(user_id);
+		
+		PageBean pageBean = new PageBean(point_cnt, currentPage, point_listcnt, point_paginationcnt);
+		
+		return pageBean;
 	}
 	
 }

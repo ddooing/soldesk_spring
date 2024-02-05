@@ -25,4 +25,9 @@ public class PointDetailDao {
 	public List<PointDetailBean> GetMypagePointList(int user_id,  RowBounds rowBounds) {
 		return pointdetailmapper.GetMypagePointList(user_id, rowBounds);
 	}
+	
+	// 페이징 처리
+	public int getPointDetailCnt(int user_id) {
+		return pointdetailmapper.getPointDetailCnt(user_id);
+	}
 }
