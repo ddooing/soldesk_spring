@@ -142,7 +142,7 @@ $(document).ready(function(){
 						<div style="display:flex; margin-top: 15px; margin-bottom: 20px; float: right;">
 						<button class="btn btn-danger" id="deleteBtn" style="margin-right: 70px;">삭제</button>
 						</div>
-						<div
+						<div 
 							style="display: flex; justify-content: center; margin-top: 30px;">
 							<nav aria-label="Page navigation example" class="mx-auto">
 								<ul class="pagination">
