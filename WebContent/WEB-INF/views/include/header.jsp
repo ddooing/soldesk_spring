@@ -76,13 +76,15 @@
 						<form class="d-flex">
 							<input class="form-control me-2" type="search" placeholder="°Ë»ö" aria-label="Search">
 							<button class="btn btn-outline-light" type="submit">
-								<img src="../img/search.png" alt="Search" style="width: 20px; height: 20px;">
+								<img src="../img/search.png" alt="Search" style="width: 20px; height: 20px;"
+								>
 							</button>
 						</form>
 					</li>
+					
 
 					<li class="nav-item mr-5">
-						<a class="nav-link" href="#!"><img src="../img/cart.png"
+						<a class="nav-link" href="${root}/user/cart_list"><img src="../img/cart.png"
 								style="width: 30px; height: 30px; margin-right: 30px;" /></a>
 					</li>
 					<c:choose>

@@ -38,7 +38,9 @@ public class ExhibitionService {
 	}
 	
 	//예매된 티켓 수를 전시회 정보 update
-		public void increase_exhibitionTotalTicket(int exhibition_id,int ticket_cnt) {
-			exhibitionDao.increase_exhibitionTotalTicket(exhibition_id,ticket_cnt);
-		}
+	public void increase_exhibitionTotalTicket(int exhibition_id,int ticket_cnt) {
+		exhibitionDao.increase_exhibitionTotalTicket(exhibition_id,ticket_cnt);
+	}
+
+  
 }

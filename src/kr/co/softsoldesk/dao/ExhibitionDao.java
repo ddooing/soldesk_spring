@@ -39,4 +39,6 @@ public class ExhibitionDao {
 	public void increase_exhibitionTotalTicket(int exhibition_id,int ticket_cnt) {
 		exhibitionMapper.increase_exhibitionTotalTicket(exhibition_id,ticket_cnt);
 	}
+	
+
 }

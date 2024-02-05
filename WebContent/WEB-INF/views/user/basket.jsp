@@ -120,139 +120,75 @@
 		<div class="container mb-1">
 			<h1 style="margin-left: 180px;">장바구니</h1>
 			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
-			<!--전시회1 부분-->
-			<div style="display: flex; justify-content: space-between;">
-				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 1</h3>
-				<button class="close-btn">X</button>
-			</div>
-			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="assets/img/poster1.png" alt="예약포스터"
-					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
-
-				<div style="margin-left: 200px;">
-					<h3>ex)한국의 기하학적 추상미술</h3>
-
-					<div style="display: flex; margin-top: 40px;">
-						<div style="margin-right: 10px; width: 200px;">
-							<a style="font-size: 20px;">예약 날짜</a>
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px; ">ex)2023.12.23</a>
-						</div>
+			
+			<c:choose>
+				<c:when test="${empty list}">
+				<div style="background :#d3d3d32e;  width:860px; height:300px; margin:auto; border-radius:15px;" >
+					<div class="test-center" style="margin:100px auto;  display:flex;  flex-direction:column; align-items:center;">
+					    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-x-circle" style="margin-top:80px;" viewBox="0 0 16 16">
+					        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+					        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+					    </svg>
+					    <h3 style="margin-top:50px;">장바구니 내역이 없습니다</h3>
 					</div>
+				</div>	
+				</c:when>
+				<c:otherwise>
+					<c:forEach items="${list}" var="cartlist">
+						<!--전시회 부분-->
+						<div style="display: flex; justify-content: space-between;">
+							<h3 style="margin-left: 180px; margin-top: 50px;">전시회 1</h3>
+							<button class="close-btn">X</button>
+						</div>
+						<div style="display: flex; align-items: center; flex-direction: row;">
+							<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
+								style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
+			
+							<div style="margin-left: 200px;">
+								<h3>${cartlist.title }</h3>
+			
+								<div style="display: flex; margin-top: 40px;">
+									<div style="margin-right: 10px; width: 200px;">예약 날짜</div>
+									<div style="margin-left: auto;">
+										<a style="font-size: 20px; ">${cartlist.reserve_date }</a>
+									</div>
+								</div>
 
-					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">관람 시간</a>
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)10:00 ~ 19:20</a>
-						</div>
-					</div>
-
-					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">티켓 수량</a style="font-size: 20px;">
-						</div>
-						<div style="margin-left: auto;">
-							<div class="counter">
-								<button class="decrement" style="border: none; background-color: transparent; width: 25px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-										fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-										<path fill-rule="evenodd"
-											d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8" />
-									</svg></button>
-								<span class="counterValue" style="width: 10px;">1</span>
-								<button class="increment" style="border: none; background-color: transparent; width: 25px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-										fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-										<path fill-rule="evenodd"
-											d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-									</svg></button>
+								<div style="display: flex; margin-top: 10px;">
+									<div style="margin-right: 10px;  width: 200px;">티켓 수량</div>
+									<div style="margin-left: auto;">
+										<div class="counter">
+											
+											<span class="counterValue" style="width: 10px;">${cartlist.ticket_count }</span>
+											
+										</div>
+									</div>
+								</div>
+			
+								<div style="display: flex; margin-top: 10px;">
+									<div style="margin-right: 10px;  width: 200px;">티켓 가격</div>
+									<div style="margin-left: auto;">
+									${cartlist.total_price }
+									</div>
+								</div>
+								
+								
 							</div>
 						</div>
-					</div>
-
-					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">티켓 가격</a>
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)20,000원</a>
-						</div>
-					</div>
+			
+			
+						<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
+						</c:forEach>
+					</c:otherwise>
+			</c:choose>
+			
+			<c:if test="${list}">
+				<div class="text-center" style="margin-top: 50px;">
+				
+					<button class="btn btn-dark" onclick="window.location.href = 'payment.html'" 
+						style=" width: 150px; height: 50px;">결제하기</button>
 				</div>
-			</div>
-
-
-			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
-			<!--전시회2 부분-->
-			<div style="display: flex; justify-content: space-between;">
-				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 2</h3>
-				<button class="close-btn" onclick="closeExhibition(this)">X</button>
-			</div>
-			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="assets/img/poster1.png" alt="예약포스터"
-					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
-
-				<div style="margin-left: 200px;">
-					<h3>ex)한국의 기하학적 추상미술</h3>
-
-					<div style="display: flex; margin-top: 40px;">
-						<div style="margin-right: 10px; width: 200px;">
-							<a style="font-size: 20px;">예약 날짜</a>
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px; ">ex)2023.12.23</a>
-						</div>
-					</div>
-
-					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">관람 시간</a>
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)10:00 ~ 19:20</a>
-						</div>
-					</div>
-
-					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">티켓 수량</a style="font-size: 20px;">
-						</div>
-						<div style="margin-left: auto;">
-							<div class="counter">
-								<button class="decrement" style="border: none; background-color: transparent; width: 25px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-										fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-										<path fill-rule="evenodd"
-											d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8" />
-									</svg></button>
-								<span class="counterValue" style="width: 10px;">1</span>
-								<button class="increment" style="border: none; background-color: transparent; width: 25px;"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-										fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-										<path fill-rule="evenodd"
-											d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-									</svg></button>
-							</div>
-						</div>
-					</div>
-
-					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">티켓 가격</a>
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">ex)20,000원</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
-
-			<div class="text-center" style="margin-top: 50px;">
-				<button class="btn btn-dark" onclick="window.location.href = 'payment.html'"
-					style=" width: 150px; height: 50px;">결제하기</button>
-			</div>
-
+			</c:if>
 		</div>
 	</section>
 

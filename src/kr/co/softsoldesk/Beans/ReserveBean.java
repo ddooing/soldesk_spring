@@ -28,6 +28,11 @@ public class ReserveBean {
 		this.order_id= UUID.randomUUID().toString();
 	}
 
+	private String title;
+	private String main_poster_path;
+	private String main_poster_name;
+	
+	
 	public int getReserve_id() {
 		return reserve_id;
 	}

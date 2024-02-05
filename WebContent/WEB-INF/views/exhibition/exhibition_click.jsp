@@ -332,8 +332,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				<c:otherwise>
 					<form:form
 						action="payment?exhibition_id=${exhibitionBean.exhibition_id}"
-						method="post" modelAttribute="tempReserveBean">
+						method="post" modelAttribute="tempReserveBean" id="reservationForm">
 						<form:hidden path="user_id" value="${loginUserBean.user_id }"/>
+						<form:hidden path="exhibition_id" value="${exhibitionBean.exhibition_id}"/>
 						<div id="right-side-menu">
 							<div
 								style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">
@@ -416,8 +417,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 												<form:button type="submit"
 													style="width:120px; margin-right:30px;"
 													class="btn btn-dark">예매하기</form:button>
-												<form:button type="submit" style="width:120px;"
-													class="btn btn-dark">장바구니</form:button>
+												<button type="button" id="cartButton"  style="width:120px;"class="btn btn-dark">장바구니</button>
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -427,7 +427,17 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 							</div>
 						</div>
+						
+						<!--  장바구니 보내기  -->
+						<script>
+							document.getElementById("cartButton").addEventListener("click", function() {
+							    var form = document.getElementById("reservationForm");
+							    form.action = "${root}/user/cart_insert"; // action 변경
+							    form.method = "post"; // POST 메소드 설정
+							    form.submit(); // 폼 제출
+							});
 
+						</script>
 
 						<script>
 							window.addEventListener('scroll', function() {
