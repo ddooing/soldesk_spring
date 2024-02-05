@@ -116,6 +116,10 @@
 
 	 <c:import url="/WEB-INF/views/include/header.jsp"/> 
 
+<a href="${root }/admin/manager_QnAlist">관리자 qna list</a>	<br />
+<a href="${root }/admin/manager_QnAwrite">관리자 qna write</a>
+
+
 	<!-- 상단 케러셀-->
 	<header class="masthead">
 		<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">

@@ -157,7 +157,21 @@ public interface MyPageMapper {
 		void modifyArchive(ReviewBean reviewBean);
 		
 		// 해당 유저 QnA 작성 리스트 가져오기
-		@Select("select qna_id, user_id, title, TO_CHAR(regdate, 'yyyy-mm-dd') as regdate, contents, reply, state from qna where user_id = #{user_id}")
+		@Select("SELECT \r\n"
+				+ "    qna_id, \r\n"
+				+ "    user_id, \r\n"
+				+ "    title, \r\n"
+				+ "    TO_CHAR(regdate, 'YYYY-MM-DD') AS regdate, \r\n"
+				+ "    contents, \r\n"
+				+ "    reply, \r\n"
+				+ "    state \r\n"
+				+ "FROM \r\n"
+				+ "    qna \r\n"
+				+ "WHERE \r\n"
+				+ "    user_id = #{user_id} \r\n"
+				+ "    AND state <> 2 \r\n"
+				+ "ORDER BY \r\n"
+				+ "    qna_id DESC")
 		List<QnABean> getUserQnAList(int user_id);
 		
 		//QnA 등록 메소드

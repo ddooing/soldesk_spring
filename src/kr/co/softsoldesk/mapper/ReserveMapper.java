@@ -15,7 +15,7 @@ import kr.co.softsoldesk.Beans.UserBean;
 public interface ReserveMapper {
 
 	// 전시회 예매 테이블에 추가		 payment_state, order_id, paymentkey 는 일단 null로 삽입
-	@Insert("INSERT INTO reserve (reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction, payment, ticket_count, reserve_time, state, payment_state, order_id, paymentkey) VALUES (reserve_id_seq.nextval, #{user_id}, #{exhibition_id}, #{reserve_date, jdbcType=DATE}, #{total_price}, #{point_deduction}, #{payment}, #{ticket_count}, sysdate, #{state},null,#{order_id},null)")
+	@Insert("INSERT INTO reserve (reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction, payment, ticket_count, reserve_time, state, pay_state, pay_approval_state, order_id, paymentkey) VALUES (reserve_id_seq.nextval, #{user_id}, #{exhibition_id}, #{reserve_date, jdbcType=DATE}, #{total_price}, #{point_deduction}, #{payment}, #{ticket_count}, sysdate, #{state},null,null,#{order_id},null)")
 	void reserve_ing(ReserveBean ReserveBean);
 	
 	// 전시회 예매시 exhibition 테이블 ticket_count 값 올리기

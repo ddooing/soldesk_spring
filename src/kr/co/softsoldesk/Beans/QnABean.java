@@ -15,4 +15,13 @@ public class QnABean {
 	private String reply;
 	private int state;
 	
+	
+	// 쿼리문 추가 변수
+	private String nickname;
+	
+	private int total_count;
+	private int state_1_count;
+	private int state_0_count;
+	
+	
 }

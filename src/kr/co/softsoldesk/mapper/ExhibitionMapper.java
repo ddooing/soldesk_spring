@@ -134,7 +134,10 @@ public interface ExhibitionMapper {
 	
 	@Select("SELECT \r\n"
 			+ "    r.contents, \r\n"
-			+ "    SUBSTR(r.contents, 1, 50) AS short_contents, \r\n"
+			+ "    CASE \r\n"
+			+ "        WHEN LENGTH(r.contents) > 47 THEN SUBSTR(r.contents, 1, 47) || '...'\r\n"
+			+ "        ELSE r.contents \r\n"
+			+ "    END AS short_contents, \r\n"
 			+ "    r.rating, \r\n"
 			+ "    r.expose, \r\n"
 			+ "    u.nickname, \r\n"
@@ -150,7 +153,8 @@ public interface ExhibitionMapper {
 			+ "WHERE \r\n"
 			+ "    r.contents IS NOT NULL \r\n"
 			+ "    AND r.expose = 1\r\n"
-			+ "    AND rv.exhibition_id = #{exhibition_id}")
+			+ "    AND rv.exhibition_id = #{exhibition_id}\r\n"
+			+ "")
 	List<ReviewBean> getExhibition_clickReviewAllInfo(int exhibition_id);
 	
 }	
