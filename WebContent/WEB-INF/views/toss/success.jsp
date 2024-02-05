@@ -45,6 +45,20 @@
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+	
+	<!--  reserve_date 값 yyyy-mm-dd 로 출력하기  -->
+	<script>
+    // 예제로 사용할 날짜 문자열
+    var dbDateString = "${validReserveBean.reserve_date}";
+
+    // Date 객체를 생성하여 날짜 문자열을 파싱
+    var date = new Date(dbDateString);
+
+    // 날짜를 원하는 형식으로 포맷
+    var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+
+
+</script>
 
 </head>
 
@@ -72,7 +86,7 @@
 							<a style="font-size: 20px;">예약 날짜</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px; ">${validReserveBean.reserve_date} </a>
+							<a style="font-size: 20px; ">${formattedDate} </a>
 						</div>
 					</div>
 					

@@ -1,7 +1,5 @@
 package kr.co.softsoldesk.dao;
 
-import java.sql.Timestamp;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -14,24 +12,7 @@ public class ReserveDao {
 	@Autowired
 	private ReserveMapper reserveMapper;
 	
-	/*
-	public ReserveBean reserveTicket(ReserveBean tempReserveBean, UserBean loginUserBean, ExhibitionBean exhibitioninfoBean) {
-		
-		return reserveMapper.reserveTicket(tempReserveBean, loginUserBean, exhibitioninfoBean);
-		
-	}
-	*/
-	
-	/*
-	public void reserve_ing(ReserveBean ReserveBean) {
-		 reserveMapper.reserve_ing(ReserveBean);
-	}
-	
-	public void reserveAfterExhibitionCntIncrease(int ticket_count, int exhibition_id) {
-		reserveMapper.reserveAfterExhibitionCntIncrease(ticket_count, exhibition_id);
-	}
-	*/
-	
+
 	
 	public void checkoutReserveInfo(ReserveBean checkoutReserveBean ) {
 		reserveMapper.checkoutReserveInfo(checkoutReserveBean);
@@ -56,9 +37,16 @@ public class ReserveDao {
 		 reserveMapper.approvalBefore(orderId,paymentKey);
 	}
 	
-	public void realReserveState(String orderId,Timestamp timestampApprovedAt)
+	public void realReserveState(String orderId)
 	{
-		reserveMapper.realReserveState(orderId,timestampApprovedAt);
+		reserveMapper.realReserveState(orderId);
+	}
+	
+	//-------------
+	//payment가 0원 일 경우, 예매 정보 저장 
+	public void paymentZeroReserveInfo(ReserveBean reserveInfo )
+	{
+		reserveMapper.paymentZeroReserveInfo(reserveInfo);
 	}
 	
 	

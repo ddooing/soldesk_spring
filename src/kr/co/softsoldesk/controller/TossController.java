@@ -67,8 +67,7 @@ public class TossController {
 	
 	@PostMapping("/checkout_pro")
 	public String checkout_pro(@ModelAttribute("tempReserveBean")ReserveBean tempReserveBean,
-			@RequestParam("exhibition_id") int exhibition_id,Model model,
-			RedirectAttributes redirectAttributes) {
+				Model model,RedirectAttributes redirectAttributes) {
 
 		//결제할 금액 확인
 		int payment = tempReserveBean.getPayment();
@@ -88,8 +87,26 @@ public class TossController {
 		//결제 금액이 0 이면 바로 예매 완료 페이지로 이동
 		if(payment == 0)
 		{
-			//!!!!!!! db 저장하기
-			return "/exhibition/payment_complete";
+			//1. 예매 정보 저장 
+			//reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction,payment, ticket_count, order_id 저장함
+			//pay_state(결제 상태),pay_approval_state(결제 승인 상태) 기본으로 0(false)로 .. 결제 요청하지 않기때문
+			// state 값을 1(예매 되었음)로
+		reserveService.paymentZeroReserveInfo(tempReserveBean); 
+		
+		//저장된 예매 정보 부르기 .. reserve_id를 가져오기 위함 
+		System.out.println("/toss_pro - orderid :"+tempReserveBean.getOrder_id());
+		ReserveBean reserveInfoBean =reserveService.validcheckOrderId(tempReserveBean.getOrder_id());
+		
+		// 2. 나머지 저장 
+		addService(reserveInfoBean);
+	
+		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveInfoBean.getExhibition_id());
+	    
+
+        model.addAttribute("exhibitionBean", exhibitionBean);
+        model.addAttribute("tempReserveBean",reserveInfoBean);
+		
+		return "/exhibition/payment_complete";
 		}
 		// 결제 금액이 0이 아니면 ckeckout page로 이동
 		else {
@@ -228,16 +245,15 @@ public class TossController {
 	     Timestamp timestampApprovedAt = Timestamp.valueOf(parsedApprovedAt);
 	     System.out.println("timestampApprovedAt: " + timestampApprovedAt);
 	     
-        //user_id 값
-        int userid = validReserveBean.getUser_id();
-        
        
-       
-    	// #DB 저장 
+    	// #DB 저장 ................................... 함수 ) 0원일때랑 합치기 
 	        // 1.orderId인 예매가 정말로 되었음 
     			//pay_state 결제 상태 :true 로 update &  state(0:예매,1: 예매 취소) 예매가 되었음을 0으로 저장,예매한 날짜
-        reserveService.realReserveState(orderId,timestampApprovedAt); //@Param("timestamp")
+        reserveService.realReserveState(orderId); 
 	      
+        
+        /*
+        
 	        // 2.사용자 포인트 내역 저장 
         int totalPrice = validReserveBean.getTotal_price();
         
@@ -267,6 +283,8 @@ public class TossController {
         pointDetailBean.setPoint_state_code(1);	// 포인트 1:+
         pointDetailBean.setPoint_type_code(1);	// 예매에서 적립
         pointDetailBean.setRegdate(approvedAt);
+        
+        
 		// 포인트 이용 내역 추가
 		pointDetailService.PointList(pointDetailBean);
         
@@ -299,16 +317,17 @@ public class TossController {
         											// 예매한 전시회 id			       			//예매한 티켓 수 int 값
         exhibitionService.increase_exhibitionTotalTicket(validReserveBean.getExhibition_id(),validReserveBean.getTicket_count());
         
-        		
-        
+        	*/
+        // 나머지 db 처리
+        addService(validReserveBean);
         
         System.out.println("결제가 성공적으로 처리되었습니다.");
         
         ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(validReserveBean.getExhibition_id());
-	    model.addAttribute("exhibitionBean", exhibitionBean);
 	    
         String successWidgetInfo = prepareSuccessWidgetInfo(paymentKey, orderId, amount);
         
+        model.addAttribute("exhibitionBean", exhibitionBean);
         model.addAttribute("validReserveBean",validReserveBean);
         model.addAttribute("successWidgetInfo", successWidgetInfo);
         
@@ -335,6 +354,85 @@ public class TossController {
 	}
 	
 	
+	private void addService(ReserveBean reserveBean) {
+		
+		 //user_id 값
+        int userid = reserveBean.getUser_id();
+        
+       
+       
+		 // 2.사용자 포인트 내역 저장 
+        int totalPrice = reserveBean.getTotal_price();
+        
+	    		// 2-1.무조건 포인트 적립
+			    // 포인트 적립 : 유저 등급의 적립율에 따른 포인트 지급 
+        String level = userService.getLevel(userid);
+        int reservePulsPoint=0;// 예매 시 적립되는 포인트
+        
+        
+        if(level.equals("level1")) // 레벨 1 일때 10%만큼 포인트 지급
+        {
+        	reservePulsPoint = (int)(totalPrice*0.1);
+        }
+        else if(level.equals("level2")) // 레벨 2 일때 15%만큼 포인트 지급
+        {
+        	reservePulsPoint = (int)(totalPrice*0.15);
+        }
+        else if(level.equals("level3")) // 레벨 3 일때 20%만큼 포인트 지급
+        {
+        	reservePulsPoint = (int)(totalPrice*0.2);
+        }
+        
+        PointDetailBean pointDetailBean =new PointDetailBean();
+			     
+        pointDetailBean.setPoint(reservePulsPoint);
+        pointDetailBean.setUser_id(userid);
+        pointDetailBean.setPoint_state_code(1);	// 포인트 1:+
+        pointDetailBean.setPoint_type_code(1);	// 예매에서 적립
+        
+        
+		// 포인트 이용 내역 추가
+		pointDetailService.PointList(pointDetailBean);
+        
+        		// 2-2. point_deduction(=포인트 사용금액) >0 이면 사용 내역 추가 
+        		//  point_state_code NUMBER(1)- 사용 OR 적립 EX)0:-, 1:+ 
+		if(reserveBean.getPoint_deduction() > 0)
+		{
+			 PointDetailBean pointUseDetailBean =new PointDetailBean();
+		     
+			 pointUseDetailBean.setPoint(reserveBean.getPoint_deduction());
+			 pointUseDetailBean.setUser_id(userid);
+			 pointUseDetailBean.setPoint_state_code(0);	// 포인트 1:+
+			 pointUseDetailBean.setPoint_type_code(1);	// 예매에서 적립
+			 
+			// 포인트 이용 내역 추가
+			pointDetailService.PointList(pointUseDetailBean);
+		}
+
+	        // 3. 사용자 포인트와 경험치 exp 적립 update 
+			// 경험치 ) 예매 시 + 50
+        	// 포인트 )최종적으로 사용자의 현재 포인트에 추가 혹은 감소 할 포인트 금액 = 예매 시 받는 포인트 - 포인트 사용 금액
+		int point = reservePulsPoint - reserveBean.getPoint_deduction();
+        
+        userService.point_expIncrease(userid,point);
+        
+        	// 4. 전시회에 대한 소감문 생성 
+        //
+        reviewService.reserve_review_create(reserveBean.getReserve_id());
+    		// 5.전시회 티켓수를 사용자가 구매한 티켓수만큼 증가		
+        											// 예매한 전시회 id			       			//예매한 티켓 수 int 값
+        exhibitionService.increase_exhibitionTotalTicket(reserveBean.getExhibition_id(),reserveBean.getTicket_count());
+        
+        		
+        
+        
+        System.out.println("add service 처리 완료 ");
+		
+		
+		
+		
+		
+	}
 	
 	private ResponseEntity<String> completePayment(String paymentKey, String orderId, int amount) {
         try {

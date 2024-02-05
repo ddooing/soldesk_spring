@@ -1,7 +1,5 @@
 package kr.co.softsoldesk.Service;
 
-import java.sql.Timestamp;
-
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,17 +40,7 @@ public class ReserveService {
 		}
 		
 	}
-	/*
-	public void reserve_ing(ReserveBean ReserveBean) {
-		
-		 reserveDao.reserve_ing(ReserveBean);
-	}
 	
-	
-	public void reserveAfterExhibitionCntIncrease(int ticket_count, int exhibition_id) {
-		reserveDao.reserveAfterExhibitionCntIncrease(ticket_count,exhibition_id);
-	}
-	*/
 	// /checkout 에 대한 예매 정보 저장
 	public void checkoutReserveInfo(ReserveBean checkoutReserveBean)
 	{
@@ -82,12 +70,23 @@ public class ReserveService {
 	}
 	
 	// 정말로 결제되었음 - pay_state 결제 상태 :true 로 update &  state(0:예매,1: 예매 취소) 예매가 되었음을 0으로 저장
-	public void realReserveState(String orderId,Timestamp timestampApprovedAt)
+	public void realReserveState(String orderId )
 	{
-		reserveDao.realReserveState(orderId,timestampApprovedAt);
+		reserveDao.realReserveState(orderId);
 	}
 	
 	
+	
+	//-------------------
+	
+	//payment가 0원 일 경우, 예매 정보 저장 
+	public void paymentZeroReserveInfo(ReserveBean reserveInfo )
+	{
+		reserveDao.paymentZeroReserveInfo(reserveInfo);
+	}
+
+
+
 	
 	
 	

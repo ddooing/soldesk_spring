@@ -26,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
 import kr.co.softsoldesk.mapper.ExhibitionMapper;
+import kr.co.softsoldesk.mapper.MyPageMapper;
 import kr.co.softsoldesk.mapper.PointDetailMapper;
 import kr.co.softsoldesk.mapper.ReserveMapper;
 import kr.co.softsoldesk.mapper.ReviewMapper;
@@ -142,7 +143,16 @@ public class ServletAppContext implements WebMvcConfigurer {
 		return factoryBean;
 
 	}
-	
+	@Bean // 전시회 매퍼
+	public MapperFactoryBean<MyPageMapper> getMypageMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<MyPageMapper> factoryBean = new MapperFactoryBean<MyPageMapper>(
+				MyPageMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
 

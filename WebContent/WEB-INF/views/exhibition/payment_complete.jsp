@@ -45,6 +45,20 @@
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+	
+	<!--  reserve_date 값 yyyy-mm-dd 로 출력하기  -->
+	<script>
+    // 예제로 사용할 날짜 문자열
+    var dbDateString = "${tempReserveBean.reserve_date}";
+
+    // Date 객체를 생성하여 날짜 문자열을 파싱
+    var date = new Date(dbDateString);
+
+    // 날짜를 원하는 형식으로 포맷
+    var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+
+
+</script>
 
 </head>
 
@@ -61,18 +75,18 @@
 				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 정보</h3>
 			</div>
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="${ExhibitionBean.main_poster_path}${ExhibitionBean.main_poster_name} " alt="예약포스터"
+				<img src="${exhibitionBean.main_poster_path}${exhibitionBean.main_poster_name} " alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
 
 				<div style="margin-left: 200px;">
-					<h3>${ExhibitionBean.title}</h3>
+					<h3>${exhibitionBean.title}</h3>
 
 					<div style="display: flex; margin-top: 40px;">
 						<div style="margin-right: 10px; width: 200px;">
 							<a style="font-size: 20px;">예약 날짜</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px; ">${reserveBean.reserve_date} </a>
+							<a style="font-size: 20px; ">${formattedDate} </a>
 						</div>
 					</div>
 					
@@ -82,7 +96,7 @@
 							<a style="font-size: 20px;">티켓 수량</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${reserveBean.ticket_count} 매</a>
+							<a style="font-size: 20px;">${tempReserveBean.ticket_count} 매</a>
 						</div>
 					</div>
 					
@@ -91,7 +105,7 @@
 							<a style="font-size: 20px;">포인트 결제 금액</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${reserveBean.point_deduction} p</a>
+							<a style="font-size: 20px;">${tempReserveBean.point_deduction} p</a>
 						</div>
 					</div>
 
@@ -100,7 +114,7 @@
 							<a style="font-size: 20px;">결제 금액</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${reserveBean.payment} 원</a>
+							<a style="font-size: 20px;">${tempReserveBean.payment} 원</a>
 						</div>
 					</div>
 				</div>
@@ -109,13 +123,13 @@
 			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
 			<div style="display: flex; align-items: baseline; margin-top: 50px; margin-left: 800px;">
 				<h3>총 결제 금액 : </h3>
-				<a style="font-size: 30px; margin-left: 10px;">${reserveBean.total_price} 원</a>
+				<a style="font-size: 30px; margin-left: 10px;">${tempReserveBean.total_price} 원</a>
 			</div>
 
 			<div class="text-center" style="margin-top: 50px;">
 				<button onclick="window.location.href = '${root}/view/index'" class="btn btn-dark"
 					style="margin-right: 20px; width:150px; height: 50px;">메인페이지</button>
-				<button onclick="" class="btn btn-dark" style="width: 150px; height: 50px;">마이페이지</button>
+				<button onclick="window.location.href = '${root}/mypage/reservelist?user_id=${tempReserveBean.user_id }'" class="btn btn-dark" style="width: 150px; height: 50px;">마이페이지</button>
 			</div>
 		</div>
 	</section>
