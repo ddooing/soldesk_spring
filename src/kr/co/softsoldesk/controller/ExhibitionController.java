@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.co.softsoldesk.Beans.BookMarkBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
+import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.BookMarkService;
 import kr.co.softsoldesk.Service.ExhibitionService;
@@ -92,13 +93,16 @@ public class ExhibitionController {
 		// 로그인 되어있을때만 북마크 여부 확인
 		if(user_id != 0) {
 			int bookmarksure = bookMarkService.BookMarkSure(user_id, exhibition_id);
-			System.out.println("bookmarksure : " + bookmarksure);
 			model.addAttribute("bookmarksure",bookmarksure);
 		}
 		
+		// 리뷰 정보 가져가기
+		List<ReviewBean> exhibitionreviewBean = exhibitionService.getExhibition_clickReviewAllInfo(exhibition_id);
+		model.addAttribute("exhibitionreviewBean", exhibitionreviewBean);
+		
+		// 전시회 상세정보 가져가기
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);
 	    model.addAttribute("exhibitionBean", exhibitionBean);
-	    
 	    
 	    return "exhibition/exhibition_click";
 	}

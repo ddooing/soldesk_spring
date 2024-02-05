@@ -43,7 +43,8 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <!-- datepicker -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 
 <!-- CSS -->
@@ -203,8 +204,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							<a style="font-size: 20px;">${exhibitionBean.open}</a>
 						</div>
 					</div>
-					
-					
+
+
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 10px;">
 							<a style="font-size: 20px;">입장료</a>
@@ -221,7 +222,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 								</div>
 							</c:otherwise>
 						</c:choose>
-						
+
 					</div>
 
 					<div style="display: flex; margin-top: 10px;">
@@ -240,34 +241,52 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 								<img src="../img/shareicon.svg"
 									style="width: 30px; height: 30px;" alt="공유아이콘" />
 							</button>
-							
-						 
-							 <c:choose>
-							    <c:when test="${loginUserBean.user_id != 0 && bookmarksure == 1}">
-							        <button type="button" onclick="location.href='${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}'" id="heartButton" style="background: none; border: none;">
-							            <svg id="fill_heart" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16" style="fill: red;">
-							                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+
+
+							<c:choose>
+								<c:when
+									test="${loginUserBean.user_id != 0 && bookmarksure == 1}">
+									<button type="button"
+										onclick="location.href='${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}'"
+										id="heartButton" style="background: none; border: none;">
+										<svg id="fill_heart" xmlns="http://www.w3.org/2000/svg"
+											width="30" height="30" fill="currentColor"
+											class="bi bi-heart-fill" viewBox="0 0 16 16"
+											style="fill: red;">
+							                <path fill-rule="evenodd"
+												d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
 							            </svg>
-							        </button>
-							    </c:when>
-							    <c:when test="${loginUserBean.user_id != 0 && bookmarksure == 0}">
-							        <button type="button" onclick="location.href='${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}'" id="heartButton" style="background: none; border: none;">
-							            <svg id="empty_heart" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-							                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.920 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+									</button>
+								</c:when>
+								<c:when
+									test="${loginUserBean.user_id != 0 && bookmarksure == 0}">
+									<button type="button"
+										onclick="location.href='${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}'"
+										id="heartButton" style="background: none; border: none;">
+										<svg id="empty_heart" xmlns="http://www.w3.org/2000/svg"
+											width="30" height="30" fill="currentColor"
+											class="bi bi-heart" viewBox="0 0 16 16">
+							                <path
+												d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.920 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
 							            </svg>
-							        </button>
-							    </c:when>
-							    <c:otherwise>
-							        <button type="button" onclick="location.href='${root}/exhibition/bookmark_not_login'" id="heartButton" style="background: none; border: none;">
-							            <svg id="empty_heart" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-							                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.920 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+									</button>
+								</c:when>
+								<c:otherwise>
+									<button type="button"
+										onclick="location.href='${root}/exhibition/bookmark_not_login'"
+										id="heartButton" style="background: none; border: none;">
+										<svg id="empty_heart" xmlns="http://www.w3.org/2000/svg"
+											width="30" height="30" fill="currentColor"
+											class="bi bi-heart" viewBox="0 0 16 16">
+							                <path
+												d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.920 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
 							            </svg>
-							        </button>
-							    </c:otherwise>
+									</button>
+								</c:otherwise>
 							</c:choose>
 
-							
-							
+
+
 						</div>
 					</div>
 
@@ -315,23 +334,25 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			</div>
 			<!-- 공유 모달창 끝 -->
 
-			
+
 			<!-- 우측 예매 -->
 			<c:choose>
-				<c:when test="${exhibitionBean.price != null and exhibitionBean.price == 0 }">
-					
+				<c:when
+					test="${exhibitionBean.price != null and exhibitionBean.price == 0 }">
+
 				</c:when>
 				<c:otherwise>
 					<form:form
 						action="payment?exhibition_id=${exhibitionBean.exhibition_id}"
 						method="post" modelAttribute="tempReserveBean">
-						<form:hidden path="user_id" value="${loginUserBean.user_id }"/>
+						<form:hidden path="user_id" value="${loginUserBean.user_id }" />
 						<div id="right-side-menu">
 							<div
 								style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">
-								<div id="sidebar_menu" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 400px; height: 350px; text-align: center; align-items: center; justify-content: center; display: flex;">
-										<form:hidden path="reserve_date" id="hiddenDateField" value=""/>
-										<div id="datepicker11"></div>
+								<div id="sidebar_menu"
+									style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 400px; height: 350px; text-align: center; align-items: center; justify-content: center; display: flex;">
+									<form:hidden path="reserve_date" id="hiddenDateField" value="" />
+									<div id="datepicker11"></div>
 								</div>
 								<hr style="margin: auto; width: 400px; color: black;" />
 
@@ -434,8 +455,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					</form:form>
 				</c:otherwise>
 			</c:choose>
-			
-			
+
+
 
 
 			<script>
@@ -458,15 +479,15 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 				// 링크 복사 버튼 클릭 이벤트
 				function copyLink() {
-			        var copyText = window.location.href; // 현재 주소창의 URL을 가져옵니다.
-			        var tempInput = document.createElement("input");
-			        document.body.appendChild(tempInput);
-			        tempInput.value = copyText;
-			        tempInput.select();
-			        document.execCommand("copy");
-			        document.body.removeChild(tempInput);
-			        alert("링크가 복사되었습니다.");
-			    }
+					var copyText = window.location.href; // 현재 주소창의 URL을 가져옵니다.
+					var tempInput = document.createElement("input");
+					document.body.appendChild(tempInput);
+					tempInput.value = copyText;
+					tempInput.select();
+					document.execCommand("copy");
+					document.body.removeChild(tempInput);
+					alert("링크가 복사되었습니다.");
+				}
 
 				function shareKakao() {
 					alert('카카오톡 공유');
@@ -475,7 +496,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				function shareInsta() {
 					alert('인스타 공유');
 				}
-
 			</script>
 
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
@@ -619,123 +639,100 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 		<h3
 			style="margin-right: auto; margin-left: 450px; margin-top: 50px; margin-bottom: 50px;">후기</h3>
 		<!-- 차트 ... 별점 평균 넣을지 말지-->
-		<div style="padding: 10px; margin: 30px;">
+		<!-- <div style="padding: 10px; margin: 30px;">
 			<img style="width: 800px; height: 375px;" src="../img/chart_ex.PNG" />
 
-		</div>
+		</div> -->
 		<!--후기 댓-->
-		<div style="width: 800px; padding: 20px;">
-
-
-			<!-- 1뎃 -->
-			<div
-				style="padding: 25px; display: flex; flex-direction: column; background-color: white; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px; margin-bottom: 25px;">
+		<c:choose>
+			<c:when test="${empty exhibitionreviewBean}">
 				<div
-					style="display: flex; flex-direction: row; align-items: center;">
-					<img src="../img/level/profile_Lv1.png"
-						style="width: 45px; height: 45px;" />
-					<div style="margin-left: 8px;">
-						<div style="font-size: 20px;">박지예</div>
+					style="width: 800px; height: 300px; margin: auto;">
+					<div class="test-center"
+						style="margin: auto; display: flex; flex-direction: column; align-items: center;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"
+							fill="currentColor" class="bi bi-x-circle"
+							style="margin-top: 80px;" viewBox="0 0 16 16">
+							        <path
+								d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+							        <path
+								d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+							    </svg>
+						<h3 style="margin-top: 50px;">등록된 후기가 없습니다</h3>
 					</div>
 				</div>
+			</c:when>
+			<c:otherwise>
+				<div style="width: 800px; padding: 20px;">
+					<c:forEach items="${exhibitionreviewBean }" var="reviewBean">
+						<div
+							style="padding: 25px; display: flex; flex-direction: column; background-color: white; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px; margin-bottom: 25px;">
+							<div
+								style="display: flex; flex-direction: row; align-items: center;">
+								<c:choose>
+									<c:when test="${reviewBean.grade == 'level1' }">
+										<img src="../img/level/profile_Lv1.png"
+											style="width: 45px; height: 45px;" />
+									</c:when>
+									<c:when test="${reviewBean.grade == 'level2' }">
+										<img src="../img/level/profile_Lv2.png"
+											style="width: 45px; height: 45px;" />
+									</c:when>
+									<c:when test="${reviewBean.grade == 'level3' }">
+										<img src="../img/level/profile_Lv3.png"
+											style="width: 45px; height: 45px;" />
+									</c:when>
+								</c:choose>
 
-				<div>
+								<div style="margin-left: 8px;">
+									<div style="font-size: 20px;">${reviewBean.nickname}</div>
+								</div>
+							</div>
 
-					<div style="margin-bottom: 8px; margin-top: 14px;">
-						<!-- 후에 별점 구현-->
-						<span style="color: gold; font-size: 25px;">★★★</span><span
-							style="color: #ddd; font-size: 25px;">★★</span>
-					</div>
-					<div id="review">
-						<p class="short-text">과학자가 주인공이고 내용이 과학에 관련된거라 이해를 못하면 어쩌지 하는
-							걱정이...</p>
+							<div>
 
-						<p class="full-text" style="display: none;">과학자가 주인공이고 내용이 과학에
-							관련된거라 이해를 못하면 어쩌지 하는 걱정이 있었지만! 넘버와 대사들로 인해 술술 넘어갈 수 있었던 것 같아요! 또
-							다른 후기에서도 봤지만 앙상블 무대가 많은것도 참 좋더라구요~ 그리고 무대! 무대 정말 맘에들었어요. 처음 마리퀴리를
-							보는거라 이전 무대는 모르겠지만.. 무대 연출? 너무 좋았어요!</p>
-						<button class="toggle-button"
-							style="background: transparent; border: none; float: right;">더보기</button>
-					</div>
+								<div style="margin-bottom: 8px; margin-top: 14px;">
+									<c:choose>
+										<c:when test="${reviewBean.rating == 1 }">
+											<span style="color: gold; font-size: 25px;">★</span>
+											<span style="color: #ddd; font-size: 25px;">★★★★</span>
+										</c:when>
+										<c:when test="${reviewBean.rating == 2 }">
+											<span style="color: gold; font-size: 25px;">★★</span>
+											<span style="color: #ddd; font-size: 25px;">★★★</span>
+										</c:when>
+										<c:when test="${reviewBean.rating == 3 }">
+											<span style="color: gold; font-size: 25px;">★★★</span>
+											<span style="color: #ddd; font-size: 25px;">★★</span>
+										</c:when>
+										<c:when test="${reviewBean.rating == 4 }">
+											<span style="color: gold; font-size: 25px;">★★★★</span>
+											<span style="color: #ddd; font-size: 25px;">★</span>
+										</c:when>
+										<c:when test="${reviewBean.rating == 5 }">
+											<span style="color: gold; font-size: 25px;">★★★★★</span>
+											<span style="color: #ddd; font-size: 25px;"></span>
+										</c:when>
+									</c:choose>
 
+								</div>
+								<div id="review">
+									<p class="short-text">${reviewBean.short_contents}</p>
 
-				</div>
-			</div>
+									<p class="full-text" style="display: none;">${reviewBean.contents}</p>
+									<button class="toggle-button"
+										style="background: transparent; border: none; float: right;">더보기</button>
+								</div>
+							</div>
+						</div>
 
-
-
-
-			<!-- 2뎃 -->
-			<div
-				style="padding: 25px; display: flex; flex-direction: column; background-color: white; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px; margin-bottom: 25px;">
-				<div
-					style="display: flex; flex-direction: row; align-items: center;">
-					<img src="../img/level/profile_Lv1.png"
-						style="width: 45px; height: 45px;" />
-					<div style="margin-left: 8px;">
-						<div style="font-size: 20px;">또잉</div>
-					</div>
-				</div>
-
-				<div>
-
-					<div style="margin-bottom: 8px; margin-top: 14px;">
-						<!-- 후에 별점 구현-->
-						<span style="color: gold; font-size: 25px;">★★★</span><span
-							style="color: #ddd; font-size: 25px;">★★</span>
-					</div>
-					<div id="review">
-						<p class="short-text">과학자가 주인공이고 내용이 과학에 관련된거라 이해를 못하면 어쩌지 하는
-							걱정이...</p>
-
-						<p class="full-text" style="display: none;">과학자가 주인공이고 내용이 과학에
-							관련된거라 이해를 못하면 어쩌지 하는 걱정이 있었지만! 넘버와 대사들로 인해 술술 넘어갈 수 있었던 것 같아요! 또
-							다른 후기에서도 봤지만 앙상블 무대가 많은것도 참 좋더라구요~ 그리고 무대! 무대 정말 맘에들었어요. 처음 마리퀴리를
-							보는거라 이전 무대는 모르겠지만.. 무대 연출? 너무 좋았어요!</p>
-						<button class="toggle-button"
-							style="background: transparent; border: none; float: right;">더보기</button>
-					</div>
-
-
-				</div>
-			</div>
-
-
-			<!-- 3뎃 -->
-			<div
-				style="padding: 25px; display: flex; flex-direction: column; background-color: white; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px; margin-bottom: 25px;">
-				<div
-					style="display: flex; flex-direction: row; align-items: center;">
-					<img src="../img/level/profile_Lv1.png"
-						style="width: 45px; height: 45px;" />
-					<div style="margin-left: 8px;">
-						<div style="font-size: 20px;">므엉</div>
-					</div>
-				</div>
-
-				<div>
-
-					<div style="margin-bottom: 8px; margin-top: 14px;">
-						<!-- 후에 별점 구현-->
-						<span style="color: gold; font-size: 25px;">★★★</span><span
-							style="color: #ddd; font-size: 25px;">★★</span>
-					</div>
-					<div id="review">
-						<p class="short-text">과학자가 주인공이고 내용이 과학에 관련된거라 이해를 못하면 어쩌지 하는
-							걱정이...</p>
-
-						<p class="full-text" style="display: none;">과학자가 주인공이고 내용이 과학에
-							관련된거라 이해를 못하면 어쩌지 하는 걱정이 있었지만! 넘버와 대사들로 인해 술술 넘어갈 수 있었던 것 같아요! 또
-							다른 후기에서도 봤지만 앙상블 무대가 많은것도 참 좋더라구요~ 그리고 무대! 무대 정말 맘에들었어요. 처음 마리퀴리를
-							보는거라 이전 무대는 모르겠지만.. 무대 연출? 너무 좋았어요!</p>
-						<button class="toggle-button"
-							style="background: transparent; border: none; float: right;">더보기</button>
-					</div>
-
+					</c:forEach>
 
 				</div>
-			</div>
-		</div>
+
+			</c:otherwise>
+		</c:choose>
+
 	</section>
 
 	<script>
@@ -800,7 +797,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 	</script>
 
 
-	
+
 
 
 	<!-- 푸터-->
@@ -855,31 +852,29 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 
 
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var today = new Date();
-        var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
-        var localToday = new Date(today.getTime() - offset);
-        var formattedToday = localToday.toISOString().substring(0, 10); // yyyy-mm-dd 형식으로 변환
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var today = new Date();
+			var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
+			var localToday = new Date(today.getTime() - offset);
+			var formattedToday = localToday.toISOString().substring(0, 10); // yyyy-mm-dd 형식으로 변환
 
-        $('#datepicker11').datepicker({
-            inline: true,
-            minDate: new Date(),
-            dateFormat: 'yy-mm-dd',
-            startDate: formattedToday,
-            onSelect: function(dateText) {
-                // 숨겨진 폼 필드의 값을 설정
-                $('#hiddenDateField').val(dateText);
-            }
-        }).datepicker('setDate', formattedToday); // 초기 날짜 설정
-        
-        $('#hiddenDateField').val(formattedToday);
-    });
-    
-   
-    </script>
+			$('#datepicker11').datepicker({
+				inline : true,
+				minDate : new Date(),
+				dateFormat : 'yy-mm-dd',
+				startDate : formattedToday,
+				onSelect : function(dateText) {
+					// 숨겨진 폼 필드의 값을 설정
+					$('#hiddenDateField').val(dateText);
+				}
+			}).datepicker('setDate', formattedToday); // 초기 날짜 설정
+
+			$('#hiddenDateField').val(formattedToday);
+		});
+	</script>
 
 
 </body>

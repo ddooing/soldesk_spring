@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ReviewBean;
 
 public interface ExhibitionMapper {
 	
@@ -130,5 +131,26 @@ public interface ExhibitionMapper {
 			+ "ORDER BY e.exhibition_start ASC\r\n"
 			+ "FETCH FIRST 8 ROWS ONLY")
 	List<ExhibitionBean> getIndexPageSoonExhibitionInfo();
+	
+	@Select("SELECT \r\n"
+			+ "    r.contents, \r\n"
+			+ "    SUBSTR(r.contents, 1, 50) AS short_contents, \r\n"
+			+ "    r.rating, \r\n"
+			+ "    r.expose, \r\n"
+			+ "    u.nickname, \r\n"
+			+ "    g.grade\r\n"
+			+ "FROM \r\n"
+			+ "    review r\r\n"
+			+ "JOIN \r\n"
+			+ "    reserve rv ON r.reserve_id = rv.reserve_id\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON rv.user_id = u.user_id\r\n"
+			+ "JOIN \r\n"
+			+ "    grade g ON u.exp BETWEEN g.start_exp AND g.end_exp\r\n"
+			+ "WHERE \r\n"
+			+ "    r.contents IS NOT NULL \r\n"
+			+ "    AND r.expose = 1\r\n"
+			+ "    AND rv.exhibition_id = #{exhibition_id}")
+	List<ReviewBean> getExhibition_clickReviewAllInfo(int exhibition_id);
 	
 }	

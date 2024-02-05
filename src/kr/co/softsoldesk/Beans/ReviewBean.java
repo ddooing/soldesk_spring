@@ -19,4 +19,7 @@ public class ReviewBean {
 	
 	// 경험치 업데이트 변수추가
 	private int exp;
+	private String nickname;
+	private String grade;
+	private String short_contents;
 }

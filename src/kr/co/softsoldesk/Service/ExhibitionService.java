@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.dao.ExhibitionDao;
 
 @Service
@@ -55,5 +56,10 @@ public class ExhibitionService {
 	// 메인 인덱스 곧전시 캐러셀
 	public List<ExhibitionBean> getIndexPageSoonExhibitionInfo() {
 		return exhibitionDao.getIndexPageSoonExhibitionInfo();
+	}
+	
+	// 전시회 클릭스 리뷰정보 가져가기
+	public List<ReviewBean> getExhibition_clickReviewAllInfo(int exhibition_id) {
+		return exhibitionDao.getExhibition_clickReviewAllInfo(exhibition_id);
 	}
 }

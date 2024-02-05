@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.mapper.ExhibitionMapper;
 
 @Repository
@@ -55,5 +56,10 @@ public class ExhibitionDao {
 	// 메인 인덱스 곧전시 전시 캐러셀
 	public List<ExhibitionBean> getIndexPageSoonExhibitionInfo() {
 		return exhibitionMapper.getIndexPageSoonExhibitionInfo();
+	}
+	
+	// 전시회 클릭시 리뷰 정보 가져가기
+	public List<ReviewBean> getExhibition_clickReviewAllInfo(int exhibition_id) {
+		return exhibitionMapper.getExhibition_clickReviewAllInfo(exhibition_id);
 	}
 }
