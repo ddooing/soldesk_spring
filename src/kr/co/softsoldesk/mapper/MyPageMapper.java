@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
@@ -66,7 +67,7 @@ public interface MyPageMapper {
 				+ "WHERE \r\n"
 				+ "    r.user_id = #{user_id}"
 				+ "order by r.reserve_id desc")
-		List<ReserveBean> getMyPageReserveList(int user_id);
+		List<ReserveBean> getMyPageReserveList(int user_id, RowBounds rowBounds);
 		
 		// 마이페이지 북마크 메소드
 		@Select("SELECT \r\n"
@@ -177,4 +178,8 @@ public interface MyPageMapper {
 		//QnA 등록 메소드
 		@Insert("INSERT INTO qna (qna_id, user_id, title, regdate, contents, state) VALUES (QnA_id_seq.nextval, #{user_id}, #{title}, To_char(sysdate, 'yyyy-mm-dd'), #{contents}, 0)")
 		void addUserQnA(QnABean qnaBean);
+		
+		// reserve 내역 페이징처리위한 해당 유저 전체 예매 개수 확인
+		@Select("select count(*) from reserve where user_id = #{user_id}")
+		int getreservelistCnt(int user_id);
 }

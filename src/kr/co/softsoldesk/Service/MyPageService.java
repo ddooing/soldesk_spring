@@ -2,11 +2,14 @@ package kr.co.softsoldesk.Service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
@@ -19,14 +22,24 @@ public class MyPageService {
 	@Autowired
 	private MyPageDao myPageDao;
 	
+	@Value("${Mypagepoint.listcnt}")
+	private int point_listcnt;
+	
+	@Value("${Mypagepoint.paginationcnt}")
+	private int point_paginationcnt;
+	
 	// 마이페이지용 상단 Info창
 	public UserBean getMyPageTopInfo(int user_id) {
 		return myPageDao.getMyPageTopInfo(user_id);
 	}
 	
 	// 마이페이지 예약 조회 리스트
-	public List<ReserveBean> getMyPageReserveList(int user_id) {
-		return myPageDao.getMyPageReserveList(user_id);
+	public List<ReserveBean> getMyPageReserveList(int user_id, int page) {
+		
+		int start = (page - 1) * point_listcnt;
+		RowBounds rowBounds = new RowBounds(start, point_listcnt);
+		
+		return myPageDao.getMyPageReserveList(user_id, rowBounds);
 	}
 	
 	// 마이페이지 북마크 리스트
@@ -64,5 +77,12 @@ public class MyPageService {
 		myPageDao.addUserQnA(qnaBean);
 	}
 	
-	
+	// 마이페이지 reservelist 페이징 처리용
+	public PageBean getreservelistCnt(int user_id, int currentPage) {
+		
+		int reserve_Cnt = myPageDao.getreservelistCnt(user_id);
+		PageBean pageBean = new PageBean(reserve_Cnt, currentPage, point_listcnt, point_paginationcnt);
+		
+		return pageBean;
+	}
 }

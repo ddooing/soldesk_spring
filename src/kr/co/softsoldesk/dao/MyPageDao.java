@@ -2,6 +2,7 @@ package kr.co.softsoldesk.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -25,8 +26,8 @@ public class MyPageDao {
 	}
 	
 	// 마이페이지 결제 내역 조회 메소드
-	public List<ReserveBean> getMyPageReserveList(int user_id) {
-		return myPageMapper.getMyPageReserveList(user_id);
+	public List<ReserveBean> getMyPageReserveList(int user_id, RowBounds rowBounds) {
+		return myPageMapper.getMyPageReserveList(user_id, rowBounds);
 	}
 	
 	// 마이페이지 북마크 내역 메소드
@@ -64,6 +65,10 @@ public class MyPageDao {
 		myPageMapper.addUserQnA(qnaBean);
 	}
 	
+	// reservelist 페이징 처리용 
+	public int getreservelistCnt(int user_id) {
+		return myPageMapper.getreservelistCnt(user_id);
+	}
 	
 	
 }

@@ -14,6 +14,7 @@ public interface PointDetailMapper {
 	@Insert("INSERT INTO point_detail (point_id, user_id, point, point_state_code, point_type_code ,regdate) values (point_id_seq.nextval, #{user_id}, #{point}, #{point_state_code}, #{point_type_code}, sysdate)")
 	void PointList(PointDetailBean pointdetailBean);
 	
+	// 마이페이지 포인트 내역가져오기
 	@Select("select point_id, user_id, point, point_state_code, point_type_code, TO_CHAR(regdate, 'yyyy-mm-dd') as regdate from point_detail where user_id = #{user_id} order by point_id desc")
 	List<PointDetailBean> GetMypagePointList(int user_id,  RowBounds rowBounds);
 	

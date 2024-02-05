@@ -22,9 +22,10 @@ public interface ReserveMapper {
 	@Update("UPDATE exhibition SET ticket_cnt = ticket_cnt + #{ticket_count} WHERE exhibition_id = #{exhibition_id}")
 	void reserveAfterExhibitionCntIncrease(@Param("ticket_count") int ticket_count, @Param("exhibition_id") int exhibition_id);
 	
-	
+	// 아카이브 작성 페이지 가져오기?
 	@Select("SELECT reserve_id, order_id from reserve where order_id = #{order_id}")
 	ReserveBean getReserve_idForMakeReview(String order_id);
+	
 	
 	
 	

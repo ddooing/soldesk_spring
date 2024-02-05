@@ -227,8 +227,11 @@ public class MyPageController {
 		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
 
 		// 마이페이지 예약 내역 bean객체 담은 리스트
-		List<ReserveBean> UserReserveListBean = MyPageService.getMyPageReserveList(user_id);
+		List<ReserveBean> UserReserveListBean = MyPageService.getMyPageReserveList(user_id, page);
 		model.addAttribute("UserReserveListBean", UserReserveListBean);
+		
+		PageBean pageBean = MyPageService.getreservelistCnt(user_id, page);
+		model.addAttribute("pageBean", pageBean);
 		
 		return "/mypage/reservelist";
 	}
