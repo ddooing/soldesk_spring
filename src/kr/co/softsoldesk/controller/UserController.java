@@ -3,12 +3,15 @@ package kr.co.softsoldesk.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,8 @@ import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.PointDetailService;
 import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.UserService;
+import kr.co.softsoldesk.validator.UserValidator;
+
 
 
 @Controller
@@ -28,12 +33,6 @@ public class UserController {
 	
 	@Autowired
 	private UserService UserService;
-	
-	@Autowired
-	private PointDetailService pointDetailService;
-	
-	@Autowired
-	private ReserveService reserveService;
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
@@ -100,8 +99,103 @@ public class UserController {
 	//-----------------------------------------------------------
 	
 	@GetMapping("/Signup")
-	public String Signup() {
+	public String Signup(@ModelAttribute("joinUserBean") UserBean joinUserBean) {
+		
+		
 	    return "user/Signup";
 	}
+	
+	
+	@PostMapping("/Signup_pro")
+	public String Signup_pro(@Valid @ModelAttribute("joinUserBean")UserBean joinUserBean, BindingResult result) {
+		
+		if(result.hasErrors()) {
+			return "user/Signup";
+			
+		}
+		UserService.addUserInfo(joinUserBean);
+		
+		return "/user/Signup_success";
+	}
+	//-----------------------------------------------------
+	
+	@GetMapping("/InfoChange")
+	public String InfoChange(@ModelAttribute("modifyUserBean")UserBean modifyUserBean,
+							@RequestParam("user_id")int user_id, Model model) {
+		
+		
+		UserBean IC = UserService.getLoginUserAllInfo(user_id);
+		UserService.getModifyUserInfo(modifyUserBean);
+		
+		model.addAttribute("IC", IC);
+
+		
+		return "user/InfoChange";
+		
+	}
+	
+	@PostMapping("/InfoChange_pro")
+	public String InfoChange_pro(@Valid @ModelAttribute("modifyUserBean")UserBean modifyUserBean,
+			BindingResult result) {
+		
+
+		
+		if(result.hasErrors()) {
+		
+		
+			return "user/InfoChange";
+		}
+			
+		UserService.ModifyUserInfo(modifyUserBean);
+		return "user/InfoChange_success";
+	}
+	
+	
+	@PostMapping("/delete_pro")
+	public String delete_pro(@Valid @ModelAttribute("deleteUserBean")UserBean deleteUserBean, BindingResult result,
+							@RequestParam("user_id")int user_id, Model model) {
+		
+		UserBean DU = UserService.getLoginUserAllInfo(user_id);
+		model.addAttribute("DU", DU);
+		
+		if(deleteUserBean.getPassword().equals(DU.getPassword())) {
+			
+			if(deleteUserBean.getPassword().equals(deleteUserBean.getPassword2())) {
+				
+				UserService.DeleteUserInfo(deleteUserBean);
+				
+				loginUserBean.setUser_id(0);
+				loginUserBean.setId(null);
+				loginUserBean.setPassword(null);
+				loginUserBean.setState(0);
+		        
+				loginUserBean.setUserLogin(false);
+				return "user/delete_success";
+				
+			} else {
+				return "user/delete_fail_1";		//비밀번호1, 2 불일치
+			}
+			
+			
+			
+		} else {
+			return "user/delete_fail_2";			//비밀번호 부정확
+		}
+		
+		
+		
+	}
+	
+	
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		
+		UserValidator validator1 = new UserValidator(loginUserBean);
+		binder.addValidators(validator1);
+		
+	}
+	
+	
 	
 }

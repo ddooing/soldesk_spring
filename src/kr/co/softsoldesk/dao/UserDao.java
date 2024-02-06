@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.dao;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +13,10 @@ public class UserDao {
 	
 	@Autowired
 	private UserMapper userMapper;
+	
+	
+	// ======================================
+	// 승찬부분
 	
 	// 로그인 시에 최소 정보 가져옴 (세션객체)
 	public UserBean getLoginUserInfo(UserBean tempLoginUserBean) {
@@ -45,6 +51,66 @@ public class UserDao {
 		userMapper.IncreaseExp(exp, user_id);
 	}
 	
+	
+	//========================================================
+	// 재호 부분
+	public String checkIdExist(String id) {
+		
+		return userMapper.checkIdExist(id);
+	}
+	
+	public String checkNickExist(String nickname) {
+		
+		return userMapper.checkNickExist(nickname);
+	}
+	
+	public void addUserInfo(UserBean joinUserBean) {
+		
+		userMapper.addUserInfo(joinUserBean);
+	}
+	
+	public UserBean getModifyUserInfo(int user_id) {
+		
+		return userMapper.getModifyUserInfo(user_id);
+		
+	}
+	
+	public void modifyUserInfo(UserBean modifyUserBean) {
+		userMapper.modifyUserInfo(modifyUserBean);
+	}
+	
+	public void deleteUserInfo(UserBean deleteUserBean) {
+		userMapper.deleteUserInfo(deleteUserBean);
+	}
+	//-------------------------
+	
+	public List<UserBean>getUserList(){
+		return userMapper.getUserList();
+	}
+	
+	public List<UserBean>getNickSearchList(UserBean searchUserBean){
+		return userMapper.getNickSearchList(searchUserBean);
+	}
+	
+	public List<UserBean>getIdSearchList(UserBean searchUserBean){
+		return userMapper.getIdSearchList(searchUserBean);
+	}
+	
+	public List<UserBean>getEmailSearchList(UserBean searchUserBean){
+		return userMapper.getEmailSearchList(searchUserBean);
+	}
+	
+	public int deleteAdminUserInfo(int user_id) {
+		return userMapper.deleteAdminUserInfo(user_id);
+	}
+	
+	public UserBean getAdminModifyInfo(int user_id) {
+		return userMapper.getAdminModifyInfo(user_id);
+	}
+	
+	public void AdminModifyInfo(UserBean acModifyBean) {
+		userMapper.AdminModifyInfo(acModifyBean);
+	}
 	
 	
 }

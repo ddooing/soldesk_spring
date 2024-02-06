@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.Service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,93 @@ public class UserService {
 	public void IncreaseExp(int exp, int user_id) {
 		userDao.IncreaseExp(exp, user_id);
 	}
+	
+	
+	// ================================================
+	// 재호부분
+	
+	public boolean checkIdExist(String id) {
+		
+		String name = userDao.checkIdExist(id);
+		
+		if(name == null) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public boolean checkNickExist(String nickname) {
+		
+		String name = userDao.checkNickExist(nickname);
+		
+		if(name == null) {
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
+	
+	
+	
+	public void addUserInfo(UserBean joinUserBean) {
+		
+		userDao.addUserInfo(joinUserBean);
+	}
+	
+	
+	//--------------------
+	public void getModifyUserInfo(UserBean modifyUserBean) {
+		
+		UserBean tempModifyUserBean = userDao.getModifyUserInfo(loginUserBean.getUser_id());
+		
+		modifyUserBean.setId(tempModifyUserBean.getId());
+		modifyUserBean.setName(tempModifyUserBean.getName());
+		modifyUserBean.setUser_id(tempModifyUserBean.getUser_id());
+		modifyUserBean.setPassword(tempModifyUserBean.getPassword());
+	}
+	
+	
+	public void ModifyUserInfo(UserBean modifyUserBean) {
+		modifyUserBean.setUser_id(loginUserBean.getUser_id());
+		userDao.modifyUserInfo(modifyUserBean);
+	}
+	
+	//-----------------------
+	public void DeleteUserInfo(UserBean deleteUserBean) {
+		deleteUserBean.setUser_id(loginUserBean.getUser_id());
+		userDao.deleteUserInfo(deleteUserBean);
+	}
+	
+	public List<UserBean>getUserList(){
+		return userDao.getUserList();
+	}
+	
+	public List<UserBean>getNickSearchList(UserBean searchUserBean){
+		return userDao.getNickSearchList(searchUserBean);
+	}
+	
+	public List<UserBean>getIdSearchList(UserBean searchUserBean){
+		return userDao.getIdSearchList(searchUserBean);
+	}
+	
+	public List<UserBean>getEmailSearchList(UserBean searchUserBean){
+		return userDao.getEmailSearchList(searchUserBean);
+	}
+	
+	public int deleteAdminUserInfo(int user_id) {
+		return userDao.deleteAdminUserInfo(user_id);
+	}
+	
+	public UserBean getAdminModifyBean(int user_id) {
+		return userDao.getAdminModifyInfo(user_id);
+	}
+	
+	public void AdminModifyBean(UserBean acModifyBean) {
+		userDao.AdminModifyInfo(acModifyBean);
+	}
+	
 	
 	
 }

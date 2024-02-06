@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <c:set var="root" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
@@ -28,14 +28,14 @@
 	<!-- Core theme JS-->
 	<script src="../js/scripts.js"></script>
 
-	<!-- JQuery �ڹٽ�ũ��Ʈ-->
+	<!-- JQuery 자바스크립트-->
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
 	<!-- CSS -->
 	<link href="../css/styles.css" rel="stylesheet" />
 
-	<!-- Carousel �ڹٽ�ũ��Ʈ-->
+	<!-- Carousel 자바스크립트-->
 	<script src='https://www.gmarwaha.com/script/lib/jquery-1.11.1.js'></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing-1.3.js"></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
@@ -48,7 +48,7 @@
 
 </head>
 <body id="page-top">
-	<!-- �޴��� -->
+	<!-- 메뉴바 -->
 	<nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
 		<div class="container px-5">
 			<a class="navbar-brand" href="${root}/view/index"><img src="../img/ARTMEE.png"
@@ -60,40 +60,40 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav me-auto">
 					<li class="nav-item mr-5">
-						<a class="nav-link" href="BoardNoticeList.html" style="margin-right: 20px; margin-left: 50px;">��������</a>
+						<a class="nav-link" href="${root}/notice/main" style="margin-right: 20px; margin-left: 50px;">공지사항</a>
 					</li>
 					<li class="nav-item mr-5">
-						<a class="nav-link" href="${root }/exhibition/exhibition_popular" style="margin-right: 20px; margin-left: 20px;">����ȸ</a>
+						<a class="nav-link" href="${root }/exhibition/exhibition_popular" style="margin-right: 20px; margin-left: 20px;">전시회</a>
 					</li>
 					
 					<li class="nav-item mr-5">
-						<a class="nav-link" href="BoardList.html" style="margin-right: 20px; margin-left: 20px;">�Խ���</a>
+						<a class="nav-link" href="${root}/board/main" style="margin-right: 20px; margin-left: 20px;">게시판</a>
 					</li>
 				</ul>
 
 				<ul class="navbar-nav ms-auto">
-					
 
 					<li class="nav-item mr-5">
-						<a class="nav-link" href="#!"><img src="../img/cart.png"
+						<a class="nav-link" href="${root }/user/basket"><img src="../img/cart.png"
 								style="width: 30px; height: 30px; margin-right: 30px;" /></a>
 					</li>
 					<c:choose>
-					
-		               <c:when test="${loginUserBean.userLogin == false}">
-		                  <li class="nav-item"><a href="${root}/user/login" class="nav-link">�α���</a>
-		                  </li>
-		                  <li class="nav-item"><a href="${root}/user/join" class="nav-link">ȸ������</a>
-		                  </li>
-		               </c:when>
-		               
-		               <c:otherwise>
-		                  <li class="nav-item"><a href="${root}/mypage/reservelist?user_id=${loginUserBean.user_id}"
-		                     class="nav-link">����������</a></li>
-		                  <li class="nav-item"><a href="${root }/user/logout" class="nav-link">�α׾ƿ�</a>
-		                  </li>
-		               </c:otherwise>
-		           </c:choose>
+					    <c:when test="${loginUserBean.userLogin == false}">
+					        <li class="nav-item"><a href="${root}/user/login" class="nav-link">로그인</a></li>
+					        <li class="nav-item"><a href="${root}/user/Signup" class="nav-link">회원가입</a></li>
+					    </c:when>
+					    
+					    <c:otherwise>
+					        <li class="nav-item"><a href="${root}/mypage/reservelist?user_id=${loginUserBean.user_id}" class="nav-link">마이페이지</a></li>
+					        <li class="nav-item"><a href="${root}/user/logout" class="nav-link">로그아웃</a></li>
+					        
+					        <c:choose>
+						        <c:when test="${loginUserBean.state == 3}">
+						            <li class="nav-item"><a href="${root}/admin/manager_accountmanager" class="nav-link">관리자 페이지</a></li>
+						        </c:when>
+					        </c:choose>
+					    </c:otherwise>
+					</c:choose>
 				</ul>
 			</div>
 		</div>

@@ -128,9 +128,80 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 transform: scale(1.3);
 transform-origin: top;
 }
+
+.asdf th{
+margin-right: 30px;
+}
+
+.asdf tr{
+margin-top: 20px;
+}
 </style>
 
 </head>
+<script>
+function checkIdExist() {
+    var id = $("#id").val();
+
+    if (id.length == 0) {
+        alert('아이디를 입력해주세요');
+        return;
+    }
+
+    $.ajax({
+        url: '${root}/user/checkIdExist/' + id,
+        type: 'get',
+        dataType: 'text',
+        success: function (result) {
+            if (result.trim() == 'true') {
+                alert('사용할 수 있는 아이디입니다.');
+                $("#IdExist").val('true');
+                console.log('IdExist: true'); // 디버그 메시지
+            } else if (result.trim() == 'false') {
+                alert('사용할 수 없는 아이디입니다.');
+                $("#IdExist").val('false');
+                console.log('IdExist: false'); // 디버그 메시지
+            }
+        }
+    });
+}
+
+function resetIdExist() {
+    $("#IdExist").val('false');
+    console.log('IdExist reset: false'); // 디버그 메시지
+}
+
+function checkNickExist() {
+    var nickname = $("#nickname").val();
+
+    if (nickname.length == 0) {
+        alert('닉네임을 입력해주세요');
+        return;
+    }
+
+    $.ajax({
+        url: '${root}/user/checkNickExist/' + nickname,
+        type: 'get',
+        dataType: 'text',
+        success: function (result) {
+            if (result.trim() == 'true') {
+                alert('사용할 수 있는 닉네임입니다.');
+                $("#NickExist").val('true');
+                console.log('NickExist: true'); // 디버그 메시지
+            } else if (result.trim() == 'false') {
+                alert('사용할 수 없는 닉네임입니다.');
+                $("#NickExist").val('false');
+                console.log('NickExist: false'); // 디버그 메시지
+            }
+        }
+    });
+}
+
+function resetNickExist() {
+    $("#NickExist").val('false');
+    console.log('NickExist reset: false'); // 디버그 메시지
+}
+</script>
 
 <body id="page-top">
 	<!-- 메뉴바 -->
@@ -140,73 +211,141 @@ transform-origin: top;
 	<!--로그인 부분-->
 	<section id="readg"class="text-center" style="margin-top: 100px;">
 		
+		<h2>회원가입</h2>
+		<hr style="margin:auto; margin-top:50px; width: 1000px;"/>
 		
-		<form:form action="${root }/user/join_pro" method="post" modelAttribute="joinUserBean">
-			<div class="container h-100 align-items-center justify-content-center">
-				<h2>회원가입</h2>
-				<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
-				
-				<div class="d-flex align-items-center justify-content-center" style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<form:label path="name" style="font-size: 20px;">닉네임</form:label>
-						<form:input path="name" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;">
-						<button type="button" class="btn btn-dark">중복확인</button>
-					</div>
-				</div>
-				
-				<div class="d-flex align-items-center justify-content-center" style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<form:label path="id" style="font-size: 20px;">아이디</form:label>
-						<form:input path="id" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;">
-						<button type="button" class="btn btn-dark">중복확인</button>
-					</div>
-				</div>
-				
-				<div class="d-flex align-items-center justify-content-center" style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<form:label path="email" style="font-size: 20px;">이메일</form:label>
-						<form:input path="email" />
-					</div>
-				</div>
-				
-				
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<form:label path="user_pw" style="font-size: 20px;">비밀번호</form:label>
-					</div>
-					<div style="margin-left: 20px;">
-						<form:password path="user_pw" />
-					</div>
-				</div>
-				
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<form:label path="user_pw2" style="font-size: 20px;">비밀번호 확인</form:label>
-					</div>
-					<div style="margin-left: 20px;">
-						<form:password path="user_pw2" />
-					</div>
-				</div>
-				
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<form:label path="user_gender" style="font-size: 20px; text-align: left;">성별</form:label>
-					</div>
-					<div style="margin-left: 20px; width: 218px;">
-						<form:radiobutton path="user_gender" value="man" style="margin-right: 20px;" />남자
-						<form:radiobutton path="user_gender" value="woman" style="margin-right: 20px;" />여자
-					</div>
-				</div>
-				
-				
-			</div>
+		<form:form action="${root}/user/Signup_pro" method="post" modelAttribute="joinUserBean">
+		<form:hidden path="IdExist" />
+		<form:hidden path="NickExist" />
+		
+		    <div style="display:flex; justify-content: center; align-content: center; text-align: left;">
+		   <table class="asdf">
+		    	<tr>
+		    		<th>
+		    			<form:label path="name" style="font-size: 20px;">성함</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:input path="name" class="form-control" />
+		    			<form:errors path="name" style="color:red" />
+		    		</td>
+		    		
+
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="id"  style="font-size: 20px;">아이디</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:input path="id"  onkeypress="resetIdExist()" class="form-control" />
+		    			<form:errors path="id" style="color:red" />
+		    		</td>
+		    		
+		    		<td>
+		    			 <button type="button" class="btn btn-dark" onclick="checkIdExist()">중복확인</button>
+		    		</td>
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="email" style="font-size: 20px;">이메일</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:input path="email" class="form-control" />
+		    			<form:errors path="email" style="color:red" />
+		    		</td>
+		    	</tr>
+		    	
+		    	
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="birth" style="font-size: 20px;">생년월일</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<input type="date" id="birth" name="birth" pattern="yyyy-MM-dd" />
+		    		</td>
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="password" style="font-size: 20px;">비밀번호</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:password path="password" class="form-control" />
+		    			<form:errors path="password" style="color:red" />
+		    		</td>
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="password2" style="font-size: 20px;">비밀번호 확인</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:password path="password2" class="form-control" />
+		    			<form:errors path="password2" style="color:red" />
+		    		</td>
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="nickname" style="font-size: 20px;">닉네임</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:input path="nickname" class="form-control" onkeypress="resetNickExist()" />
+		    			<form:errors path="nickname" style="color:red" />
+		    		</td>
+		    		
+		    		<td>
+		    			 <button type="button" class="btn btn-dark" onclick="checkNickExist()">중복확인</button>
+		    		</td>
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="gender" style="font-size: 20px;">성별</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    		<div style="display: flex; justify-content: center;">
+		    		
+			    		<div style="margin-right:80px;">
+			    			<form:radiobutton path="gender" value="male" /> 남
+			    		</div>
+			    		
+			    		<div>
+			    			<form:radiobutton path="gender" value="female"/> 여
+			    		</div>
+			    		</div>
+			    		<form:errors path="gender" style="color:red" />
+		    		</td>
+
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="telephone" style="font-size: 20px;">전화번호</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:input path="telephone" class="form-control" />
+		    			<form:errors path="telephone" style="color:red;" />
+		    		</td>
+		    	</tr>
+		    
+		    
+		    </table>
+		    </div>	
+		    <!-- 확인 버튼 -->
+		    <button type="submit" class="btn btn-primary">확인</button>
+		    
 		</form:form>
 		
 

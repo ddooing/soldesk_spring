@@ -385,7 +385,7 @@
 						<div class="carousel">
 							<ul>
 								<c:forEach items="${popularExhibitionInfo }" var="popularexhibition">
-									<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${popularexhibition.exhibition_id}"><img src="${popularexhibition.main_poster_path}${popularexhibition.main_poster_name}"></a></li>
+									<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${popularexhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${popularexhibition.main_poster_path}${popularexhibition.main_poster_name}"></a></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -462,7 +462,7 @@
 					<div class="carousel">
 						<ul>
 							<c:forEach items="${SoonExhibitionInfo }" var="soonexhibition">
-								<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${soonexhibition.exhibition_id}"><img src="${soonexhibition.main_poster_path}${soonexhibition.main_poster_name}"></a></li>
+								<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${soonexhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${soonexhibition.main_poster_path}${soonexhibition.main_poster_name}"></a></li>
 							</c:forEach>
 						</ul>
 					</div>

@@ -25,8 +25,7 @@
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"></script>
 <!-- JQuery -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
     // thead의 checkbox 클릭 이벤트
@@ -35,6 +34,17 @@ $(document).ready(function(){
         $("tbody input[type='checkbox']").prop('checked', $(this).prop('checked'));
     });
 });
+
+$(document).ready(function(){
+    $("#deleteButton").click(function(){
+        var confirmDelete = confirm("선택한 항목을 삭제하시겠습니까?");
+        if(confirmDelete) {
+            // 사용자가 '예'를 선택한 경우, 폼 제출
+            $("form[action='${root}/admin/delete_pro']").submit();
+        }
+    });
+});
+
 </script>
 
 </head>
@@ -49,26 +59,27 @@ $(document).ready(function(){
 					<div style="margin-top:30px;">
 						<h3>사용자 관리</h3>
 					</div>
-					<div
-						style="display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-						<select name="usercombo" id="usercombo"
+					<div style="display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
+						<form action="${root }/admin/manager_accountmanager" method="get" name="searchUserBean">
+						<select name="type" id="usercombo"
 							style="width: 150px; height: 40px; margin-right: 30px;">
 							<option value="" disabled selected>검색조건선택</option>
-							<option value="option1">닉네임</option>
-							<option value="option2">사용자ID</option>
-							<option value="option3">이메일</option>
-						</select> 
-						<input type="text" name="usersearch" id="usersearch"
+							<option value="nickname">닉네임</option>
+							<option value="id">사용자ID</option>
+							<option value="email">이메일</option>
+						</select>
+						<input type="text" name="keyword"
 							style="width: 500px; height: 40px; margin-right: 30px;"
 							placeholder="검색어를 입력해주세요" />
-						<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+						<button type="submit" class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+						</form>
 					</div>
 
 					<div style="background-color: white; margin-top: 30px;">
 						
-
-
+					<form action="${root }/admin/delete_pro" method="post">
 						<table class="table table-striped" style="text-align: center;">
+						
 							<thead>
 								<tr>
 									<th scope="col"><input type="checkbox" /></th>
@@ -85,7 +96,7 @@ $(document).ready(function(){
 							<tbody>
 								<c:forEach var="obj" items="${userList }">
 									<tr>
-										<th scope="row"><input type="checkbox" /></th>
+										<th scope="row"><input type="checkbox" name="deleteUser" value="${obj.user_id }" /></th>
 										<td>${obj.user_id }</td>
 										<td>${obj.nickname }</td>
 										<td>${obj.id }</td>
@@ -102,48 +113,17 @@ $(document).ready(function(){
 												</a>
 													<ul class="dropdown-menu dropdown-menu-end"
 														aria-labelledby="navbarDropdown">
-														<li><a class="dropdown-item" href="${root }/admin/manager_accountdetail?user_id=${loginUserBean.user_id}">수정</a></li>
+														<li><a class="dropdown-item" href="${root }/admin/manager_accountdetail?user_id=${obj.user_id}">수정</a></li>
 													</ul></li>
 											</ul>
 										</td>
 									</tr>
 								</c:forEach>
-								<%-- <%
-								for (int i = 1; i <= 15; i++) {
-								%>
-								<tr>
-									<th scope="row"><input type="checkbox" /></th>
-									<td><%=i%></td>
-									<td>닉네임<%=i%></td>
-									<td>사용자ID<%=i%></td>
-									<td>example<%=i - 1%>@naver.com
-									</td>
-									<td>1레벨</td>
-									<td>30p</td>
-									<td>정상</td>
-									<td>
-										<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-											<li class="nav-item dropdown"><a id="navbarDropdown"
-												href="#" style="color: black;" role="button"
-												data-bs-toggle="dropdown" aria-expanded="false"> <i
-													class="bi bi-three-dots-vertical"></i>
-											</a>
-												<ul class="dropdown-menu dropdown-menu-end"
-													aria-labelledby="navbarDropdown">
-													<li><a class="dropdown-item" href="manager_accountdetail.jsp">수정</a></li>
-												</ul></li>
-										</ul>
-									</td>
-								</tr>
-								<%
-								}
-								%> --%>
 							</tbody>
-							
-
 						</table>
-						<button class="btn btn-danger"
+						<button class="btn btn-danger" id="deleteButton"
 							style="float: right; margin-right: 50px; margin-top: 20px; margin-bottom: 20px;">삭제</button>
+							</form>
 
 						<div style="display: flex; justify-content: center; margin-top:30px;">
 							<nav aria-label="Page navigation example" class="mx-auto">

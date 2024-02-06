@@ -201,6 +201,7 @@ public class ServletAppContext implements WebMvcConfigurer {
 	public ReloadableResourceBundleMessageSource messageSource() {
 		ReloadableResourceBundleMessageSource res = new ReloadableResourceBundleMessageSource();
 		res.setBasename("/WEB-INF/properties/error_message");
+		res.setDefaultEncoding("UTF-8");
 		return res;
 	}
 

@@ -90,7 +90,7 @@
 					<img src="../img/level/profile_Lv3.png" style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;"/>
 				</c:when>
 			</c:choose>
-				<button class="button-2" role="button" onclick="window.location.href = '${root}/user/InfoChange'">프로필 수정</button>
+				<button class="button-2" role="button" onclick="window.location.href = '${root}/user/InfoChange?user_id=${loginUserBean.user_id}'">프로필 수정</button>
 			</div>
 			
 			<!-- 닉네임, 게이지, 포인트  -->

@@ -62,7 +62,7 @@ $(document).ready(function(){
 					    </div>
 					    <form action="${root }/admin/QnA_search" method="post">
 							<select name="usercombo" id="usercombo" style="width: 150px; height: 40px; margin-right: 30px;">
-								<option value="0" disabled selected>검색조건선택</option>
+								<option value="" disabled selected>검색조건선택</option>
 								<option value="nickname">닉네임</option>
 								<option value="title">제목</option>
 							</select> <input type="text" name="usersearch" id="usersearch" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />

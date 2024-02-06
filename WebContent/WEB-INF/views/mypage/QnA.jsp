@@ -404,28 +404,31 @@
 				<!-- 입력 필드 및 버튼 -->
 
 
-				<div class="mb-3 text-center">
-					<div class="form-label-group">
-						<input type="text" class="form-control" placeholder="아이디"
-							id="userId" required>
-					</div>
-				</div>
+				<form:form action="${root }/user/delete_pro?user_id=${loginUserBean.user_id }" method="post" modelAttribute="deleteUserBean">
+							<div class="mb-3 text-center">
+								<div class="form-label-group">
+									<input type="text" class="form-control" placeholder="아이디"
+										name="id" required>
+								</div>
+							</div>
 
-				<div class="mb-3 text-center">
-					<div class="form-label-group">
-						<input type="password" class="form-control" placeholder="비밀번호"
-							id="password" required>
-					</div>
-				</div>
+							<div class="mb-3 text-center">
+								<div class="form-label-group">
+									<input type="password" class="form-control" placeholder="비밀번호"
+										name="password" required>
+										<form:errors path="password" style="color:red" />
+								</div>
+							</div>
 
-				<div class="mb-3 text-center">
-					<div class="form-label-group">
-						<input type="password" class="form-control" placeholder="비밀번호 확인"
-							id="confirmPassword" required>
-					</div>
-				</div>
-				<button type="submit" class="btn btn-danger"
-					style="margin-left: 177px;">회원 탈퇴</button>
+							<div class="mb-3 text-center">
+								<div class="form-label-group">
+									<input type="password" class="form-control"
+										placeholder="비밀번호 확인" name="password2" required>
+										<form:errors path="password2" style="color:red" />
+								</div>
+							</div>
+							<button type="submit" class="btn btn-danger" style="margin-left:177px;">회원 탈퇴</button>
+						</form:form>
 			</div>
 		</div>
 	</div>

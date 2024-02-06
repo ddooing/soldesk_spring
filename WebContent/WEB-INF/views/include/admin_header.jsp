@@ -47,7 +47,7 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" style="color: white;" href="#" role="button"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-user fa-fw" style="color: white;"></i>(관리자) ${AU.nickname }
+                <i class="fas fa-user fa-fw" style="color: white;"></i>(관리자)
             </a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="${root }/user/logout">로그아웃</a></li>
@@ -63,15 +63,10 @@
 				style="border-right: 1px solid black;">
 				<div class="sb-sidenav-menu">
 					<div class="nav">
-						<div class="sb-sidenav-menu-heading">대시보드</div>
-						<a class="nav-link" href="${root }/admin/manager_dashboard?user_id=${loginUserBean.user_id}">
-							<div class="sb-nav-link-icon">
-								<i class="bi bi-speedometer2"></i>
-							</div> 대시보드
-						</a>
+						
 						<div class="sb-sidenav-menu-heading">카테고리</div>
 
-						<a class="nav-link" href="${root }/admin/manager_accountmanager?user_id=${loginUserBean.user_id}">
+						<a class="nav-link" href="${root }/admin/manager_accountmanager">
 							<div class="sb-nav-link-icon">
 								<i class="bi bi-person-circle"></i>
 							</div> 사용자 관리
@@ -108,7 +103,7 @@
 							aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="manager_noticemanage.jsp">공지사항 관리</a> <a class="nav-link"
-									href="manager_boardlist.jsp">게시물 관리</a> <a class="nav-link" href="manager_QnAlist.jsp">QnA 관리</a>
+									href="manager_boardlist.jsp">게시물 관리</a> <a class="nav-link" href="${root }/admin/manager_QnAlist">QnA 관리</a>
 							</nav>
 						</div>
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"

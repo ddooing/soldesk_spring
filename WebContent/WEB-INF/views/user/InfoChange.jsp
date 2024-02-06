@@ -1,6 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="root" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -113,96 +115,199 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 	font-weight: 300;
 	color: #757575;
 }
+#birth:read-only,
+    #birth:read-only:hover,
+    #birth:read-only:focus {
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+    #name:read-only,
+    #name:read-only:hover,
+    #name:read-only:focus {
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+    #id:read-only,
+    #id:read-only:hover,
+    #id:read-only:focus {
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+    #telephone:read-only,
+    #telephone:read-only:hover,
+    #telephone:read-only:focus {
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+    asdf .tr{
+    margin-top : 30px;
+    }
 </style>
+<script>
+function checkNickExist() {
+    var nickname = $("#nickname").val();
 
-<script type="text/javascript">
-      $(document).ready(function () {
+    if (nickname.length == 0) {
+        alert('닉네임을 입력해주세요');
+        return;
+    }
 
-         $("#headers").load("component/header.html");
-         $("#footer").load("component/footer.html");
-      });
-   </script>
+    $.ajax({
+        url: '${root}/user/checkNickExist/' + nickname,
+        type: 'get',
+        dataType: 'text',
+        success: function (result) {
+            if (result.trim() == 'true') {
+                alert('사용할 수 있는 닉네임입니다.');
+                $("#NickExist").val('true');
+                console.log('NickExist: true'); // 디버그 메시지
+            } else if (result.trim() == 'false') {
+                alert('사용할 수 없는 닉네임입니다.');
+                $("#NickExist").val('false');
+                console.log('NickExist: false'); // 디버그 메시지
+            }
+        }
+    });
+}
+
+function resetNickExist() {
+    $("#NickExist").val('false');
+    console.log('NickExist reset: false'); // 디버그 메시지
+}
+
+</script>
 
 </head>
 
 <body id="page-top">
 	<!-- 메뉴바 -->
-	
+
 	<c:import url="/WEB-INF/views/include/header.jsp"/>
 
 	<!--로그인 부분-->
 	<section class="text-center" style="margin-top: 200px;">
-		<form action="login.html" method="post">
-			<div
-				class="container h-100 align-items-center justify-content-center">
-				<h2>회원정보 변경</h2>
-				
-				<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
+		<h2>회원정보수정</h2>
+		<hr style="margin:auto; margin-top:50px; width: 1000px;"/>
+		
+		<form:form action="${root}/user/InfoChange_pro" method="post" modelAttribute="modifyUserBean">
+		<form:hidden path="NickExist" />
+		    <div style="display:flex; justify-content: center; align-content: center; text-align: left;">
+		   <table class="asdf">
+		   
+		    	<tr>
+		    		<th>
+		    			<form:label path="name" style="font-size: 20px;">성함</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:input path="name" id="name" value="${loginUserBean.name }" class="form-control" style="border: none; outline:none;" readonly="true" />
+		    		</td>
+		    		
 
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 50px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="nickname" style="font-size: 20px;">닉네임</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="text" name="nickname" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;">
-						<input type="button" class="btn btn-dark" value="중복확인" />
-					</div>
-				</div>
-
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="id" style="font-size: 20px;">현재 비밀번호</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="text" name="id" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
-				</div>
-
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="pw" style="font-size: 20px;">새 비밀번호</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="password" name="pw" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
-				</div>
-
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="pw1" style="font-size: 20px;">비밀번호 확인</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="password" name="pw1" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
-				</div>
-
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="email" style="font-size: 20px;">이메일</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="email" name="email" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
-				</div>
-
-				<div align="center" style="margin-top: 50px;">
-						<input type="submit" class="btn btn-dark" value="확인" style="margin-right: 80px;" />
-
-						<input type="button" onclick="mypage.html" class="btn btn-dark" value="취소" />
-				</div>
-			</div>
-		</form>
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="id"  style="font-size: 20px;">아이디</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:input path="id" id="id" value="${loginUserBean.id }" style="border: none; outline:none;" class="form-control" readonly="true" />
+		    		</td>
+		    	</tr>
+		    	<tr>
+		    		<th>
+		    			<form:label path="birth" style="font-size: 20px;">생년월일</form:label>
+		    		</th>
+		    		
+		    		<td>
+					    
+					    <form:input path="birth" id="birth" value="${IC.birth }" style="border: none; outline:none;" class="form-control" readonly="true" />
+					    
+					</td>
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="telephone" style="font-size: 20px;">전화번호</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:input path="telephone" value="${IC.telephone }" style="border: none; outline:none;" class="form-control" readonly="true" />
+		    		</td>
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="email" style="font-size: 20px;">이메일</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:input path="email" class="form-control" />
+		    		</td>
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="nickname" style="font-size: 20px;">닉네임</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:input path="nickname" id="nickname" class="form-control" />
+		    			<form:errors path="nickname" style="color:red" />
+		    		</td>
+		    		<td>
+		    			 <button type="button" class="btn btn-dark" onclick="checkNickExist()">중복확인</button>
+		    		</td>
+		    	</tr>
+		    	
+		    	
+		    	
+		    	
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="crpassword" style="font-size: 20px;">현재 비밀번호</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:password path="crpassword" class="form-control" />
+		    			<form:errors path="crpassword" style="color:red" />
+		    		</td>
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="password2" style="font-size: 20px;">새 비밀번호</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:password path="password2" class="form-control" />
+		    			<form:errors path="password2" style="color:red" />
+		    		</td>
+		    		
+		    	</tr>
+		    	
+		    	<tr>
+		    		<th>
+		    			<form:label path="password3" style="font-size: 20px;">새 비밀번호 확인</form:label>
+		    		</th>
+		    		
+		    		<td>
+		    			<form:password path="password3" class="form-control" />
+		    			<form:errors path="password3" style="color:red" />
+		    		</td>
+		    	</tr> 
+		    </table>
+		    </div>	
+		    <!-- 확인 버튼 -->
+		    <button type="submit" class="btn btn-primary">확인</button>
+		    
+		</form:form>
 	</section>
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
