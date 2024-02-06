@@ -220,7 +220,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					alt="포스터"
 					style="width: 280px; height: 400px; margin-left: 200px; margin-top: 40px;" />
 
-				<div style="margin-left: 50px;">
+				<div style="margin-left: 50px; margin-top: 40px;">
 					<h1>${exhibitionBean.title}</h1>
 
 					<div style="display: flex; margin-top: 40px;">

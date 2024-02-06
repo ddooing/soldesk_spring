@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<c:set var="root" value="${pageContext.request.contextPath }" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -136,113 +137,78 @@
 				</div>	
 				</c:when>
 				<c:otherwise>
-					<c:forEach items="${list}" var="cartlist">
-						
-					    <div style="margin-left: 180px; margin-top: 20px;">
-					        <input type="radio" name="selectedItem" value="${cartlist.exhibition_id}"
-           								 <c:if test="${fn:length(list) == 1}">checked</c:if>>
-					    </div>
-					    
-						<div style="display: flex; align-items: center; flex-direction: row;">
-							<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
-								style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
-			
-							<div style="margin-left: 200px;">
-								<h3>${cartlist.title }</h3>
-			
-								<div style="display: flex; margin-top: 40px;">
-									<div style="margin-right: 10px; width: 200px;">예약 날짜</div>
-									<div style="margin-left: auto;">
-										<a style="font-size: 20px; ">${cartlist.reserve_date }</a>
+					<form:form action="${root }/exhibition/payment?exhibition_id=${cartlist.exhibition_id}"
+						 method="post" modelAttribute="tempReserveBean">
+						<c:forEach items="${list}" var="cartlist">
+							
+						    <div style="margin-left: 180px; margin-top: 20px;">
+						        <input type="radio" name="selectedItem" value="${cartlist.exhibition_id}"
+	           								 <c:if test="${fn:length(list) == 1}">checked</c:if>>
+	           							${cartlist.exhibition_id}	 
+						    </div>
+						    
+							<div style="display: flex; align-items: center; flex-direction: row;">
+								<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
+									style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
+				
+								<div style="margin-left: 200px;">
+									<h3>${cartlist.title }</h3>
+				
+									<div style="display: flex; margin-top: 40px;">
+										<div style="margin-right: 10px; width: 200px;">예약 날짜</div>
+										<div style="margin-left: auto;">
+											<a style="font-size: 20px; ">${cartlist.reserve_date }</a>
+										</div>
 									</div>
-								</div>
-
-								<div style="display: flex; margin-top: 10px;">
-									<div style="margin-right: 10px;  width: 200px;">티켓 수량</div>
-									<div style="margin-left: auto;">
-										<div class="counter">
-											
-											<span class="counterValue" style="width: 10px;">${cartlist.ticket_count }</span>
-											
+									<script>
+										console.log(${cartlist.ticket_count });
+										var ticket_cnt= ${cartlist.ticket_count };
+									</script>
+									<div style="display: flex; margin-top: 10px;">
+										<div style="margin-right: 10px;  width: 200px;">티켓 수량</div>
+										<div style="margin-left: auto;">
+											<div class="counter">
+												
+												<span class="counterValue" style="width: 10px;">
+												${cartlist.ticket_count}
+												</span>
+												
+											</div>
+										</div>
+									</div>
+									
+									<div style="display: flex; margin-top: 10px;">
+										<div style="margin-right: 10px;  width: 200px;">총 티켓 가격</div>
+										<div style="margin-left: auto;">
+										${cartlist.total_price } 원
 										</div>
 									</div>
 								</div>
-			
-								<div style="display: flex; margin-top: 10px;">
-									<div style="margin-right: 10px;  width: 200px;">총 티켓 가격</div>
-									<div style="margin-left: auto;">
-									${cartlist.total_price }
-									</div>
-								</div>
-								
-								
 							</div>
-						</div>
-			
-			
-						<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
-						</c:forEach>
+							
+				
+				
+							<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
+							</c:forEach>
+							
+							<c:if test="${not empty list}">
+							    <div class="text-center" style="margin-top: 50px;">
+							        <form:button type="submit" class="btn btn-dark" 
+							                style="width: 150px; height: 50px;">결제하기</form:button>
+							    </div>
+							</c:if>
+						</form:form>
 					</c:otherwise>
 			</c:choose>
 			
-			<c:if test="${not empty list}">
-			    <div class="text-center" style="margin-top: 50px;">
-			        <button class="btn btn-dark" onclick="window.location.href = 'payment.html'" 
-			                style="width: 150px; height: 50px;">결제하기</button>
-			    </div>
-			</c:if>
+			
 
 			
 		</div>
 	</section>
 
 
-	<script>
-		// 카운터 클래스 정의
-		class Counter {
-			constructor(counterElement) {
-				this.value = 1;
-				this.counterElement = counterElement;
-				this.updateDisplay();
-			}
 
-			increment() {
-				this.value++;
-				this.updateDisplay();
-			}
-
-			decrement() {
-				if (this.value > 1) {
-					this.value--;
-					this.updateDisplay();
-				} else {
-					alert("최소 수량은 1입니다!");
-				}
-			}
-
-			updateDisplay() {
-				this.counterElement.querySelector(".counterValue").textContent = this.value;
-			}
-		}
-
-		// 모든 카운터를 초기화하고 이벤트 리스너를 추가하는 함수
-		function setupCounters() {
-			// 카운터 컨테이너 요소를 모두 찾음
-			const counterContainers = document.querySelectorAll('.counter');
-
-			counterContainers.forEach(container => {
-				// 새 카운터 객체를 생성하고, 각 버튼에 이벤트 리스너를 부여
-				const counter = new Counter(container);
-
-				container.querySelector(".increment").addEventListener('click', () => counter.increment());
-				container.querySelector(".decrement").addEventListener('click', () => counter.decrement());
-			});
-		}
-
-		// 문서가 준비되면 카운터 설정
-		document.addEventListener('DOMContentLoaded', setupCounters);
-
-	</script>
 
 
 

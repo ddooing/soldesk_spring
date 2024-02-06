@@ -106,7 +106,7 @@ public class TossController {
         model.addAttribute("tempReserveBean",reserveInfoBean);
 		model.addAttribute("plusPoint",plusPoint);
 		
-		return "/exhibition/payment_complete";
+		return "redirect:/exhibition/payment_complete";
 		}
 		// 결제 금액이 0이 아니면 ckeckout page로 이동
 		else {
@@ -248,7 +248,7 @@ public class TossController {
 	     // LocalDateTime을 java.sql.Timestamp로 변환
 	     Timestamp timestampApprovedAt = Timestamp.valueOf(parsedApprovedAt);
 	     System.out.println("timestampApprovedAt: " + timestampApprovedAt);
-	     */
+	    */
     
         
     	// #DB 저장 ................................... 함수 ) 0원일때랑 합치기 
@@ -312,17 +312,17 @@ public class TossController {
         int reservePulsPoint=0;// 예매 시 적립되는 포인트
         
         
-        if(level.equals("level1")) // 레벨 1 일때 10%만큼 포인트 지급
+        if(level.equals("level1")) // 레벨 1 일때 5%만큼 포인트 지급
+        {
+        	reservePulsPoint = (int)(totalPrice*0.05);
+        }
+        else if(level.equals("level2")) // 레벨 2 일때 10%만큼 포인트 지급
         {
         	reservePulsPoint = (int)(totalPrice*0.1);
         }
-        else if(level.equals("level2")) // 레벨 2 일때 15%만큼 포인트 지급
+        else if(level.equals("level3")) // 레벨 3 일때 15%만큼 포인트 지급
         {
         	reservePulsPoint = (int)(totalPrice*0.15);
-        }
-        else if(level.equals("level3")) // 레벨 3 일때 20%만큼 포인트 지급
-        {
-        	reservePulsPoint = (int)(totalPrice*0.2);
         }
         
         plusPoint= reservePulsPoint; 
