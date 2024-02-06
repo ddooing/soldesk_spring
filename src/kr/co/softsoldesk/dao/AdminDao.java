@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.mapper.AdminMapper;
 
@@ -14,6 +15,8 @@ public class AdminDao {
 
 	@Autowired
 	private AdminMapper adminMapper;
+	
+	// ============================QnA==============================
 	
 	// 관리자 페이지 QnA 모든 리스트 가져오기
 	public List<QnABean> getAllQnAInfo(RowBounds rowBounds) {
@@ -73,6 +76,19 @@ public class AdminDao {
 	// QnA 페이징 처리를 위한 총 qna 개수 반환
 	public int getTotalQnACnt() {
 		return adminMapper.getTotalQnACnt();
+	}
+	
+	
+	// ============================= 전시회 관리 =======================
+	
+	// 전시회 관리 페이지 찍혀오는 값 가져가기
+	public List<ExhibitionBean> getAdminexhibitionmange(RowBounds rowBounds) {
+		return adminMapper.getAdminexhibitionmange(rowBounds);
+	}
+	
+	// 전시회 관리 페이징 처리
+	public int getExhibitionCnt() {
+		return adminMapper.getExhibitionCnt();
 	}
 	
 }

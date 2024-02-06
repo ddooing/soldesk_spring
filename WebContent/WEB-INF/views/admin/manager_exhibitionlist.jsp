@@ -56,19 +56,20 @@ $(document).ready(function(){
 						<h3>전시회 관리</h3>
 					</div>
 					<div
-						style="position: relative; display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-						<div style="position: absolute; left: 150px;">
-							<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size:15px;">전시회 수 40건</span>
-						</div>
-						<select name="usercombo" id="usercombo"
-							style="width: 150px; height: 40px; margin-right: 30px;">
-							<option value="" disabled selected>검색조건선택</option>
-							<option value="option1">제목</option>
-							<option value="option2">작가</option>
-						</select> <input type="text" name="usersearch" id="usersearch"
-							style="width: 500px; height: 40px; margin-right: 30px;"
-							placeholder="검색어를 입력해주세요" />
-						<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+					    style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
+					    <div style="position: flex; margin-right: 60px; width:400px; float:left;"> <!-- 여기에 margin-right 추가 -->
+					        <span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right:10px; margin-left:50px;">전시중 ${qnaCountBean.state_0_count }건</span>
+					        <span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right:10px;">전시예정 ${qnaCountBean.state_1_count }건</span>
+					        <span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size:15px;">전시회 수 ${qnaCountBean.total_count}건</span>
+					    </div>
+					    <form action="${root }/admin/Exhibition_search" method="post">
+							<select name="exhibitioncombo" id="exhibitioncombo" style="width: 150px; height: 40px; margin-right: 30px;">
+								<option value="" disabled selected>검색조건선택</option>
+								<option value="nickname">작가</option>
+								<option value="title">제목</option>
+							</select> <input type="text" name="exhibitionsearch" id="exhibitionsearch" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
+							<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+						</form>
 					</div>
 
 
@@ -84,60 +85,103 @@ $(document).ready(function(){
 									<th scope="col">작가</th>
 									<th scope="col">제목</th>
 									<th scope="col">전시기간</th>
-									<th scope="col">노출순서</th>
+									<th scope="col">가격</th>
 									<th scope="col">상태</th>
 									<th scope="col">공개여부</th>
 									<th scope="col">관리</th>
 								</tr>
 							</thead>
 							<tbody>
-								<%
-								for (int i = 1; i <= 15; i++) {
-								%>
+							<c:forEach items="${AdminExhibitionInfoBean }" var="exhibitonlist">
 								<tr style="vertical-align: middle;">
-									<th scope="row"><input type="checkbox" /></th>
-									<td><%=i%></td>
-									<td>작가<%=i%></td>
-									<td>전시회 제목제목제목<%=i%></td>
-									<td>2024.01.15 ~ 2024.01.18</td>
-									<td>18,000원</td>
-									<td>전시중</td>
+									<th scope="row"  style="width:50px;"><input type="checkbox" /></th>
+									<td style="width:50px;">${exhibitonlist.exhibition_id }</td>
+									<td style="width:150px;">${exhibitonlist.author }</td>
+									<td style="width:550px; text-align: left;"><a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitonlist.exhibition_id}&user_id=${loginUserBean.user_id}" style="color:black; text-align: left;">${exhibitonlist.title }</a></td>
+									<td  style="width:350px;">${exhibitonlist.exhibition_start } ~ ${exhibitonlist.exhibition_end }</td>
+									<c:choose>
+										<c:when test="${exhibitonlist.price ==0}"><td  style="width:100px;">무료</td></c:when>
+										<c:otherwise><td  style="width:100px;">${exhibitonlist.price } 원</td></c:otherwise>
+									</c:choose>
+									
+									
+									<td style="width:100px;">${exhibitonlist.open_state }</td>
 									<td><input type="checkbox" value="open" id="open" /></td>
 									<td>
 										<button class="btn btn-dark" onclick="location.href='manager_exhibitionmodify.jsp'">수정</button>
 										<button class="btn btn-danger">삭제</button>
 									</td>
 								</tr>
-								<%
-								}
-								%>
+							</c:forEach>
+							
+								
 							</tbody>
 						</table>
 						<div style="display:flex; margin-top: 20px; margin-bottom: 20px; float: right;">
 						<button class="btn btn-dark" onclick="location.href='manager_exhibitionadd.jsp'">추가</button>
 						<button class="btn btn-danger" style="margin-left: 30px; margin-right: 30px;">삭제</button>
 						</div>
-						<div
-							style="display: flex; justify-content: center; margin-top: 30px;">
-							<nav aria-label="Page navigation example" class="mx-auto">
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Previous"> <span
-											aria-hidden="true">&laquo;</span>
-									</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">1</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">2</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">3</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Next"> <span
-											aria-hidden="true">&raquo;</span>
-									</a></li>
-								</ul>
-							</nav>
-						</div>
+						<div class="d-none d-md-block" style="margin-top:50px;">
+				<ul class="pagination justify-content-center">
+					<c:choose>
+						<c:when test="${pageBean.prevPage <= 0 }">
+							<li class="page-item disabled">		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
+								<a href="#" class="page-link">이전</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+								<a href="${root }/admin/manager_exhibitionlist?page=${pageBean.prevPage}" class="page-link">이전</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:forEach var ="idx" begin="${pageBean.min}" end="${pageBean.max}">
+					<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+						<c:choose>
+							<c:when test="${idx == pageBean.currentPage }">
+								<li class="page-item active" >
+									<a href="${root }/admin/manager_exhibitionlist?page=${idx}" class="page-link">
+										${idx }
+									</a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item">
+									<a href="${root }/admin/manager_exhibitionlist?page=${idx}" class="page-link">
+										${idx }
+									</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					
+					
+					<c:choose>
+						<c:when test="${pageBean.max >= pageBean.pageCnt  }">	<!-- max페이지 > 전체페이지개수 일때  -->
+							<li class="page-item disabled" >		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
+								<a href="#" class="page-link">다음</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+								<a href="${root }/admin/manager_exhibitionlist?page=${pageBean.nextPage}" class="page-link">다음</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</div>
+			
+			<div class="d-block d-md-none">
+				<ul class="pagination justify-content-center">
+					<li class="page-item">
+						<a href="#" class="page-link">이전</a>
+					</li>
+					<li class="page-item">
+						<a href="#" class="page-link">다음</a>
+					</li>
+				</ul>
+			</div>
 
 					</div>
 				</div>

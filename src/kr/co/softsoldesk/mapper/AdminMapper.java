@@ -7,10 +7,15 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
+import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.QnABean;
 
 public interface AdminMapper {
 
+	
+	// ===============================================QnA 관리========================================
+	
+	
 	// QnA 모든 리스트 정보 가져오기
 	@Select("SELECT \r\n"
 			+ "    q.qna_id,\r\n"
@@ -142,4 +147,30 @@ public interface AdminMapper {
 	@Select("SELECT count(*) from qna")
 	int getTotalQnACnt();
 	
+	
+	
+	// ===============================================전시회 관리========================================
+	
+	// 전시회 관리 첫 페이지 찍혀오는 리스트 
+	@Select("SELECT \r\n"
+			+ "    exhibition_id, \r\n"
+			+ "    title, \r\n"
+			+ "    author, \r\n"
+			+ "    To_char(exhibition_start, 'yyyy-mm-dd') as exhibition_start, \r\n"
+			+ "    To_char(exhibition_end, 'yyyy-mm-dd') as exhibition_end, \r\n"
+			+ "    price, \r\n"
+			+ "    CASE \r\n"
+			+ "        WHEN SYSDATE < exhibition_start THEN '전시예정'\r\n"
+			+ "        WHEN SYSDATE > exhibition_end THEN '종료됨'\r\n"
+			+ "        ELSE '전시중' \r\n"
+			+ "    END AS open_state\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition\r\n"
+			+ "ORDER BY exhibition_id asc")
+	List<ExhibitionBean> getAdminexhibitionmange(RowBounds rowBounds);
+	
+	
+	// 전시회 관리 페이징 처리
+	@Select("select count(*) from exhibition")
+	int getExhibitionCnt();
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.UserBean;
@@ -33,6 +34,7 @@ public class AdminController {
 	
 	
 	// 재호 부분
+	// =========================================== 사용자 계정 관리 =================================
 	@GetMapping("/manager_accountmanager")
 	public String manager_accountmanager(Model model,
 	        @RequestParam(value="type", required=false) String type,
@@ -119,7 +121,7 @@ public class AdminController {
 	
 	
 	
-	
+	// ======================================= QnA관리 ================================
 	// ======================================================승찬 부분
 	@GetMapping("/manager_QnAlist")
 	public String manager_QnAlist(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
@@ -243,9 +245,18 @@ public class AdminController {
 	}
 	
 	
+	// ==============================전시회 관리 ====================================
 	
 	@GetMapping("/manager_exhibitionlist")
-	public String manager_exhibitionlist() {
+	public String manager_exhibitionlist(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+		
+		// 전시회 목록 가져가기
+	 	List<ExhibitionBean> AdminExhibitionInfoBean = AdminService.getAdminexhibitionmange(page);
+		model.addAttribute("AdminExhibitionInfoBean", AdminExhibitionInfoBean);
+	 	
+		// 전시회 페이징 처리
+		PageBean pageBean = AdminService.getExhibitionCnt(page);
+		model.addAttribute("pageBean", pageBean);
 		
 		return "/admin/manager_exhibitionlist";
 	}

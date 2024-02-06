@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.dao.AdminDao;
@@ -22,6 +23,9 @@ public class AdminService {
 	
 	@Value("${admin.paginationcnt}")
 	private int admin_paginationcnt;
+	
+	
+	// ===================================QnA===================================
 	
 	// 관리자 페이지 QnA 모든 info 가져오기
 	public List<QnABean> getAllQnAInfo(int page) {
@@ -94,4 +98,23 @@ public class AdminService {
 		return pageBean;
 	}
 	
+	
+	//=================================== 전시회 관리 ===========================
+	
+	// 전시회 관리 첫페이지 찍혀오는 값 가져오기
+	public List<ExhibitionBean> getAdminexhibitionmange(int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getAdminexhibitionmange(rowBounds);
+	}
+	
+	// 전시회 관리 페이징 처리
+	public PageBean getExhibitionCnt(int currentPage) {
+		int exhibition_Cnt = adminDao.getExhibitionCnt();
+		PageBean pageBean = new PageBean(exhibition_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+
+		return pageBean;
+	}
 }

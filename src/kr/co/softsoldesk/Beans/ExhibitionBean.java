@@ -40,5 +40,5 @@ public class ExhibitionBean {
 	private int user_id;
 	private int bookmark_id;
 	
-	
+	private String open_state;
 }
