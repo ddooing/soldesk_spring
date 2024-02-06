@@ -4,9 +4,12 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.dao.UserDao;
 
@@ -18,6 +21,12 @@ public class UserService {
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
+	
+	@Value("${admin.listcnt}")
+	private int admin_listcnt;
+	
+	@Value("${admin.paginationcnt}")
+	private int admin_paginationcnt;
 	
 	// 세션 로그인 객체
 	public void getLoginUserInfo(UserBean tempLoginUserBean) {
@@ -121,8 +130,22 @@ public class UserService {
 		userDao.deleteUserInfo(deleteUserBean);
 	}
 	
-	public List<UserBean>getUserList(){
-		return userDao.getUserList();
+	public List<UserBean>getUserList(int page){
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return userDao.getUserList(rowBounds);
+	}
+	
+	// 사용자 관리 페이징 처리
+	public PageBean getAccountCnt(int currentPage) {
+		
+		int Account_Cnt = userDao.getAccountCnt();
+		PageBean pageBean = new PageBean(Account_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+		
 	}
 	
 	public List<UserBean>getNickSearchList(UserBean searchUserBean){

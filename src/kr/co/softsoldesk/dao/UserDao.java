@@ -2,6 +2,7 @@ package kr.co.softsoldesk.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -84,8 +85,13 @@ public class UserDao {
 	}
 	//-------------------------
 	
-	public List<UserBean>getUserList(){
-		return userMapper.getUserList();
+	public List<UserBean>getUserList(RowBounds rowBounds){
+		return userMapper.getUserList(rowBounds);
+	}
+	
+	// 사용자 관리 페이징처리
+	public int getAccountCnt() {
+		return userMapper.getAccountCnt();
 	}
 	
 	public List<UserBean>getNickSearchList(UserBean searchUserBean){

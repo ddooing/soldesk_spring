@@ -37,20 +37,39 @@ public class AdminController {
 	public String manager_accountmanager(Model model,
 	        @RequestParam(value="type", required=false) String type,
 	        @RequestParam(value="keyword", required=false) String keyword,
-	        @ModelAttribute("searchUserBean") UserBean searchUserBean) {
+	        @ModelAttribute("searchUserBean") UserBean searchUserBean,
+	        @RequestParam(value = "page", defaultValue = "1") int page) {
 		
 		if ("nickname".equals(type) && keyword != null) {
+			
 		    List<UserBean> searchList = UserService.getNickSearchList(searchUserBean);
 		    model.addAttribute("userList", searchList);
+		    
+		    PageBean pageBean = UserService.getAccountCnt(page);
+			model.addAttribute("pageBean", pageBean);
+			
 		} else if ("id".equals(type) && keyword != null) {
+			
 		    List<UserBean> searchList = UserService.getIdSearchList(searchUserBean);
 		    model.addAttribute("userList", searchList);
+		    
+		    PageBean pageBean = UserService.getAccountCnt(page);
+			model.addAttribute("pageBean", pageBean);
+			
 		} else if ("email".equals(type) && keyword != null) {
+			
 		    List<UserBean> searchList = UserService.getEmailSearchList(searchUserBean);
 		    model.addAttribute("userList", searchList);
+		    
+		    PageBean pageBean = UserService.getAccountCnt(page);
+			model.addAttribute("pageBean", pageBean);
+			
 		} else {
-		    List<UserBean> userList = UserService.getUserList();
+		    List<UserBean> userList = UserService.getUserList(page);
 		    model.addAttribute("userList", userList);
+		    
+		    PageBean pageBean = UserService.getAccountCnt(page);
+			model.addAttribute("pageBean", pageBean);
 		}
 		
 		
@@ -101,7 +120,7 @@ public class AdminController {
 	
 	
 	
-	// 승찬 부분
+	// ======================================================승찬 부분
 	@GetMapping("/manager_QnAlist")
 	public String manager_QnAlist(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
@@ -223,6 +242,13 @@ public class AdminController {
 	    return ResponseEntity.ok().build();
 	}
 	
+	
+	
+	@GetMapping("/manager_exhibitionlist")
+	public String manager_exhibitionlist() {
+		
+		return "/admin/manager_exhibitionlist";
+	}
 	
 	
 }

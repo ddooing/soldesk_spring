@@ -119,27 +119,11 @@
 						<div class="collapse" id="collapsecontents"
 							aria-labelledby="headingThree" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="manager_exhibitionlist.jsp">전시회 관리</a> 
+								<a class="nav-link" href="${root }/admin/manager_exhibitionlist">전시회 관리</a> 
 								<a class="nav-link" href="manager_exhibitionapplylist.jsp">전시회 신청내역</a>
 							</nav>
 						</div>
-						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-							data-bs-target="#collapseexhibition" aria-expanded="false"
-							aria-controls="collapseexhibition">
-							<div class="sb-nav-link-icon">
-								<i class="bi bi-tv"></i>
-							</div> 배너
-							<div class="sb-sidenav-collapse-arrow">
-								<i class="fas fa-angle-down"></i>
-							</div>
-						</a>
-						<div class="collapse" id="collapseexhibition"
-							aria-labelledby="headingFour" data-bs-parent="#sidenavAccordion">
-							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="#">배너 관리</a> <a class="nav-link"
-									href="#">배너 신청내역</a>
-							</nav>
-						</div>
+						
 					</div>
 				</div>
 				<div class="sb-sidenav-footer">

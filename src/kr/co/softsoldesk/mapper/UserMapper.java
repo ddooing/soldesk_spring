@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import kr.co.softsoldesk.Beans.UserBean;
 
@@ -65,12 +66,31 @@ public interface UserMapper {
 		
 		
 		//-------------------------(관리자) 모든회원정보 조회
-		@Select("SELECT ut.user_id, ut.nickname, ut.id, ut.email,\r\n"
-				+ "ut.point, ut.state, ut.exp, g.grade\r\n"
-				+ "FROM user_table ut\r\n"
-				+ "LEFT JOIN grade g\r\n"
-				+ "ON ut.exp BETWEEN g.start_exp AND g.end_exp order by ut.user_id desc")
-		List<UserBean> getUserList();
+		@Select("SELECT \r\n"
+				+ "    ut.user_id, \r\n"
+				+ "    ut.nickname, \r\n"
+				+ "    ut.id, \r\n"
+				+ "    ut.email,\r\n"
+				+ "    ut.point, \r\n"
+				+ "    ut.state, \r\n"
+				+ "    ut.exp, \r\n"
+				+ "    CASE \r\n"
+				+ "        WHEN ut.exp >= 800 THEN 'level3'\r\n"
+				+ "        ELSE g.grade \r\n"
+				+ "    END AS grade\r\n"
+				+ "FROM \r\n"
+				+ "    user_table ut\r\n"
+				+ "LEFT JOIN \r\n"
+				+ "    grade g\r\n"
+				+ "ON \r\n"
+				+ "    ut.exp BETWEEN g.start_exp AND g.end_exp\r\n"
+				+ "ORDER BY \r\n"
+				+ "    ut.user_id DESC")
+		List<UserBean> getUserList(RowBounds rowBounds);
+		
+		//--------------------------(관리자) 사용자 관리 페이징 처리 전체 유저 수 반환 메소드
+		@Select("select count(*) from user_table")
+		int getAccountCnt();
 		
 		//--------------------------(관리자) 검색회원정보 조회----------------
 		@Select("SELECT ut.user_id, ut.nickname, ut.id, ut.email,\r\n"

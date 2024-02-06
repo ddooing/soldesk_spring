@@ -95,7 +95,7 @@ $(document).ready(function(){
 							</thead>
 							<tbody>
 								<c:forEach var="obj" items="${userList }">
-									<tr>
+									<tr style="height:50px; align-items: center; justify-content: center; vertical-align: middle;">
 										<th scope="row"><input type="checkbox" name="deleteUser" value="${obj.user_id }" /></th>
 										<td>${obj.user_id }</td>
 										<td>${obj.nickname }</td>
@@ -125,26 +125,67 @@ $(document).ready(function(){
 							style="float: right; margin-right: 50px; margin-top: 20px; margin-bottom: 20px;">삭제</button>
 							</form>
 
-						<div style="display: flex; justify-content: center; margin-top:30px;">
-							<nav aria-label="Page navigation example" class="mx-auto">
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Previous"> <span
-											aria-hidden="true">&laquo;</span>
-									</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">1</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">2</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">3</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Next"> <span
-											aria-hidden="true">&raquo;</span>
-									</a></li>
-								</ul>
-							</nav>
-						</div>
+						<div class="d-none d-md-block" style="margin-top:50px;">
+				<ul class="pagination justify-content-center">
+					<c:choose>
+						<c:when test="${pageBean.prevPage <= 0 }">
+							<li class="page-item disabled">		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
+								<a href="#" class="page-link">이전</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+								<a href="${root }/admin/manager_accountmanager?page=${pageBean.prevPage}" class="page-link">이전</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:forEach var ="idx" begin="${pageBean.min}" end="${pageBean.max}">
+					<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+						<c:choose>
+							<c:when test="${idx == pageBean.currentPage }">
+								<li class="page-item active" >
+									<a href="${root }/admin/manager_accountmanager?page=${idx}" class="page-link">
+										${idx }
+									</a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item">
+									<a href="${root }/admin/manager_accountmanager?page=${idx}" class="page-link">
+										${idx }
+									</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					
+					
+					<c:choose>
+						<c:when test="${pageBean.max >= pageBean.pageCnt  }">	<!-- max페이지 > 전체페이지개수 일때  -->
+							<li class="page-item disabled" >		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
+								<a href="#" class="page-link">다음</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+								<a href="${root }/admin/manager_accountmanager?page=${pageBean.nextPage}" class="page-link">다음</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</div>
+			
+			<div class="d-block d-md-none">
+				<ul class="pagination justify-content-center">
+					<li class="page-item">
+						<a href="#" class="page-link">이전</a>
+					</li>
+					<li class="page-item">
+						<a href="#" class="page-link">다음</a>
+					</li>
+				</ul>
+			</div>
 
 					</div>
 				</div>
