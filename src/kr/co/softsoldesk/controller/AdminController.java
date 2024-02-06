@@ -191,7 +191,7 @@ public class AdminController {
 		return "admin/QnA_recovery_complete";
 	}
 	
-	@PostMapping("/QnA_search")
+	@GetMapping("/QnA_search")
 	public String QnA_search(@RequestParam(value="usercombo", required=false) String usercombo, @RequestParam(value="usersearch", required=false) String usersearch,@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
 		

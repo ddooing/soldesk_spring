@@ -67,7 +67,7 @@
 							style="background-color: black; font-size: 15px;">QnA
 							총${qnaCountBean.total_count}건</span>
 					</div>
-					<form action="${root }/admin/QnA_search" method="post">
+					<form action="${root }/admin/QnA_search" method="get">
 						<select name="usercombo" id="usercombo"
 							style="width: 150px; height: 40px; margin-right: 30px;">
 							<option value="" disabled selected>검색조건선택</option>
@@ -244,7 +244,7 @@
 										</c:when>
 										<c:otherwise>
 											<li class="page-item"><a
-												href="${root }/admin/manager_QnAlist?page=${PageBean1.prevPage}&usercombo=${usercombo }&usersearch=${usersearch}"
+												href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${PageBean1.prevPage}"
 												class="page-link">이전</a></li>
 										</c:otherwise>
 									</c:choose>
@@ -255,12 +255,12 @@
 										<c:choose>
 											<c:when test="${idx == PageBean1.currentPage }">
 												<li class="page-item active"><a
-													href="${root }/admin/manager_QnAlist?page=${idx}&usercombo=${usercombo }&usersearch=${usersearch}"
+													href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${idx}"
 													class="page-link"> ${idx } </a></li>
 											</c:when>
 											<c:otherwise>
 												<li class="page-item"><a
-													href="${root }/admin/manager_QnAlist?page=${idx}&usercombo=${usercombo }&usersearch=${usersearch}"
+													href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${idx}"
 													class="page-link"> ${idx } </a></li>
 											</c:otherwise>
 										</c:choose>
@@ -276,7 +276,7 @@
 										</c:when>
 										<c:otherwise>
 											<li class="page-item"><a
-												href="${root }/admin/manager_QnAlist?page=${PageBean1.nextPage}&usercombo=${usercombo }&usersearch=${usersearch}"
+												href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${PageBean1.nextPage}"
 												class="page-link">다음</a></li>
 										</c:otherwise>
 									</c:choose>
