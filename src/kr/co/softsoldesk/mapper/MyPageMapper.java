@@ -84,7 +84,7 @@ public interface MyPageMapper {
 				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
 				+ "WHERE \r\n"
 				+ "    b.user_id = #{user_id} order by bookmark_id desc")
-		List<ExhibitionBean> getMyPageBookmarkList(int user_id);
+		List<ExhibitionBean> getMyPageBookmarkList(int user_id, RowBounds rowBounds);
 		
 		// 아카이브 정보 가져오는 메소드
 		@Select("SELECT \r\n"
@@ -114,7 +114,7 @@ public interface MyPageMapper {
 				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
 				+ "WHERE \r\n"
 				+ "    u.user_id = #{user_id} order by reserve_id desc")
-		List<ArchiveBean> getArciveAllInfo(int user_id);
+		List<ArchiveBean> getArciveAllInfo(int user_id, RowBounds rowBounds);
 		
 		// 아카이브 1개 정보 reserve_id로 가져오기
 		@Select("SELECT \r\n"
@@ -159,27 +159,58 @@ public interface MyPageMapper {
 		
 		// 해당 유저 QnA 작성 리스트 가져오기
 		@Select("SELECT \r\n"
-				+ "    qna_id, \r\n"
-				+ "    user_id, \r\n"
-				+ "    title, \r\n"
-				+ "    TO_CHAR(regdate, 'YYYY-MM-DD') AS regdate, \r\n"
-				+ "    contents, \r\n"
-				+ "    reply, \r\n"
-				+ "    state \r\n"
+				+ "    ROWNUM as row_number,\r\n"
+				+ "    q.qna_id, \r\n"
+				+ "    q.user_id, \r\n"
+				+ "    q.title, \r\n"
+				+ "    TO_CHAR(q.regdate, 'YYYY-MM-DD') AS regdate, \r\n"
+				+ "    q.contents, \r\n"
+				+ "    q.reply, \r\n"
+				+ "    q.state \r\n"
 				+ "FROM \r\n"
-				+ "    qna \r\n"
-				+ "WHERE \r\n"
-				+ "    user_id = #{user_id} \r\n"
-				+ "    AND state <> 2 \r\n"
-				+ "ORDER BY \r\n"
-				+ "    qna_id DESC")
-		List<QnABean> getUserQnAList(int user_id);
+				+ "    (SELECT \r\n"
+				+ "        qna_id, \r\n"
+				+ "        user_id, \r\n"
+				+ "        title, \r\n"
+				+ "        regdate, \r\n"
+				+ "        contents, \r\n"
+				+ "        reply, \r\n"
+				+ "        state \r\n"
+				+ "     FROM \r\n"
+				+ "        qna \r\n"
+				+ "     WHERE \r\n"
+				+ "        user_id = #{user_id}\r\n"
+				+ "        AND state <> 2 \r\n"
+				+ "     ORDER BY \r\n"
+				+ "        qna_id DESC) q")
+		List<QnABean> getUserQnAList(int user_id, RowBounds rowBounds);
 		
 		//QnA 등록 메소드
 		@Insert("INSERT INTO qna (qna_id, user_id, title, regdate, contents, state) VALUES (QnA_id_seq.nextval, #{user_id}, #{title}, To_char(sysdate, 'yyyy-mm-dd'), #{contents}, 0)")
 		void addUserQnA(QnABean qnaBean);
 		
+		// QnA 페이징 처리 위한 해당 유저 qna 개수 확인용
+		@Select("select count(*) from qna where user_id = #{user_id}")
+		int getQnAlistCnt(int user_id);
+		
 		// reserve 내역 페이징처리위한 해당 유저 전체 예매 개수 확인
 		@Select("select count(*) from reserve where user_id = #{user_id}")
 		int getreservelistCnt(int user_id);
+		
+		// bookmark 페이징처리를 위한 해당 유저 전체 북마크 개수 확인
+		@Select("select count(*) from bookmark where user_id = #{user_id}")
+		int getbookmarklistCnt(int user_id);
+		
+		// 아카이브 페이징처리를 위한 해당 유저 전체 아카이브 개수 확인
+		@Select("SELECT \r\n"
+				+ "    COUNT(r.review_id)\r\n"
+				+ "FROM \r\n"
+				+ "    user_table u\r\n"
+				+ "JOIN \r\n"
+				+ "    reserve rv ON u.user_id = rv.user_id\r\n"
+				+ "JOIN \r\n"
+				+ "    review r ON rv.reserve_id = r.reserve_id\r\n"
+				+ "WHERE \r\n"
+				+ "    u.user_id = #{user_id}")
+		int getarchivelistCnt(int user_id);
 }

@@ -23,5 +23,6 @@ public class QnABean {
 	private int state_1_count;
 	private int state_0_count;
 	
+	private int row_number;
 	
 }

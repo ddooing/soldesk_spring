@@ -31,13 +31,13 @@ public class MyPageDao {
 	}
 	
 	// 마이페이지 북마크 내역 메소드
-	public List<ExhibitionBean> getMyPageBookmarkList(int user_id) {
-		return myPageMapper.getMyPageBookmarkList(user_id);
+	public List<ExhibitionBean> getMyPageBookmarkList(int user_id, RowBounds rowBounds) {
+		return myPageMapper.getMyPageBookmarkList(user_id,rowBounds);
 	}
 	
 	// 마이페이지 아카이브 모든 정보 리스트
-	public List<ArchiveBean> getArciveAllInfo(int user_id) {
-		return myPageMapper.getArciveAllInfo(user_id); 
+	public List<ArchiveBean> getArciveAllInfo(int user_id, RowBounds rowBounds) {
+		return myPageMapper.getArciveAllInfo(user_id, rowBounds); 
 	}
 	
 	// 마이페이지 아카이브 1개 정보 메소드
@@ -56,8 +56,8 @@ public class MyPageDao {
 	}
 	
 	// 해당 유저 QnA 리스트 가져오는 메소드
-	public List<QnABean> getUserQnAList(int user_id) {
-		return myPageMapper.getUserQnAList(user_id);
+	public List<QnABean> getUserQnAList(int user_id, RowBounds rowBounds) {
+		return myPageMapper.getUserQnAList(user_id, rowBounds);
 	}
 	
 	// 마이페이지 QnA 등록 메소드
@@ -65,10 +65,23 @@ public class MyPageDao {
 		myPageMapper.addUserQnA(qnaBean);
 	}
 	
+	// 마이페이지 QnA 해당 유저 개수 반환
+	public int getQnAlistCnt(int user_id) {
+		return myPageMapper.getQnAlistCnt(user_id);
+	}
+	
 	// reservelist 페이징 처리용 
 	public int getreservelistCnt(int user_id) {
 		return myPageMapper.getreservelistCnt(user_id);
 	}
 	
+	// bookmark 페이징 처리용 전체개수 가져오기
+	public int getbookmarklistCnt(int user_id) {
+		return myPageMapper.getbookmarklistCnt(user_id);
+	}
 	
+	// 아카이브 페이징 처리용 전체 개수 가져오기
+	public int getarchivelistCnt(int user_id) {
+		return myPageMapper.getarchivelistCnt(user_id);
+	}
 }

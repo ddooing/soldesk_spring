@@ -18,9 +18,7 @@ public class ReserveValidator implements Validator {
 		ReserveBean reserveBean = (ReserveBean) target;
 		
 		String beanName = errors.getObjectName();
-		
-		
-		
+
 	}
 
 	

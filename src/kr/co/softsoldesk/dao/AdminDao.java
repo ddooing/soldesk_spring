@@ -2,6 +2,7 @@ package kr.co.softsoldesk.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +16,8 @@ public class AdminDao {
 	private AdminMapper adminMapper;
 	
 	// 관리자 페이지 QnA 모든 리스트 가져오기
-	public List<QnABean> getAllQnAInfo() {
-		return adminMapper.getAllQnAInfo();
+	public List<QnABean> getAllQnAInfo(RowBounds rowBounds) {
+		return adminMapper.getAllQnAInfo(rowBounds);
 	}
 	
 	// 관리자 페이지 QnA 한개 정보 가져오기
@@ -69,5 +70,9 @@ public class AdminDao {
 		adminMapper.deleteSelectedQnA(qna_id);
 	}
 	
+	// QnA 페이징 처리를 위한 총 qna 개수 반환
+	public int getTotalQnACnt() {
+		return adminMapper.getTotalQnACnt();
+	}
 	
 }

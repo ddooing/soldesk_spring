@@ -170,6 +170,63 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
+	
+	<div class="d-none d-md-block" style="margin-top:50px;">
+    <ul class="pagination justify-content-center">
+        <c:choose>
+            <c:when test="${pageBean.prevPage <= 0 }">
+                <li class="page-item disabled">
+                    <a href="#" class="page-link">이전</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item">
+                    <a href="${root}/mypage/bookmark?user_id=${loginUserBean.user_id}&page=${pageBean.prevPage}" class="page-link">이전</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+        
+        <c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
+            <c:choose>
+                <c:when test="${idx == pageBean.currentPage}">
+                    <li class="page-item active">
+                        <a href="${root}/mypage/bookmark?user_id=${loginUserBean.user_id}&page=${idx}" class="page-link">${idx}</a>
+                    </li>
+                </c:when>
+                <c:otherwise>
+                    <li class="page-item">
+                        <a href="${root}/mypage/bookmark?user_id=${loginUserBean.user_id}&page=${idx}" class="page-link">${idx}</a>
+                    </li>
+                </c:otherwise>
+            </c:choose>
+        </c:forEach>
+        
+        <c:choose>
+            <c:when test="${pageBean.max >= pageBean.pageCnt}">
+                <li class="page-item disabled">
+                    <a href="#" class="page-link">다음</a>
+                </li>
+            </c:when>
+            <c:otherwise>
+                <li class="page-item">
+                    <a href="${root}/mypage/bookmark?user_id=${loginUserBean.user_id}&page=${pageBean.nextPage}" class="page-link">다음</a>
+                </li>
+            </c:otherwise>
+        </c:choose>
+    </ul>
+</div>
+
+<div class="d-block d-md-none">
+    <ul class="pagination justify-content-center">
+        <li class="page-item"> 
+            <a href="#" class="page-link">이전</a>
+        </li>
+        <li class="page-item">
+            <a href="#" class="page-link">다음</a>
+        </li>
+    </ul>
+</div>
+
 
 
 	<!-- 푸터-->

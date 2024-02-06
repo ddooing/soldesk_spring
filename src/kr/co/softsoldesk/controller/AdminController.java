@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Service.AdminService;
 
@@ -26,15 +27,19 @@ public class AdminController {
 	private AdminService AdminService;
 	
 	@GetMapping("/manager_QnAlist")
-	public String manager_QnAlist(Model model) {
+	public String manager_QnAlist(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
 		// QnA 모든 정보 가져가기
-		List<QnABean> qnaAllBean = AdminService.getAllQnAInfo();
+		List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
 		model.addAttribute("qnaAllBean", qnaAllBean);
 		
 		// QnA 총 개수, 답변전, 답변완료 개수 가져가기
 		QnABean qnaCountBean = AdminService.getQnACount();
 		model.addAttribute("qnaCountBean",qnaCountBean);
+		
+		// QnA 관리자 페이지 페이징 처리
+		PageBean pageBean = AdminService.getTotalQnACnt(page);
+		model.addAttribute("pageBean", pageBean);
 		
 		return "admin/manager_QnAlist";
 	}

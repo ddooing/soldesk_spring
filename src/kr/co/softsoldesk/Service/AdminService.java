@@ -2,9 +2,12 @@ package kr.co.softsoldesk.Service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.dao.AdminDao;
 
@@ -14,9 +17,19 @@ public class AdminService {
 	@Autowired
 	private AdminDao adminDao;
 	
+	@Value("${admin.listcnt}")
+	private int admin_listcnt;
+	
+	@Value("${admin.paginationcnt}")
+	private int admin_paginationcnt;
+	
 	// 관리자 페이지 QnA 모든 info 가져오기
-	public List<QnABean> getAllQnAInfo() {
-		return adminDao.getAllQnAInfo();
+	public List<QnABean> getAllQnAInfo(int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getAllQnAInfo(rowBounds);
 	}
 	
 	// 관리자 페이지 QnA 한개 정보 가져오기
@@ -71,5 +84,14 @@ public class AdminService {
 	    }
 	}
 	
+	// QnA 페이징 처리를 위한 메소드
+	public PageBean getTotalQnACnt(int currentPage) {
+		
+		int qna_Cnt = adminDao.getTotalQnACnt();
+		PageBean pageBean = new PageBean(qna_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		
+		return pageBean;
+	}
 	
 }

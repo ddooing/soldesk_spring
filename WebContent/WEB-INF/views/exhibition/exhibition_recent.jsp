@@ -81,25 +81,67 @@
 
 
 		<!--페이징 부분-->
-		<div style="display: flex; justify-content: center; align-items: center;">
-			<nav aria-label="Page navigation example">
-				<ul class="pagination">
+		<div class="d-none d-md-block" style="margin-top:50px;">
+				<ul class="pagination justify-content-center">
+					<c:choose>
+						<c:when test="${pageBean.prevPage <= 0 }">
+							<li class="page-item disabled">		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
+								<a href="#" class="page-link">이전</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+								<a href="${root }/exhibition/exhibition_recent?page=${pageBean.prevPage}" class="page-link">이전</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:forEach var ="idx" begin="${pageBean.min}" end="${pageBean.max}">
+					<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+						<c:choose>
+							<c:when test="${idx == pageBean.currentPage }">
+								<li class="page-item active" >
+									<a href="${root }/exhibition/exhibition_recent?page=${idx}" class="page-link">
+										${idx }
+									</a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item">
+									<a href="${root }/exhibition/exhibition_recent?page=${idx}" class="page-link">
+										${idx }
+									</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					
+					
+					<c:choose>
+						<c:when test="${pageBean.max >= pageBean.pageCnt  }">	<!-- max페이지 > 전체페이지개수 일때  -->
+							<li class="page-item disabled" >		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
+								<a href="#" class="page-link">다음</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+								<a href="${root }/exhibition/exhibition_recent?page=${pageBean.nextPage}" class="page-link">다음</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</div>
+			
+			<div class="d-block d-md-none">
+				<ul class="pagination justify-content-center">
 					<li class="page-item">
-						<a class="page-link" href="#" aria-label="Previous">
-							<span aria-hidden="true">«</span>
-						</a>
+						<a href="#" class="page-link">이전</a>
 					</li>
-					<li class="page-item"><a class="page-link" href="#">1</a></li>
-					<li class="page-item"><a class="page-link" href="#">2</a></li>
-					<li class="page-item"><a class="page-link" href="#">3</a></li>
 					<li class="page-item">
-						<a class="page-link" href="#" aria-label="Next">
-							<span aria-hidden="true">»</span>
-						</a>
+						<a href="#" class="page-link">다음</a>
 					</li>
 				</ul>
-			</nav>
-		</div>
+			</div>
 	</section>
 
 

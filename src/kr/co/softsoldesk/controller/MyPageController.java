@@ -54,8 +54,12 @@ public class MyPageController {
 		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
 		
 		// 해당 유저 아카이브 모든 정보 가져오기
-		List<ArchiveBean> ArchiveAllInfoBean = MyPageService.getArciveAllInfo(user_id);
+		List<ArchiveBean> ArchiveAllInfoBean = MyPageService.getArciveAllInfo(user_id, page);
 		model.addAttribute("ArchiveAllInfoBean",ArchiveAllInfoBean);
+		
+		// 마이페이지 아카이브 페이징 처리용
+		PageBean pageBean = MyPageService.getarchivelistCnt(user_id, page);
+		model.addAttribute("pageBean", pageBean);
 		
 		
 		return "/mypage/archive";
@@ -145,8 +149,12 @@ public class MyPageController {
 		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
 		
 		// 마이페이지 북마크 리스트 가져오는 메소드
-		List<ExhibitionBean> UserBookmarkBean = MyPageService.getMyPageBookmarkList(user_id);
+		List<ExhibitionBean> UserBookmarkBean = MyPageService.getMyPageBookmarkList(user_id, page);
 		model.addAttribute("UserBookmarkBean",UserBookmarkBean);
+		
+		// 마이페이지 북마크 페이징 처리용
+		PageBean pageBean = MyPageService.getbookmarklistCnt(user_id, page);
+		model.addAttribute("pageBean", pageBean);
 		
 		return "/mypage/bookmark";
 	}
@@ -180,6 +188,7 @@ public class MyPageController {
 		List<PointDetailBean> UserPointListBean = pointDetailService.GetMypagePointList(user_id,page);
 		model.addAttribute("UserPointListBean", UserPointListBean);
 		
+		// 마이페이지 포인트 리스트 페이징 처리용
 		PageBean pageBean = pointDetailService.getPointDetailCnt(user_id, page);
 		model.addAttribute("pageBean", pageBean);
 		
@@ -198,8 +207,12 @@ public class MyPageController {
 		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
 		
 		// 해당 유저 QnA 리스트 가져오기
-		List<QnABean> UserQnAInfoBean = MyPageService.getUserQnAList(user_id);
+		List<QnABean> UserQnAInfoBean = MyPageService.getUserQnAList(user_id, page);
 		model.addAttribute("UserQnAInfoBean",UserQnAInfoBean);
+		
+		// 마이페이지 qna 페이징 처리용
+		PageBean pageBean = MyPageService.getQnAlistCnt(user_id, page);
+		model.addAttribute("pageBean", pageBean);
 		
 		return "/mypage/QnA";
 	}

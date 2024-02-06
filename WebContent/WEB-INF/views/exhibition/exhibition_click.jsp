@@ -645,30 +645,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 		</div> -->
 		<!--후기 댓-->
 		<c:choose>
-			<c:when test="${empty exhibitionreviewBean}">
-				<div
-					style="width: 800px; height: 300px; margin: auto;">
-					<div class="test-center"
-						style="margin: auto; display: flex; flex-direction: column; align-items: center;">
-						<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"
-							fill="currentColor" class="bi bi-x-circle"
-							style="margin-top: 80px;" viewBox="0 0 16 16">
-							        <path
-								d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-							        <path
-								d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
-							    </svg>
-						<h3 style="margin-top: 50px;">등록된 후기가 없습니다</h3>
-					</div>
-				</div>
-			</c:when>
-			<c:otherwise>
-				<div style="width: 800px; padding: 20px;">
+			<c:when test="${!empty exhibitionreviewBean}">
+					<div style="width: 800px; padding: 20px;">
 					<c:forEach items="${exhibitionreviewBean }" var="reviewBean">
 						<div
 							style="padding: 25px; display: flex; flex-direction: column; background-color: white; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px; margin-bottom: 25px;">
-							<div
-								style="display: flex; flex-direction: row; align-items: center;">
+							<div style="display: flex; flex-direction: row; align-items: center;">
 								<c:choose>
 									<c:when test="${reviewBean.grade == 'level1' }">
 										<img src="../img/level/profile_Lv1.png"
@@ -728,6 +710,85 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 					</c:forEach>
 
+				</div>
+				
+				<div class="d-none d-md-block" style="margin-top:30px;">
+				<ul class="pagination justify-content-center">
+					<c:choose>
+						<c:when test="${pageBean.prevPage <= 0 }">
+							<li class="page-item disabled">		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
+								<a href="#" class="page-link">이전</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+								<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${pageBean.prevPage}#exhibition_review" class="page-link">이전</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:forEach var ="idx" begin="${pageBean.min}" end="${pageBean.max}">
+					<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+						<c:choose>
+							<c:when test="${idx == pageBean.currentPage }">
+								<li class="page-item active" >
+									<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${idx}#exhibition_review" class="page-link">
+										${idx }
+									</a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item">
+									<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${idx}#exhibition_review" class="page-link">
+										${idx }
+									</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					
+					
+					<c:choose>
+						<c:when test="${pageBean.max >= pageBean.pageCnt  }">	<!-- max페이지 > 전체페이지개수 일때  -->
+							<li class="page-item disabled" >		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
+								<a href="#" class="page-link">다음</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+								<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${pageBean.nextPage}#exhibition_review" class="page-link">다음</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</div>
+			
+			<div class="d-block d-md-none">
+				<ul class="pagination justify-content-center">
+					<li class="page-item">
+						<a href="#" class="page-link">이전</a>
+					</li>
+					<li class="page-item">
+						<a href="#" class="page-link">다음</a>
+					</li>
+				</ul>
+			</div>
+			</c:when>
+			<c:otherwise>
+				<div
+					style="width: 800px; height: 300px; margin: auto;">
+					<div class="test-center"
+						style="margin: auto; display: flex; flex-direction: column; align-items: center;">
+						<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"
+							fill="currentColor" class="bi bi-x-circle"
+							style="margin-top: 80px;" viewBox="0 0 16 16">
+							        <path
+								d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+							        <path
+								d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+							    </svg>
+						<h3 style="margin-top: 50px;">등록된 후기가 없습니다</h3>
+					</div>
 				</div>
 
 			</c:otherwise>

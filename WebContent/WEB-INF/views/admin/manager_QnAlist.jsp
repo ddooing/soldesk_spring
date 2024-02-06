@@ -98,7 +98,7 @@ $(document).ready(function(){
 											<th scope="row" style="width:50px;"><input type="checkbox" class="qna-checkbox" value="${qnalist.qna_id}" /></th>
 											<td style="width:50px;">${qnalist.qna_id}</td>
 											<td style="width:150px;">${qnalist.nickname }</td>
-											<td style="text-align: left; width:800px;"><a href="${root }/admin/manager_QnAwrite?qna_id=${qnalist.qna_id}" style="color: black;">${qnalist.title }</a></td>
+											<td style="text-align: left; width:800px;"><a href="${root }/admin/manager_QnAwrite?qna_id=${qnalist.qna_id}" style="color: black; text-decoration: none;">${qnalist.title }</a></td>
 											<td style="width:200px;">${qnalist.regdate }</td>
 											<c:choose>
 												<c:when test="${qnalist.state == 0 }">
@@ -142,27 +142,67 @@ $(document).ready(function(){
 						<div style="display:flex; margin-top: 15px; margin-bottom: 20px; float: right;">
 						<button class="btn btn-danger" id="deleteBtn" style="margin-right: 70px;">삭제</button>
 						</div>
-						<div 
-							style="display: flex; justify-content: center; margin-top: 30px;">
-							<nav aria-label="Page navigation example" class="mx-auto">
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Previous"> <span
-											aria-hidden="true">&laquo;</span>
-									</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">1</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">2</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">3</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Next"> <span
-											aria-hidden="true">&raquo;</span>
-									</a></li>
-								</ul>
-							</nav>
-						</div>
+						<div class="d-none d-md-block" style="margin-top:50px;">
+				<ul class="pagination justify-content-center">
+					<c:choose>
+						<c:when test="${pageBean.prevPage <= 0 }">
+							<li class="page-item disabled">		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
+								<a href="#" class="page-link">이전</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+								<a href="${root }/admin/manager_QnAlist?page=${pageBean.prevPage}" class="page-link">이전</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+					
+					<c:forEach var ="idx" begin="${pageBean.min}" end="${pageBean.max}">
+					<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+						<c:choose>
+							<c:when test="${idx == pageBean.currentPage }">
+								<li class="page-item active" >
+									<a href="${root }/admin/manager_QnAlist?page=${idx}" class="page-link">
+										${idx }
+									</a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item">
+									<a href="${root }/admin/manager_QnAlist?page=${idx}" class="page-link">
+										${idx }
+									</a>
+								</li>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					
+					
+					<c:choose>
+						<c:when test="${pageBean.max >= pageBean.pageCnt  }">	<!-- max페이지 > 전체페이지개수 일때  -->
+							<li class="page-item disabled" >		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
+								<a href="#" class="page-link">다음</a>
+							</li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item">
+								<a href="${root }/admin/manager_QnAlist?page=${pageBean.nextPage}" class="page-link">다음</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</div>
+			
+			<div class="d-block d-md-none">
+				<ul class="pagination justify-content-center">
+					<li class="page-item">
+						<a href="#" class="page-link">이전</a>
+					</li>
+					<li class="page-item">
+						<a href="#" class="page-link">다음</a>
+					</li>
+				</ul>
+			</div>
 
 					</div>
 				</div>

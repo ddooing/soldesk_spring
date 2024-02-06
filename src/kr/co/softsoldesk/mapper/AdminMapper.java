@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import kr.co.softsoldesk.Beans.QnABean;
 
@@ -24,7 +25,7 @@ public interface AdminMapper {
 			+ "    QnA q\r\n"
 			+ "JOIN \r\n"
 			+ "    user_table u ON q.user_id = u.user_id \r\n order by q.qna_id desc")
-	List<QnABean> getAllQnAInfo();
+	List<QnABean> getAllQnAInfo(RowBounds rowBounds);
 	
 	// QnA 1개 글 정보 가져오기
 	@Select("SELECT \r\n"
@@ -136,5 +137,9 @@ public interface AdminMapper {
 	// QnA 선택 삭제 (말이 삭제지 state 값 2으로 업데이트)
 	@Update("UPDATE qna SET state = 2 where qna_id=#{qna_id}")
     void deleteSelectedQnA(@Param("qna_id") int qna_id);
+	
+	// QnA 페이징 처리를 위한 총 qna 개수 반환 메소드
+	@Select("SELECT count(*) from qna")
+	int getTotalQnACnt();
 	
 }

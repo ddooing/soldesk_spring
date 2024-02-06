@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.softsoldesk.Beans.BookMarkBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.Beans.UserBean;
@@ -45,48 +46,64 @@ public class ExhibitionController {
 	private UserBean loginUserBean;
 	
 	@GetMapping("/exhibition_popular")
-	public String exhibition_popular(Model model) {
+	public String exhibition_popular(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
 		// 인기 카테고리
-		List<ExhibitionBean> getPopularExhibitionInfo = exhibitionService.getPopularExhibitionInfo();
+		List<ExhibitionBean> getPopularExhibitionInfo = exhibitionService.getPopularExhibitionInfo(page);
         model.addAttribute("getPopularExhibitionInfo", getPopularExhibitionInfo);
+     
+        // 인기 카테고리 페이징 처리
+     	PageBean pageBean = exhibitionService.getPopularExhibitionCnt(page);
+     	model.addAttribute("pageBean", pageBean);
         
 		return "exhibition/exhibition_popular";
 	}
 	
 	@GetMapping("/exhibition_soon_end")
-	public String exhibition_soon_end(Model model) {
+	public String exhibition_soon_end(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
 		// 곧종료 카테고리
         List<ExhibitionBean> getSoonEndExhibitionInfo = exhibitionService.getSoonEndExhibitionInfo();
         model.addAttribute("getSoonEndExhibitionInfo", getSoonEndExhibitionInfo);
         
+        // 곧종료 카테고리 페이징 처리
+     	PageBean pageBean = exhibitionService.getsoonEndExhibitionCnt(page);
+     	model.addAttribute("pageBean", pageBean);
+        
 		return "exhibition/exhibition_soon_end";
 	}
 	
 	@GetMapping("/exhibition_recent")
-	public String exhibition_recent(Model model) {
+	public String exhibition_recent(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
 		// 최신 카테고리
         List<ExhibitionBean> getRecentExhibitionInfo = exhibitionService.getRecentExhibitionInfo();
         model.addAttribute("getRecentExhibitionInfo", getRecentExhibitionInfo);
+
+        // 최근 카테고리 페이징 처리
+     	PageBean pageBean = exhibitionService.getRecentExhibitionCnt(page);
+     	model.addAttribute("pageBean", pageBean);
         
 		return "exhibition/exhibition_recent";
 	}
 	
 	@GetMapping("/exhibition_free")
-	public String exhibition_free(Model model) {
+	public String exhibition_free(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
 		// 무료 카테고리
         List<ExhibitionBean> getFreeExhibitionInfo = exhibitionService.getFreeExhibitionInfo();
         model.addAttribute("getFreeExhibitionInfo", getFreeExhibitionInfo);
+        
+        // 무료 카테고리 페이징 처리
+     	PageBean pageBean = exhibitionService.getFreeExhibitionCnt(page);
+     	model.addAttribute("pageBean", pageBean);
         
 		return "exhibition/exhibition_free";
 	}
 	
 	
 	@GetMapping("/exhibition_click")
-	public String exhibition_detail(@RequestParam("exhibition_id") int exhibition_id,@RequestParam(value = "user_id", defaultValue = "0") int user_id ,@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, Model model) {
+	public String exhibition_detail(@RequestParam("exhibition_id") int exhibition_id,@RequestParam(value = "user_id", defaultValue = "0") int user_id ,@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 	    // 전시회 클릭시 조회수 1증가
 		exhibitionService.increaseViewsExhibition(exhibition_id);
 		
@@ -97,12 +114,16 @@ public class ExhibitionController {
 		}
 		
 		// 리뷰 정보 가져가기
-		List<ReviewBean> exhibitionreviewBean = exhibitionService.getExhibition_clickReviewAllInfo(exhibition_id);
+		List<ReviewBean> exhibitionreviewBean = exhibitionService.getExhibition_clickReviewAllInfo(exhibition_id, page);
 		model.addAttribute("exhibitionreviewBean", exhibitionreviewBean);
 		
 		// 전시회 상세정보 가져가기
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);
 	    model.addAttribute("exhibitionBean", exhibitionBean);
+	    
+	    // 리뷰 페이징 처리
+     	PageBean pageBean = exhibitionService.getExhibitionReviewCnt(exhibition_id, page);
+     	model.addAttribute("pageBean", pageBean);
 	    
 	    return "exhibition/exhibition_click";
 	}
