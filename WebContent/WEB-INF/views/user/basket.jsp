@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -135,11 +137,12 @@
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${list}" var="cartlist">
-						<!--전시회 부분-->
-						<div style="display: flex; justify-content: space-between;">
-							<h3 style="margin-left: 180px; margin-top: 50px;">전시회 1</h3>
-							<button class="close-btn">X</button>
-						</div>
+						
+					    <div style="margin-left: 180px; margin-top: 20px;">
+					        <input type="radio" name="selectedItem" value="${cartlist.exhibition_id}"
+           								 <c:if test="${fn:length(list) == 1}">checked</c:if>>
+					    </div>
+					    
 						<div style="display: flex; align-items: center; flex-direction: row;">
 							<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
 								style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
@@ -166,7 +169,7 @@
 								</div>
 			
 								<div style="display: flex; margin-top: 10px;">
-									<div style="margin-right: 10px;  width: 200px;">티켓 가격</div>
+									<div style="margin-right: 10px;  width: 200px;">총 티켓 가격</div>
 									<div style="margin-left: auto;">
 									${cartlist.total_price }
 									</div>
@@ -182,13 +185,14 @@
 					</c:otherwise>
 			</c:choose>
 			
-			<c:if test="${list}">
-				<div class="text-center" style="margin-top: 50px;">
-				
-					<button class="btn btn-dark" onclick="window.location.href = 'payment.html'" 
-						style=" width: 150px; height: 50px;">결제하기</button>
-				</div>
+			<c:if test="${not empty list}">
+			    <div class="text-center" style="margin-top: 50px;">
+			        <button class="btn btn-dark" onclick="window.location.href = 'payment.html'" 
+			                style="width: 150px; height: 50px;">결제하기</button>
+			    </div>
 			</c:if>
+
+			
 		</div>
 	</section>
 

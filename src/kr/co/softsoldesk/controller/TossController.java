@@ -1,10 +1,5 @@
 package kr.co.softsoldesk.controller;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,6 +60,10 @@ public class TossController {
 	String confirmUrl ="https://api.tosspayments.com/v1/payments/confirm";
 	
 	
+	private int plusPoint=0; // 적립되는 포인트 
+	//에러 코드 재현할때 사용함
+	//String testCode = "INVALID_CARD_EXPIRATION"; // 에러 테스트용 코드
+	
 	@PostMapping("/checkout_pro")
 	public String checkout_pro(@ModelAttribute("tempReserveBean")ReserveBean tempReserveBean,
 				Model model,RedirectAttributes redirectAttributes) {
@@ -105,6 +104,7 @@ public class TossController {
 
         model.addAttribute("exhibitionBean", exhibitionBean);
         model.addAttribute("tempReserveBean",reserveInfoBean);
+		model.addAttribute("plusPoint",plusPoint);
 		
 		return "/exhibition/payment_complete";
 		}
@@ -230,9 +230,13 @@ public class TossController {
         orderName = new String(bytes, StandardCharsets.UTF_8);
         System.out.println("orderName: " + orderName);
         */
-        	//응답(payment 객체)에서 approvedAt(결제 승인 날짜) 추출하기 
+        	//응답(payment 객체)에서 requestedAt(주문 날짜+시간), approvedAt(결제 승인 날짜+시간) 추출하기 
         String approvedAt = jsonObject.getString("approvedAt");
         System.out.println("approvedAt: " + approvedAt);
+        String requestedAt = jsonObject.getString("requestedAt");
+        System.out.println("requestedAt: " + requestedAt);
+        
+        /*
         // Date 날짜 정보만 파싱
         LocalDate parsedDate = LocalDate.parse(approvedAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         // java.sql.Date로 변환
@@ -244,81 +248,17 @@ public class TossController {
 	     // LocalDateTime을 java.sql.Timestamp로 변환
 	     Timestamp timestampApprovedAt = Timestamp.valueOf(parsedApprovedAt);
 	     System.out.println("timestampApprovedAt: " + timestampApprovedAt);
-	     
-       
+	     */
+    
+        
     	// #DB 저장 ................................... 함수 ) 0원일때랑 합치기 
 	        // 1.orderId인 예매가 정말로 되었음 
     			//pay_state 결제 상태 :true 로 update &  state(0:예매,1: 예매 취소) 예매가 되었음을 0으로 저장,예매한 날짜
-        reserveService.realReserveState(orderId); 
-	      
-        
-        /*
-        
-	        // 2.사용자 포인트 내역 저장 
-        int totalPrice = validReserveBean.getTotal_price();
-        
-	    		// 2-1.무조건 포인트 적립
-			    // 포인트 적립 : 유저 등급의 적립율에 따른 포인트 지급 
-        String level = userService.getLevel(userid);
-        int reservePulsPoint=0;// 예매 시 적립되는 포인트
-        
-        
-        if(level.equals("level1")) // 레벨 1 일때 10%만큼 포인트 지급
-        {
-        	reservePulsPoint = (int)(totalPrice*0.1);
-        }
-        else if(level.equals("level2")) // 레벨 2 일때 15%만큼 포인트 지급
-        {
-        	reservePulsPoint = (int)(totalPrice*0.15);
-        }
-        else if(level.equals("level3")) // 레벨 3 일때 20%만큼 포인트 지급
-        {
-        	reservePulsPoint = (int)(totalPrice*0.2);
-        }
-        
-        PointDetailBean pointDetailBean =new PointDetailBean();
-			     
-        pointDetailBean.setPoint(reservePulsPoint);
-        pointDetailBean.setUser_id(userid);
-        pointDetailBean.setPoint_state_code(1);	// 포인트 1:+
-        pointDetailBean.setPoint_type_code(1);	// 예매에서 적립
-        pointDetailBean.setRegdate(approvedAt);
-        
-        
-		// 포인트 이용 내역 추가
-		pointDetailService.PointList(pointDetailBean);
-        
-        		// 2-2. point_deduction(=포인트 사용금액) >0 이면 사용 내역 추가 
-        		//  point_state_code NUMBER(1)- 사용 OR 적립 EX)0:-, 1:+ 
-		if(validReserveBean.getPoint_deduction() > 0)
-		{
-			 PointDetailBean pointUseDetailBean =new PointDetailBean();
-		     
-			 pointUseDetailBean.setPoint(validReserveBean.getPoint_deduction());
-			 pointUseDetailBean.setUser_id(userid);
-			 pointUseDetailBean.setPoint_state_code(0);	// 포인트 1:+
-			 pointUseDetailBean.setPoint_type_code(1);	// 예매에서 적립
-			 
-			// 포인트 이용 내역 추가
-			pointDetailService.PointList(pointUseDetailBean);
-		}
+	     		//requestAt 주문 날짜 + 시간 저장 
+        		// approvedAt 결제 승인 날짜+시간 저장
+        reserveService.realReserveState(orderId,requestedAt,approvedAt); 
 
-	        // 3. 사용자 포인트와 경험치 exp 적립 update 
-			// 경험치 ) 예매 시 + 50
-        	// 포인트 )최종적으로 사용자의 현재 포인트에 추가 혹은 감소 할 포인트 금액 = 예매 시 받는 포인트 - 포인트 사용 금액
-		int point = reservePulsPoint - validReserveBean.getPoint_deduction();
-        
-        userService.point_expIncrease(userid,point);
-        
-        	// 4. 전시회에 대한 소감문 생성 
-        //
-        reviewService.reserve_review_create(validReserveBean.getReserve_id());
-    		// 5.전시회 티켓수를 사용자가 구매한 티켓수만큼 증가		
-        											// 예매한 전시회 id			       			//예매한 티켓 수 int 값
-        exhibitionService.increase_exhibitionTotalTicket(validReserveBean.getExhibition_id(),validReserveBean.getTicket_count());
-        
-        	*/
-        // 나머지 db 처리
+        	// 2.나머지 db 처리
         addService(validReserveBean);
         
         System.out.println("결제가 성공적으로 처리되었습니다.");
@@ -330,7 +270,7 @@ public class TossController {
         model.addAttribute("exhibitionBean", exhibitionBean);
         model.addAttribute("validReserveBean",validReserveBean);
         model.addAttribute("successWidgetInfo", successWidgetInfo);
-        
+      
         return "toss/success";
    
     }
@@ -366,6 +306,8 @@ public class TossController {
         
 	    		// 2-1.무조건 포인트 적립
 			    // 포인트 적립 : 유저 등급의 적립율에 따른 포인트 지급 
+        
+        
         String level = userService.getLevel(userid);
         int reservePulsPoint=0;// 예매 시 적립되는 포인트
         
@@ -382,6 +324,8 @@ public class TossController {
         {
         	reservePulsPoint = (int)(totalPrice*0.2);
         }
+        
+        plusPoint= reservePulsPoint; 
         
         PointDetailBean pointDetailBean =new PointDetailBean();
 			     
@@ -443,6 +387,13 @@ public class TossController {
             String encodedApiKey = Base64.getEncoder().encodeToString((apiKey + ":").getBytes("UTF-8"));
             headers.set("Authorization", "Basic " + encodedApiKey);
             headers.set("Content-Type", "application/json");
+            
+            // headers.set 커스텀 헤더 추가해서 에러 재현하기 
+            // headers.set('TossPayments-Test-Code': testCode);
+            
+            
+            
+            
             
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("paymentKey", paymentKey);

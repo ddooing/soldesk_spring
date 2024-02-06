@@ -17,7 +17,8 @@ public class ReserveBean {
 	private int point_deduction;
 	private int payment;
 	private int ticket_count;
-	private String reserve_time;
+	private String requested_at; // 주문 날짜 +시간
+	private String approved_at; // 결제 날짜 +시간 
 	private int state;// 
 	private int pay_state;
 	private int pay_approval_state;
@@ -97,13 +98,7 @@ public class ReserveBean {
 		this.ticket_count = ticket_count;
 	}
 
-	public String getReserve_time() {
-		return reserve_time;
-	}
-
-	public void setReserve_time(String reserve_time) {
-		this.reserve_time = reserve_time;
-	}
+	
 
 	public int getState() {
 		return state;
@@ -146,6 +141,8 @@ public class ReserveBean {
 	public void setPay_approval_state(int pay_approval_state) {
 		this.pay_approval_state = pay_approval_state;
 	}
+	
+	
 	
 	
 }

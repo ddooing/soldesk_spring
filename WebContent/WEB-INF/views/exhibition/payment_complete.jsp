@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.text.ParseException"%>
+<%@ page import="java.util.Date"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <c:set var="root" value="${pageContext.request.contextPath }"/>    
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +54,7 @@
 	
 	<!--  reserve_date 값 yyyy-mm-dd 로 출력하기  -->
 	<script>
+		//tempReserveBean.reserve_date 처리 
     // 예제로 사용할 날짜 문자열
     var dbDateString = "${tempReserveBean.reserve_date}";
 
@@ -55,11 +62,31 @@
     var date = new Date(dbDateString);
 
     // 날짜를 원하는 형식으로 포맷
-    var formattedDate = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+    var formattedReserve_date = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
+	console.log(formattedDate);
+	
+		//tempReserveBean.requested_at 처리 
+	// 서버에서 받은 날짜 문자열
+    var dateString = '${tempReserveBean.requested_at}';
+
+    // Date 객체로 변환
+    var date = new Date(dateString);
+
+    // Date 객체를 yyyy-MM-dd HH:mm 형식으로 포매팅
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더해줍니다.
+    var day = date.getDate();
+    var hour = date.getHours();
+    var minute = ('0' + date.getMinutes()).slice(-2); // 항상 두 자리 숫자를 유지합니다.
+
+    // 포매팅된 날짜 문자열 생성
+    var formattedDate = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
 
 
 </script>
-
+<script>
+	alert('예매되었습니다.')
+</script>
 </head>
 
 <body id="page-top">
@@ -68,12 +95,14 @@
 
 	<section style="margin-top: 150px;">
 		<div class="container mb-1">
-			<h1 style="margin-left: 180px;">결제 완료</h1>
-			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
-			<!--전시회 정보 부분-->
-			<div>
-				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 정보</h3>
+			<h1 style="margin-left: 180px;">예매 정보</h1>
+			<div style="color: gray; margin-left: 180px; margin-top: 20px;">
+			    ${formattedDate}
 			</div>
+
+			<hr style="margin:auto; margin-top: 10px; width: 1000px;" />
+			<!--전시회 정보 부분-->
+			
 			<div style="display: flex; align-items: center; flex-direction: row;">
 				<img src="${exhibitionBean.main_poster_path}${exhibitionBean.main_poster_name} " alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
@@ -86,7 +115,7 @@
 							<a style="font-size: 20px;">예약 날짜</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px; ">${formattedDate} </a>
+							<a style="font-size: 20px; ">${formattedReserve_date} </a>
 						</div>
 					</div>
 					
@@ -99,7 +128,14 @@
 							<a style="font-size: 20px;">${tempReserveBean.ticket_count} 매</a>
 						</div>
 					</div>
-					
+					<div style="display: flex; margin-top: 10px;">
+						<div style="margin-right: 10px;  width: 200px;">
+							<a style="font-size: 20px;">총 티켓 금액</a>
+						</div>
+						<div style="margin-left: auto;">
+							<a style="font-size: 20px;">${tempReserveBean.total_price} 원</a>
+						</div>
+					</div>
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 10px;  width: 200px;">
 							<a style="font-size: 20px;">포인트 결제 금액</a>
@@ -109,28 +145,167 @@
 						</div>
 					</div>
 
-					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;  width: 200px;">
-							<a style="font-size: 20px;">결제 금액</a>
-						</div>
-						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${tempReserveBean.payment} 원</a>
-						</div>
-					</div>
+					
 				</div>
 			</div>
 
 			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
 			<div style="display: flex; align-items: baseline; margin-top: 50px; margin-left: 800px;">
 				<h3>총 결제 금액 : </h3>
-				<a style="font-size: 30px; margin-left: 10px;">${tempReserveBean.total_price} 원</a>
+				<a style="font-size: 30px; margin-left: 10px;">${tempReserveBean.payment} 원</a>
 			</div>
-
+			
+			
+			<!--포인트 혜택 부분-->
+			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
+			<div style="display: flex; align-items: baseline;">
+				<h3 style="margin-left: 180px; margin-top: 50px;">포인트 혜택</h3>
+				
+			</div>
+			
+			<div style="margin-top: 50px; margin-left: 300px; display: flex;">
+				<a style="font-size: 20px; color: gray; margin-right: 5px;">예매 적립  
+				<!--회원등급 모달-->
+					<svg xmlns="http://www.w3.org/2000/svg" id="membermodal"
+						style="color: black; cursor: pointer;" width="20" height="20"
+						fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+						<path
+							d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+						<path
+							d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+					</svg> 
+					<a style="font-size: 20px; color: gray;" id="ownpoint">${plusPoint} p</a>
+				</a>
+			</div>
+			
+			<!--포인트 혜택 부분-->
+			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
+			<div style="display: flex; align-items: baseline;">
+				<h3 style="margin-left: 180px; margin-top: 50px;">경험치 혜택</h3>
+				
+			</div>
+			
+			<div style="margin-top: 50px; margin-left: 300px; display: flex;">
+				<a style="font-size: 20px; color: gray; margin-right: 5px;">예매 적립  
+				<!--회원등급 모달-->
+					<svg xmlns="http://www.w3.org/2000/svg" id="membermodal"
+						style="color: black; cursor: pointer;" width="20" height="20"
+						fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+						<path
+							d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+						<path
+							d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+					</svg> 
+					<a style="font-size: 20px; color: gray;" id="ownpoint"> 50 exp</a>
+				</a>
+			</div>
+            
+            
 			<div class="text-center" style="margin-top: 50px;">
 				<button onclick="window.location.href = '${root}/view/index'" class="btn btn-dark"
 					style="margin-right: 20px; width:150px; height: 50px;">메인페이지</button>
-				<button onclick="window.location.href = '${root}/mypage/reservelist?user_id=${tempReserveBean.user_id }'" class="btn btn-dark" style="width: 150px; height: 50px;">마이페이지</button>
+				<button onclick="window.location.href = '${root}/mypage/reservelist?user_id=${tempReserveBean.user_id }'" class="btn btn-dark" style="width: 150px; height: 50px;">예매 내역 확인</button>
 			</div>
+			
+			<!-- 회원 등급 클릭 모달 다듬어야함 -->
+			<div id="memberModal" class="modal" style="display: none;">
+				<div class="modal-content">
+					<div class="close" style="float: right;">&times;</div>
+					<h2 style="margin-left: 30px;">회원등급 혜택 안내</h2>
+					<div
+						style="display: flex; justify-content: center; margin-left: 50px; margin-right: 50px; margin-top: 50px;">
+						<div
+							style="display: inline-block; text-align: center; width: 200px; border-right: 1px solid black;">
+							<h5>LV.1</h5>
+
+							<img src="../img/level/profile_Lv1.png"
+								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 1%
+								적립</b><br /> <b style="margin-top: 10px;">exp 0 ~ 299</b>
+
+						</div>
+						<div
+							style="display: inline-block; text-align: center; width: 200px; border-right: 1px solid black;">
+							<h5>LV.2</h5>
+
+							<img src="../img/profileImg.png"
+								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 3%
+								적립</b><br /> <b style="margin-top: 10px;">exp 300 ~ 899</b>
+
+						</div>
+						<div
+							style="display: inline-block; text-align: center; width: 200px;">
+							<h5>LV.3</h5>
+
+							<img src="../img/level/profile_Lv3.png"
+								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 5%
+								적립</b><br /> <b style="margin-top: 10px;">exp 900 ~</b>
+
+						</div>
+					</div>
+
+					<hr
+						style="width: 550px; margin-left: auto; margin-right: auto; border-color: black; border-width: 2px 0 0 0; margin-top: 50px;" />
+
+
+					<div style="margin-top: 50px;">
+						<h3 style="margin-left: 30px;">경험치 획득방법</h3>
+						<br /> <b style="margin-top: 80px; margin-left: 50px;">전시회 예매
+							+ 50 exp</b> <br /> <br /> <b
+							style="margin-top: 50px; margin-left: 50px;">소감문 작성시 최대 + 10
+							exp</b> <br /> <br /> <b
+							style="margin-top: 50px; margin-left: 50px;">소감문 공개 허용시 추가 5
+							exp</b> <br /> <br />
+
+					</div>
+
+					<hr
+						style="width: 550px; margin-left: auto; margin-right: auto; border-color: black; border-width: 2px 0 0 0; margin-top: 30px;" />
+
+
+					<div style="margin-top: 50px;">
+						<h3 style="margin-left: 30px;">적립 포인트 정책 안내</h3>
+						<br /> <b style="margin-left: 50px;">기간 내에 구매금액에 구매 확정 시점에 적립
+							포인트가 지급됩니다. </b> <br /> <br /> <b style="margin-left: 50px;">포인트
+							적립 내역이나 이용내역은 MyPage에서 확인할 수 있습니다.</b> <br /> <br /> <b
+							style="margin-left: 50px;">무료 전시회 관련 소감문 작성 시 ??의 포인트만 적립
+							가능합니다.</b> <br /> <br /> <b style="margin-left: 50px;">최초 적립했던
+							경로를 벗어나 새로운 경로(기기변경, 인터넷 창 변경 등)로</b><br /> <b
+							style="margin-left: 50px;">동일상품 구매시 포인트 적립이 되지 않을 수 있습니다.</b> <br />
+						<br />
+					</div>
+				</div>
+			</div>
+			<script>
+				// 회원 등급 클릭 자바 스크립트
+				// 모달을 가져옵니다
+				var modal = document.getElementById("memberModal");
+
+				// 모달을 여는 버튼을 가져옵니다
+				var btn = document.getElementById("membermodal");
+
+				// 모달을 닫는 <span> 요소를 가져옵니다
+				var span = document.getElementsByClassName("close")[0];
+
+				// 사용자가 버튼을 클릭하면 모달을 엽니다
+				btn.onclick = function() {
+					modal.style.display = "block";
+				}
+
+				// 사용자가 <span> (x)을 클릭하면 모달을 닫습니다
+				span.onclick = function() {
+					modal.style.display = "none";
+				}
+
+				// 사용자가 모달 외부의 어디를 클릭하면 모달을 닫습니다
+				window.onclick = function(event) {
+					if (event.target == modal) {
+						modal.style.display = "none";
+					}
+				}
+			</script>
 		</div>
 	</section>
 

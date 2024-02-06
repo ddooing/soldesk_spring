@@ -59,7 +59,9 @@
 
 
 </script>
-
+<script>
+	alert('예매되었습니다')
+</script>
 </head>
 
 <body id="page-top">
@@ -68,12 +70,10 @@
 
 	<section style="margin-top: 150px;">
 		<div class="container mb-1">
-			<h1 style="margin-left: 180px;">결제 완료</h1>
-			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
-			<!--전시회 정보 부분-->
-			<div>
-				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 정보</h3>
-			</div>
+			<h1 style="margin-left: 180px;">예매 정보</h1>
+			<div style="color: gray;margin-left: 180px;margin-top=20px">결제 날짜 : 2023.12.01 12:18</div>
+			<hr style="margin:auto; margin-top: 10px; width: 1000px;" />
+			
 			<div style="display: flex; align-items: center; flex-direction: row;">
 				<img src="${exhibitionBean.main_poster_path}${exhibitionBean.main_poster_name} " alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
@@ -99,7 +99,14 @@
 							<a style="font-size: 20px;">${validReserveBean.ticket_count} 매</a>
 						</div>
 					</div>
-					
+					<div style="display: flex; margin-top: 10px;">
+						<div style="margin-right: 10px;  width: 200px;">
+							<a style="font-size: 20px;">총 티켓 금액</a>
+						</div>
+						<div style="margin-left: auto;">
+							<a style="font-size: 20px;">${validReserveBean.total_price} 원</a>
+						</div>
+					</div>
 					<div style="display: flex; margin-top: 10px;">
 						<div style="margin-right: 10px;  width: 200px;">
 							<a style="font-size: 20px;">포인트 결제 금액</a>
@@ -123,13 +130,13 @@
 			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
 			<div style="display: flex; align-items: baseline; margin-top: 50px; margin-left: 800px;">
 				<h3>총 결제 금액 : </h3>
-				<a style="font-size: 30px; margin-left: 10px;">${validReserveBean.total_price} 원</a>
+				<a style="font-size: 30px; margin-left: 10px;">${validReserveBean.payment} 원</a>
 			</div>
 
 			<div class="text-center" style="margin-top: 50px;">
 				<button onclick="window.location.href = '${root}/view/index'" class="btn btn-dark"
 					style="margin-right: 20px; width:150px; height: 50px;">메인페이지</button>
-				<button onclick="window.location.href = '${root}/mypage/reservelist?user_id=${validReserveBean.user_id }'" class="btn btn-dark" style="width: 150px; height: 50px;">마이페이지</button>
+				<button onclick="window.location.href = '${root}/mypage/reservelist?user_id=${validReserveBean.user_id }'" class="btn btn-dark" style="width: 150px; height: 50px;">예매 내역 확인</button>
 			</div>
 		</div>
 	</section>

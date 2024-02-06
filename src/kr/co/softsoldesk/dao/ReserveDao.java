@@ -27,19 +27,19 @@ public class ReserveDao {
 		
 		return reserveMapper.validcheckOrderId(orderId);
 	}
-	
+	/*
 	public int getPayment(String orderId) {
 		return reserveMapper.getPayment(orderId);
-	}
+	}*/
 	
 	public void approvalBefore(String orderId,String paymentKey)
 	{
 		 reserveMapper.approvalBefore(orderId,paymentKey);
 	}
 	
-	public void realReserveState(String orderId)
+	public void realReserveState(String orderId,String requestedAt,String approvedAt)
 	{
-		reserveMapper.realReserveState(orderId);
+		reserveMapper.realReserveState(orderId,requestedAt,approvedAt);
 	}
 	
 	//-------------

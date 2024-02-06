@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
@@ -224,12 +226,15 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 			<div style="display: flex; align-items: baseline;">
 				<h3 style="margin-left: 180px; margin-top: 50px;">포인트 사용</h3>
-				<a style="font-size: 20px; margin-left: 100px; color: gray; margin-right: 5px;">보유 포인트 :  
-					<a style="font-size: 20px; color: gray;" id="ownpoint">${LoginAllInfoBean.point } p</a>
-				</a>
+				
 			</div>
 			
 			<div style="margin-top: 50px; margin-left: 300px; display: flex;">
+				<a style="font-size: 20px; color: gray; margin-right: 5px;">보유 포인트 :  
+					<a style="font-size: 20px; color: gray;" id="ownpoint">${LoginAllInfoBean.point } p</a>
+				</a>
+			</div>
+			<div style="margin-top: 50px; margin-left: 300px; display: flex;align-items: center;">
                <a style="font-size: 20px;">포인트</a>
                <form:input type="number" path="point_deduction" style="width: 150px; margin-left: 30px;" id="pointinput" />
              <button type="button" class="btn btn-dark" style="margin-left:30px;" id="allpointuse" onclick="useAllPoints()">전액사용</button>
@@ -418,8 +423,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 			<div
 				style="display: flex; align-items: baseline; margin-top: 80px; margin-left: 850px;">
-				<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitioBean.exhibition_id}" class="btn btn-dark" style="margin-left: 30px; width: 100px; height: 50px;">돌아가기</a>
-				<button id="payment-button" class="payment-button" style="margin-left: 30px; width: 100px; height: 50px;">결제하기</button>
+				<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitioBean.exhibition_id}" class="btn btn-dark" style="margin-left: 30px; width: 100px;">돌아가기</a>
+				<button id="payment-button" class="btn btn-dark" style="margin-left: 30px; width: 100px; ">결제하기</button>
 			</div>
 			</form:form> 
 			

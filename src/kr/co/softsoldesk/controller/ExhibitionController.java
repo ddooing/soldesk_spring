@@ -49,13 +49,14 @@ public class ExhibitionController {
 	
 	
 	@GetMapping("/exhibition_click")
-	public String exhibition_detail(@RequestParam("exhibition_id") int exhibition_id, @ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, Model model) {
+	public String exhibition_detail(@RequestParam("exhibition_id") int exhibition_id, @ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, Model model,
+			@ModelAttribute("cartMessage")String cartMessage ) {
 	    
 		exhibitionService.increaseViewsExhibition(exhibition_id);
-		
+		System.out.println("cartMessage : "+cartMessage);
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);
 	    model.addAttribute("exhibitionBean", exhibitionBean);
-	    
+	    model.addAttribute("cartMessage",cartMessage);
 	    return "exhibition/exhibition_click";
 	}
 	

@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+
 <c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
@@ -42,6 +44,15 @@
         });
     });
     </script>
+    <script>
+	    document.addEventListener('DOMContentLoaded', function() {
+	        <c:if test="${not empty cartMessage}">
+	            alert("${cartMessage}");
+	            console.log("${cartMessage}");
+	        </c:if>
+	    });
+	</script>
+    
 
 <!-- Font Awesome icons (free version)-->
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -188,6 +199,16 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 </head>
 
 <body id="page-top">
+	<!--  장바구니 추가 관련  -->
+	
+	<c:if test="${not empty cartMessage}">
+        <script>
+        	alert("${cartMessage}");
+         	console.log("cartMessage : "+${cartMessage});
+        </script>
+    </c:if>
+    
+    
 	<c:import url="/WEB-INF/views/include/header.jsp" />
 
 	<section id="exhibition_info" style="margin-top: 150px;">
@@ -898,7 +919,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 		});
 	</script>
 
-
+	
 </body>
 
 </html>
