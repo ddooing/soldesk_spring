@@ -41,4 +41,12 @@ public class ExhibitionBean {
 	private int bookmark_id;
 	
 	private String open_state;
+	
+	private int total_exhibitions_count;
+	private int upcoming_exhibitions_count;
+	private int past_exhibitions_count;
+	private int current_exhibitions_count;
+	
+	
+	
 }

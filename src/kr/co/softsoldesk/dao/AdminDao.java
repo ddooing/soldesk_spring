@@ -49,13 +49,23 @@ public class AdminDao {
 	}
 	
 	// QnA 닉네임 검색 메소드
-	public List<QnABean> getnicknameSearchQnAInfo(String search) {
-		return adminMapper.getnicknameSearchQnAInfo(search);
+	public List<QnABean> getnicknameSearchQnAInfo(String search, RowBounds rowBounds) {
+		return adminMapper.getnicknameSearchQnAInfo(search, rowBounds);
+	}
+	
+	// QnA 닉네임 검색 페이징처리 총개수 반환
+	public int getnicknameSearchQnACnt(String search) {
+		return adminMapper.getnicknameSearchQnACnt(search);
 	}
 	
 	// QnA 제목 검색 메소드
-	public List<QnABean> gettitleSearchQnAInfo(String search) {
-		return adminMapper.gettitleSearchQnAInfo(search);
+	public List<QnABean> gettitleSearchQnAInfo(String search, RowBounds rowBounds) {
+		return adminMapper.gettitleSearchQnAInfo(search, rowBounds);
+	}
+	
+	// QnA 제목 검색 페이징처리 총개수 반환
+	public int gettitleSearchQnACnt(String search) {
+		return adminMapper.gettitleSearchQnACnt(search);
 	}
 	
 	// QnA 제목 검색 개수 반환 메소드
@@ -86,9 +96,44 @@ public class AdminDao {
 		return adminMapper.getAdminexhibitionmange(rowBounds);
 	}
 	
+	// 전시회 관리 페이지 전시회 총개수, 전시예정, 진행중, 종료전시 반환
+	public ExhibitionBean getExhibitionCount() {
+		return adminMapper.getExhibitionCount();
+	}
+	
 	// 전시회 관리 페이징 처리
 	public int getExhibitionCnt() {
 		return adminMapper.getExhibitionCnt();
+	}
+	
+	// 전시회 관리 작가 검색
+	public List<ExhibitionBean> getauthorSearchExhibitionInfo(String search) {
+		return adminMapper.getauthorSearchExhibitionInfo(search);
+	}
+	
+	// 전시회 관리 작가 검색 중 총 전시 개수, 전시예정 , 종료 전시 개수 반환
+	public ExhibitionBean getauthorSearchExhibitionCount(String search) {
+		return adminMapper.getauthorSearchExhibitionCount(search);
+	}
+	
+	// 전시회 관리 작가 검색 페이징 처리
+	public int getauthorSearchExhibitionCnt(String search) {
+		return adminMapper.getauthorSearchExhibitionCnt(search);
+	}
+	
+	// 전시회 관리 제목 검색
+	public List<ExhibitionBean> gettitleSearchExhibitionInfo(String search, RowBounds rowBounds) {
+		return adminMapper.gettitleSearchExhibitionInfo(search, rowBounds);
+	}
+	
+	// 전시회 관리 제목 검색 중 총 전시 개수, 전시예정, 종료 전시 개수 반환
+	public ExhibitionBean gettitleSearchExhibitionCount(String search) {
+		return adminMapper.gettitleSearchExhibitionCount(search);
+	}
+	
+	// 전시회 관리 제목 검색 페이징 처리
+	public int gettitleSearchExhibitionCnt(String search) {
+		return adminMapper.gettitleSearchExhibitionCnt(search);
 	}
 	
 }

@@ -61,15 +61,39 @@ public class AdminService {
 		adminDao.recoveryQnA(state, qna_id);
 	}
 	
-	// QnA 검색 메소드
-	public List<QnABean> getnicknameSearchQnAInfo(String search) {
-		return adminDao.getnicknameSearchQnAInfo(search);
+	// QnA 닉네임 검색 메소드
+	public List<QnABean> getnicknameSearchQnAInfo(String search, int page) {
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getnicknameSearchQnAInfo(search, rowBounds);
+	}
+	
+	// QnA 닉네임 검색 페이지 처리 총개수 반환
+	public PageBean getnicknameSearchQnACnt(String search, int currentPage) {
+		
+		int nickname_Cnt = adminDao.getnicknameSearchQnACnt(search);
+		PageBean pageBean = new PageBean(nickname_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
 	}
 
 	// QnA 제목 검색 메소드
-	public List<QnABean> gettitleSearchQnAInfo(String search) {
-		return adminDao.gettitleSearchQnAInfo(search);
+	public List<QnABean> gettitleSearchQnAInfo(String search, int page) {
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.gettitleSearchQnAInfo(search, rowBounds);
 	}	
+	
+	// QnA 제목 검색 페이지 처리 총개수 반환
+	public PageBean gettitleSearchQnACnt(String search, int currentPage) {
+		
+		int title_Cnt = adminDao.gettitleSearchExhibitionCnt(search);
+		PageBean pageBean = new PageBean(title_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}
 	
 	// QnA 제목 검색 개수 반환 메소드
 	public QnABean gettitleSearchQnACount(String search) {
@@ -110,6 +134,11 @@ public class AdminService {
 		return adminDao.getAdminexhibitionmange(rowBounds);
 	}
 	
+	// 전시회 관리 전시총개수, 전시예정, 진행중, 종료 전시 개수 반환
+	public ExhibitionBean getExhibitionCount() {
+		return adminDao.getExhibitionCount();
+	}
+	
 	// 전시회 관리 페이징 처리
 	public PageBean getExhibitionCnt(int currentPage) {
 		int exhibition_Cnt = adminDao.getExhibitionCnt();
@@ -117,4 +146,45 @@ public class AdminService {
 
 		return pageBean;
 	}
+	
+	// 전시회 관리 작가 검색
+	public List<ExhibitionBean> getauthorSearchExhibitionInfo(String search) {
+		return adminDao.getauthorSearchExhibitionInfo(search);
+	}
+	
+	// 전시회 관리 작가 검색 총 전시 개수, 종료예정, 전시예정, 진행중 개수 반환
+	public ExhibitionBean getauthorSearchExhibitionCount(String search) {
+		return adminDao.getauthorSearchExhibitionCount(search);
+	}
+	
+	// 전시회 관리 작가 검색시 페이징 처리 위한 검색 총 개수 반환
+	public PageBean getauthorSearchExhibitionCnt(String search, int currentPage) {
+		
+		int searchautor_Cnt = adminDao.getauthorSearchExhibitionCnt(search);
+		PageBean pageBean = new PageBean(searchautor_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}
+	
+	// 전시회 관리 제목 검색
+	public List<ExhibitionBean> gettitleSearchExhibitionInfo(String search, int page) {
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.gettitleSearchExhibitionInfo(search, rowBounds);
+	}
+	
+	// 전시회 관리 제목 검색 총 전시 개수, 종료예정, 전시예정, 진행중 개수 반환
+	public ExhibitionBean gettitleSearchExhibitionCount(String search) {
+		return adminDao.gettitleSearchExhibitionCount(search);
+	}
+	
+	// 전시회 관리 제목 검색시 페이징 처리 위한 검색 총 개수 반환
+	public PageBean gettitleSearchExhibitionCnt(String search, int currentPage) {
+		
+		int searchtitle_Cnt = adminDao.gettitleSearchExhibitionCnt(search);
+		PageBean pageBean = new PageBean(searchtitle_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}		
 }

@@ -90,7 +90,20 @@ public interface AdminMapper {
 			+ "    UPPER(nickname) LIKE '%' || UPPER(#{search}) || '%'\r\n"
 			+ "ORDER BY \r\n"
 			+ "    q.qna_id DESC")
-	List<QnABean> getnicknameSearchQnAInfo(@Param("search") String search);
+	List<QnABean> getnicknameSearchQnAInfo(@Param("search") String search, RowBounds rowBounds);
+	
+	// QnA 닉네임 검색 페이징 처리를 위한 검색된 총개수 반환
+	@Select("SELECT \r\n"
+			+ "    count(*)\r\n"
+			+ "FROM \r\n"
+			+ "    QnA q\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON q.user_id = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(u.nickname) LIKE '%' || UPPER(#{search}) || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    q.qna_id DESC")
+	int getnicknameSearchQnACnt(@Param("search") String search);
 	
 	// QnA 제목 검색 메소드
 	@Select("SELECT \r\n"
@@ -110,7 +123,20 @@ public interface AdminMapper {
 			+ "    UPPER(title) LIKE '%' || UPPER(#{search}) || '%'\r\n"
 			+ "ORDER BY \r\n"
 			+ "    q.qna_id DESC")
-	List<QnABean> gettitleSearchQnAInfo(@Param("search") String search);
+	List<QnABean> gettitleSearchQnAInfo(@Param("search") String search, RowBounds rowBounds);
+	
+	// QnA 제목 검색 페이징 처리를 위한 검색된 총개수 반환
+	@Select("SELECT \r\n"
+			+ "    count(*)\r\n"
+			+ "FROM \r\n"
+			+ "    QnA q\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON q.user_id = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(q.title) LIKE '%' || UPPER(#{search}) || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    q.qna_id DESC")
+	int gettitleSearchQnACnt(@Param("search") String search);
 	
 	// QnA 제목 검색 개수 반환 메소드
 	@Select("SELECT \r\n"
@@ -169,8 +195,106 @@ public interface AdminMapper {
 			+ "ORDER BY exhibition_id asc")
 	List<ExhibitionBean> getAdminexhibitionmange(RowBounds rowBounds);
 	
+	// 전시회 총개수 전시중, 전시예정, 종료전시 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*) AS total_exhibitions_count,\r\n"
+			+ "    COUNT(CASE WHEN SYSDATE < exhibition_start THEN 1 END) AS upcoming_exhibitions_count,\r\n"
+			+ "    COUNT(CASE WHEN SYSDATE > exhibition_end THEN 1 END) AS past_exhibitions_count,\r\n"
+			+ "    COUNT(CASE WHEN SYSDATE BETWEEN exhibition_start AND exhibition_end THEN 1 END) AS current_exhibitions_count\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition")
+	ExhibitionBean getExhibitionCount();
+	
 	
 	// 전시회 관리 페이징 처리
 	@Select("select count(*) from exhibition")
 	int getExhibitionCnt();
+	
+	// 전시회 관리 작가 검색
+	@Select("SELECT \r\n"
+			+ "    exhibition_id, \r\n"
+			+ "    title, \r\n"
+			+ "    author, \r\n"
+			+ "    TO_CHAR(exhibition_start, 'YYYY-MM-DD') AS exhibition_start, \r\n"
+			+ "    TO_CHAR(exhibition_end, 'YYYY-MM-DD') AS exhibition_end, \r\n"
+			+ "    price, \r\n"
+			+ "    CASE \r\n"
+			+ "        WHEN SYSDATE < exhibition_start THEN '전시예정'\r\n"
+			+ "        WHEN SYSDATE > exhibition_end THEN '종료됨'\r\n"
+			+ "        ELSE '전시중' \r\n"
+			+ "    END AS open_state\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(author) LIKE '%' || UPPER(#{search}) || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    exhibition_id ASC")
+	List<ExhibitionBean> getauthorSearchExhibitionInfo(@Param("search") String search);
+	
+	// 전시회 관리 작가 검색 전시회 총개수 전시중, 전시예정, 종료전시 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*) AS total_exhibitions_count,\r\n"
+			+ "    COUNT(CASE WHEN SYSDATE < exhibition_start THEN 1 END) AS upcoming_exhibitions_count,\r\n"
+			+ "    COUNT(CASE WHEN SYSDATE > exhibition_end THEN 1 END) AS past_exhibitions_count,\r\n"
+			+ "    COUNT(CASE WHEN SYSDATE BETWEEN exhibition_start AND exhibition_end THEN 1 END) AS current_exhibitions_count\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(author) LIKE '%' || UPPER(#{search}) || '%'")
+	ExhibitionBean getauthorSearchExhibitionCount(@Param("search") String search);
+	
+	// 전시회 관리 작가 검색 페이징 처리 위한 검색 총 개수 반환
+	@Select("SELECT \r\n"
+			+ "    count(*)\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(author) LIKE '%' || UPPER(#{search}) || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    exhibition_id ASC")
+	int getauthorSearchExhibitionCnt(@Param("search") String search);
+	
+	// 전시회 관리 제목 검색
+	@Select("SELECT \r\n"
+			+ "    exhibition_id, \r\n"
+			+ "    title, \r\n"
+			+ "    author, \r\n"
+			+ "    TO_CHAR(exhibition_start, 'YYYY-MM-DD') AS exhibition_start, \r\n"
+			+ "    TO_CHAR(exhibition_end, 'YYYY-MM-DD') AS exhibition_end, \r\n"
+			+ "    price, \r\n"
+			+ "    CASE \r\n"
+			+ "        WHEN SYSDATE < exhibition_start THEN '전시예정'\r\n"
+			+ "        WHEN SYSDATE > exhibition_end THEN '종료됨'\r\n"
+			+ "        ELSE '전시중' \r\n"
+			+ "    END AS open_state\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(title) LIKE '%' || UPPER(#{search}) || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    exhibition_id ASC")
+	List<ExhibitionBean> gettitleSearchExhibitionInfo(@Param("search") String search, RowBounds rowBounds);
+	
+	// 전시회 관리 제목 검색 전시회 총개수 전시중, 전시예정, 종료전시 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*) AS total_exhibitions_count,\r\n"
+			+ "    COUNT(CASE WHEN SYSDATE < exhibition_start THEN 1 END) AS upcoming_exhibitions_count,\r\n"
+			+ "    COUNT(CASE WHEN SYSDATE > exhibition_end THEN 1 END) AS past_exhibitions_count,\r\n"
+			+ "    COUNT(CASE WHEN SYSDATE BETWEEN exhibition_start AND exhibition_end THEN 1 END) AS current_exhibitions_count\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(title) LIKE '%' || UPPER(#{search}) || '%'")
+	ExhibitionBean gettitleSearchExhibitionCount(@Param("search") String search);
+
+	// 전시회 관리 작가 검색 페이징 처리 위한 검색 총 개수 반환
+	@Select("SELECT \r\n"
+			+ "    count(*)\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(title) LIKE '%' || UPPER(#{search}) || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    exhibition_id ASC")
+	int gettitleSearchExhibitionCnt(@Param("search") String search);		
 }

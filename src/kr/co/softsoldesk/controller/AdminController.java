@@ -196,40 +196,55 @@ public class AdminController {
 		
 		
 		if (usercombo == null || usercombo.isEmpty() || usersearch == null || usersearch.isEmpty()) {
-			// QnA 모든 정보 가져가기
-						List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
-						model.addAttribute("qnaAllBean", qnaAllBean);
+				// QnA 모든 정보 가져가기
+				List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
+				model.addAttribute("qnaAllBean", qnaAllBean);
 						
-						// QnA 총 개수, 답변전, 답변완료 개수 가져가기
-						QnABean qnaCountBean = AdminService.getQnACount();
-						model.addAttribute("qnaCountBean",qnaCountBean);
+				// QnA 총 개수, 답변전, 답변완료 개수 가져가기
+				QnABean qnaCountBean = AdminService.getQnACount();
+				model.addAttribute("qnaCountBean",qnaCountBean);
 						
-						// QnA 관리자 페이지 페이징 처리
-						PageBean pageBean = AdminService.getTotalQnACnt(page);
-						model.addAttribute("pageBean", pageBean);
+				// QnA 관리자 페이지 페이징 처리
+				PageBean pageBean = AdminService.getTotalQnACnt(page);
+				model.addAttribute("pageBean", pageBean);
 						
-						return "admin/manager_QnAlist";
+				return "admin/manager_QnAlist";
 	    }
 		
 		
 		if("nickname".equals(usercombo)) {
 			// 닉네임 검색
-			List<QnABean> nicknameSearchBean = AdminService.getnicknameSearchQnAInfo(usersearch);
+			List<QnABean> nicknameSearchBean = AdminService.getnicknameSearchQnAInfo(usersearch, page);
 			model.addAttribute("qnaAllBean", nicknameSearchBean);
 			
 			// 닉네임 검색 개수 반환 메소드
 			QnABean QnAnicknamesearchCount = AdminService.getnicknameSearchQnACount(usersearch);
 			model.addAttribute("qnaCountBean",QnAnicknamesearchCount);
 			
+			// 페이징 처리
+			PageBean pageBean1 = AdminService.getnicknameSearchQnACnt(usersearch, page);
+			model.addAttribute("pageBean1", pageBean1);
+	
+			// 페이징 처리로 인한 검색조건 검색어 가져가기
+			model.addAttribute("usercombo",usercombo);
+			model.addAttribute("usersearch",usersearch);
+			
 		} else if ("title".equals(usercombo)) {
 			// 제목 검색
-			List<QnABean> titleSearchBean = AdminService.gettitleSearchQnAInfo(usersearch);
+			List<QnABean> titleSearchBean = AdminService.gettitleSearchQnAInfo(usersearch, page);
 			model.addAttribute("qnaAllBean", titleSearchBean);
 			
 			// 제목 검색 개수 반환 메소드
 			QnABean QnAtitlesearchCount = AdminService.gettitleSearchQnACount(usersearch);
 			model.addAttribute("qnaCountBean",QnAtitlesearchCount);
 			
+			// 페이징 처리
+			PageBean pageBean2 = AdminService.gettitleSearchQnACnt(usersearch, page);
+			model.addAttribute("pageBean2", pageBean2);
+			
+			// 페이징 처리로 인한 검색조건 검색어 가져가기
+			model.addAttribute("usercombo",usercombo);
+			model.addAttribute("usersearch",usersearch);
 		} 
 		
 		return "admin/manager_QnAlist";
@@ -247,16 +262,60 @@ public class AdminController {
 	
 	// ==============================전시회 관리 ====================================
 	
+	// 전시회 관리 매핑
 	@GetMapping("/manager_exhibitionlist")
-	public String manager_exhibitionlist(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+	public String manager_exhibitionlist(@RequestParam(value="exhibitioncombo", required=false) String exhibitioncombo, @RequestParam(value="exhibitionsearch", required=false) String exhibitionsearch, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
-		// 전시회 목록 가져가기
-	 	List<ExhibitionBean> AdminExhibitionInfoBean = AdminService.getAdminexhibitionmange(page);
-		model.addAttribute("AdminExhibitionInfoBean", AdminExhibitionInfoBean);
-	 	
-		// 전시회 페이징 처리
-		PageBean pageBean = AdminService.getExhibitionCnt(page);
-		model.addAttribute("pageBean", pageBean);
+		if (exhibitioncombo == null || exhibitioncombo.isEmpty() || exhibitionsearch == null || exhibitionsearch.isEmpty()) {
+			// 전시회 목록 가져가기
+		 	List<ExhibitionBean> AdminExhibitionInfoBean = AdminService.getAdminexhibitionmange(page);
+			model.addAttribute("AdminExhibitionInfoBean", AdminExhibitionInfoBean);
+			
+			// 전시회 총개수, 전시예정, 종료, 진행중 전시 개수 반환
+			ExhibitionBean ExhibitionCountBean = AdminService.getExhibitionCount();
+			model.addAttribute("ExhibitionCountBean",ExhibitionCountBean);
+		 	
+			// 전시회 페이징 처리
+			PageBean pageBean = AdminService.getExhibitionCnt(page);
+			model.addAttribute("pageBean", pageBean);
+			
+			return "/admin/manager_exhibitionlist";
+		}
+		
+		if("author".equals(exhibitioncombo)) {	// 작가 검색
+			// 작가 검색
+			List<ExhibitionBean> authorSearchBean = AdminService.getauthorSearchExhibitionInfo(exhibitionsearch);
+			model.addAttribute("AdminExhibitionInfoBean", authorSearchBean);
+			
+			// 작가 검색시 전시회 총개수, 전시예정, 종료, 진행중 전시 개수 반환
+			ExhibitionBean AuthorSearchExhibitionCountBean = AdminService.getauthorSearchExhibitionCount(exhibitionsearch);
+			model.addAttribute("ExhibitionCountBean",AuthorSearchExhibitionCountBean);
+			
+			// 작가 검색시 페이징 처리
+			PageBean pageBean1 = AdminService.getauthorSearchExhibitionCnt(exhibitionsearch, page);
+			model.addAttribute("pageBean1", pageBean1);
+			
+			// 페이징 처리로 인한 검색조건 검색어 가져가기
+			model.addAttribute("exhibitioncombo",exhibitioncombo);
+			model.addAttribute("exhibitionsearch",exhibitionsearch);
+			
+		} else if ("title".equals(exhibitioncombo)) {	// 제목 검색
+			// 제목 검색
+			List<ExhibitionBean> titleSearchBean = AdminService.gettitleSearchExhibitionInfo(exhibitionsearch, page);
+			model.addAttribute("AdminExhibitionInfoBean",titleSearchBean);
+			
+			// 제목 검색시 전시회 총개수, 전시예정, 종료, 진행중 전시 개수 반환
+			ExhibitionBean TitleSearchExhibitionCountBean = AdminService.gettitleSearchExhibitionCount(exhibitionsearch);
+			model.addAttribute("ExhibitionCountBean",TitleSearchExhibitionCountBean);
+			
+			// 제목 검색시 페이징 처리
+			PageBean pageBean2 = AdminService.gettitleSearchExhibitionCnt(exhibitionsearch, page);
+			model.addAttribute("pageBean2", pageBean2);
+			
+			// 페이징 처리로 인한 검색조건 검색어 가져가기
+			model.addAttribute("exhibitioncombo",exhibitioncombo);
+			model.addAttribute("exhibitionsearch",exhibitionsearch);
+		} 
 		
 		return "/admin/manager_exhibitionlist";
 	}
