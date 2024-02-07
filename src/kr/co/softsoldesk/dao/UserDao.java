@@ -94,8 +94,13 @@ public class UserDao {
 		return userMapper.getAccountCnt();
 	}
 	
-	public List<UserBean>getNickSearchList(UserBean searchUserBean){
-		return userMapper.getNickSearchList(searchUserBean);
+	public List<UserBean>getNickSearchList(UserBean searchUserBean, RowBounds rowBounds){
+		return userMapper.getNickSearchList(searchUserBean, rowBounds);
+	}
+	
+	// 사용자 관리 닉네임 검색 페이징처리
+	public int getNickSearchCnt(String keyword) {
+		return userMapper.getNickSearchCnt(keyword);
 	}
 	
 	public List<UserBean>getIdSearchList(UserBean searchUserBean){

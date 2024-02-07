@@ -1,6 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<c:set var="root" value="${pageContext.request.contextPath }"/>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,61 +26,66 @@
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"></script>
 <!-- JQuery -->
-<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-$(document).ready(function(){
-    // thead의 checkbox 클릭 이벤트
-    $("thead input[type='checkbox']").click(function(){
-        // thead의 checkbox 상태를 tbody의 모든 checkbox에 적용
-        $("tbody input[type='checkbox']").prop('checked', $(this).prop('checked'));
-    });
-});
+	$(document).ready(
+			function() {
+				// thead의 checkbox 클릭 이벤트
+				$("thead input[type='checkbox']").click(
+						function() {
+							// thead의 checkbox 상태를 tbody의 모든 checkbox에 적용
+							$("tbody input[type='checkbox']").prop('checked',
+									$(this).prop('checked'));
+						});
+			});
 
-$(document).ready(function(){
-    $("#deleteButton").click(function(){
-        var confirmDelete = confirm("선택한 항목을 삭제하시겠습니까?");
-        if(confirmDelete) {
-            // 사용자가 '예'를 선택한 경우, 폼 제출
-            $("form[action='${root}/admin/delete_pro']").submit();
-        }
-    });
-});
-
+	$(document).ready(function() {
+		$("#deleteButton").click(function() {
+			var confirmDelete = confirm("선택한 항목을 삭제하시겠습니까?");
+			if (confirmDelete) {
+				// 사용자가 '예'를 선택한 경우, 폼 제출
+				$("form[action='${root}/admin/delete_pro']").submit();
+			}
+		});
+	});
 </script>
 
 </head>
 
 <body class="sb-nav-fixed">
-	<c:import url="/WEB-INF/views/include/admin_header.jsp"/>
+	<c:import url="/WEB-INF/views/include/admin_header.jsp" />
 
-		<!--실제 내용(대시보드) 부분-->
-		<div id="layoutSidenav_content">
-			<main style="background-color: ivory;">
-				<div class="container-fluid px-4">
-					<div style="margin-top:30px;">
-						<h3>사용자 관리</h3>
-					</div>
-					<div style="display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-						<form action="${root }/admin/manager_accountmanager" method="get" name="searchUserBean">
+	<!--실제 내용(대시보드) 부분-->
+	<div id="layoutSidenav_content">
+		<main style="background-color: ivory;">
+			<div class="container-fluid px-4">
+				<div style="margin-top: 30px;">
+					<h3>사용자 관리</h3>
+				</div>
+				<div
+					style="display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
+					<form action="${root }/admin/manager_accountmanager" method="get"
+						name="searchUserBean">
 						<select name="type" id="usercombo"
 							style="width: 150px; height: 40px; margin-right: 30px;">
 							<option value="" disabled selected>검색조건선택</option>
 							<option value="nickname">닉네임</option>
 							<option value="id">사용자ID</option>
 							<option value="email">이메일</option>
-						</select>
-						<input type="text" name="keyword"
+						</select> <input type="text" name="keyword"
 							style="width: 500px; height: 40px; margin-right: 30px;"
 							placeholder="검색어를 입력해주세요" />
-						<button type="submit" class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
-						</form>
-					</div>
+						<button type="submit" class="btn btn-dark"
+							style="width: 80px; height: 40px;">검색</button>
+					</form>
+				</div>
 
-					<div style="background-color: white; margin-top: 30px;">
-						
+				<div style="background-color: white; margin-top: 30px;">
+
 					<form action="${root }/admin/delete_pro" method="post">
 						<table class="table table-striped" style="text-align: center;">
-						
+
 							<thead>
 								<tr>
 									<th scope="col"><input type="checkbox" /></th>
@@ -95,8 +101,10 @@ $(document).ready(function(){
 							</thead>
 							<tbody>
 								<c:forEach var="obj" items="${userList }">
-									<tr style="height:50px; align-items: center; justify-content: center; vertical-align: middle;">
-										<th scope="row"><input type="checkbox" name="deleteUser" value="${obj.user_id }" /></th>
+									<tr
+										style="height: 50px; align-items: center; justify-content: center; vertical-align: middle;">
+										<th scope="row"><input type="checkbox" name="deleteUser"
+											value="${obj.user_id }" /></th>
 										<td>${obj.user_id }</td>
 										<td>${obj.nickname }</td>
 										<td>${obj.id }</td>
@@ -113,7 +121,8 @@ $(document).ready(function(){
 												</a>
 													<ul class="dropdown-menu dropdown-menu-end"
 														aria-labelledby="navbarDropdown">
-														<li><a class="dropdown-item" href="${root }/admin/manager_accountdetail?user_id=${obj.user_id}">수정</a></li>
+														<li><a class="dropdown-item"
+															href="${root }/admin/manager_accountdetail?user_id=${obj.user_id}">수정</a></li>
 													</ul></li>
 											</ul>
 										</td>
@@ -123,76 +132,137 @@ $(document).ready(function(){
 						</table>
 						<button class="btn btn-danger" id="deleteButton"
 							style="float: right; margin-right: 50px; margin-top: 20px; margin-bottom: 20px;">삭제</button>
-							</form>
+					</form>
 
-						<div class="d-none d-md-block" style="margin-top:50px;">
-				<ul class="pagination justify-content-center">
 					<c:choose>
-						<c:when test="${pageBean.prevPage <= 0 }">
-							<li class="page-item disabled">		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
-								<a href="#" class="page-link">이전</a>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<li class="page-item">
-								<a href="${root }/admin/manager_accountmanager?page=${pageBean.prevPage}" class="page-link">이전</a>
-							</li>
-						</c:otherwise>
-					</c:choose>
-					
-					<c:forEach var ="idx" begin="${pageBean.min}" end="${pageBean.max}">
-					<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
-						<c:choose>
-							<c:when test="${idx == pageBean.currentPage }">
-								<li class="page-item active" >
-									<a href="${root }/admin/manager_accountmanager?page=${idx}" class="page-link">
-										${idx }
-									</a>
-								</li>
-							</c:when>
-							<c:otherwise>
-								<li class="page-item">
-									<a href="${root }/admin/manager_accountmanager?page=${idx}" class="page-link">
-										${idx }
-									</a>
-								</li>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-					
-					
-					<c:choose>
-						<c:when test="${pageBean.max >= pageBean.pageCnt  }">	<!-- max페이지 > 전체페이지개수 일때  -->
-							<li class="page-item disabled" >		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
-								<a href="#" class="page-link">다음</a>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<li class="page-item">
-								<a href="${root }/admin/manager_accountmanager?page=${pageBean.nextPage}" class="page-link">다음</a>
-							</li>
-						</c:otherwise>
-					</c:choose>
-				</ul>
-			</div>
-			
-			<div class="d-block d-md-none">
-				<ul class="pagination justify-content-center">
-					<li class="page-item">
-						<a href="#" class="page-link">이전</a>
-					</li>
-					<li class="page-item">
-						<a href="#" class="page-link">다음</a>
-					</li>
-				</ul>
-			</div>
+						<c:when test="${!empty pageBean }">
+							<div class="d-none d-md-block" style="margin-top: 50px;">
+								<ul class="pagination justify-content-center">
+									<c:choose>
+										<c:when test="${pageBean.prevPage <= 0 }">
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/admin/manager_accountmanager?page=${pageBean.prevPage}"
+												class="page-link">이전</a></li>
+										</c:otherwise>
+									</c:choose>
 
-					</div>
+									<c:forEach var="idx" begin="${pageBean.min}"
+										end="${pageBean.max}">
+										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+										<c:choose>
+											<c:when test="${idx == pageBean.currentPage }">
+												<li class="page-item active"><a
+													href="${root }/admin/manager_accountmanager?page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/admin/manager_accountmanager?page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+
+									<c:choose>
+										<c:when test="${pageBean.max >= pageBean.pageCnt  }">
+											<!-- max페이지 > 전체페이지개수 일때  -->
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/admin/manager_accountmanager?page=${pageBean.nextPage}"
+												class="page-link">다음</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+
+							<div class="d-block d-md-none">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a href="#" class="page-link">이전</a>
+									</li>
+									<li class="page-item"><a href="#" class="page-link">다음</a>
+									</li>
+								</ul>
+							</div>
+						</c:when>
+						
+						<c:when test="${!empty pageBean1 }">
+							<div class="d-none d-md-block" style="margin-top: 50px;">
+								<ul class="pagination justify-content-center">
+									<c:choose>
+										<c:when test="${pageBean1.prevPage <= 0 }">
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${pageBean1.prevPage}"
+												class="page-link">이전</a></li>
+										</c:otherwise>
+									</c:choose>
+
+									<c:forEach var="idx" begin="${pageBean1.min}"
+										end="${pageBean1.max}">
+										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+										<c:choose>
+											<c:when test="${idx == pageBean1.currentPage }">
+												<li class="page-item active"><a
+													href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+
+									<c:choose>
+										<c:when test="${pageBean1.max >= pageBean1.pageCnt  }">
+											<!-- max페이지 > 전체페이지개수 일때  -->
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${pageBean1.nextPage}"
+												class="page-link">다음</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+
+							<div class="d-block d-md-none">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a href="#" class="page-link">이전</a>
+									</li>
+									<li class="page-item"><a href="#" class="page-link">다음</a>
+									</li>
+								</ul>
+							</div>
+						
+						</c:when>
+					</c:choose>
+
 				</div>
-			</main>
+			</div>
+		</main>
 
-			
-		</div>
+
+	</div>
 	</div>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

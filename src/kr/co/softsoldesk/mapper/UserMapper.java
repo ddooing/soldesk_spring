@@ -99,28 +99,38 @@ public interface UserMapper {
 		
 		//--------------------------(관리자) 검색회원정보 조회----------------
 		@Select("SELECT ut.user_id, ut.nickname, ut.id, ut.email,\r\n"
-				+ "ut.point, ut.state, ut.exp, g.grade\r\n"
-				+ "FROM user_table ut\r\n"
-				+ "LEFT JOIN grade g\r\n"
-				+ "ON ut.exp BETWEEN g.start_exp AND g.end_exp\r\n"
-				+ "where nickname = #{keyword}")
-		List<UserBean> getNickSearchList(UserBean searchUserBean);
+	            + "ut.point, ut.state, ut.exp, g.grade\r\n"
+	            + "FROM user_table ut\r\n"
+	            + "LEFT JOIN grade g\r\n"
+	            + "ON ut.exp BETWEEN g.start_exp AND g.end_exp\r\n"
+	            + "where UPPER(nickname) LIKE '%' || UPPER(#{keyword}) || '%'")
+	      List<UserBean> getNickSearchList(UserBean searchUserBean, RowBounds rowBounds);
 		
-		@Select("SELECT ut.user_id, ut.nickname, ut.id, ut.email,\r\n"
-				+ "ut.point, ut.state, ut.exp, g.grade\r\n"
-				+ "FROM user_table ut\r\n"
-				+ "LEFT JOIN grade g\r\n"
-				+ "ON ut.exp BETWEEN g.start_exp AND g.end_exp\r\n"
-				+ "where id = #{keyword}")
-		List<UserBean> getIdSearchList(UserBean searchUserBean);
-		
-		@Select("SELECT ut.user_id, ut.nickname, ut.id, ut.email,\r\n"
-				+ "ut.point, ut.state, ut.exp, g.grade\r\n"
-				+ "FROM user_table ut\r\n"
-				+ "LEFT JOIN grade g\r\n"
-				+ "ON ut.exp BETWEEN g.start_exp AND g.end_exp\r\n"
-				+ "where email = #{keyword}")
-		List<UserBean> getEmailSearchList(UserBean searchUserBean);
+		@Select("SELECT \r\n"
+				+ "    count(*)\r\n"
+				+ "FROM \r\n"
+				+ "    user_table ut\r\n"
+				+ "LEFT JOIN \r\n"
+				+ "    grade g ON ut.exp BETWEEN g.start_exp AND g.end_exp\r\n"
+				+ "WHERE \r\n"
+				+ "    UPPER(ut.nickname) LIKE '%' || UPPER(#{keyword}) || '%'")
+		int getNickSearchCnt(String keyword);
+	      
+	      @Select("SELECT ut.user_id, ut.nickname, ut.id, ut.email,\r\n"
+	            + "ut.point, ut.state, ut.exp, g.grade\r\n"
+	            + "FROM user_table ut\r\n"
+	            + "LEFT JOIN grade g\r\n"
+	            + "ON ut.exp BETWEEN g.start_exp AND g.end_exp\r\n"
+	            + "where UPPER(id) LIKE '%' || UPPER(#{keyword}) || '%'")
+	      List<UserBean> getIdSearchList(UserBean searchUserBean);
+	      
+	      @Select("SELECT ut.user_id, ut.nickname, ut.id, ut.email,\r\n"
+	            + "ut.point, ut.state, ut.exp, g.grade\r\n"
+	            + "FROM user_table ut\r\n"
+	            + "LEFT JOIN grade g\r\n"
+	            + "ON ut.exp BETWEEN g.start_exp AND g.end_exp\r\n"
+	            + "where UPPER(email) LIKE '%' || UPPER(#{keyword}) || '%'")
+	      List<UserBean> getEmailSearchList(UserBean searchUserBean);
 		
 		
 		//-----------------------(관리자) 계정정보수정 기본값 가져오기

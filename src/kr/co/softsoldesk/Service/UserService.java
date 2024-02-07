@@ -148,8 +148,20 @@ public class UserService {
 		
 	}
 	
-	public List<UserBean>getNickSearchList(UserBean searchUserBean){
-		return userDao.getNickSearchList(searchUserBean);
+	public List<UserBean>getNickSearchList(UserBean searchUserBean, int page){
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return userDao.getNickSearchList(searchUserBean, rowBounds);
+	}
+	
+	public PageBean getNickSearchCnt(String keyword, int currentPage) {
+		
+		int nick_Cnt = userDao.getNickSearchCnt(keyword);
+		PageBean pageBean = new PageBean(nick_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
 	}
 	
 	public List<UserBean>getIdSearchList(UserBean searchUserBean){

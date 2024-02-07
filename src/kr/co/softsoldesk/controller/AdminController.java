@@ -44,11 +44,15 @@ public class AdminController {
 		
 		if ("nickname".equals(type) && keyword != null) {
 			
-		    List<UserBean> searchList = UserService.getNickSearchList(searchUserBean);
+		    List<UserBean> searchList = UserService.getNickSearchList(searchUserBean, page);
 		    model.addAttribute("userList", searchList);
-		    
-		    PageBean pageBean = UserService.getAccountCnt(page);
-			model.addAttribute("pageBean", pageBean);
+			
+			// 페이징 처리
+			PageBean pageBean1 = UserService.getNickSearchCnt(keyword,page);
+			model.addAttribute("pageBean1", pageBean1);
+			
+			model.addAttribute("type",type);
+			model.addAttribute("keyword",keyword);
 			
 		} else if ("id".equals(type) && keyword != null) {
 			
@@ -58,6 +62,9 @@ public class AdminController {
 		    PageBean pageBean = UserService.getAccountCnt(page);
 			model.addAttribute("pageBean", pageBean);
 			
+			model.addAttribute("type",type);
+			model.addAttribute("keyword",keyword);
+			
 		} else if ("email".equals(type) && keyword != null) {
 			
 		    List<UserBean> searchList = UserService.getEmailSearchList(searchUserBean);
@@ -66,12 +73,18 @@ public class AdminController {
 		    PageBean pageBean = UserService.getAccountCnt(page);
 			model.addAttribute("pageBean", pageBean);
 			
+			model.addAttribute("type",type);
+			model.addAttribute("keyword",keyword);
+			
 		} else {
 		    List<UserBean> userList = UserService.getUserList(page);
 		    model.addAttribute("userList", userList);
 		    
 		    PageBean pageBean = UserService.getAccountCnt(page);
 			model.addAttribute("pageBean", pageBean);
+			
+			model.addAttribute("type",type);
+			model.addAttribute("keyword",keyword);
 		}
 		
 		
