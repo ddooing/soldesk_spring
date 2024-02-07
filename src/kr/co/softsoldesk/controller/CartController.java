@@ -45,7 +45,7 @@ public class CartController {
 	  System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getReserve_date());
 	System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getOrder_id());
 	System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getTicket_count());
-
+	System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getUser_id());
 	  CartBean cvo = new CartBean();
 	  cvo.setExhibition_id(tempReserveBean.getExhibition_id());
 	 // cvo.setUser_id(tempReserveBean.getUser_id());
@@ -119,14 +119,24 @@ public class CartController {
 	public String goods_cart_list(HttpSession session, Model model) {
 	  //세션 속에 저장된 장바구니 리스트를 불러 와야 함
 	  List < CartBean > list = (List < CartBean > ) session.getAttribute("cart");
-	  
-	  for (CartBean avo: list) {
-		  System.out.println("cart select 예매 날짜 : "+ avo.getReserve_date());
-		  System.out.println("cart select 티켓 수량 : "+ avo.getTicket_count());
-		  System.out.println("cart select 티켓 수량 : "+ avo.getTotal_price());
-	  }
+
+		// 장바구니 리스트가 null이거나 비어 있는지 확인
+	    if (list == null || list.isEmpty()) {
+	        // 장바구니가 비어있는 경우, 빈 리스트를 생성하여 모델에 추가
+	        list = new ArrayList<>();
+	    } else {
+	        // 장바구니에 항목이 있는 경우, 각 항목의 정보를 출력
+	        for (CartBean avo : list) {
+	            System.out.println("cart select 예매 날짜 : " + avo.getReserve_date());
+	            System.out.println("cart select 티켓 수량 : " + avo.getTicket_count());
+	            System.out.println("cart select 티켓 수량 : " + avo.getTotal_price());
+	        }
+	    }
 	  //데이터 전송
 	  model.addAttribute("list", list);
-	  return "user/basket";
+	
+			 
+	  return "user/cart_list";
 	}
+	
 }

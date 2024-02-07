@@ -21,7 +21,18 @@ public interface ReserveMapper {
 	@Select("select order_id from reserve where order_id=#{orderId}")
 	String  checkOrderId(String orderId);
 	///success - 2
-	@Select("select * from reserve where order_id=#{orderId}")
+	@Select("SELECT "
+			+ "    reserve_id,"
+			+ "    user_id,"
+			+ "    exhibition_id,"
+			+ "   To_char(reserve_date,'yyyy-mm-dd') as reserve_date,"
+			+ "    total_price,"
+			+ "    point_deduction,"
+			+ "    payment,state"
+			+ "    ticket_count,"
+			+ "    pay_state,pay_approval_state,requested_at,approved_at "
+			+ "    paymentkey"
+			+ " FROM reserve where order_id=#{orderId}")
 	ReserveBean validcheckOrderId(String orderId);
 	
 	///success - 3

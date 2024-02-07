@@ -53,7 +53,10 @@
 	    });
 	</script>
     
-
+	<script>
+		console.log("loginUserBean :" +loginUserBean.user_id);
+		console.log("loginUserBean :" +loginUserBean.name);
+	</script>
 <!-- Font Awesome icons (free version)-->
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"></script>

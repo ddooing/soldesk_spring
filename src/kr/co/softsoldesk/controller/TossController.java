@@ -101,11 +101,19 @@ public class TossController {
 	
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveInfoBean.getExhibition_id());
 	    
-
+		/*
         model.addAttribute("exhibitionBean", exhibitionBean);
         model.addAttribute("tempReserveBean",reserveInfoBean);
 		model.addAttribute("plusPoint",plusPoint);
+		*/
 		
+		 redirectAttributes.addFlashAttribute("exhibitionBean", exhibitionBean);
+	    redirectAttributes.addFlashAttribute("tempReserveBean", reserveInfoBean);
+	    redirectAttributes.addFlashAttribute("plusPoint", plusPoint);
+	    
+	    System.out.println("pluspoint : "+plusPoint);
+	    
+	    //return "/exhibition/payment_complete";
 		return "redirect:/exhibition/payment_complete";
 		}
 		// 결제 금액이 0이 아니면 ckeckout page로 이동
@@ -261,16 +269,23 @@ public class TossController {
         	// 2.나머지 db 처리
         addService(validReserveBean);
         
+        //결제된 예매 정보 가져오기 
+        ReserveBean reserveInfoBean =reserveService.validcheckOrderId(orderId);
+		
         System.out.println("결제가 성공적으로 처리되었습니다.");
         
-        ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(validReserveBean.getExhibition_id());
-	    
+        ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveInfoBean.getExhibition_id());
+        System.out.println("validReserveBean.getRequested_at() : "+reserveInfoBean.getRequested_at());
+        System.out.println("validReserveBean.getReserve_date() : "+reserveInfoBean.getReserve_date());
+        System.out.println("결제가 성공적으로 처리되었습니다.");
         String successWidgetInfo = prepareSuccessWidgetInfo(paymentKey, orderId, amount);
+        System.out.println("pluspoint : "+plusPoint);
+        
         
         model.addAttribute("exhibitionBean", exhibitionBean);
-        model.addAttribute("validReserveBean",validReserveBean);
+        model.addAttribute("tempReserveBean",reserveInfoBean);
         model.addAttribute("successWidgetInfo", successWidgetInfo);
-      
+        model.addAttribute("plusPoint", plusPoint);
         return "toss/success";
    
     }

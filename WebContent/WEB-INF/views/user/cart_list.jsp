@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="root" value="${pageContext.request.contextPath }" />
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +37,53 @@
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 	<script src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
+	<script>
+				document.addEventListener("DOMContentLoaded", function () {
+					document.querySelector('.btn.btn-dark').addEventListener('click', function() {
+					    printSelectedCartlist();
+					});
+					function printSelectedCartlist() {
+					    var selectedRadio = document.querySelector('input[name="selectedItem"]:checked');
+					    
+					    if (selectedRadio) {
+					       
+							
+					        console.log(${list[0].exhibition_id});
+					        console.log(${list[selectedCartlist].title});
+					        console.log(${list[selectedCartlist].ticket_count});
+					        console.log(${list[selectedCartlist].reserve_date});
+					        // 콘솔에 선택된 cartlist 정보를 출력합니다.
+					        console.log(selectedCartlist);
+					        
+					        var formElement = document.getElementById('paymentForm');
+					        formElement.action += ${list[selectedCartlist].exhibition_id};
 
+					        // hidden input 요소를 생성하여 티켓 수량 추가
+					        var ticketCountInput = document.createElement('input');
+					        ticketCountInput.type = 'hidden';
+					        ticketCountInput.name = 'tempReserveBean.ticket_count';
+					        ticketCountInput.value = ${list[selectedCartlist].ticket_count};
+					        formElement.appendChild(ticketCountInput);
+
+					        // hidden input 요소를 생성하여 예약 날짜 추가
+					        var reserveDateInput = document.createElement('input');
+					        reserveDateInput.type = 'hidden';
+					        reserveDateInput.name = 'tempReserveBean.reserve_date';
+					        reserveDateInput.value = ${list[selectedCartlist].reserve_date};
+					        formElement.appendChild(reserveDateInput);
+
+					        // 폼 제출하기
+					        //formElement.submit();
+					        
+					    } else {
+					        console.log('선택된 항목이 없습니다.');
+					    }
+					}
+				
+				});
+				
+
+				</script>
 	<style>
 		#jcl-demo {
 			text-align: center;
@@ -137,13 +184,14 @@
 				</div>	
 				</c:when>
 				<c:otherwise>
-					<form:form action="${root }/exhibition/payment?exhibition_id=${cartlist.exhibition_id}"
-						 method="post" modelAttribute="tempReserveBean">
-						<c:forEach items="${list}" var="cartlist">
+					<form:form action="${root}/exhibition/payment?exhibition_id=${cartlist.exhibition_id}" id="paymentForm"
+						 	   method="post" modelAttribute="tempReserveBean">
+						 
+						<c:forEach items="${list}" var="cartlist" varStatus="status">
 							
 						    <div style="margin-left: 180px; margin-top: 20px;">
-						        <input type="radio" name="selectedItem" value="${cartlist.exhibition_id}"
-	           								 <c:if test="${fn:length(list) == 1}">checked</c:if>>
+						        <input type="radio" name="selectedItem" value="${cartlist.exhibition_id}"data-index="${status.index}"
+               						 <c:if test="${fn:length(list) == 1}">checked</c:if>>
 	           							${cartlist.exhibition_id}	 
 						    </div>
 						    
@@ -157,7 +205,7 @@
 									<div style="display: flex; margin-top: 40px;">
 										<div style="margin-right: 10px; width: 200px;">예약 날짜</div>
 										<div style="margin-left: auto;">
-											<a style="font-size: 20px; ">${cartlist.reserve_date }</a>
+											<span class="reserveDateValue" style="width: 10px;">${cartlist.reserve_date }</span>
 										</div>
 									</div>
 									<script>
@@ -170,8 +218,8 @@
 											<div class="counter">
 												
 												<span class="counterValue" style="width: 10px;">
-												${cartlist.ticket_count}
-												</span>
+					                                ${cartlist.ticket_count}
+					                            </span>
 												
 											</div>
 										</div>
@@ -192,12 +240,18 @@
 							</c:forEach>
 							
 							<c:if test="${not empty list}">
+								 
+								
 							    <div class="text-center" style="margin-top: 50px;">
-							        <form:button type="submit" class="btn btn-dark" 
-							                style="width: 150px; height: 50px;">결제하기</form:button>
+							        <button type="button" class="btn btn-dark" 
+							                style="width: 150px; height: 50px;" >결제하기</button>
 							    </div>
 							</c:if>
 						</form:form>
+						
+						
+				
+
 					</c:otherwise>
 			</c:choose>
 			

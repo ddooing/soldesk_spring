@@ -84,7 +84,21 @@ public class ExhibitionController {
 		return "exhibition/payment";
 	}
 	
+	@GetMapping("/payment_complete")
+	public String showPaymentComplete(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
+	                                  @ModelAttribute("exhibitionBean") ExhibitionBean exhibitionBean, 
+	                                  @ModelAttribute("plusPoint") Integer plusPoint,
+	                                  Model model) {
+	    // 데이터 출력
+	    System.out.println("ReserveBean: " + tempReserveBean);
+	    System.out.println("exhibitionBean : " + exhibitionBean);
 
+	    // 뷰에 데이터 추가
+	    model.addAttribute("tempReserveBean", tempReserveBean);
+	    model.addAttribute("exhibitionBean", exhibitionBean);
+	    model.addAttribute("plusPoint", plusPoint);
+	    return "exhibition/payment_complete";
+	}
 	
 
 }

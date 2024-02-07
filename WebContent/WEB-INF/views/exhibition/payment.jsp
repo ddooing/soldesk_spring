@@ -315,7 +315,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 							<img src="../img/level/profile_Lv1.png"
 								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 1%
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 5%
 								적립</b><br /> <b style="margin-top: 10px;">exp 0 ~ 299</b>
 
 						</div>
@@ -325,7 +325,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 							<img src="../img/profileImg.png"
 								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 3%
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 10%
 								적립</b><br /> <b style="margin-top: 10px;">exp 300 ~ 899</b>
 
 						</div>
@@ -335,7 +335,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 							<img src="../img/level/profile_Lv3.png"
 								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 5%
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 15%
 								적립</b><br /> <b style="margin-top: 10px;">exp 900 ~</b>
 
 						</div>
@@ -351,7 +351,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							+ 50 exp</b> <br /> <br /> <b
 							style="margin-top: 50px; margin-left: 50px;">소감문 작성시 최대 + 10
 							exp</b> <br /> <br /> <b
-							style="margin-top: 50px; margin-left: 50px;">소감문 공개 허용시 추가 5
+							style="margin-top: 50px; margin-left: 50px;">소감문 공개 허용시 추가 + 5
 							exp</b> <br /> <br />
 
 					</div>
@@ -365,10 +365,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 						<br /> <b style="margin-left: 50px;">기간 내에 구매금액에 구매 확정 시점에 적립
 							포인트가 지급됩니다. </b> <br /> <br /> <b style="margin-left: 50px;">포인트
 							적립 내역이나 이용내역은 MyPage에서 확인할 수 있습니다.</b> <br /> <br /> <b
-							style="margin-left: 50px;">무료 전시회 관련 소감문 작성 시 ??의 포인트만 적립
-							가능합니다.</b> <br /> <br /> <b style="margin-left: 50px;">최초 적립했던
-							경로를 벗어나 새로운 경로(기기변경, 인터넷 창 변경 등)로</b><br /> <b
-							style="margin-left: 50px;">동일상품 구매시 포인트 적립이 되지 않을 수 있습니다.</b> <br />
+							style="margin-left: 50px;">무료 전시회 관련 소감문 작성 시 경험치만 적립
+							가능합니다.</b> <br />
 						<br />
 					</div>
 				</div>

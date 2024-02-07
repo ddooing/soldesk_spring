@@ -134,19 +134,17 @@
 								<img src="${reservelist.main_poster_path}${reservelist.main_poster_name}" style="width:160px; height:220px;"/>
 							</div>
 							
-							<div class="reserinfo"style=" margin-left:20px;">
+							<div class="reserinfo"style=" margin-left:20px;margin-top: 20px;">
 								<p style="margin-bottom:10px; font-weight:bold; font-size:25px;">${reservelist.title }</p>
-								<p>${reservelist.reserve_date }</p>
-								<p>${reservelist.ticket_count } 매 </p>
-								<p>${reservelist.total_price } 원</p>
+								<p>예매 날짜 : ${reservelist.reserve_date }</p>
+								<p>티켓 수량 : ${reservelist.ticket_count } 매 </p>
+								<p>결제 금액 : ${reservelist.payment } 원</p>
 								
 										<c:choose>
 											<c:when test="${reservelist.state == 1 }">
-												<p style=" color:gray;">예매 상태 : 
-													<span>
-														결제완료
-													</span>
-													<button class="reserCancel" >예매취소</button>
+												<p style=" color:gray;">
+												
+													<button class="reserCancel"  style="margin-left: 150px">상세보기</button>
 												</p>
 												
 											</c:when>
