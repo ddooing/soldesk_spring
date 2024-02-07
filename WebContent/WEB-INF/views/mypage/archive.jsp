@@ -14,7 +14,7 @@
 <meta name="author" content="" />
 <title>ARTMEE</title>
 
-<link rel="icon" type="image/x-icon" href="assets/ARTMEE_PAGELOGO.png" />
+<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 
 <!-- Google fonts-->
 <link

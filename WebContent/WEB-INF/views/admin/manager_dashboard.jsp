@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="description" content="" />
 	<meta name="author" content="" />
-	<link rel="icon" type="image/x-icon" href="assets/ARTMEE_PAGELOGO.png" />
+	<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 	<title>관리자 페이지</title>
 	<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 	<link href="css/styles_manager.css" rel="stylesheet" />
