@@ -185,6 +185,7 @@ public interface AdminMapper {
 			+ "    author, \r\n"
 			+ "    To_char(exhibition_start, 'yyyy-mm-dd') as exhibition_start, \r\n"
 			+ "    To_char(exhibition_end, 'yyyy-mm-dd') as exhibition_end, \r\n"
+			+ "    state, \r\n"
 			+ "    price, \r\n"
 			+ "    CASE \r\n"
 			+ "        WHEN SYSDATE < exhibition_start THEN '전시예정'\r\n"
@@ -336,7 +337,7 @@ public interface AdminMapper {
 	
 	// 전시회 수정 업데이트문 1 (file table)
 	@Update("update file_table set name = #{name} where file_id=#{file_id}")
-	void UpdateExhibitionInfo1(String name, int file_id);
+	void UpdateExhibitionInfo1(@Param("name") String name,@Param("file_id") int file_id);
 	
 	// 전시회 수정 업데이트문 2 (exhibition table)
 	@Update("UPDATE exhibition \r\n"
@@ -350,9 +351,9 @@ public interface AdminMapper {
 			+ "    holiday = #{holiday}, \r\n"
 			+ "    address = #{address}, \r\n"
 			+ "    place = #{place}, \r\n"
-			+ "    latitude = #{latitue}, \r\n"
+			+ "    latitude = #{latitude}, \r\n"
 			+ "    longitude = #{longitude}, \r\n"
-			+ "    site = #{site}\r\n"
+			+ "    site = #{site, jdbcType=VARCHAR}\r\n"
 			+ "WHERE \r\n"
 			+ "    exhibition_id = #{exhibition_id}")
 	void UpdateExhibitionInfo2(ExhibitionDetailBean exhibitiondetailBean);

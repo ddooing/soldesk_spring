@@ -2,6 +2,7 @@ package kr.co.softsoldesk.config;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
@@ -15,8 +16,8 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 
 public class SpringConfigClass implements WebApplicationInitializer {
-	//ÀÚ¹Ù ÄÚµå·Î web.xmlÀ» ´ëÃ¼
-	//À¥¾îÇÃ¸®ÄÉÀÌ¼Ç ¼­¹ö(ÅèÄÏ)°¡ ÃÖÃÊ ±¸µ¿ ½Ã °¢Á¾ ¼³Á¤ Á¤ÀÇ
+	//ï¿½Ú¹ï¿½ ï¿½Úµï¿½ï¿½ web.xmlï¿½ï¿½ ï¿½ï¿½Ã¼
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 	@Override
 	public void onStartup(ServletContext servletContext) throws ServletException {
@@ -24,10 +25,10 @@ public class SpringConfigClass implements WebApplicationInitializer {
 		
 		//web.xml <servlet>
 		AnnotationConfigWebApplicationContext servletAppContext = new AnnotationConfigWebApplicationContext();
-		//Spring MVC ÇÁ·ÎÁ§Æ® ¼³Á¤À» À§ÇØ ÀÛ¼ºÇÏ´Â Å¬·¡½ºÀÇ °´Ã¼¸¦ »ı¼º(½ºÇÁ¸µ ÄÁÅ×ÀÌ³Ê)
+		//Spring MVC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ì³ï¿½)
 		
 		servletAppContext.register(ServletAppContext.class);
-		//ServletAppContext¸¦ ¾ÖÇÃ¸®ÄÉÀÌ¼Ç ÄÁÅØ½ºÆ® µî·Ï
+		//ServletAppContextï¿½ï¿½ ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½Ø½ï¿½Æ® ï¿½ï¿½ï¿½
 		
 		DispatcherServlet dispatcherServlet = new DispatcherServlet(servletAppContext);
 		ServletRegistration.Dynamic servlet = servletContext.addServlet("dispatcher", dispatcherServlet);
@@ -37,18 +38,22 @@ public class SpringConfigClass implements WebApplicationInitializer {
 		
 		AnnotationConfigWebApplicationContext rootAppContext = new AnnotationConfigWebApplicationContext();
 		rootAppContext.register(RootAppContext.class);
-		//BeanÀ» Á¤ÀÇÇÏ´Â Å¬·¡½º ÁöÁ¤
+		//Beanï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 		ContextLoaderListener listener = new ContextLoaderListener(rootAppContext);
 		servletContext.addListener(listener);
-		//web.xml¿¡¼­ <listener>
+		//web.xmlï¿½ï¿½ï¿½ï¿½ <listener>
 		
 		FilterRegistration.Dynamic filter = servletContext.addFilter("endcodingFilter", CharacterEncodingFilter.class);
 		filter.setInitParameter("encoding", "UTF-8");
-	    //web.xml¿¡¼­ <filter>
+	    //web.xmlï¿½ï¿½ï¿½ï¿½ <filter>
 		
 		filter.addMappingForServletNames(null, false, "dispatcher");
-		//dispatcher¿¡ ÀÇÇØ Ãß°¡µÈ Servlet¿¡¼­ UTF-8·Î ÀÎÄÚµù
+		//dispatcherï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ Servletï¿½ï¿½ï¿½ï¿½ UTF-8ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½
+		
+		MultipartConfigElement multipartConfigElement = new MultipartConfigElement(null, 52428800, 524288000,0);	// ï¿½ï¿½ï¿½ì˜£ï¿½ë§† ï¿½ìç§»ï¿½, ï¿½ë™†ï¿½ì”ª ï§¤ì’•ï¿½ï¿½ê²•æ¹²ï¿½(50MB),
+		
+		servlet.setMultipartConfig(multipartConfigElement);
 	
 	}
 	
@@ -62,24 +67,24 @@ public class SpringConfigClass extends AbstractAnnotationConfigDispatcherServlet
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		return new Class[] { RootAppContext.class };
-	}//ÇÁ·ÎÁ§Æ®¿¡¼­ »ç¿ëÇÒ BeanµéÀ» Á¤ÀÇÇÏ±â À§ÇÑ Å¬·¡½º ÁöÁ¤
+	}//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ Beanï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
 		return new Class[] { ServletAppContext.class };
-	}//Spring MVC ÇÁ·ÎÁ§Æ® ¼³Á¤À» À§ÇÑ Å¬·¡½º ÁöÁ¤
+	}//Spring MVC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	@Override
 	protected String[] getServletMappings() {
 		return new String[] {"/"};
-	}//DispatcherServlet¿¡ ¸ÅÇÎÇÒ ¿äÃ» ÁÖ¼Ò¸¦ ¼¼ÆÃ
+	}//DispatcherServletï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ã» ï¿½Ö¼Ò¸ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	@Override
 	protected Filter[] getServletFilters() {
 		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
 		encodingFilter.setEncoding("UTF-8");
 		return new Filter[] { encodingFilter };
-	} //ÆÄ¶ó¹ÌÅÍ ÀÎÄÚµù ÇÊÅÍ ¼³Á¤
+	} //ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Úµï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	
 }
 */

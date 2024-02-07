@@ -317,10 +317,19 @@ public class AdminController {
 	
 	// 전시회 수정 페이지 들어가기
 	@GetMapping("/manager_exhibitionmodify")
-	public String manager_exhibitionmodify(@ModelAttribute("DetailExhibitionBean") ExhibitionDetailBean DetailExhibitionBean, @RequestParam("exhibition_id") int exhibition_id, Model model) { 
+	public String manager_exhibitionmodify(@RequestParam("exhibition_id") int exhibition_id, Model model) { 
 		
-		ExhibitionDetailBean DetailExhibitionBean1 = AdminService.getAllDetailExhibitionBean(exhibition_id);
-		model.addAttribute("DetailExhibitionBean",DetailExhibitionBean1);
+		ExhibitionDetailBean DetailExhibitionBean = AdminService.getAllDetailExhibitionBean(exhibition_id);
+		
+		if(DetailExhibitionBean.getApply_name() == null || DetailExhibitionBean.getApply_email() == null || DetailExhibitionBean.getApply_telephone() == null) {
+			
+			DetailExhibitionBean.setApply_name("");
+			DetailExhibitionBean.setApply_email("");
+			DetailExhibitionBean.setApply_telephone("");
+			
+		}
+		
+		model.addAttribute("DetailExhibitionBean",DetailExhibitionBean);
 		
 		return "/admin/manager_exhibitionmodify";
 	}
@@ -328,6 +337,8 @@ public class AdminController {
 	// 전시회 수정
 	@PostMapping("/exhibition_exhibitionmodify_pro")
 	public String exhibition_exhibitionmodify_pro(@ModelAttribute("DetailExhibitionBean") ExhibitionDetailBean DetailExhibitionBean) {
+		
+		
 		
 		// 파일 저장하고 전시회 관련 업데이트
 		AdminService.UpdateExhibitionInfo2(DetailExhibitionBean);

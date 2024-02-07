@@ -21,7 +21,7 @@ public class ExhibitionDetailBean {
 	private String holiday;
 	private String address;
 	private String place;
-	private double latitude;				// 전ㅅ
+	private double latitude;				// 전시회 위도
 	private double longitude;				// 전시회 경도
 	private String site;					// 전시회 사이트
 	private String apply_name;				// 신청인 이름

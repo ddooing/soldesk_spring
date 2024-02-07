@@ -157,7 +157,16 @@
 
 
 									<td style="width: 100px;">${exhibitionlist.open_state }</td>
-									<td><input type="checkbox" value="open" id="open" /></td>
+									
+									<c:choose>
+										<c:when test="${exhibitionlist.state == 1}">
+											<td><input type="checkbox" value="open" id="open" checked="checked"/></td>	
+										</c:when>
+										<c:otherwise>
+											<td><input type="checkbox" value="open" id="open"/></td>
+										</c:otherwise>
+									</c:choose>
+									
 									<td>
 										<button class="btn btn-dark"
 											onclick="location.href='${root}/admin/manager_exhibitionmodify?exhibition_id=${exhibitionlist.exhibition_id }'">수정</button>
