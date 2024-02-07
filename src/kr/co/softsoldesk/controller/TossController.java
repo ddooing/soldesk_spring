@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,8 +20,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
@@ -62,7 +64,7 @@ public class TossController {
 	
 	private int plusPoint=0; // 적립되는 포인트 
 	//에러 코드 재현할때 사용함
-	//String testCode = "INVALID_CARD_EXPIRATION"; // 에러 테스트용 코드
+	String testCode = "INVALID_CARD_EXPIRATION"; // 에러 테스트용 코드
 	
 	@PostMapping("/checkout_pro")
 	public String checkout_pro(@ModelAttribute("tempReserveBean")ReserveBean tempReserveBean,
@@ -70,19 +72,7 @@ public class TossController {
 
 		//결제할 금액 확인
 		int payment = tempReserveBean.getPayment();
-		
-		/* 
-		 //확인용 
-		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ payment); // 포인트 사용 금액+ 티켓 총 가격 
-		System.out.println("/checkout_pro 컨트롤러 -  예매날짜 : "+ tempReserveBean.getReserve_date());
-		System.out.println("/checkout_pro 컨트롤러 -  티켓 수 : "+ tempReserveBean.getTicket_count());
-		System.out.println("/checkout_pro 컨트롤러 -  포인트 사용금액 : "+ tempReserveBean.getPoint_deduction());
-		System.out.println("/checkout_pro 컨트롤러 -  주문번호 : "+ tempReserveBean.getOrder_id()); // 주문 번호 확인
-		System.out.println("/checkout_pro 컨트롤러 -  orderid : "+ tempReserveBean.getOrder_id());
-		System.out.println("/checkout_pro 컨트롤러 -  가격 : "+ tempReserveBean.getExhibition_id());
-		
-		 */
-		
+
 		//결제 금액이 0 이면 바로 예매 완료 페이지로 이동
 		if(payment == 0)
 		{
@@ -100,20 +90,13 @@ public class TossController {
 		addService(reserveInfoBean);
 	
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveInfoBean.getExhibition_id());
-	    
-		/*
-        model.addAttribute("exhibitionBean", exhibitionBean);
-        model.addAttribute("tempReserveBean",reserveInfoBean);
-		model.addAttribute("plusPoint",plusPoint);
-		*/
-		
+
 		 redirectAttributes.addFlashAttribute("exhibitionBean", exhibitionBean);
 	    redirectAttributes.addFlashAttribute("tempReserveBean", reserveInfoBean);
 	    redirectAttributes.addFlashAttribute("plusPoint", plusPoint);
 	    
 	    System.out.println("pluspoint : "+plusPoint);
 	    
-	    //return "/exhibition/payment_complete";
 		return "redirect:/exhibition/payment_complete";
 		}
 		// 결제 금액이 0이 아니면 ckeckout page로 이동
@@ -216,11 +199,22 @@ public class TossController {
         System.out.println("결제 승인 후, paymentConfirmationResponse 코드 확인 :" + paymentConfirmationResponse.getStatusCode());
         System.out.println("결제 승인 후, paymentConfirmationResponse 헤더 확인 :" + paymentConfirmationResponse.getHeaders());
         System.out.println("결제 승인 후, paymentConfirmationResponse 응답 본문 확인 :" + paymentConfirmationResponse.getBody());
-
+ 
         //(3 결과 : 승인 실패 )
         if (!paymentConfirmationResponse.getStatusCode().is2xxSuccessful()) {
-        	System.out.println("승인 실패 .");// pay_state 결제 상태 :false 
-        	return "toss/fail";
+        	// Response 바디에서 JSON 파싱
+            String responseBody = paymentConfirmationResponse.getBody();
+            JSONObject jsonObject = new JSONObject(responseBody);
+            String code = jsonObject.optString("code", "Unknown"); // 기본값 설정
+            String message = jsonObject.optString("message", "No message provided");
+
+            // RedirectAttributes를 사용하여 데이터 전달
+            RedirectAttributes redirectAttributes = new RedirectAttributesModelMap(); // 실제 사용 시에는 메서드 인자로 받거나 적절하게 생성
+            redirectAttributes.addAttribute("code", code);
+            redirectAttributes.addAttribute("message", message);
+
+            return "redirect:/fail";
+        	
             
         }
         
@@ -231,34 +225,14 @@ public class TossController {
         String responseBody = paymentConfirmationResponse.getBody();
         JSONObject jsonObject = new JSONObject(responseBody);
         
-        /*
-        	//응답(payment 객체)에서 orderName 추출하기 .. = 예매한 전시회 title과 같음
-        String orderName = jsonObject.getString("orderName");
-        byte[] bytes = orderName.getBytes(StandardCharsets.ISO_8859_1);
-        orderName = new String(bytes, StandardCharsets.UTF_8);
-        System.out.println("orderName: " + orderName);
-        */
         	//응답(payment 객체)에서 requestedAt(주문 날짜+시간), approvedAt(결제 승인 날짜+시간) 추출하기 
         String approvedAt = jsonObject.getString("approvedAt");
-        System.out.println("approvedAt: " + approvedAt);
         String requestedAt = jsonObject.getString("requestedAt");
+        
+        System.out.println("approvedAt: " + approvedAt);
         System.out.println("requestedAt: " + requestedAt);
         
-        /*
-        // Date 날짜 정보만 파싱
-        LocalDate parsedDate = LocalDate.parse(approvedAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-        // java.sql.Date로 변환
-        Date sqlDate = Date.valueOf(parsedDate);
-        System.out.println("sqlDate: " + sqlDate);
-        
-        // DateTime 날짜 + 시간  파싱
-        LocalDateTime parsedApprovedAt = LocalDateTime.parse(approvedAt, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-	     // LocalDateTime을 java.sql.Timestamp로 변환
-	     Timestamp timestampApprovedAt = Timestamp.valueOf(parsedApprovedAt);
-	     System.out.println("timestampApprovedAt: " + timestampApprovedAt);
-	    */
     
-        
     	// #DB 저장 ................................... 함수 ) 0원일때랑 합치기 
 	        // 1.orderId인 예매가 정말로 되었음 
     			//pay_state 결제 상태 :true 로 update &  state(0:예매,1: 예매 취소) 예매가 되었음을 0으로 저장,예매한 날짜
@@ -275,12 +249,13 @@ public class TossController {
         System.out.println("결제가 성공적으로 처리되었습니다.");
         
         ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveInfoBean.getExhibition_id());
+       
         System.out.println("validReserveBean.getRequested_at() : "+reserveInfoBean.getRequested_at());
         System.out.println("validReserveBean.getReserve_date() : "+reserveInfoBean.getReserve_date());
         System.out.println("결제가 성공적으로 처리되었습니다.");
-        String successWidgetInfo = prepareSuccessWidgetInfo(paymentKey, orderId, amount);
         System.out.println("pluspoint : "+plusPoint);
         
+        String successWidgetInfo = prepareSuccessWidgetInfo(paymentKey, orderId, amount);
         
         model.addAttribute("exhibitionBean", exhibitionBean);
         model.addAttribute("tempReserveBean",reserveInfoBean);
@@ -292,10 +267,16 @@ public class TossController {
 
 	@GetMapping("/fail")
 	public String fail( @RequestParam String message, @RequestParam String code,HttpServletRequest request, Model model) throws Exception {
-		System.out.println("message :"+message);
-		System.out.println("code :"+code);
-	
-		return "toss/fail";
+		 System.out.println("fail 컨트롤러 실행 ");
+
+		    System.out.println("message :" + message);
+		    System.out.println("code :" + code);
+
+		    // 필요한 경우 model에 데이터 추가
+		    model.addAttribute("message", message);
+		    model.addAttribute("code", code);
+
+		    return "toss/fail";
 		
 	}
 	
@@ -313,9 +294,7 @@ public class TossController {
 		
 		 //user_id 값
         int userid = reserveBean.getUser_id();
-        
-       
-       
+
 		 // 2.사용자 포인트 내역 저장 
         int totalPrice = reserveBean.getTotal_price();
         
@@ -401,15 +380,10 @@ public class TossController {
             // 기본 인증을 위한 API 키를 Base64로 인코딩
             String encodedApiKey = Base64.getEncoder().encodeToString((apiKey + ":").getBytes("UTF-8"));
             headers.set("Authorization", "Basic " + encodedApiKey);
-            headers.set("Content-Type", "application/json");
-            
+            headers.set("Content-Type", "application/json");            
             // headers.set 커스텀 헤더 추가해서 에러 재현하기 
-            // headers.set('TossPayments-Test-Code': testCode);
-            
-            
-            
-            
-            
+            headers.set("TossPayments-Test-Code",testCode);
+
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("paymentKey", paymentKey);
             requestBody.put("orderId", orderId);
@@ -424,7 +398,10 @@ public class TossController {
             RestTemplate restTemplate = new RestTemplate();
             return restTemplate.exchange(confirmUrl, HttpMethod.POST, requestEntity, String.class);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error completing payment");
+        	 return ResponseEntity
+        	            .status(((HttpStatusCodeException) e).getStatusCode())
+        	            .body(((RestClientResponseException) e).getResponseBodyAsString());
+            //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error completing payment");
         }
 	}
 }
