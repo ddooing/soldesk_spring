@@ -38,11 +38,7 @@ public class UserService {
             loginUserBean.setPassword(tempLoginUserBean2.getPassword());
             loginUserBean.setState(tempLoginUserBean2.getState());
             
-            System.out.println(loginUserBean.getUser_id());
-            
             loginUserBean.setUserLogin(true); // 로그인 성공 시 userLogin을 true로 설정
-
-            System.out.println(loginUserBean.isUserLogin()); // 이 부분에서 로그인 상태 확인
         } 
     }
 	

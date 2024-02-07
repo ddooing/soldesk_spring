@@ -3,6 +3,8 @@ package kr.co.softsoldesk.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +35,8 @@ public class AdminController {
 	@Autowired
 	private UserService UserService;
 	
+	@Resource(name = "loginUserBean")
+	private UserBean loginUserBean;
 	
 	// 재호 부분
 	// =========================================== 사용자 계정 관리 =================================
@@ -321,14 +325,6 @@ public class AdminController {
 		
 		ExhibitionDetailBean DetailExhibitionBean = AdminService.getAllDetailExhibitionBean(exhibition_id);
 		
-		if(DetailExhibitionBean.getApply_name() == null || DetailExhibitionBean.getApply_email() == null || DetailExhibitionBean.getApply_telephone() == null) {
-			
-			DetailExhibitionBean.setApply_name("");
-			DetailExhibitionBean.setApply_email("");
-			DetailExhibitionBean.setApply_telephone("");
-			
-		}
-		
 		model.addAttribute("DetailExhibitionBean",DetailExhibitionBean);
 		
 		return "/admin/manager_exhibitionmodify";
@@ -337,8 +333,6 @@ public class AdminController {
 	// 전시회 수정
 	@PostMapping("/exhibition_exhibitionmodify_pro")
 	public String exhibition_exhibitionmodify_pro(@ModelAttribute("DetailExhibitionBean") ExhibitionDetailBean DetailExhibitionBean) {
-		
-		
 		
 		// 파일 저장하고 전시회 관련 업데이트
 		AdminService.UpdateExhibitionInfo2(DetailExhibitionBean);
