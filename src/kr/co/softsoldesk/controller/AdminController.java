@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.UserBean;
@@ -312,6 +313,26 @@ public class AdminController {
 		} 
 		
 		return "/admin/manager_exhibitionlist";
+	}
+	
+	// 전시회 수정 페이지 들어가기
+	@GetMapping("/manager_exhibitionmodify")
+	public String manager_exhibitionmodify(@ModelAttribute("DetailExhibitionBean") ExhibitionDetailBean DetailExhibitionBean, @RequestParam("exhibition_id") int exhibition_id, Model model) { 
+		
+		ExhibitionDetailBean DetailExhibitionBean1 = AdminService.getAllDetailExhibitionBean(exhibition_id);
+		model.addAttribute("DetailExhibitionBean",DetailExhibitionBean1);
+		
+		return "/admin/manager_exhibitionmodify";
+	}
+	
+	// 전시회 수정
+	@PostMapping("/exhibition_exhibitionmodify_pro")
+	public String exhibition_exhibitionmodify_pro(@ModelAttribute("DetailExhibitionBean") ExhibitionDetailBean DetailExhibitionBean) {
+		
+		// 파일 저장하고 전시회 관련 업데이트
+		AdminService.UpdateExhibitionInfo2(DetailExhibitionBean);
+		
+		return "/admin/exhibitionmodify_success";
 	}
 	
 	

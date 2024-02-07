@@ -110,6 +110,8 @@ public class UserController {
 	public String Signup_pro(@Valid @ModelAttribute("joinUserBean")UserBean joinUserBean, BindingResult result) {
 		
 		if(result.hasErrors()) {
+			
+			
 			return "user/Signup";
 			
 		}
@@ -138,7 +140,7 @@ public class UserController {
 	         BindingResult result, Model model) {
 	      if(result.hasErrors()) {
 	      
-	      
+	    	  
 	         return "user/InfoChange";
 	      }
 	      

@@ -70,14 +70,46 @@
 							${ExhibitionCountBean.total_exhibitions_count}건</span>
 					</div>
 					<form action="${root }/admin/manager_exhibitionlist" method="get">
-						<select name="exhibitioncombo" id="exhibitioncombo"
-							style="width: 150px; height: 40px; margin-right: 30px;">
-							<option value="" disabled selected>검색조건선택</option>
-							<option value="author">작가</option>
-							<option value="title">제목</option>
-						</select> <input type="text" name="exhibitionsearch" id="exhibitionsearch"
-							style="width: 500px; height: 40px; margin-right: 30px;"
-							placeholder="검색어를 입력해주세요" />
+						<c:choose>
+
+							<c:when test="${exhibitioncombo == null }">
+								<select name="exhibitioncombo" id="exhibitioncombo" style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled selected>검색조건선택</option>
+									<option value="author">작가</option>
+									<option value="title">제목</option>
+								</select>
+							</c:when>
+							
+							<c:when test="${exhibitioncombo == 'author' }">
+								<select name="exhibitioncombo" id="exhibitioncombo" style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled>검색조건선택</option>
+									<option value="author" selected>작가</option>
+									<option value="title">제목</option>
+								</select>
+							</c:when>
+							
+							<c:when test="${exhibitioncombo == 'title' }">
+								<select name="exhibitioncombo" id="exhibitioncombo" style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled>검색조건선택</option>
+									<option value="author">작가</option>
+									<option value="title" selected>제목</option>
+								</select>
+							</c:when>
+							
+						</c:choose>
+						 
+						<c:choose>
+							<c:when test="${exhibitionsearch != null }">
+								<input type="text" name="exhibitionsearch" id="exhibitionsearch"
+								style="width: 500px; height: 40px; margin-right: 30px;" value="${exhibitionsearch}"/>	
+							</c:when>
+							<c:otherwise>
+								<input type="text" name="exhibitionsearch" id="exhibitionsearch"
+								style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />	
+							</c:otherwise>
+						</c:choose>
+						
+						
 						<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
 					</form>
 				</div>
@@ -103,32 +135,32 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${AdminExhibitionInfoBean }"
-								var="exhibitonlist">
+								var="exhibitionlist">
 								<tr style="vertical-align: middle;">
 									<th scope="row" style="width: 50px;"><input
 										type="checkbox" /></th>
-									<td style="width: 50px;">${exhibitonlist.exhibition_id }</td>
-									<td style="width: 150px;">${exhibitonlist.author }</td>
+									<td style="width: 50px;">${exhibitionlist.exhibition_id }</td>
+									<td style="width: 150px;">${exhibitionlist.author }</td>
 									<td style="width: 550px; text-align: left;"><a
-										href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitonlist.exhibition_id}&user_id=${loginUserBean.user_id}"
-										style="color: black; text-align: left;">${exhibitonlist.title }</a></td>
-									<td style="width: 350px;">${exhibitonlist.exhibition_start }
-										~ ${exhibitonlist.exhibition_end }</td>
+										href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionlist.exhibition_id}&user_id=${loginUserBean.user_id}"
+										style="color: black; text-align: left;">${exhibitionlist.title }</a></td>
+									<td style="width: 350px;">${exhibitionlist.exhibition_start }
+										~ ${exhibitionlist.exhibition_end }</td>
 									<c:choose>
-										<c:when test="${exhibitonlist.price ==0}">
+										<c:when test="${exhibitionlist.price ==0}">
 											<td style="width: 100px;">무료</td>
 										</c:when>
 										<c:otherwise>
-											<td style="width: 100px;">${exhibitonlist.price } 원</td>
+											<td style="width: 100px;">${exhibitionlist.price } 원</td>
 										</c:otherwise>
 									</c:choose>
 
 
-									<td style="width: 100px;">${exhibitonlist.open_state }</td>
+									<td style="width: 100px;">${exhibitionlist.open_state }</td>
 									<td><input type="checkbox" value="open" id="open" /></td>
 									<td>
 										<button class="btn btn-dark"
-											onclick="location.href='manager_exhibitionmodify.jsp'">수정</button>
+											onclick="location.href='${root}/admin/manager_exhibitionmodify?exhibition_id=${exhibitionlist.exhibition_id }'">수정</button>
 										<button class="btn btn-danger">삭제</button>
 									</td>
 								</tr>

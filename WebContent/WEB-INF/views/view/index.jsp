@@ -117,8 +117,8 @@
 	 <c:import url="/WEB-INF/views/include/header.jsp"/> 
 
 <a href="${root }/admin/manager_QnAlist">관리자 qna list</a>	<br />
-<a href="${root }/admin/manager_QnAwrite">관리자 qna write</a>
-<a href="${root }/board/write?user_id=${loginUserBean.user_id}">유저 아이디 가져가기</a>
+<a href="${root }/admin/manager_exhibitionmodify">관리자 전시회 수정</a>
+
 
 
 	<!-- 상단 케러셀-->

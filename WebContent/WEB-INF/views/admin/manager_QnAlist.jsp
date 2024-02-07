@@ -68,14 +68,47 @@
 							총${qnaCountBean.total_count}건</span>
 					</div>
 					<form action="${root }/admin/manager_QnAlist" method="get">
-						<select name="usercombo" id="usercombo"
-							style="width: 150px; height: 40px; margin-right: 30px;">
-							<option value="" disabled selected>검색조건선택</option>
-							<option value="nickname">닉네임</option>
-							<option value="title">제목</option>
-						</select> <input type="text" name="usersearch" id="usersearch"
-							style="width: 500px; height: 40px; margin-right: 30px;"
-							placeholder="검색어를 입력해주세요" />
+					
+						<c:choose>
+							<c:when test="${usercombo == null }">
+								<select name="usercombo" id="usercombo" style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled selected>검색조건선택</option>
+									<option value="nickname">닉네임</option>
+									<option value="title">제목</option>
+								</select>	
+							</c:when>
+							
+							<c:when test="${usercombo == 'nickname' }">
+								<select name="usercombo" id="usercombo" style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled >검색조건선택</option>
+									<option value="nickname" selected>닉네임</option>
+									<option value="title">제목</option>
+								</select>	
+							</c:when>
+							
+							<c:when test="${usercombo == 'title' }">
+								<select name="usercombo" id="usercombo" style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled >검색조건선택</option>
+									<option value="nickname" >닉네임</option>
+									<option value="title" selected>제목</option>
+								</select>	
+							</c:when>
+				
+						</c:choose>
+						 
+						<c:choose>
+							<c:when test="${usersearch != null }">
+								<input type="text" name="usersearch" id="usersearch"
+								style="width: 500px; height: 40px; margin-right: 30px;" value="${usersearch }"
+								placeholder="검색어를 입력해주세요" />	
+							</c:when>
+							<c:otherwise>
+								<input type="text" name="usersearch" id="usersearch"
+								style="width: 500px; height: 40px; margin-right: 30px;"
+								placeholder="검색어를 입력해주세요" />
+							</c:otherwise>
+						</c:choose>
+						
 						<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
 					</form>
 				</div>

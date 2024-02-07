@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.QnABean;
 
 public interface AdminMapper {
@@ -296,5 +297,63 @@ public interface AdminMapper {
 			+ "    UPPER(title) LIKE '%' || UPPER(#{search}) || '%'\r\n"
 			+ "ORDER BY \r\n"
 			+ "    exhibition_id ASC")
-	int gettitleSearchExhibitionCnt(@Param("search") String search);		
+	int gettitleSearchExhibitionCnt(@Param("search") String search);	
+	
+	// 전시회 수정 전시회 모든 정보 신청인까지 다 가져오기
+	@Select("SELECT \r\n"
+			+ "    e.exhibition_id, \r\n"
+			+ "    e.title, \r\n"
+			+ "    To_char(e.regdate, 'yyyy-mm-dd') as regdate, \r\n"
+			+ "    e.state, \r\n"
+			+ "    e.author, \r\n"
+			+ "    e.price, \r\n"
+			+ "    To_char(e.exhibition_start, 'yyyy-mm-dd') as exhibition_start, \r\n"
+			+ "    To_char(e.exhibition_end, 'yyyy-mm-dd') as exhibition_end, \r\n"
+			+ "    e.open, \r\n"
+			+ "    e.holiday, \r\n"
+			+ "    e.address, \r\n"
+			+ "    e.place, \r\n"
+			+ "    e.latitude, \r\n"
+			+ "    e.longitude, \r\n"
+			+ "    e.site,\r\n"
+			+ "    e.main_poster_file_id,\r\n"
+			+ "    e.detail_poster_file_id,\r\n"
+			+ "    u.name AS apply_name, \r\n"
+			+ "    u.email AS apply_email, \r\n"
+			+ "    u.telephone AS apply_telephone,\r\n"
+			+ "    mf.path AS main_poster_path, \r\n"
+			+ "    mf.name AS main_poster_name,\r\n"
+			+ "    df.path AS detail_poster_path, \r\n"
+			+ "    df.name AS detail_poster_name\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition e\r\n"
+			+ "    JOIN file_table mf ON e.main_poster_file_id = mf.file_id\r\n"
+			+ "    JOIN file_table df ON e.detail_poster_file_id = df.file_id\r\n"
+			+ "    LEFT JOIN user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    e.exhibition_id = #{exhibition_id}")
+	ExhibitionDetailBean getAllDetailExhibitionBean(int exhibition_id);
+	
+	// 전시회 수정 업데이트문 1 (file table)
+	@Update("update file_table set name = #{name} where file_id=#{file_id}")
+	void UpdateExhibitionInfo1(String name, int file_id);
+	
+	// 전시회 수정 업데이트문 2 (exhibition table)
+	@Update("UPDATE exhibition \r\n"
+			+ "SET \r\n"
+			+ "    title = #{title}, \r\n"
+			+ "    state = #{state}, \r\n"
+			+ "    price = #{price}, \r\n"
+			+ "    exhibition_start = #{exhibition_start}, \r\n"
+			+ "    exhibition_end = #{exhibition_end}, \r\n"
+			+ "    open = #{open}, \r\n"
+			+ "    holiday = #{holiday}, \r\n"
+			+ "    address = #{address}, \r\n"
+			+ "    place = #{place}, \r\n"
+			+ "    latitude = #{latitue}, \r\n"
+			+ "    longitude = #{longitude}, \r\n"
+			+ "    site = #{site}\r\n"
+			+ "WHERE \r\n"
+			+ "    exhibition_id = #{exhibition_id}")
+	void UpdateExhibitionInfo2(ExhibitionDetailBean exhibitiondetailBean);
 }

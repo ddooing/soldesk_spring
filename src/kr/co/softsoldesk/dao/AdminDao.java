@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.mapper.AdminMapper;
 
@@ -136,4 +137,18 @@ public class AdminDao {
 		return adminMapper.gettitleSearchExhibitionCnt(search);
 	}
 	
+	// 전시회 관리 전시회 수정
+	public ExhibitionDetailBean getAllDetailExhibitionBean(int exhibition_id) {
+		return adminMapper.getAllDetailExhibitionBean(exhibition_id);
+	}
+	
+	// 전시회 수정 업데이트문 1 (file table)
+	public void UpdateExhibitionInfo1(String name, int file_id) {
+		adminMapper.UpdateExhibitionInfo1(name, file_id);
+	}
+	
+	// 전시회 수정 업데이트문 2 (exhibition table)
+	public void UpdateExhibitionInfo2(ExhibitionDetailBean exhibitiondetailBean) {
+		adminMapper.UpdateExhibitionInfo2(exhibitiondetailBean);
+	}
 }

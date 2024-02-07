@@ -1,13 +1,17 @@
 package kr.co.softsoldesk.Service;
 
+import java.io.File;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.dao.AdminDao;
@@ -18,11 +22,36 @@ public class AdminService {
 	@Autowired
 	private AdminDao adminDao;
 	
+	@Value("${path.mainupload}")
+	private String path_mainupload;
+	
+	@Value("${path.detailupload}")
+	private String path_detailupload;
+	
 	@Value("${admin.listcnt}")
 	private int admin_listcnt;
 	
 	@Value("${admin.paginationcnt}")
 	private int admin_paginationcnt;
+	
+	// ============================파일 처리 =====================================
+	
+	private String saveUploadFile(MultipartFile upload_file) {	// 파일이름 생성 (중복방지위해 현재시간 추가)
+		
+		String file_name = System.currentTimeMillis() + "_" + FilenameUtils.getBaseName(upload_file.getOriginalFilename()) 
+						   + "." + FilenameUtils.getExtension(upload_file.getOriginalFilename());
+		
+		
+		// 파일 저장 위치에 저장하기 
+		try {
+			upload_file.transferTo(new File(path_mainupload+"/"+file_name));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return file_name;
+	}	
+	
 	
 	
 	// ===================================QnA===================================
@@ -187,4 +216,46 @@ public class AdminService {
 		
 		return pageBean;
 	}		
+	
+	// 전시회 관리 전시회 수정 페이지 들어가기
+	public ExhibitionDetailBean getAllDetailExhibitionBean(int exhibition_id) {
+		return adminDao.getAllDetailExhibitionBean(exhibition_id);
+	}
+	
+	// 전시회 수정 업데이트문 1 (file table)
+	public void UpdateExhibitionInfo1(String name, int file_id) {
+		adminDao.UpdateExhibitionInfo1(name, file_id);
+	}
+	
+	// 전시회 수정 업데이트문 2 (exhibition table)
+	public void UpdateExhibitionInfo2(ExhibitionDetailBean exhibitiondetailBean) {
+		
+	MultipartFile main_poster_upload_file = exhibitiondetailBean.getMain_poster_file();
+	MultipartFile detail_poster_upload_file  = exhibitiondetailBean.getDetail_poster_file();
+			
+			if(main_poster_upload_file.getSize()>0) {
+				String main_poster_file_name = saveUploadFile(main_poster_upload_file);
+				
+				System.out.println("메인포스터 이름 : " + main_poster_file_name);
+				exhibitiondetailBean.setMain_poster_name(main_poster_file_name);
+				
+				// file_table 메인포스터 이름 저장
+				adminDao.UpdateExhibitionInfo1(main_poster_file_name, exhibitiondetailBean.getMain_poster_file_id());
+			}
+			
+			if(detail_poster_upload_file.getSize()>0) {
+				String detail_poster_file_name = saveUploadFile(detail_poster_upload_file);
+				
+				System.out.println("상세포스터 이름 : " + detail_poster_file_name);
+				exhibitiondetailBean.setDetail_poster_name(detail_poster_file_name);
+				
+				// file_table 상세포스터 이름 저장
+				adminDao.UpdateExhibitionInfo1(detail_poster_file_name, exhibitiondetailBean.getDetail_poster_file_id());
+			}
+		
+		adminDao.UpdateExhibitionInfo2(exhibitiondetailBean);
+	}
+	
+	
 }
+
