@@ -67,7 +67,7 @@
 							style="background-color: black; font-size: 15px;">QnA
 							총${qnaCountBean.total_count}건</span>
 					</div>
-					<form action="${root }/admin/QnA_search" method="get">
+					<form action="${root }/admin/manager_QnAlist" method="get">
 						<select name="usercombo" id="usercombo"
 							style="width: 150px; height: 40px; margin-right: 30px;">
 							<option value="" disabled selected>검색조건선택</option>
@@ -237,30 +237,30 @@
 							<div class="d-none d-md-block" style="margin-top: 50px;">
 								<ul class="pagination justify-content-center">
 									<c:choose>
-										<c:when test="${PageBean1.prevPage <= 0 }">
+										<c:when test="${pageBean1.prevPage <= 0 }">
 											<li class="page-item disabled">
 												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
 											</li>
 										</c:when>
 										<c:otherwise>
 											<li class="page-item"><a
-												href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${PageBean1.prevPage}"
+												href="${root }/admin/manager_QnAlist?usercombo=${usercombo}&usersearch=${usersearch}&page=${pageBean1.prevPage}"
 												class="page-link">이전</a></li>
 										</c:otherwise>
 									</c:choose>
 
-									<c:forEach var="idx" begin="${PageBean1.min}"
-										end="${PageBean1.max}">
+									<c:forEach var="idx" begin="${pageBean1.min}"
+										end="${pageBean1.max}">
 										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
 										<c:choose>
-											<c:when test="${idx == PageBean1.currentPage }">
+											<c:when test="${idx == pageBean1.currentPage }">
 												<li class="page-item active"><a
-													href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${idx}"
+													href="${root }/admin/manager_QnAlist?usercombo=${usercombo}&usersearch=${usersearch}&page=${idx}"
 													class="page-link"> ${idx } </a></li>
 											</c:when>
 											<c:otherwise>
 												<li class="page-item"><a
-													href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${idx}"
+													href="${root }/admin/manager_QnAlist?usercombo=${usercombo}&usersearch=${usersearch}&page=${idx}"
 													class="page-link"> ${idx } </a></li>
 											</c:otherwise>
 										</c:choose>
@@ -268,7 +268,7 @@
 
 
 									<c:choose>
-										<c:when test="${PageBean1.max >= PageBean1.pageCnt  }">
+										<c:when test="${pageBean1.max >= pageBean1.pageCnt  }">
 											<!-- max페이지 > 전체페이지개수 일때  -->
 											<li class="page-item disabled">
 												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
@@ -276,7 +276,7 @@
 										</c:when>
 										<c:otherwise>
 											<li class="page-item"><a
-												href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${PageBean1.nextPage}"
+												href="${root }/admin/manager_QnAlist?usercombo=${usercombo}&usersearch=${usersearch}&page=${pageBean1.nextPage}"
 												class="page-link">다음</a></li>
 										</c:otherwise>
 									</c:choose>
@@ -293,34 +293,34 @@
 							</div>
 						</c:when>
 
-						<c:when test="${!empty PageBean2 }">
+						<c:when test="${!empty pageBean2 }">
 							<div class="d-none d-md-block" style="margin-top: 50px;">
 								<ul class="pagination justify-content-center">
 									<c:choose>
-										<c:when test="${PageBean2.prevPage <= 0 }">
+										<c:when test="${pageBean2.prevPage <= 0 }">
 											<li class="page-item disabled">
 												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
 											</li>
 										</c:when>
 										<c:otherwise>
 											<li class="page-item"><a
-												href="${root }/admin/manager_QnAlist?page=${PageBean2.prevPage}&usercombo=${usercombo }&usersearch=${usersearch}"
+												href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${pageBean2.prevPage}"
 												class="page-link">이전</a></li>
 										</c:otherwise>
 									</c:choose>
 
-									<c:forEach var="idx" begin="${PageBean2.min}"
-										end="${PageBean2.max}">
+									<c:forEach var="idx" begin="${pageBean2.min}"
+										end="${pageBean2.max}">
 										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
 										<c:choose>
-											<c:when test="${idx == PageBean2.currentPage }">
+											<c:when test="${idx == pageBean2.currentPage }">
 												<li class="page-item active"><a
-													href="${root }/admin/manager_QnAlist?page=${idx}&usercombo=${usercombo }&usersearch=${usersearch}"
+													href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${idx}"
 													class="page-link"> ${idx } </a></li>
 											</c:when>
 											<c:otherwise>
 												<li class="page-item"><a
-													href="${root }/admin/manager_QnAlist?page=${idx}&usercombo=${usercombo }&usersearch=${usersearch}"
+													href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${idx}"
 													class="page-link"> ${idx } </a></li>
 											</c:otherwise>
 										</c:choose>
@@ -328,7 +328,7 @@
 
 
 									<c:choose>
-										<c:when test="${PageBean2.max >= PageBean2.pageCnt  }">
+										<c:when test="${pageBean2.max >= pageBean2.pageCnt  }">
 											<!-- max페이지 > 전체페이지개수 일때  -->
 											<li class="page-item disabled">
 												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
@@ -336,7 +336,7 @@
 										</c:when>
 										<c:otherwise>
 											<li class="page-item"><a
-												href="${root }/admin/manager_QnAlist?page=${PageBean2.nextPage}&usercombo=${usercombo }&usersearch=${usersearch}"
+												href="${root }/admin/manager_QnAlist?usercombo=${usercombo }&usersearch=${usersearch}&page=${pageBean2.nextPage}"
 												class="page-link">다음</a></li>
 										</c:otherwise>
 									</c:choose>

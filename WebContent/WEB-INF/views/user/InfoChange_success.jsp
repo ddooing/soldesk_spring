@@ -2,6 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var='root' value='${pageContext.request.contextPath}'/>
 <script>
-	alert('수정되었습니다')
-	location.href = '${root}/user/mypage'
+	alert('회원정보가 수정되었습니다')
+	location.href = '${root}/mypage/reservelist?user_id=${user_id}'
 </script>

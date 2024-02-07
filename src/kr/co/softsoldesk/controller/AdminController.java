@@ -124,78 +124,9 @@ public class AdminController {
 	// ======================================= QnA관리 ================================
 	// ======================================================승찬 부분
 	@GetMapping("/manager_QnAlist")
-	public String manager_QnAlist(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+	public String manager_QnAlist(@RequestParam(value="usercombo", required=false) String usercombo, @RequestParam(value="usersearch", required=false) String usersearch,@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
-		// QnA 모든 정보 가져가기
-		List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
-		model.addAttribute("qnaAllBean", qnaAllBean);
-		
-		// QnA 총 개수, 답변전, 답변완료 개수 가져가기
-		QnABean qnaCountBean = AdminService.getQnACount();
-		model.addAttribute("qnaCountBean",qnaCountBean);
-		
-		// QnA 관리자 페이지 페이징 처리
-		PageBean pageBean = AdminService.getTotalQnACnt(page);
-		model.addAttribute("pageBean", pageBean);
-		
-		return "admin/manager_QnAlist";
-	}
-	
-	@GetMapping("/manager_QnAwrite")
-	public String manager_QnAwrite(@ModelAttribute("oneQnaInfo") QnABean qnaBean, @RequestParam("qna_id") int qna_id, Model model) {
-		
-		QnABean oneQnaInfo = AdminService.getOneQnAInfo(qna_id);
-		model.addAttribute("oneQnaInfo", oneQnaInfo);
-		
-		return "admin/manager_QnAwrite";
-	}
-	
-	@PostMapping("/qna_reply_enroll")
-	public String qna_reply_enroll(@ModelAttribute("oneQnaInfo") QnABean qnaBean, @RequestParam("qna_id") int qna_id) {
-		
-		qnaBean.setQna_id(qna_id);
-		System.out.println("리플리플리플 : " + qnaBean.getReply());
-		
-		if(qnaBean.getReply() == "") {
-			qnaBean.setState(0);
-			AdminService.updateQnAReply(qnaBean);
-		} else {
-			qnaBean.setState(1);
-			AdminService.updateQnAReply(qnaBean);
-		}
-
-		return "admin/QnA_reply_enroll_complete";
-	}
-	
-	@GetMapping("/manager_QnAdelete")
-	public String manager_QnAdelete(@RequestParam("qna_id") int qna_id) {
-		
-		// QnA 삭제 처리
-		AdminService.deleteQnA(qna_id);
-		
-		return "admin/QnA_delete_complete";
-	}
-	
-	@GetMapping("/QnA_recovery")
-	public String QnA_recovery(@RequestParam("reply") String reply, @RequestParam("qna_id") int qna_id) {
-		
-		// QnA 복구 
-		if(reply != "") {	// 답글이 달려있을때는 state 값 1로 아닐때는 0으로 복구
-			int state = 1;
-			AdminService.recoveryQnA(state, qna_id);
-		} else {
-			int state = 0;
-			AdminService.recoveryQnA(state, qna_id);
-		}
-
-		return "admin/QnA_recovery_complete";
-	}
-	
-	@GetMapping("/QnA_search")
-	public String QnA_search(@RequestParam(value="usercombo", required=false) String usercombo, @RequestParam(value="usersearch", required=false) String usersearch,@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-		
-		
-		if (usercombo == null || usercombo.isEmpty() || usersearch == null || usersearch.isEmpty()) {
+			if (usercombo == null || usercombo.isEmpty() || usersearch == null || usersearch.isEmpty()) {
 				// QnA 모든 정보 가져가기
 				List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
 				model.addAttribute("qnaAllBean", qnaAllBean);
@@ -248,6 +179,56 @@ public class AdminController {
 		} 
 		
 		return "admin/manager_QnAlist";
+	}
+	
+	@GetMapping("/manager_QnAwrite")
+	public String manager_QnAwrite(@ModelAttribute("oneQnaInfo") QnABean qnaBean, @RequestParam("qna_id") int qna_id, Model model) {
+		
+		QnABean oneQnaInfo = AdminService.getOneQnAInfo(qna_id);
+		model.addAttribute("oneQnaInfo", oneQnaInfo);
+		
+		return "admin/manager_QnAwrite";
+	}
+	
+	@PostMapping("/qna_reply_enroll")
+	public String qna_reply_enroll(@ModelAttribute("oneQnaInfo") QnABean qnaBean, @RequestParam("qna_id") int qna_id) {
+		
+		qnaBean.setQna_id(qna_id);
+		System.out.println("리플리플리플 : " + qnaBean.getReply());
+		
+		if(qnaBean.getReply() == "") {
+			qnaBean.setState(0);
+			AdminService.updateQnAReply(qnaBean);
+		} else {
+			qnaBean.setState(1);
+			AdminService.updateQnAReply(qnaBean);
+		}
+
+		return "admin/QnA_reply_enroll_complete";
+	}
+	
+	@GetMapping("/manager_QnAdelete")
+	public String manager_QnAdelete(@RequestParam("qna_id") int qna_id) {
+		
+		// QnA 삭제 처리
+		AdminService.deleteQnA(qna_id);
+		
+		return "admin/QnA_delete_complete";
+	}
+	
+	@GetMapping("/QnA_recovery")
+	public String QnA_recovery(@RequestParam("reply") String reply, @RequestParam("qna_id") int qna_id) {
+		
+		// QnA 복구 
+		if(reply != "") {	// 답글이 달려있을때는 state 값 1로 아닐때는 0으로 복구
+			int state = 1;
+			AdminService.recoveryQnA(state, qna_id);
+		} else {
+			int state = 0;
+			AdminService.recoveryQnA(state, qna_id);
+		}
+
+		return "admin/QnA_recovery_complete";
 	}
 	
 	// 선택 삭제 메소드

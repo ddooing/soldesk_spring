@@ -89,7 +89,7 @@ public class AdminService {
 	// QnA 제목 검색 페이지 처리 총개수 반환
 	public PageBean gettitleSearchQnACnt(String search, int currentPage) {
 		
-		int title_Cnt = adminDao.gettitleSearchExhibitionCnt(search);
+		int title_Cnt = adminDao.gettitleSearchQnACnt(search);
 		PageBean pageBean = new PageBean(title_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
 		
 		return pageBean;

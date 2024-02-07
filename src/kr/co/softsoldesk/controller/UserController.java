@@ -120,35 +120,32 @@ public class UserController {
 	//-----------------------------------------------------
 	
 	@GetMapping("/InfoChange")
-	public String InfoChange(@ModelAttribute("modifyUserBean")UserBean modifyUserBean,
-							@RequestParam("user_id")int user_id, Model model) {
-		
-		
-		UserBean IC = UserService.getLoginUserAllInfo(user_id);
-		UserService.getModifyUserInfo(modifyUserBean);
-		
-		model.addAttribute("IC", IC);
+	   public String InfoChange(@ModelAttribute("modifyUserBean")UserBean modifyUserBean,
+	                     @RequestParam("user_id")int user_id, Model model) {
+	      
+	      
+	      UserBean IC = UserService.getLoginUserAllInfo(user_id);
+	      
+	      model.addAttribute("IC", IC);
 
-		
-		return "user/InfoChange";
-		
-	}
-	
-	@PostMapping("/InfoChange_pro")
-	public String InfoChange_pro(@Valid @ModelAttribute("modifyUserBean")UserBean modifyUserBean,
-			BindingResult result) {
-		
-
-		
-		if(result.hasErrors()) {
-		
-		
-			return "user/InfoChange";
-		}
-			
-		UserService.ModifyUserInfo(modifyUserBean);
-		return "user/InfoChange_success";
-	}
+	      
+	      return "user/InfoChange";
+	      
+	   }
+	   
+	   @PostMapping("/InfoChange_pro")
+	   public String InfoChange_pro(@Valid @ModelAttribute("modifyUserBean")UserBean modifyUserBean,
+	         BindingResult result, Model model) {
+	      if(result.hasErrors()) {
+	      
+	      
+	         return "user/InfoChange";
+	      }
+	      
+	      UserService.ModifyUserInfo(modifyUserBean);
+	      model.addAttribute("user_id", modifyUserBean.getUser_id());
+	      return "user/InfoChange_success";
+	   }
 	
 	
 	@PostMapping("/delete_pro")
@@ -192,6 +189,7 @@ public class UserController {
 	public void initBinder(WebDataBinder binder) {
 		
 		UserValidator validator1 = new UserValidator(loginUserBean);
+		
 		binder.addValidators(validator1);
 		
 	}

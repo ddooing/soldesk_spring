@@ -52,8 +52,13 @@ public interface UserMapper {
 		@Select("select id, name, password from user_table where user_id = #{user_id}")
 		UserBean getModifyUserInfo(int user_id);
 
-		@Update("update user_table set birth = #{birth}, nickname = #{nickname}, telephone = #{telephone}, email = #{email}, password = #{password2}, modify_date = sysdate where user_id = #{user_id} and password = #{crpassword}")
-		void modifyUserInfo(UserBean modifyUserBean);
+		@Update("UPDATE user_table\r\n"
+	            + "set nickname = #{nickname}, \r\n"
+	            + "email = #{email},\r\n"
+	            + "password = #{password2}, \r\n"
+	            + "modify_date = sysdate \r\n"
+	            + "WHERE user_id = #{user_id} AND password = #{crpassword}")
+	      void modifyUserInfo(UserBean modifyUserBean);
 		
 		
 		//------------------삭제(상태만 변경)
