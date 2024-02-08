@@ -36,10 +36,9 @@ public class ReserveService {
 	}
 	
 	// 정말로 결제되었음 - pay_state 결제 상태 :true 로 update &  state(0:예매,1: 예매 취소) 예매가 되었음을 0으로 저장
-	public void realReserveState(String orderId, String requestedAt, 
-             String approvedAt )
+	public void realReserveState(String orderId, String requestedAt,String approvedAt,String method )
 	{
-		reserveDao.realReserveState(orderId,requestedAt,approvedAt);
+		reserveDao.realReserveState(orderId,requestedAt,approvedAt,method);
 	}
 	
 

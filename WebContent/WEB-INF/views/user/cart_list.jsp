@@ -37,53 +37,37 @@
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 	<script src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
+	
 	<script>
-				document.addEventListener("DOMContentLoaded", function () {
-					document.querySelector('.btn.btn-dark').addEventListener('click', function() {
-					    printSelectedCartlist();
-					});
-					function printSelectedCartlist() {
-					    var selectedRadio = document.querySelector('input[name="selectedItem"]:checked');
-					    
-					    if (selectedRadio) {
-					       
-							
-					        console.log(${list[0].exhibition_id});
-					        console.log(${list[selectedCartlist].title});
-					        console.log(${list[selectedCartlist].ticket_count});
-					        console.log(${list[selectedCartlist].reserve_date});
-					        // 콘솔에 선택된 cartlist 정보를 출력합니다.
-					        console.log(selectedCartlist);
-					        
-					        var formElement = document.getElementById('paymentForm');
-					        formElement.action += ${list[selectedCartlist].exhibition_id};
+	    document.addEventListener('DOMContentLoaded', function() {
+	    	
+	        var radioButtons = document.querySelectorAll('input[name="selectedItem"]');
+	
+	        radioButtons.forEach(function(radioButton) {
+	            radioButton.addEventListener('click', function() {
+	            	var index = this.getAttribute('data-index');
+	            	var reserveDate = this.getAttribute('data-reserve_date');
+	            	var exhibition_id = this.getAttribute('data-exhibition_id');
+	            	var ticket_count = this.getAttribute('data-ticket_count');
 
-					        // hidden input 요소를 생성하여 티켓 수량 추가
-					        var ticketCountInput = document.createElement('input');
-					        ticketCountInput.type = 'hidden';
-					        ticketCountInput.name = 'tempReserveBean.ticket_count';
-					        ticketCountInput.value = ${list[selectedCartlist].ticket_count};
-					        formElement.appendChild(ticketCountInput);
+	                console.log("선택된 항목의 인덱스: " + index);
+	                console.log("선택된 항목의 예약 날짜: " + reserveDate);
+	                console.log("선택된 항목의 exhibition_id: " + exhibition_id);
+	                console.log("선택된 항목의 ticket_count: " + ticket_count);
+					
+	                var formElement = document.getElementById('paymentForm');
+	                formElement.action = '${root}/exhibition/payment?exhibition_id=' + exhibition_id;
 
-					        // hidden input 요소를 생성하여 예약 날짜 추가
-					        var reserveDateInput = document.createElement('input');
-					        reserveDateInput.type = 'hidden';
-					        reserveDateInput.name = 'tempReserveBean.reserve_date';
-					        reserveDateInput.value = ${list[selectedCartlist].reserve_date};
-					        formElement.appendChild(reserveDateInput);
+	                // hidden input 값 설정
+	                document.getElementById('inputReserveDate').value = reserveDate;
+	                document.getElementById('inputTicketCount').value = ticketCount;
+	            });
+	        });
+	    });
+	    
 
-					        // 폼 제출하기
-					        //formElement.submit();
-					        
-					    } else {
-					        console.log('선택된 항목이 없습니다.');
-					    }
-					}
-				
-				});
-				
+	</script>
 
-				</script>
 	<style>
 		#jcl-demo {
 			text-align: center;
@@ -184,16 +168,23 @@
 				</div>	
 				</c:when>
 				<c:otherwise>
-					<form:form action="${root}/exhibition/payment?exhibition_id=${cartlist.exhibition_id}" id="paymentForm"
+					<form:form id="paymentForm" action="${root}/exhibition/payment?exhibition_id=${cartlist.exhibition_id }"
 						 	   method="post" modelAttribute="tempReserveBean">
 						 
 						<c:forEach items="${list}" var="cartlist" varStatus="status">
 							
 						    <div style="margin-left: 180px; margin-top: 20px;">
-						        <input type="radio" name="selectedItem" value="${cartlist.exhibition_id}"data-index="${status.index}"
+						        <input type="radio" name="selectedItem" 
+						        data-index="${status.index}"
+						        data-reserve_date="${cartlist.reserve_date}"
+						        data-exhibition_id="${cartlist.exhibition_id}"
+						        data-ticket_count="${cartlist.ticket_count}"
+						        
                						 <c:if test="${fn:length(list) == 1}">checked</c:if>>
 	           							${cartlist.exhibition_id}	 
 						    </div>
+						     <input type="hidden" name="tempReserveBean.reserve_date" id="inputReserveDate">
+    						<input type="hidden" name="tempReserveBean.ticket_count" id="inputTicketCount">
 						    
 							<div style="display: flex; align-items: center; flex-direction: row;">
 								<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
@@ -243,13 +234,17 @@
 								 
 								
 							    <div class="text-center" style="margin-top: 50px;">
-							        <button type="button" class="btn btn-dark" 
-							                style="width: 150px; height: 50px;" >결제하기</button>
+							        <form:button type="submit" class="btn btn-dark" 
+							                style="width: 150px; height: 50px;" >결제하기</form:button>
 							    </div>
 							</c:if>
 						</form:form>
 						
-						
+						<script>
+						document.addEventListener('DOMContentLoaded', function() {
+							
+						)};
+						</script>
 				
 
 					</c:otherwise>

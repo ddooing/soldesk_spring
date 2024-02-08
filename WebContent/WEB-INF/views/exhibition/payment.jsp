@@ -421,7 +421,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 			<div
 				style="display: flex; align-items: baseline; margin-top: 80px; margin-left: 850px;">
-				<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitioBean.exhibition_id}" class="btn btn-dark" style="margin-left: 30px; width: 100px;">돌아가기</a>
+				<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id}" class="btn btn-dark" style="margin-left: 30px; width: 100px;">취소</a>
 				<button id="payment-button" class="btn btn-dark" style="margin-left: 30px; width: 100px; ">결제하기</button>
 			</div>
 			</form:form> 

@@ -67,7 +67,7 @@ public class TossController {
 	private int plusPoint=0; // 적립되는 포인트 
 	private int exhibitionId=0;// fail 시 다시 전시회 정보 페이지 가기 위함
 	//에러 코드 재현할때 사용함
-	String testCode = "INVALID_CARD_EXPIRATION"; // 에러 테스트용 코드
+	String testCode = "PROVIDER_ERROR"; // 에러 테스트용 코드
 	
 	@PostMapping("/checkout_pro")
 	public String checkout_pro(@ModelAttribute("tempReserveBean")ReserveBean tempReserveBean,
@@ -186,7 +186,7 @@ public class TossController {
 		if(reqBeforePayment!=amount)//pay_approval_state : 승인 거부 0 인 상태
 		{
 			System.out.println("reqBeforePayment!=amount");
-			return "toss/fail";
+			return "redirect:/toss/fail";
 		}
 		
 			//(2 결과: true) :결제 승인 요청 전에 db 저장 
@@ -215,7 +215,7 @@ public class TossController {
             //redirectAttributes.addFlashAttribute(attributeName, attributeValue)
             
             return "redirect:/toss/fail?code="+code+"&message="+URLEncoder.encode(message, StandardCharsets.UTF_8.name());  
-            //return "redirect:/toss/fail";
+            
         }
         
         
@@ -231,6 +231,7 @@ public class TossController {
         	//응답(payment 객체)에서 requestedAt(주문 날짜+시간), approvedAt(결제 승인 날짜+시간) 추출하기 
         String approvedAt = jsonObject.getString("approvedAt");
         String requestedAt = jsonObject.getString("requestedAt");
+        String method  = jsonObject.getString("method ");
         
         System.out.println("approvedAt: " + approvedAt);
         System.out.println("requestedAt: " + requestedAt);
@@ -238,10 +239,11 @@ public class TossController {
     
     	// #DB 저장 ................................... 함수 ) 0원일때랑 합치기 
 	        // 1.orderId인 예매가 정말로 되었음 
+        		// 결제 방법 저장 
     			//pay_state 결제 상태 :true 로 update &  state(0:예매,1: 예매 취소) 예매가 되었음을 0으로 저장,예매한 날짜
 	     		//requestAt 주문 날짜 + 시간 저장 
         		// approvedAt 결제 승인 날짜+시간 저장
-        reserveService.realReserveState(orderId,requestedAt,approvedAt); 
+        reserveService.realReserveState(orderId,requestedAt,approvedAt,method  ); 
 
         	// 2.나머지 db 처리
         addService(validReserveBean);

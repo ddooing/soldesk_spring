@@ -37,9 +37,9 @@ public class ReserveDao {
 		 reserveMapper.approvalBefore(orderId,paymentKey);
 	}
 	
-	public void realReserveState(String orderId,String requestedAt,String approvedAt)
+	public void realReserveState(String orderId,String requestedAt,String approvedAt,String method)
 	{
-		reserveMapper.realReserveState(orderId,requestedAt,approvedAt);
+		reserveMapper.realReserveState(orderId,requestedAt,approvedAt,method);
 	}
 	
 	//-------------

@@ -46,24 +46,22 @@
             	// 결제 고객이 결제창을 닫았을 때 에러 처리
                 if (error.code === 'USER_CANCEL') {
                 	alert('결제를 취소하셨습니다.');
-                	
-                	document.forms["paymentForm"].submit();
-                	
+	
 			    }else if (error.code === 'INVALID_CARD_COMPANY') {
 			        // 유효하지 않은 카드 코드에 대한 에러 처리
 			    	  alert('INVALID_CARD_COMPANY 오류로 결제를 취소합니다.');
-			    	  document.forms["paymentForm"].submit();
-			    	  
+	  
 			    }else if(error.code === 'INVALID_REQUEST'){
 			    	  alert('INVALID_REQUEST 오류로 결제를 취소합니다.');
 			    }else if(error.code === 'INVALID_REQUEST'){
 			    	  alert('INVALID_REQUEST 오류로 결제를 취소합니다.');
 			    }//토큰 만료, 결제 완료 
 			    else if(error.code === 4001){
-			    	  alert('토큰이 만료되어 다시 결제를 진행해주세요.');
+			    	  //alert('토큰이 만료되어 다시 결제를 진행해주세요.');
 			    }else if(error.code === 4246){
-			    	  alert('이미 결제가 완료되었습니다.\n 예매 내역을 확인해주세요');
+			    	  //alert('이미 결제가 완료되었습니다.\n 예매 내역을 확인해주세요');
 			    }
+            	document.forms["paymentForm"].submit();
 		    	  
             });
         }
