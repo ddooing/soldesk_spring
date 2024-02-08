@@ -202,16 +202,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 </head>
 
 <body id="page-top">
-	<!--  장바구니 추가 관련  -->
-	
-	<c:if test="${not empty cartMessage}">
-        <script>
-        	alert("${cartMessage}");
-         	console.log("cartMessage : "+${cartMessage});
-        </script>
-    </c:if>
-    
-    
+
 	<c:import url="/WEB-INF/views/include/header.jsp" />
 
 	<section id="exhibition_info" style="margin-top: 150px;">
@@ -922,7 +913,14 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 		});
 	</script>
 
+	<!--  장바구니 추가 관련  -->
 	
+	<c:if test="${not empty cartMessage}">
+        <script>
+        	alert("${cartMessage}");
+         	console.log("cartMessage : "+${cartMessage});
+        </script>
+    </c:if>
 </body>
 
 </html>

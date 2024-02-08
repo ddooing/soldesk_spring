@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.controller;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,10 +38,10 @@ import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.ReviewService;
 import kr.co.softsoldesk.Service.UserService;
 
+
 @Controller
 @RequestMapping("/toss")
 public class TossController {
-	
 
 	@Resource(name="loginUserBean") // 로그인한 유저 알기위함
 	private UserBean loginUserBean;
@@ -61,8 +63,9 @@ public class TossController {
 	
 	String confirmUrl ="https://api.tosspayments.com/v1/payments/confirm";
 	
-	
+
 	private int plusPoint=0; // 적립되는 포인트 
+	private int exhibitionId=0;// fail 시 다시 전시회 정보 페이지 가기 위함
 	//에러 코드 재현할때 사용함
 	String testCode = "INVALID_CARD_EXPIRATION"; // 에러 테스트용 코드
 	
@@ -136,14 +139,13 @@ public class TossController {
 	    
 		model.addAttribute("orderid", tempReserveBean.getOrder_id()); 
 	    model.addAttribute("tempReserveBean", tempReserveBean);
-	    model.addAttribute("exhibition_id", tempReserveBean.getExhibition_id());
 	    model.addAttribute("loginUserDetailBean",loginUserDetailBean);
 	    model.addAttribute("title",title);
 	    
 	    
 		return "toss/checkout";
-		
 	}
+	
 	//[결제 요청 성공이였을 때]
 	//@RequestParam String paymentType, 
 	@GetMapping("/success") 
@@ -189,9 +191,6 @@ public class TossController {
 		
 			//(2 결과: true) :결제 승인 요청 전에 db 저장 
 		System.out.println("reqBeforePayment==amount, 결제 승인 전");
-		//#DB 저장 - orderId인 pay_approval_state : 승인 상태 true로 update &  paymentKey 저장 
-		reserveService.approvalBefore(orderId,paymentKey); // !paymentKey 못잡는 이슈 발생 
-
 		
 		//[3]. 결제 승인 
         ResponseEntity<String> paymentConfirmationResponse = completePayment(paymentKey, orderId, amount);
@@ -202,6 +201,7 @@ public class TossController {
  
         //(3 결과 : 승인 실패 )
         if (!paymentConfirmationResponse.getStatusCode().is2xxSuccessful()) {
+        	System.out.println("승인 실패!");
         	// Response 바디에서 JSON 파싱
             String responseBody = paymentConfirmationResponse.getBody();
             JSONObject jsonObject = new JSONObject(responseBody);
@@ -210,17 +210,20 @@ public class TossController {
 
             // RedirectAttributes를 사용하여 데이터 전달
             RedirectAttributes redirectAttributes = new RedirectAttributesModelMap(); // 실제 사용 시에는 메서드 인자로 받거나 적절하게 생성
-            redirectAttributes.addAttribute("code", code);
-            redirectAttributes.addAttribute("message", message);
-
-            return "redirect:/fail";
-        	
+            //redirectAttributes.addAttribute("code", code);
+            //redirectAttributes.addAttribute("message", message);
+            //redirectAttributes.addFlashAttribute(attributeName, attributeValue)
             
+            return "redirect:/toss/fail?code="+code+"&message="+URLEncoder.encode(message, StandardCharsets.UTF_8.name());  
+            //return "redirect:/toss/fail";
         }
         
         
         //(3 결과 : 승인 성공 )=> 핸드폰에서 '@@ 원 결제'  알림 뜨는거
         
+        	//#DB 저장 - orderId인 pay_approval_state : 승인 상태 true로 update &  paymentKey 저장 
+      	reserveService.approvalBefore(orderId,paymentKey); // !paymentKey 못잡는 이슈 발생 
+
         //응답 본문 가져오기
         String responseBody = paymentConfirmationResponse.getBody();
         JSONObject jsonObject = new JSONObject(responseBody);
@@ -300,8 +303,7 @@ public class TossController {
         
 	    		// 2-1.무조건 포인트 적립
 			    // 포인트 적립 : 유저 등급의 적립율에 따른 포인트 지급 
-        
-        
+
         String level = userService.getLevel(userid);
         int reservePulsPoint=0;// 예매 시 적립되는 포인트
         
@@ -365,11 +367,6 @@ public class TossController {
         
         
         System.out.println("add service 처리 완료 ");
-		
-		
-		
-		
-		
 	}
 	
 	private ResponseEntity<String> completePayment(String paymentKey, String orderId, int amount) {

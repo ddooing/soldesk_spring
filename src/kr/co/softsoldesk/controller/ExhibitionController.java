@@ -81,6 +81,7 @@ public class ExhibitionController {
 		System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getTicket_count());
 		System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getReserve_date());
 		*/
+		System.out.println("LoginAllInfoBean : "+LoginAllInfoBean.getName());
 		return "exhibition/payment";
 	}
 	
