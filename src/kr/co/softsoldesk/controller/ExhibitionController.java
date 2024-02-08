@@ -68,6 +68,12 @@ public class ExhibitionController {
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);	
 	    model.addAttribute("exhibitionBean", exhibitionBean);		// 전시회 정보 객체
 		
+	    
+	    System.out.println("tempReserveBean 티켓 날짜 처리 전  : "+tempReserveBean.getReserve_date());
+	    String replace_reserve_date = removeCommasFromReserveDate(tempReserveBean.getReserve_date());
+	    tempReserveBean.setReserve_date(replace_reserve_date);
+	    
+	    
 		//ReserveBean ReserveBean = reserveService.reservebtn_click(tempReserveBean);
 		model.addAttribute("tempReserveBean",tempReserveBean);// 전시회 상세조회 페이지에서 선택한 티켓수와 날짜 객체에 담아서 payment로 보낼 객체
 		
@@ -75,12 +81,12 @@ public class ExhibitionController {
 		UserBean LoginAllInfoBean = UserService.getLoginUserAllInfo(loginUserBean.getUser_id());
 		model.addAttribute("LoginAllInfoBean",LoginAllInfoBean);
 		
-		/*
+		
 		// 확인용 
 		System.out.println("exhibition_id : "+exhibitionBean.getExhibition_id());
 		System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getTicket_count());
-		System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getReserve_date());
-		*/
+		System.out.println("tempReserveBean 티켓 날짜 처리 휴: "+tempReserveBean.getReserve_date());
+		
 		System.out.println("LoginAllInfoBean : "+LoginAllInfoBean.getName());
 		return "exhibition/payment";
 	}
@@ -100,6 +106,14 @@ public class ExhibitionController {
 	    model.addAttribute("plusPoint", plusPoint);
 	    return "exhibition/payment_complete";
 	}
+	// 장바구니 ~ 예매 reserve_date 쉼표 이슈  처리
+	public String removeCommasFromReserveDate(String reserveDate) {
+	    if (reserveDate == null) {
+	        return null;
+	    }
+	    return reserveDate.replace(",", "");
+	}
+
 	
 
 }

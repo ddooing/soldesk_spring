@@ -38,35 +38,7 @@
 	<script src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 	<script src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
 	
-	<script>
-	    document.addEventListener('DOMContentLoaded', function() {
-	    	
-	        var radioButtons = document.querySelectorAll('input[name="selectedItem"]');
 	
-	        radioButtons.forEach(function(radioButton) {
-	            radioButton.addEventListener('click', function() {
-	            	var index = this.getAttribute('data-index');
-	            	var reserveDate = this.getAttribute('data-reserve_date');
-	            	var exhibition_id = this.getAttribute('data-exhibition_id');
-	            	var ticket_count = this.getAttribute('data-ticket_count');
-
-	                console.log("선택된 항목의 인덱스: " + index);
-	                console.log("선택된 항목의 예약 날짜: " + reserveDate);
-	                console.log("선택된 항목의 exhibition_id: " + exhibition_id);
-	                console.log("선택된 항목의 ticket_count: " + ticket_count);
-					
-	             // hidden input 값 설정
-	                document.getElementById('inputReserveDate').value = reserveDate;
-	                document.getElementById('inputTicketCount').value = ticket_count;
-	                
-	                var formElement = document.getElementById('paymentForm');
-	                formElement.action = '${root}/exhibition/payment?exhibition_id=' + exhibition_id;
-
-	                
-	            });
-	        });
-	    });
-	</script>
 
 	<style>
 		#jcl-demo {
@@ -82,7 +54,7 @@
 		}
 
 		.prev,
-		.next,
+		.next
 		.prev1,
 		.next1,
 		.prev2,
@@ -145,6 +117,7 @@
 </head>
 
 <body id="page-top">
+
 	<!-- 메뉴바 -->
 	<c:import url="/WEB-INF/views/include/header.jsp"/>
 
@@ -173,20 +146,26 @@
 						 
 						<c:forEach items="${list}" var="cartlist" varStatus="status">
 							
-						    <div style="margin-left: 180px; margin-top: 20px;">
-						        <input type="radio" name="selectedItem" 
-						        data-index="${status.index}"
-						        data-reserve_date="${cartlist.reserve_date}"
-						        data-exhibition_id="${cartlist.exhibition_id}"
-						        data-ticket_count="${cartlist.ticket_count}"
-						        
-               						 <c:if test="${fn:length(list) == 1}">checked</c:if>>
-	           							${cartlist.exhibition_id}	 
+						    
+						    
+						    <input type="hidden" name="reserve_date" id="inputReserveDate" value=""/>
+	   						<input type="hidden" name="ticket_count" id="inputTicketCount" value=""/>
+						    <input type="hidden" name="exhibition_id" id="inputExhibition_id" value=""/>
+						      
+						    <div>
+						    	<button type="button" class="btn-close" aria-label="Close"></button>
 						    </div>
-						     <input type="hidden" name="reserve_date" id="inputReserveDate" value=""/>
-    						<input type="hidden" name="ticket_count" id="inputTicketCount" value=""/>
 						    
 							<div style="display: flex; align-items: center; flex-direction: row;">
+								<div style="margin-left: 150px; margin-top: 20px;">
+							        <input type="radio" name="selectedItem" 
+							        data-index="${status.index}"
+							        data-reserve_date="${cartlist.reserve_date}"
+							        data-exhibition_id="${cartlist.exhibition_id}"
+							        data-ticket_count="${cartlist.ticket_count}"
+	               						 <c:if test="${fn:length(list) == 1}">checked</c:if>>
+		           							${cartlist.exhibition_id}	 
+							    </div>
 								<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
 									style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
 				
@@ -228,51 +207,76 @@
 				
 				
 							<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
-							</c:forEach>
+						</c:forEach>
 							
 							<c:if test="${not empty list}">
-								 
-								
 							    <div class="text-center" style="margin-top: 50px;">
-							        <button id="payment-button"  class="btn btn-dark" 
-							                style="width: 150px; height: 50px;" >결제하기</button>
+							        <button id="payment-button"  class="btn btn-dark" style="width: 150px; height: 50px;" >예매하기</button>
 							    </div>
 							</c:if>
 						</form:form>
-						
-						<script>
-							
-								document.getElementById('payment-button').addEventListener('click', function() {
-									
-					                console.log("inputReserveDate 값: " + inputReserveDate.value);
-					                console.log("inputTicketCount 값: " + inputTicketCount.value);
-								   	console.log("버튼 클릭")
-									//formElement.submit();
-								});
-							
-						</script>
-				
-
 					</c:otherwise>
 			</c:choose>
-			
-			
-
-			
+	
 		</div>
 	</section>
-
-
-
-
-
-
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
 
-
-
 </body>
+		<script>
+		    document.addEventListener('DOMContentLoaded', function() {
+		    	
+		        var radioButtons = document.querySelectorAll('input[name="selectedItem"]');
+		
+		        radioButtons.forEach(function(radioButton) {
+		            radioButton.addEventListener('click', function() {
+		            	var index = this.getAttribute('data-index');
+		            	var reserve_date = this.getAttribute('data-reserve_date');
+		            	var exhibition_id = this.getAttribute('data-exhibition_id');
+		            	var ticket_count = this.getAttribute('data-ticket_count');
+	
+		                console.log("선택된 항목의 인덱스: " + index);
+		                console.log("선택된 항목의 예약 날짜: " + reserve_date);
+		                console.log("선택된 항목의 exhibition_id: " + exhibition_id);
+		                console.log("선택된 항목의 ticket_count: " + ticket_count);
+		             
+		             // hidden input 값 설정
+		                document.getElementById('inputReserveDate').value =reserve_date;
+		                document.getElementById('inputTicketCount').value = ticket_count;
+		                document.getElementById('inputExhibition_id').value = exhibition_id;
+		                
+		                
+		                var inputReserveDateValue = document.getElementById('inputReserveDate').value;
+		                var inputTicketCountValue = document.getElementById('inputTicketCount').value;
 
+		                console.log("inputReserveDate 값: " + inputReserveDateValue);
+		                console.log("inputTicketCount 값: " + inputTicketCountValue);
+		                
+		                
+		                var formElement = document.getElementById('paymentForm');
+		                formElement.action = '${root}/exhibition/payment?exhibition_id='+exhibition_id;
+	
+		                
+		            });
+		        });
+		        
+		    });
+		</script>
+		
+		<script>
+			
+				document.getElementById('payment-button').addEventListener('click', function() {
+					
+					var inputReserveDateValue = document.getElementById('inputReserveDate').value;
+					var inputTicketCountValue = document.getElementById('inputTicketCount').value;
+
+					console.log("inputReserveDate 값: " + inputReserveDateValue);
+					console.log("inputTicketCount 값: " + inputTicketCountValue);
+				   	console.log("버튼 클릭")
+					//formElement.submit();
+				});
+			
+		</script>
 </html>

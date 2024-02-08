@@ -5919,7 +5919,7 @@ fieldset:disabled .btn {
 
 .btn-close:focus {
 	outline: 0;
-	box-shadow: 0 0 0 0.25rem rgba(238, 9, 121, 0.25);
+	/*box-shadow: 0 0 0 0.25rem rgba(238, 9, 121, 0.25);*/
 	opacity: 1;
 }
 

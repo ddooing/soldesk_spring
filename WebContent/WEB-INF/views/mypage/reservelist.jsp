@@ -138,13 +138,13 @@
 								<p style="margin-bottom:10px; font-weight:bold; font-size:25px;">${reservelist.title }</p>
 								<p>예매 날짜 : ${reservelist.reserve_date }</p>
 								<p>티켓 수량 : ${reservelist.ticket_count } 매 </p>
-								<p>결제 금액 : ${reservelist.payment } 원</p>
+								<p>결제 금액 : ${reservelist.payment} 원</p>
 								
 										<c:choose>
 											<c:when test="${reservelist.state == 1 }">
 												<p style=" color:gray;">
 												
-													<button class="reserCancel"  style="margin-left: 150px">상세보기</button>
+													<button class="reserCancel"  style="margin-left: 150px">예매상세</button>
 												</p>
 												
 											</c:when>

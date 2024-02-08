@@ -138,6 +138,7 @@ public class TossController {
 		*/
 	    
 		model.addAttribute("orderid", tempReserveBean.getOrder_id()); 
+		model.addAttribute("tempReserveBean", tempReserveBean.getOrder_id()); 
 	    model.addAttribute("tempReserveBean", tempReserveBean);
 	    model.addAttribute("loginUserDetailBean",loginUserDetailBean);
 	    model.addAttribute("title",title);
@@ -231,8 +232,13 @@ public class TossController {
         	//응답(payment 객체)에서 requestedAt(주문 날짜+시간), approvedAt(결제 승인 날짜+시간) 추출하기 
         String approvedAt = jsonObject.getString("approvedAt");
         String requestedAt = jsonObject.getString("requestedAt");
-        String method  = jsonObject.getString("method ");
+       // String method  = jsonObject.getString("method");
         
+        String method = jsonObject.getString("method");
+        byte[] bytes = method.getBytes(StandardCharsets.ISO_8859_1);
+        method = new String(bytes, StandardCharsets.UTF_8);
+        
+        System.out.println("orderName: " + method);
         System.out.println("approvedAt: " + approvedAt);
         System.out.println("requestedAt: " + requestedAt);
         
@@ -381,7 +387,7 @@ public class TossController {
             headers.set("Authorization", "Basic " + encodedApiKey);
             headers.set("Content-Type", "application/json");            
             // headers.set 커스텀 헤더 추가해서 에러 재현하기 
-            headers.set("TossPayments-Test-Code",testCode);
+           // headers.set("TossPayments-Test-Code",testCode);
 
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("paymentKey", paymentKey);

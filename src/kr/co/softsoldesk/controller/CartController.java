@@ -34,7 +34,7 @@ public class CartController {
 		System.out.println("cart insert 컨트롤러 실행됨");
 		
 		
-	 List < CartBean > list = (List < CartBean > ) session.getAttribute("cart");
+	 ArrayList< CartBean > list = (ArrayList < CartBean > ) session.getAttribute("cart");
 	  //처음 이후에는 세션에 저장된 데이터를 불러옴 -> 맨 처음에만 메모리 할당을 하도록 한다.
 	  if (list == null) {
 	    list = new ArrayList < CartBean > ();
@@ -137,6 +137,14 @@ public class CartController {
 	
 			 
 	  return "user/cart_list";
+	}
+	
+	@GetMapping("/cart_cancel")
+	public String cart_cancel(int no, HttpSession session) {
+	  List < CartBean > list = (List < CartBean > ) session.getAttribute("cart");
+	  list.remove(no);
+	  //메시지 추가하기 : 삭제되었습니다 .
+	  return "redirect:/user/cart_list";
 	}
 	
 }
