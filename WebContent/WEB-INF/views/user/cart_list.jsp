@@ -55,17 +55,17 @@
 	                console.log("선택된 항목의 exhibition_id: " + exhibition_id);
 	                console.log("선택된 항목의 ticket_count: " + ticket_count);
 					
+	             // hidden input 값 설정
+	                document.getElementById('inputReserveDate').value = reserveDate;
+	                document.getElementById('inputTicketCount').value = ticket_count;
+	                
 	                var formElement = document.getElementById('paymentForm');
 	                formElement.action = '${root}/exhibition/payment?exhibition_id=' + exhibition_id;
 
-	                // hidden input 값 설정
-	                document.getElementById('inputReserveDate').value = reserveDate;
-	                document.getElementById('inputTicketCount').value = ticketCount;
+	                
 	            });
 	        });
 	    });
-	    
-
 	</script>
 
 	<style>
@@ -183,8 +183,8 @@
                						 <c:if test="${fn:length(list) == 1}">checked</c:if>>
 	           							${cartlist.exhibition_id}	 
 						    </div>
-						     <input type="hidden" name="tempReserveBean.reserve_date" id="inputReserveDate">
-    						<input type="hidden" name="tempReserveBean.ticket_count" id="inputTicketCount">
+						     <input type="hidden" name="reserve_date" id="inputReserveDate" value=""/>
+    						<input type="hidden" name="ticket_count" id="inputTicketCount" value=""/>
 						    
 							<div style="display: flex; align-items: center; flex-direction: row;">
 								<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
@@ -234,16 +234,22 @@
 								 
 								
 							    <div class="text-center" style="margin-top: 50px;">
-							        <form:button type="submit" class="btn btn-dark" 
-							                style="width: 150px; height: 50px;" >결제하기</form:button>
+							        <button id="payment-button"  class="btn btn-dark" 
+							                style="width: 150px; height: 50px;" >결제하기</button>
 							    </div>
 							</c:if>
 						</form:form>
 						
 						<script>
-						document.addEventListener('DOMContentLoaded', function() {
 							
-						)};
+								document.getElementById('payment-button').addEventListener('click', function() {
+									
+					                console.log("inputReserveDate 값: " + inputReserveDate.value);
+					                console.log("inputTicketCount 값: " + inputTicketCount.value);
+								   	console.log("버튼 클릭")
+									//formElement.submit();
+								});
+							
 						</script>
 				
 
