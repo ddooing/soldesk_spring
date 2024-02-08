@@ -67,15 +67,58 @@
 					style="display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 					<form action="${root }/admin/manager_accountmanager" method="get"
 						name="searchUserBean">
-						<select name="type" id="usercombo"
-							style="width: 150px; height: 40px; margin-right: 30px;">
-							<option value="" disabled selected>검색조건선택</option>
-							<option value="nickname">닉네임</option>
-							<option value="id">사용자ID</option>
-							<option value="email">이메일</option>
-						</select> <input type="text" name="keyword"
-							style="width: 500px; height: 40px; margin-right: 30px;"
-							placeholder="검색어를 입력해주세요" />
+
+						<c:choose>
+							<c:when test="${type == 'nickname' }">
+								<select name="type" id="usercombo"
+									style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled>검색조건선택</option>
+									<option value="nickname" selected>닉네임</option>
+									<option value="id">사용자ID</option>
+									<option value="email">이메일</option>
+								</select>
+							</c:when>
+
+							<c:when test="${type == 'id' }">
+								<select name="type" id="usercombo"
+									style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled>검색조건선택</option>
+									<option value="nickname">닉네임</option>
+									<option value="id" selected>사용자ID</option>
+									<option value="email">이메일</option>
+								</select>
+							</c:when>
+
+							<c:when test="${type == 'email' }">
+								<select name="type" id="usercombo"
+									style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled>검색조건선택</option>
+									<option value="nickname">닉네임</option>
+									<option value="id">사용자ID</option>
+									<option value="email" selected>이메일</option>
+								</select>
+							</c:when>
+							<c:otherwise>
+								<select name="type" id="usercombo"
+									style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled selected>검색조건선택</option>
+									<option value="nickname">닉네임</option>
+									<option value="id">사용자ID</option>
+									<option value="email">이메일</option>
+								</select>
+							</c:otherwise>
+						</c:choose>
+						
+						<c:choose>
+							<c:when test="${!empty keyword}">
+								<input type="text" name="keyword" style="width: 500px; height: 40px; margin-right: 30px;" value="${keyword}" />	
+							</c:when>
+							
+							<c:otherwise>
+								<input type="text" name="keyword" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
+							</c:otherwise>
+						</c:choose>
+						
 						<button type="submit" class="btn btn-dark"
 							style="width: 80px; height: 40px;">검색</button>
 					</form>
@@ -111,7 +154,15 @@
 										<td>${obj.email }</td>
 										<td>${obj.grade }</td>
 										<td>${obj.point }</td>
-										<td>${obj.state }</td>
+										<c:if test="${obj.state == 1 }">
+											<td>활동</td>
+										</c:if>
+										<c:if test="${obj.state == 2 }">
+											<td>탈퇴</td>
+										</c:if>
+										<c:if test="${obj.state == 3 }">
+											<td>관리자</td>
+										</c:if>
 										<td>
 											<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 												<li class="nav-item dropdown"><a id="navbarDropdown"
@@ -194,7 +245,7 @@
 								</ul>
 							</div>
 						</c:when>
-						
+
 						<c:when test="${!empty pageBean1 }">
 							<div class="d-none d-md-block" style="margin-top: 50px;">
 								<ul class="pagination justify-content-center">
@@ -253,7 +304,129 @@
 									</li>
 								</ul>
 							</div>
-						
+
+						</c:when>
+
+						<c:when test="${!empty pageBean2 }">
+							<div class="d-none d-md-block" style="margin-top: 50px;">
+								<ul class="pagination justify-content-center">
+									<c:choose>
+										<c:when test="${pageBean2.prevPage <= 0 }">
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${pageBean2.prevPage}"
+												class="page-link">이전</a></li>
+										</c:otherwise>
+									</c:choose>
+
+									<c:forEach var="idx" begin="${pageBean2.min}"
+										end="${pageBean2.max}">
+										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+										<c:choose>
+											<c:when test="${idx == pageBean2.currentPage }">
+												<li class="page-item active"><a
+													href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+
+									<c:choose>
+										<c:when test="${pageBean2.max >= pageBean2.pageCnt  }">
+											<!-- max페이지 > 전체페이지개수 일때  -->
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${pageBean2.nextPage}"
+												class="page-link">다음</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+
+							<div class="d-block d-md-none">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a href="#" class="page-link">이전</a>
+									</li>
+									<li class="page-item"><a href="#" class="page-link">다음</a>
+									</li>
+								</ul>
+							</div>
+
+						</c:when>
+
+						<c:when test="${!empty pageBean3 }">
+							<div class="d-none d-md-block" style="margin-top: 50px;">
+								<ul class="pagination justify-content-center">
+									<c:choose>
+										<c:when test="${pageBean3.prevPage <= 0 }">
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${pageBean3.prevPage}"
+												class="page-link">이전</a></li>
+										</c:otherwise>
+									</c:choose>
+
+									<c:forEach var="idx" begin="${pageBean3.min}"
+										end="${pageBean3.max}">
+										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+										<c:choose>
+											<c:when test="${idx == pageBean3.currentPage }">
+												<li class="page-item active"><a
+													href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+
+									<c:choose>
+										<c:when test="${pageBean3.max >= pageBean3.pageCnt  }">
+											<!-- max페이지 > 전체페이지개수 일때  -->
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/admin/manager_accountmanager?type=${type }&keyword=${keyword }&page=${pageBean3.nextPage}"
+												class="page-link">다음</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+
+							<div class="d-block d-md-none">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a href="#" class="page-link">이전</a>
+									</li>
+									<li class="page-item"><a href="#" class="page-link">다음</a>
+									</li>
+								</ul>
+							</div>
+
 						</c:when>
 					</c:choose>
 

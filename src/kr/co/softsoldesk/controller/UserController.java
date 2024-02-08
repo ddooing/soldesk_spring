@@ -64,7 +64,7 @@ public class UserController {
         UserService.getLoginUserInfo(tempLoginUserBean);
         
         if(loginUserBean.isUserLogin() == true) {
-        	return "user/login_success";
+        	return "view/index";
         } else {
         	return "user/login_fail";
         }

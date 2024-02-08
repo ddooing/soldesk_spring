@@ -33,22 +33,20 @@ public class UserBean {
       private String id;
       
       @Size(min = 6, max = 20)
-      @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")
+      @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).*$")
       private String password;
-      
-      @NotEmpty(message = "필수 입력 항목입니다.")
-      @Size(min = 6, max = 20)
-      @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")
       private String password2;
-      
-      @NotEmpty(message = "필수 입력 항목입니다.")
+
+
       @Size(min = 6, max = 20)
-      @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")
-      private String password3;
+      @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).*$")
+      private String icpassword;
+      private String icpasscheck;
       
-      private String crpassword;
       
       private String nickname;
+      
+      @NotNull(message = "생년월일을 선택하세요.")
       private String birth;
       
       @NotNull(message = "성별을 선택하세요.")

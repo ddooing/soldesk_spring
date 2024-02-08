@@ -259,7 +259,7 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 						</th>
 
 						<td><input type="date" id="birth" name="birth"
-							pattern="yyyy-MM-dd" /></td>
+							pattern="yyyy-MM-dd" required="required" /></td>
 					</tr>
 
 					<tr>

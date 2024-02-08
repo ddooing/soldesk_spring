@@ -40,62 +40,62 @@ public class AdminController {
 	
 	// 재호 부분
 	// =========================================== 사용자 계정 관리 =================================
-	@GetMapping("/manager_accountmanager")
-	public String manager_accountmanager(Model model,
-	        @RequestParam(value="type", required=false) String type,
-	        @RequestParam(value="keyword", required=false) String keyword,
-	        @ModelAttribute("searchUserBean") UserBean searchUserBean,
-	        @RequestParam(value = "page", defaultValue = "1") int page) {
-		
-		if ("nickname".equals(type) && keyword != null) {
-			
-		    List<UserBean> searchList = UserService.getNickSearchList(searchUserBean, page);
-		    model.addAttribute("userList", searchList);
-			
-			// 페이징 처리
-			PageBean pageBean1 = UserService.getNickSearchCnt(keyword,page);
-			model.addAttribute("pageBean1", pageBean1);
-			
-			model.addAttribute("type",type);
-			model.addAttribute("keyword",keyword);
-			
-		} else if ("id".equals(type) && keyword != null) {
-			
-		    List<UserBean> searchList = UserService.getIdSearchList(searchUserBean);
-		    model.addAttribute("userList", searchList);
-		    
-		    PageBean pageBean = UserService.getAccountCnt(page);
-			model.addAttribute("pageBean", pageBean);
-			
-			model.addAttribute("type",type);
-			model.addAttribute("keyword",keyword);
-			
-		} else if ("email".equals(type) && keyword != null) {
-			
-		    List<UserBean> searchList = UserService.getEmailSearchList(searchUserBean);
-		    model.addAttribute("userList", searchList);
-		    
-		    PageBean pageBean = UserService.getAccountCnt(page);
-			model.addAttribute("pageBean", pageBean);
-			
-			model.addAttribute("type",type);
-			model.addAttribute("keyword",keyword);
-			
-		} else {
-		    List<UserBean> userList = UserService.getUserList(page);
-		    model.addAttribute("userList", userList);
-		    
-		    PageBean pageBean = UserService.getAccountCnt(page);
-			model.addAttribute("pageBean", pageBean);
-			
-			model.addAttribute("type",type);
-			model.addAttribute("keyword",keyword);
-		}
-		
-		
-		
-	    return "admin/manager_accountmanager";
-	}
+	
+	   
+	   @GetMapping("/manager_accountmanager")
+	   public String manager_accountmanager(Model model,
+	           @RequestParam(value="type", required=false) String type,
+	           @RequestParam(value="keyword", required=false) String keyword,
+	           @ModelAttribute("searchUserBean") UserBean searchUserBean,
+	           @RequestParam(value = "page", defaultValue = "1") int page) {
+	      
+	      if ("nickname".equals(type) && keyword != null) {
+	         
+	          List<UserBean> searchList = UserService.getNickSearchList(searchUserBean, page);
+	          model.addAttribute("userList", searchList);
+	         
+	         // 페이징 처리
+	         PageBean pageBean1 = UserService.getNickSearchCnt(keyword,page);
+	         model.addAttribute("pageBean1", pageBean1);
+	         
+	         model.addAttribute("type",type);
+	         model.addAttribute("keyword",keyword);
+	         
+	      } else if ("id".equals(type) && keyword != null) {
+	         
+	          List<UserBean> searchList = UserService.getIdSearchList(searchUserBean, page);
+	          model.addAttribute("userList", searchList);
+	          
+	          PageBean pageBean2 = UserService.getIdSearchCnt(keyword, page);
+	         model.addAttribute("pageBean2", pageBean2);
+	         
+	         model.addAttribute("type",type);
+	         model.addAttribute("keyword",keyword);
+	         
+	      } else if ("email".equals(type) && keyword != null) {
+	         
+	          List<UserBean> searchList = UserService.getEmailSearchList(searchUserBean, page);
+	          model.addAttribute("userList", searchList);
+	          
+	          PageBean pageBean3 = UserService.getEamilSearchCnt(keyword, page);
+	         model.addAttribute("pageBean3", pageBean3);
+	         
+	         model.addAttribute("type",type);
+	         model.addAttribute("keyword",keyword);
+	         
+	      } else {
+	          List<UserBean> userList = UserService.getUserList(page);
+	          model.addAttribute("userList", userList);
+	          
+	          PageBean pageBean = UserService.getAccountCnt(page);
+	         model.addAttribute("pageBean", pageBean);
+	         
+	         model.addAttribute("type",type);
+	         model.addAttribute("keyword",keyword);
+	      }
+	      
+	       return "admin/manager_accountmanager";
+	   }
 	
 	@PostMapping("delete_pro")
 	public String delete_pro(@RequestParam("deleteUser") List<Integer> ids) {
@@ -134,6 +134,14 @@ public class AdminController {
 		model.addAttribute("u1", u1);
 		
 		return "admin/detail_mod_success";
+	}
+	
+	
+	// ====================================== 예매 관리 ================================
+	@GetMapping("/manager_reservelist")
+	public String manager_reservelist() {
+	      
+	   return "admin/manager_reservelist";
 	}
 	
 	

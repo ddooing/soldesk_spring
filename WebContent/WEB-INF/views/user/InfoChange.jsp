@@ -262,28 +262,28 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 
 
                <tr>
-                  <th><form:label path="crpassword" style="font-size: 20px;">현재 비밀번호</form:label>
+                  <th><form:label path="password" style="font-size: 20px;">현재 비밀번호</form:label>
                   </th>
 
-                  <td><form:password path="crpassword" class="form-control" />
-                     <form:errors path="crpassword" style="color:red" /></td>
+                  <td><form:password path="password" class="form-control" />
+                     <form:errors path="password" style="color:red" /></td>
                </tr>
 
                <tr>
-                  <th><form:label path="password2" style="font-size: 20px;">새 비밀번호</form:label>
+                  <th><form:label path="icpassword" style="font-size: 20px;">새 비밀번호</form:label>
                   </th>
 
-                  <td><form:password path="password2" class="form-control" />
-                     <form:errors path="password2" style="color:red" /></td>
+                  <td><form:password path="icpassword" class="form-control" />
+                     <form:errors path="icpassword" style="color:red" /></td>
 
                </tr>
 
                <tr>
-                  <th><form:label path="password3" style="font-size: 20px;">새 비밀번호 확인</form:label>
+                  <th><form:label path="icpasscheck" style="font-size: 20px;">새 비밀번호 확인</form:label>
                   </th>
 
-                  <td><form:password path="password3" class="form-control" />
-                     <form:errors path="password3" style="color:red" /></td>
+                  <td><form:password path="icpasscheck" class="form-control" />
+                     <form:errors path="icpasscheck" style="color:red" /></td>
                </tr>
             </table>
          </div>
