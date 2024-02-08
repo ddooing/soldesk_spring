@@ -11,12 +11,12 @@ import kr.co.softsoldesk.Beans.ReviewBean;
 
 public interface ExhibitionMapper {
 	
-	// 전시회 인기 페이지 조회	(상태값 1:현재 전시중인 전시중에서만)
-	@Select("SELECT e.exhibition_id, e.title, e.regdate, e.author, e.price, e.exhibition_start, e.exhibition_end, e.open, e.holiday, e.ticket_cnt, e.address, e.place, e.site, e.views, e.latitude, e.longitude, e.state, f1.path as main_poster_path, f1.name as main_poster_name, f2.path as detail_poster_path, f2.name as detail_poster_name FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND SYSDATE BETWEEN e.exhibition_start AND e.exhibition_end ORDER BY e.ticket_cnt desc")
+	// 전시회 인기 페이지 조회	(상태값 1:현재 공개여부 공개된값)
+	@Select("SELECT e.exhibition_id, e.title, e.regdate, e.author, e.price, e.exhibition_start, e.exhibition_end, e.open, e.holiday, e.ticket_cnt, e.address, e.place, e.site, e.views, e.latitude, e.longitude, e.state, f1.path as main_poster_path, f1.name as main_poster_name, f2.path as detail_poster_path, f2.name as detail_poster_name FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND SYSDATE BETWEEN e.exhibition_start AND e.exhibition_end AND e.state = 1 ORDER BY e.ticket_cnt desc")
 	List<ExhibitionBean> getPopularExhibitionInfo(RowBounds rowBounds);
 	
 	// 전시회 인기 페이지 페이징처리를 위한 개수 반환 메소드
-	@Select("SELECT count(e.exhibition_id) FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND SYSDATE BETWEEN e.exhibition_start AND e.exhibition_end ORDER BY e.ticket_cnt desc")
+	@Select("SELECT count(e.exhibition_id) FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND SYSDATE BETWEEN e.exhibition_start AND e.exhibition_end AND e.state = 1 ORDER BY e.ticket_cnt desc")
 	int getPopularExhibitionCnt();
 	
 	// 전시회 상세페이지 조회
@@ -27,7 +27,7 @@ public interface ExhibitionMapper {
 	@Update("UPDATE exhibition SET views = views + 1 WHERE exhibition_id = #{exhibition_id}")
 	void increaseViewsExhibition(int exhibition_id);
 	
-	// 전시회 최근 페이지 리스트
+	// 전시회 최신 페이지 리스트
 	@Select("SELECT \r\n"
 			+ "    e.exhibition_id, \r\n"
 			+ "    e.title, \r\n"
@@ -55,11 +55,12 @@ public interface ExhibitionMapper {
 			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
 			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id \r\n"
 			+ "WHERE \r\n"
-			+ "    e.exhibition_start BETWEEN SYSDATE - INTERVAL '30' DAY AND SYSDATE")
+			+ "    e.exhibition_start BETWEEN SYSDATE - INTERVAL '30' DAY AND SYSDATE AND e.state = 1 "
+			+ "ORDER BY e.exhibition_start desc")
 	List<ExhibitionBean> getRecentExhibitionInfo();
 	
 	// 전시회 페이지 최근 페이징 처리를 위한 개수 반환 메소드
-	@Select("SELECT count(exhibition_id) from exhibition WHERE exhibition_start BETWEEN SYSDATE - INTERVAL '30' DAY AND SYSDATE")
+	@Select("SELECT count(exhibition_id) from exhibition WHERE exhibition_start BETWEEN SYSDATE - INTERVAL '30' DAY AND SYSDATE AND state = 1")
 	int getRecentExhibitionCnt();
 	
 	// 전시회 페이지 곧종료 리스트
@@ -90,11 +91,12 @@ public interface ExhibitionMapper {
 			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
 			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id \r\n"
 			+ "WHERE \r\n"
-			+ "    e.exhibition_end BETWEEN SYSDATE AND SYSDATE + INTERVAL '30' DAY")
+			+ "    e.exhibition_end BETWEEN SYSDATE AND SYSDATE + INTERVAL '30' DAY AND e.state = 1"
+			+ "ORDER BY e.exhibition_end asc")
 	List<ExhibitionBean> getSoonEndExhibitionInfo();
 	
 	// 전시회 곧종료 페이징 처리
-	@Select("SELECT count(exhibition_id) FROM exhibition WHERE exhibition_end BETWEEN SYSDATE AND SYSDATE + INTERVAL '30' DAY")
+	@Select("SELECT count(exhibition_id) FROM exhibition WHERE exhibition_end BETWEEN SYSDATE AND SYSDATE + INTERVAL '30' DAY AND state = 1")
 	int getsoonEndExhibitionCnt();
 	
 	// 전시회 페이지 무료
@@ -125,11 +127,11 @@ public interface ExhibitionMapper {
 			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
 			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id \r\n"
 			+ "WHERE \r\n"
-			+ "    e.price = 0")
+			+ "    e.price = 0 AND e.state = 1")
 	List<ExhibitionBean> getFreeExhibitionInfo();
 	
 	// 전시회 페이지 무료 페이징 처리 위한 개수 반환 메소드
-	@Select("SELECT count(exhibition_id) FROM exhibition WHERE price = 0")
+	@Select("SELECT count(exhibition_id) FROM exhibition WHERE price = 0 AND state = 1")
 	int getFreeExhibitionCnt();
 	
 	// 메인 페이지 인덱스 인기 캐러셀

@@ -501,7 +501,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 	</section>
 
-	<section id="exhibition_navbar">
+	<c:choose>
+		<c:when test="${exhibitionBean.longitude == 0 }">
+				<section id="exhibition_navbar">
 		<div
 			style="margin-top: 30px; text-align: center; margin-bottom: 15px;">
 			<button id="exhibition_info_button"
@@ -510,14 +512,36 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			<button id="exhibition_detail_button"
 				style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 150px;">전시회
 				상세</button>
-			<button id="exhibition_map_button"
-				style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 150px;">지도</button>
 			<button id="exhibition_review_button"
 				style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 150px;">후기</button>
 
 		</div>
 
 	</section>
+				
+		</c:when>
+		<c:otherwise>
+			<section id="exhibition_navbar">
+				<div
+					style="margin-top: 30px; text-align: center; margin-bottom: 15px;">
+					<button id="exhibition_info_button"
+						style="color: black; font-size: 25px; text-decoration: none; border: none; background-color: transparent;">전시회
+						정보</button>
+					<button id="exhibition_detail_button"
+						style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 150px;">전시회
+						상세</button>
+					<button id="exhibition_map_button"
+						style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 150px;">지도</button>
+					<button id="exhibition_review_button"
+						style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 150px;">후기</button>
+
+				</div>
+
+			</section>
+
+		</c:otherwise>
+	</c:choose>
+
 
 	<script>
 		$(window).scroll(function() {
@@ -618,16 +642,25 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 	</section>
 
-	<section id="exhibition_map" style="margin-top: 20px;">
-		<!--지도-->
-		<hr style="margin: auto; margin-top: 100px; width: 1000px;" />
-		<div class="container mb-1">
-			<h3 style="margin-left: 180px; margin-top: 50px;">지도</h3>
-			<div id="map"
-				style="width: 800px; height: 600px; margin: auto; margin-top: 30px; border: 1px black solid;">
-			</div>
-		</div>
-	</section>
+
+	<c:choose>
+		<c:when test="${exhibitionBean.longitude == 0 }">
+
+		</c:when>
+
+		<c:otherwise>
+			<section id="exhibition_map" style="margin-top: 20px;">
+				<!--지도-->
+				<hr style="margin: auto; margin-top: 100px; width: 1000px;" />
+				<div class="container mb-1">
+					<h3 style="margin-left: 180px; margin-top: 50px;">지도</h3>
+					<div id="map"
+						style="width: 800px; height: 600px; margin: auto; margin-top: 30px; border: 1px black solid;">
+					</div>
+				</div>
+			</section>
+		</c:otherwise>
+	</c:choose>
 
 	<!--후기-->
 	<section id="exhibition_review"
@@ -646,11 +679,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 		<!--후기 댓-->
 		<c:choose>
 			<c:when test="${!empty exhibitionreviewBean}">
-					<div style="width: 800px; padding: 20px;">
+				<div style="width: 800px; padding: 20px;">
 					<c:forEach items="${exhibitionreviewBean }" var="reviewBean">
 						<div
 							style="padding: 25px; display: flex; flex-direction: column; background-color: white; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px; margin-bottom: 25px;">
-							<div style="display: flex; flex-direction: row; align-items: center;">
+							<div
+								style="display: flex; flex-direction: row; align-items: center;">
 								<c:choose>
 									<c:when test="${reviewBean.grade == 'level1' }">
 										<img src="../img/level/profile_Lv1.png"
@@ -711,72 +745,64 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					</c:forEach>
 
 				</div>
-				
-				<div class="d-none d-md-block" style="margin-top:30px;">
-				<ul class="pagination justify-content-center">
-					<c:choose>
-						<c:when test="${pageBean.prevPage <= 0 }">
-							<li class="page-item disabled">		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
-								<a href="#" class="page-link">이전</a>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<li class="page-item">
-								<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${pageBean.prevPage}#exhibition_review" class="page-link">이전</a>
-							</li>
-						</c:otherwise>
-					</c:choose>
-					
-					<c:forEach var ="idx" begin="${pageBean.min}" end="${pageBean.max}">
-					<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+
+				<div class="d-none d-md-block" style="margin-top: 30px;">
+					<ul class="pagination justify-content-center">
 						<c:choose>
-							<c:when test="${idx == pageBean.currentPage }">
-								<li class="page-item active" >
-									<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${idx}#exhibition_review" class="page-link">
-										${idx }
-									</a>
+							<c:when test="${pageBean.prevPage <= 0 }">
+								<li class="page-item disabled">
+									<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
 								</li>
 							</c:when>
 							<c:otherwise>
-								<li class="page-item">
-									<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${idx}#exhibition_review" class="page-link">
-										${idx }
-									</a>
-								</li>
+								<li class="page-item"><a
+									href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${pageBean.prevPage}#exhibition_review"
+									class="page-link">이전</a></li>
 							</c:otherwise>
 						</c:choose>
-					</c:forEach>
-					
-					
-					<c:choose>
-						<c:when test="${pageBean.max >= pageBean.pageCnt  }">	<!-- max페이지 > 전체페이지개수 일때  -->
-							<li class="page-item disabled" >		<!-- 1페이지에 있으면 이전 버튼 비활성화 -->
-								<a href="#" class="page-link">다음</a>
-							</li>
-						</c:when>
-						<c:otherwise>
-							<li class="page-item">
-								<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${pageBean.nextPage}#exhibition_review" class="page-link">다음</a>
-							</li>
-						</c:otherwise>
-					</c:choose>
-				</ul>
-			</div>
-			
-			<div class="d-block d-md-none">
-				<ul class="pagination justify-content-center">
-					<li class="page-item">
-						<a href="#" class="page-link">이전</a>
-					</li>
-					<li class="page-item">
-						<a href="#" class="page-link">다음</a>
-					</li>
-				</ul>
-			</div>
+
+						<c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
+							<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+							<c:choose>
+								<c:when test="${idx == pageBean.currentPage }">
+									<li class="page-item active"><a
+										href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${idx}#exhibition_review"
+										class="page-link"> ${idx } </a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="page-item"><a
+										href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${idx}#exhibition_review"
+										class="page-link"> ${idx } </a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+
+
+						<c:choose>
+							<c:when test="${pageBean.max >= pageBean.pageCnt  }">
+								<!-- max페이지 > 전체페이지개수 일때  -->
+								<li class="page-item disabled">
+									<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+								</li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item"><a
+									href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id }&user_id=${loginUserBean.user_id}&page=${pageBean.nextPage}#exhibition_review"
+									class="page-link">다음</a></li>
+							</c:otherwise>
+						</c:choose>
+					</ul>
+				</div>
+
+				<div class="d-block d-md-none">
+					<ul class="pagination justify-content-center">
+						<li class="page-item"><a href="#" class="page-link">이전</a></li>
+						<li class="page-item"><a href="#" class="page-link">다음</a></li>
+					</ul>
+				</div>
 			</c:when>
 			<c:otherwise>
-				<div
-					style="width: 800px; height: 300px; margin: auto;">
+				<div style="width: 800px; height: 300px; margin: auto;">
 					<div class="test-center"
 						style="margin: auto; display: flex; flex-direction: column; align-items: center;">
 						<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"

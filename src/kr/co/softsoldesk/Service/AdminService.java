@@ -36,7 +36,7 @@ public class AdminService {
 	
 	// ============================파일 처리 =====================================
 	
-	private String saveUploadFile(MultipartFile upload_file) {	// 파일이름 생성 (중복방지위해 현재시간 추가)
+	private String saveMainPosterUploadFile(MultipartFile upload_file) {	// 메인 포스터 업로드 경로
 		
 		String file_name = System.currentTimeMillis() + "_" + FilenameUtils.getBaseName(upload_file.getOriginalFilename()) 
 						   + "." + FilenameUtils.getExtension(upload_file.getOriginalFilename());
@@ -52,6 +52,22 @@ public class AdminService {
 		return file_name;
 	}	
 	
+	
+	private String saveDetailPosterUploadFile(MultipartFile upload_file) {	// 상세 포스터 업로드 경로
+			
+			String file_name = System.currentTimeMillis() + "_" + FilenameUtils.getBaseName(upload_file.getOriginalFilename()) 
+							   + "." + FilenameUtils.getExtension(upload_file.getOriginalFilename());
+			
+			
+			// 파일 저장 위치에 저장하기 
+			try {
+				upload_file.transferTo(new File(path_detailupload+"/"+file_name));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return file_name;
+		}
 	
 	
 	// ===================================QnA===================================
@@ -234,7 +250,7 @@ public class AdminService {
 	MultipartFile detail_poster_upload_file  = exhibitiondetailBean.getDetail_poster_file();
 			
 			if(main_poster_upload_file.getSize()>0) {
-				String main_poster_file_name = saveUploadFile(main_poster_upload_file);
+				String main_poster_file_name = saveMainPosterUploadFile(main_poster_upload_file);
 				
 				System.out.println("메인포스터 이름 : " + main_poster_file_name);
 				exhibitiondetailBean.setMain_poster_name(main_poster_file_name);
@@ -244,7 +260,7 @@ public class AdminService {
 			}
 			
 			if(detail_poster_upload_file.getSize()>0) {
-				String detail_poster_file_name = saveUploadFile(detail_poster_upload_file);
+				String detail_poster_file_name = saveDetailPosterUploadFile(detail_poster_upload_file);
 				
 				System.out.println("상세포스터 이름 : " + detail_poster_file_name);
 				exhibitiondetailBean.setDetail_poster_name(detail_poster_file_name);
@@ -256,6 +272,62 @@ public class AdminService {
 		adminDao.UpdateExhibitionInfo2(exhibitiondetailBean);
 	}
 	
+	// 전시회 추가 파일테이블 1 (file_table)
+	public void addfiletableExhibition(ExhibitionDetailBean exhibitionDetailBean) {
+		
+		MultipartFile main_poster_upload_file = exhibitionDetailBean.getMain_poster_file();
+		MultipartFile detail_poster_upload_file  = exhibitionDetailBean.getDetail_poster_file();
+				
+				if(main_poster_upload_file.getSize()>0) {
+					String main_poster_file_name = saveMainPosterUploadFile(main_poster_upload_file);
+					
+					System.out.println("메인포스터 이름 : " + main_poster_file_name);
+					exhibitionDetailBean.setMain_poster_name(main_poster_file_name);
+					
+					// file_table 추가
+					exhibitionDetailBean.setName(main_poster_file_name);
+					exhibitionDetailBean.setPath("/Spring_Project_Dream/img/main_poster/");
+					
+					// file_table 메인포스터 이름 저장
+					adminDao.addfiletableExhibition(exhibitionDetailBean);
+					// 저장된 파일 file_id exhibitionDetailBean에 set 해줌
+					exhibitionDetailBean.setMain_poster_file_id(adminDao.getFileId(main_poster_file_name));
+				}
+				
+				if(detail_poster_upload_file.getSize()>0) {
+					String detail_poster_file_name = saveDetailPosterUploadFile(detail_poster_upload_file);
+					
+					System.out.println("상세포스터 이름 : " + detail_poster_file_name);
+					exhibitionDetailBean.setDetail_poster_name(detail_poster_file_name);
+					
+					// file_table 추가
+					exhibitionDetailBean.setName(detail_poster_file_name);
+					exhibitionDetailBean.setPath("/Spring_Project_Dream/img/detail_poster/");
+					
+					// file_table 상세포스터 이름 저장
+					adminDao.addfiletableExhibition(exhibitionDetailBean);
+					// 저장된 파일 file_id exhibitionDetailBean에 set 해줌
+					exhibitionDetailBean.setDetail_poster_file_id(adminDao.getFileId(detail_poster_file_name));
+				}
+				
+				// 전시회 테이블 저장
+				addexhibitiontableExhibition(exhibitionDetailBean);
+	}
+	
+	// 전시회 추가 전시회 테이블에 저장
+	public void addexhibitiontableExhibition(ExhibitionDetailBean exhibitionDetailBean) {
+		
+		// 전시회 휴무일이 없을경우
+		if(exhibitionDetailBean.getHoliday() == null) {
+			exhibitionDetailBean.setHoliday("없음");
+		}
+		
+		// open 컬럼 변경
+		String open = (exhibitionDetailBean.getOpen_time()+ " - " + exhibitionDetailBean.getClose_time());
+		exhibitionDetailBean.setOpen(open);
+		
+		adminDao.addexhibitiontableExhibition(exhibitionDetailBean);
+	}
 	
 }
 

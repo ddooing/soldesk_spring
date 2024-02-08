@@ -69,14 +69,6 @@
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
 	rel="stylesheet">
 
-<script type="text/javascript">
-	$(document).ready(function() {
-
-		$("#headers").load("component/header.html");
-		$("#footer").load("component/footer.html");
-	});
-</script>
-
 <style>
 input[type="radio"] {
 	display: none;

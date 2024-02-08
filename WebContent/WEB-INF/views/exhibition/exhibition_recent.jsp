@@ -70,10 +70,10 @@
 		        <c:forEach items="${getRecentExhibitionInfo}" var="recentexhibition">
 		            <div style="padding: 10px; width: calc(25%-30px); box-sizing: border-box;">
 		                <a href="${root}/exhibition/exhibition_click?exhibition_id=${recentexhibition.exhibition_id}&user_id=${loginUserBean.user_id}">
-		                    <img src="${recentexhibition.main_poster_path}${recentexhibition.main_poster_name}" alt="포스터"
+		                    <img style="width:255px; height:375px;" src="${recentexhibition.main_poster_path}${recentexhibition.main_poster_name}" alt="포스터"
 		                        style="width: 100%; height: auto; margin-bottom: 30px;" />
 		                </a>
-		                <p style="font-size: 20px; text-align: center;">${recentexhibition.title }</p>
+		                <p style="font-size: 20px; text-align: center; margin-top:30px;">${recentexhibition.title }</p>
 		            </div>
 		        </c:forEach>
 		    </div>

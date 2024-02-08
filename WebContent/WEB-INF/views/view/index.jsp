@@ -117,9 +117,8 @@
 	 <c:import url="/WEB-INF/views/include/header.jsp"/> 
 
 <a href="${root }/admin/manager_QnAlist">관리자 qna list</a>	<br />
-<a href="${root }/admin/manager_exhibitionmodify">관리자 전시회 수정</a>
 
-
+<a href="/Spring_Project_Dream/admin/manager_QnAlist">/Spring_Project_Dream</a>
 
 	<!-- 상단 케러셀-->
 	<header class="masthead">
@@ -385,7 +384,7 @@
 						<div class="carousel">
 							<ul>
 								<c:forEach items="${popularExhibitionInfo }" var="popularexhibition">
-									<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${popularexhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${popularexhibition.main_poster_path}${popularexhibition.main_poster_name}"></a></li>
+									<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${popularexhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${popularexhibition.main_poster_path}${popularexhibition.main_poster_name}" style="width:255px; height:375px;"></a></li>
 								</c:forEach>
 							</ul>
 						</div>

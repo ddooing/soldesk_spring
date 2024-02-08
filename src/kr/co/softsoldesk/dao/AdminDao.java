@@ -151,4 +151,23 @@ public class AdminDao {
 	public void UpdateExhibitionInfo2(ExhibitionDetailBean exhibitiondetailBean) {
 		adminMapper.UpdateExhibitionInfo2(exhibitiondetailBean);
 	}
+	
+	// 전시회 추가 파일테이블 1
+	public void addfiletableExhibition(ExhibitionDetailBean exhibitionDetailBean) {
+				
+		adminMapper.addfiletableExhibition(exhibitionDetailBean);
+	}
+	
+	// 전시회 추가 파일테이블에서 file_id 가져오기
+	public int getFileId(String name) {
+		
+		return adminMapper.getFileId(name); 
+	}
+	
+	
+	// 전시회 추가 전시회테이블 2
+	public void addexhibitiontableExhibition(ExhibitionDetailBean exhibitionDetailBean) {
+		
+		adminMapper.addexhibitiontableExhibition(exhibitionDetailBean);
+	}
 }

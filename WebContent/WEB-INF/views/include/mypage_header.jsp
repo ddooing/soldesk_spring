@@ -136,7 +136,7 @@
 						</svg>
 					
 					
-						<div class="tool-modal" style="z-index: 1;">
+						<div class="tool-modal" style="z-index: 5;">
 					       <div class="tool-modal_body">
 								<button class="tool-btn-close-modal">
 									<svg xmlns="http://www.w3.org/2000/svg" width="3.5em" height="3.5em"opacity="0.8" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
@@ -185,7 +185,7 @@
 					
 									<hr style="width: 400px; margin-left: auto; margin-right: auto; border-color: black; border-width: 2px 0 0 0; margin-top: 30px;" />
 									
-									<div style=" margin-top: 30px; text-align: left;" >
+									<div style=" margin-top: 30px; text-align: left; margin-right:220px;" >
 										<h3 >경험치 획득방법</h3>
 										<b style="margin-top: 50px;">전시회 예매 + 50 exp</b> <br /><br />
 										<b style="margin-top: 30px; ">소감문 작성시 최대 + 10 exp</b> <br /><br />

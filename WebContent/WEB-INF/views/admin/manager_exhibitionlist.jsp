@@ -57,7 +57,7 @@
 				<div
 					style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 					<div
-						style="position: flex; margin-right: 60px; width: 400px; float: left;">
+						style="position: flex; margin-right: 40px; width: 450px; float: left;">
 						<!-- 여기에 margin-right 추가 -->
 						<span class="badge text-bg-primary rounded-pill"
 							style="font-size: 15px; margin-right: 10px; margin-left: 50px;">전시중
@@ -170,7 +170,6 @@
 									<td>
 										<button class="btn btn-dark"
 											onclick="location.href='${root}/admin/manager_exhibitionmodify?exhibition_id=${exhibitionlist.exhibition_id }'">수정</button>
-										<button class="btn btn-danger">삭제</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -178,12 +177,9 @@
 
 						</tbody>
 					</table>
-					<div
-						style="display: flex; margin-top: 20px; margin-bottom: 20px; float: right;">
-						<button class="btn btn-dark"
-							onclick="location.href='manager_exhibitionadd.jsp'">추가</button>
-						<button class="btn btn-danger"
-							style="margin-left: 30px; margin-right: 30px;">삭제</button>
+					
+					<div style="display: flex; margin-top: 20px; margin-bottom: 20px; float: right;">
+						<a href="${root }/admin/manager_exhibitionadd" class="btn btn-dark" style="margin-right:40px;">추가</a>
 					</div>
 
 					<c:choose>

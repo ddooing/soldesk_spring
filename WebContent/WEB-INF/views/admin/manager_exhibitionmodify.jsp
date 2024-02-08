@@ -140,6 +140,9 @@
 					</div>
 
 					<form:form action="${root }/admin/exhibition_exhibitionmodify_pro" method="post" modelAttribute="DetailExhibitionBean" enctype="multipart/form-data">
+					<form:hidden path="exhibition_id"/>
+					<form:hidden path="main_poster_file_id"/>
+					<form:hidden path="detail_poster_file_id"/>
 					<div style="display: flex; width: 100%;">
 						<div style="flex: 1; margin: 10px; border: 1px solid black;  background-color: white;">
 							<div style="align-items: center; margin: 30px; border: 0.2px solid black; width: 600px; margin-left: auto; margin-right: auto;">
@@ -292,7 +295,7 @@
   									<tr style="height: 80px;">
   										<th style="width:200px; text-align: center; font-size: 20px;">사이트</th>
   										<td style="width:400px;">
-  											<form:input path="open" style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;"/>
+  											<form:input path="site" style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;"/>
   										</td>
   									</tr>
   									<tr style="height: 80px;">

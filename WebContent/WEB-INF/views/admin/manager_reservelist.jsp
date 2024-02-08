@@ -98,13 +98,13 @@ $(document).ready(function(){
 							</thead>
 							<tbody>
 								<%
-								for (int i = 1; i <= 15; i++) {
+								for (int i = 1; i <= 10; i++) {
 								%>
 								<tr style="vertical-align: middle;">
 									<th scope="row"><%=i %></th>
 									<td style="width: 150px;">2024.02.07 00:00:00</td>
 									<td style="width: 150px;">2024.02.07 00:00:00</td>
-									<td>574645465865747</td>
+									<td>551efa0c-3fac-4ffb-926f-04069c3df166</td>
 									<td style="width: 150px;">완료</td>
 									<td style="width: 150px;">노승찬</td>
 									<td style="width: 200px;">500,000,000</td>

@@ -220,7 +220,6 @@ public class AdminController {
 	public String qna_reply_enroll(@ModelAttribute("oneQnaInfo") QnABean qnaBean, @RequestParam("qna_id") int qna_id) {
 		
 		qnaBean.setQna_id(qna_id);
-		System.out.println("리플리플리플 : " + qnaBean.getReply());
 		
 		if(qnaBean.getReply() == "") {
 			qnaBean.setState(0);
@@ -332,6 +331,7 @@ public class AdminController {
 	public String manager_exhibitionmodify(@RequestParam("exhibition_id") int exhibition_id, Model model) { 
 		
 		ExhibitionDetailBean DetailExhibitionBean = AdminService.getAllDetailExhibitionBean(exhibition_id);
+		DetailExhibitionBean.setExhibition_id(exhibition_id);
 		
 		model.addAttribute("DetailExhibitionBean",DetailExhibitionBean);
 		
@@ -348,5 +348,36 @@ public class AdminController {
 		return "/admin/exhibitionmodify_success";
 	}
 	
+	
+	// 전시회 추가 페이지 매핑
+	@GetMapping("/manager_exhibitionadd")
+	public String manager_exhibitionadd(@ModelAttribute("AddDetailExhibitionBean") ExhibitionDetailBean AddDetailExhibitionBean) {
+		
+		return "/admin/manager_exhibitionadd";
+	}
+	
+	// 전시회 추가
+	@PostMapping("/exhibition_exhibitionadd_pro")
+	public String exhibition_exhibitionadd_pro(@ModelAttribute("AddDetailExhibitionBean") ExhibitionDetailBean AddDetailExhibitionBean, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+
+		// 파일테이블, 전시회 테이블 추가
+		AdminService.addfiletableExhibition(AddDetailExhibitionBean);
+		
+		
+		// 전시회 목록 가져가기
+	 	List<ExhibitionBean> AdminExhibitionInfoBean = AdminService.getAdminexhibitionmange(page);
+		model.addAttribute("AdminExhibitionInfoBean", AdminExhibitionInfoBean);
+		
+		// 전시회 총개수, 전시예정, 종료, 진행중 전시 개수 반환
+		ExhibitionBean ExhibitionCountBean = AdminService.getExhibitionCount();
+		model.addAttribute("ExhibitionCountBean",ExhibitionCountBean);
+	 	
+		// 전시회 페이징 처리
+		PageBean pageBean = AdminService.getExhibitionCnt(page);
+		model.addAttribute("pageBean", pageBean);
+		
+		
+		return "/admin/manager_exhibitionlist";
+	}
 	
 }

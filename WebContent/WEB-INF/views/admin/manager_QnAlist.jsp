@@ -54,8 +54,7 @@
 				</div>
 				<div
 					style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-					<div
-						style="position: flex; margin-right: 60px; width: 400px; float: left;">
+					<div style="position: flex; margin-right: 60px; width: 450px; float: left;">
 						<!-- 여기에 margin-right 추가 -->
 						<span class="badge text-bg-danger rounded-pill"
 							style="font-size: 15px; margin-right: 10px; margin-left: 50px;">답변대기

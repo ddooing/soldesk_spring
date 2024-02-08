@@ -38,4 +38,11 @@ public class ExhibitionDetailBean {
 	private MultipartFile main_poster_file;			// 파일 업로드 처리 받을 메인포스터
 	private MultipartFile detail_poster_file;		// 파일 업로드 처리 받을 상세포스터
 	
+	private String open_time;						// open_time + close_time = open에 set해서 db 저장
+	private String close_time;
+	
+	// file_table name, path
+	private String name;
+	private String path;
+	
 }

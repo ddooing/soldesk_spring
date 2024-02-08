@@ -2,6 +2,7 @@ package kr.co.softsoldesk.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -345,6 +346,7 @@ public interface AdminMapper {
 			+ "    title = #{title}, \r\n"
 			+ "    state = #{state}, \r\n"
 			+ "    price = #{price}, \r\n"
+			+ "    author = #{author}, \r\n"
 			+ "    exhibition_start = #{exhibition_start}, \r\n"
 			+ "    exhibition_end = #{exhibition_end}, \r\n"
 			+ "    open = #{open}, \r\n"
@@ -357,4 +359,17 @@ public interface AdminMapper {
 			+ "WHERE \r\n"
 			+ "    exhibition_id = #{exhibition_id}")
 	void UpdateExhibitionInfo2(ExhibitionDetailBean exhibitiondetailBean);
+	
+	// 전시회 관리자가 직접 추가 1번 file_table 테이블
+	@Insert("INSERT INTO file_table (file_id, name, path, file_date) values (file_id_seq.nextval, #{name}, #{path}, sysdate)")
+	void addfiletableExhibition(ExhibitionDetailBean exhibitiondetailBean);
+	
+	// 전시회 관리자가 직접 추가 3번 file_table에 저장한 값들의 file_id 가져오기
+	@Select("SELECT file_id from file_table where name=#{name}")
+	int getFileId(String name);
+	
+	// 전시회 관리자가 직접 추가 2번 exhibition 테이블
+	@Insert("INSERT INTO exhibition (exhibition_id, title, regdate, author, price, exhibition_start, exhibition_end, open, holiday, address, place, site, latitude, longitude, state, main_poster_file_id, detail_poster_file_id) VALUES (exhibition_id_seq.NEXTVAL, #{title}, sysdate, #{author}, #{price}, #{exhibition_start}, #{exhibition_end}, #{open}, #{holiday}, #{address}, #{place}, #{site}, #{latitude}, #{longitude}, #{state}, #{main_poster_file_id}, #{detail_poster_file_id})")
+	void addexhibitiontableExhibition(ExhibitionDetailBean exhibitiondetailBean);
+
 }
