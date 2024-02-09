@@ -195,7 +195,7 @@ public interface AdminMapper {
 			+ "    END AS open_state\r\n"
 			+ "FROM \r\n"
 			+ "    exhibition\r\n"
-			+ "ORDER BY exhibition_id asc")
+			+ "ORDER BY exhibition_id desc")
 	List<ExhibitionBean> getAdminexhibitionmange(RowBounds rowBounds);
 	
 	// 전시회 총개수 전시중, 전시예정, 종료전시 개수 반환
@@ -372,4 +372,51 @@ public interface AdminMapper {
 	@Insert("INSERT INTO exhibition (exhibition_id, title, regdate, author, price, exhibition_start, exhibition_end, open, holiday, address, place, site, latitude, longitude, state, main_poster_file_id, detail_poster_file_id) VALUES (exhibition_id_seq.NEXTVAL, #{title}, sysdate, #{author}, #{price}, #{exhibition_start}, #{exhibition_end}, #{open}, #{holiday}, #{address}, #{place}, #{site}, #{latitude}, #{longitude}, #{state}, #{main_poster_file_id}, #{detail_poster_file_id})")
 	void addexhibitiontableExhibition(ExhibitionDetailBean exhibitiondetailBean);
 
+	
+	// ============================ 전시회 등록 신청 ============================
+	// 전시회 등록신청 관리자 페이지 리스트
+	@Select("SELECT e.exhibition_enroll_id, e.title, e.author, e.price, To_char(e.exhibition_start, 'yyyy-mm-dd') as exhibition_start , To_char(e.exhibition_end, 'yyyy-mm-dd') as exhibition_end, e.state, u.name as apply_name\r\n"
+			+ "FROM exhibition_enroll e\r\n"
+			+ "JOIN user_table u ON e.apply_person = u.user_id\r\n"
+			+ "ORDER BY e.exhibition_enroll_id DESC")
+	List<ExhibitionDetailBean> getAllExhibitionEnroll();
+	
+	// 전시회 1개 상세 정보 가져가기
+	@Select("SELECT \r\n"
+			+ "    e.exhibition_enroll_id, \r\n"
+			+ "    e.title, \r\n"
+			+ "    e.author, \r\n"
+			+ "    e.price, \r\n"
+			+ "    TO_CHAR(e.exhibition_start, 'yyyy-mm-dd') as exhibition_start, \r\n"
+			+ "    TO_CHAR(e.exhibition_end, 'yyyy-mm-dd') as exhibition_end, \r\n"
+			+ "    e.open, \r\n"
+			+ "    e.holiday, \r\n"
+			+ "    e.address, \r\n"
+			+ "    e.place, \r\n"
+			+ "    e.site, \r\n"
+			+ "    e.state, \r\n"
+			+ "    e.main_poster_file_id,       \r\n"
+			+ "    e.detail_poster_file_id,     \r\n"
+			+ "    u.name AS apply_name, \r\n"
+			+ "    u.email AS apply_email, \r\n"
+			+ "    u.telephone AS apply_telephone,\r\n"
+			+ "    f1.name AS main_poster_name,\r\n"
+			+ "    f1.path AS main_poster_path,\r\n"
+			+ "    f2.name AS detail_poster_name,\r\n"
+			+ "    f2.path AS detail_poster_path\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "LEFT JOIN \r\n"
+			+ "    file_table f1 ON e.main_poster_file_id = f1.file_id\r\n"
+			+ "LEFT JOIN \r\n"
+			+ "    file_table f2 ON e.detail_poster_file_id = f2.file_id\r\n"
+			+ "WHERE \r\n"
+			+ "    e.exhibition_enroll_id = #{exhibition_enroll_id}")
+	ExhibitionDetailBean getOneEnrollExhitiion(int exhibition_enroll_id);
+	
+	//전시회 등록 신청 -> 전시회 등록 완료 하면 exhibition_enroll 테이블 상태값 변경해주기
+	@Update("UPDATE exhibition_enroll SET state = #{state} where exhibition_enroll_id = #{exhibition_enroll_id}")
+	void UpdateExhibitionEnrollState(@Param("state")int state,@Param("exhibition_enroll_id") int exhibition_enroll_id);
 }

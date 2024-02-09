@@ -131,7 +131,7 @@
 							aria-labelledby="headingThree" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="${root }/admin/manager_exhibitionlist">전시회
-									관리</a> <a class="nav-link" href="manager_exhibitionapplylist.jsp">전시회
+									관리</a> <a class="nav-link" href="${root }/admin/manager_exhibitionapplylist">전시회
 									신청내역</a>
 							</nav>
 						</div>

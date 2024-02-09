@@ -281,15 +281,16 @@ public class AdminService {
 				if(main_poster_upload_file.getSize()>0) {
 					String main_poster_file_name = saveMainPosterUploadFile(main_poster_upload_file);
 					
-					System.out.println("메인포스터 이름 : " + main_poster_file_name);
+					// exhibition테이블 name 컬럼 set
 					exhibitionDetailBean.setMain_poster_name(main_poster_file_name);
 					
-					// file_table 추가
+					// file_table테이블 name, path 컬럼 set
 					exhibitionDetailBean.setName(main_poster_file_name);
 					exhibitionDetailBean.setPath("/Spring_Project_Dream/img/main_poster/");
 					
 					// file_table 메인포스터 이름 저장
 					adminDao.addfiletableExhibition(exhibitionDetailBean);
+					
 					// 저장된 파일 file_id exhibitionDetailBean에 set 해줌
 					exhibitionDetailBean.setMain_poster_file_id(adminDao.getFileId(main_poster_file_name));
 				}
@@ -297,19 +298,66 @@ public class AdminService {
 				if(detail_poster_upload_file.getSize()>0) {
 					String detail_poster_file_name = saveDetailPosterUploadFile(detail_poster_upload_file);
 					
-					System.out.println("상세포스터 이름 : " + detail_poster_file_name);
+					// exhibition테이블 name 컬럼 set
 					exhibitionDetailBean.setDetail_poster_name(detail_poster_file_name);
 					
-					// file_table 추가
+					// file_table 메인포스터 이름 저장
 					exhibitionDetailBean.setName(detail_poster_file_name);
 					exhibitionDetailBean.setPath("/Spring_Project_Dream/img/detail_poster/");
 					
 					// file_table 상세포스터 이름 저장
 					adminDao.addfiletableExhibition(exhibitionDetailBean);
+					
 					// 저장된 파일 file_id exhibitionDetailBean에 set 해줌
 					exhibitionDetailBean.setDetail_poster_file_id(adminDao.getFileId(detail_poster_file_name));
 				}
 	}
+	
+	// 전시회 등록신청에서 전시회 등록 할 경우 파일 1개만 바꿀 경우를 생각해 파일 나눔 (메인포스터 파일)
+	public void addmainfiletableExhibition(ExhibitionDetailBean exhibitionDetailBean) {
+			
+			MultipartFile main_poster_upload_file = exhibitionDetailBean.getMain_poster_file();
+					
+					if(main_poster_upload_file.getSize()>0) {
+						String main_poster_file_name = saveMainPosterUploadFile(main_poster_upload_file);
+						
+						// exhibition테이블 name 컬럼 set
+						exhibitionDetailBean.setMain_poster_name(main_poster_file_name);
+						
+						// file_table테이블 name, path 컬럼 set
+						exhibitionDetailBean.setName(main_poster_file_name);
+						exhibitionDetailBean.setPath("/Spring_Project_Dream/img/main_poster/");
+						
+						// file_table 메인포스터 이름 저장
+						adminDao.addfiletableExhibition(exhibitionDetailBean);
+						
+						// 저장된 파일 file_id exhibitionDetailBean에 set 해줌
+						exhibitionDetailBean.setMain_poster_file_id(adminDao.getFileId(main_poster_file_name));
+					}
+		}
+	
+	// 전시회 등록신청에서 전시회 등록 할 경우 파일 1개만 바꿀 경우를 생각해 파일 나눔 (상세포스터 파일)
+	public void adddetailfiletableExhibition(ExhibitionDetailBean exhibitionDetailBean) {
+			
+			MultipartFile detail_poster_upload_file  = exhibitionDetailBean.getDetail_poster_file();
+					
+					if(detail_poster_upload_file.getSize()>0) {
+						String detail_poster_file_name = saveDetailPosterUploadFile(detail_poster_upload_file);
+						
+						// exhibition테이블 name 컬럼 set
+						exhibitionDetailBean.setDetail_poster_name(detail_poster_file_name);
+						
+						// file_table 메인포스터 이름 저장
+						exhibitionDetailBean.setName(detail_poster_file_name);
+						exhibitionDetailBean.setPath("/Spring_Project_Dream/img/detail_poster/");
+						
+						// file_table 상세포스터 이름 저장
+						adminDao.addfiletableExhibition(exhibitionDetailBean);
+						
+						// 저장된 파일 file_id exhibitionDetailBean에 set 해줌
+						exhibitionDetailBean.setDetail_poster_file_id(adminDao.getFileId(detail_poster_file_name));
+					}
+		}
 	
 	// 전시회 추가 전시회 테이블에 저장
 	public void addexhibitiontableExhibition(ExhibitionDetailBean exhibitionDetailBean) {
@@ -324,6 +372,38 @@ public class AdminService {
 		exhibitionDetailBean.setOpen(open);
 		
 		adminDao.addexhibitiontableExhibition(exhibitionDetailBean);
+	}
+	
+	// =========================== 전시회 등록 신청 ========================
+	// 전시회 등록신청 관리자 페이지 리스트
+	public List<ExhibitionDetailBean> getAllExhibitionEnroll() {
+		return adminDao.getAllExhibitionEnroll();
+	}
+	
+	// 전시회 등록신청 한개 모든 정보 가져오기
+	public ExhibitionDetailBean getOneEnrollExhitiion(int exhibition_enroll_id) {
+		
+		// open 시간 open_time, close_time으로 나눔
+		ExhibitionDetailBean b1 = adminDao.getOneEnrollExhitiion(exhibition_enroll_id);
+		
+		if (b1.getOpen() != null && !b1.getOpen().isEmpty()) {
+	        String[] times = b1.getOpen().split(" - ");
+	        if (times.length == 2) {
+	            String open_time = times[0]; // "09:00"
+	            String close_time = times[1]; // "18:00"
+	            
+	            b1.setOpen_time(open_time);
+	            b1.setClose_time(close_time);
+	        }
+	    }
+		
+		return b1;
+	}
+	
+	// 전시회 등록 신청 완료 후 상태값 변경
+	public void UpdateExhibitionEnrollState(int state, int exhibition_enroll_id) {
+		
+		adminDao.UpdateExhibitionEnrollState(state, exhibition_enroll_id);
 	}
 	
 }

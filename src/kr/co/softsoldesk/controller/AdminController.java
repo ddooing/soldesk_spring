@@ -382,4 +382,65 @@ public class AdminController {
 		return "/admin/manager_exhibitionlist";
 	}
 	
+	
+	// ========================== 전시회 등록 신청 ====================================
+	
+	// 관리자페이지 전시회 등록 신청 리스트 
+	@GetMapping("/manager_exhibitionapplylist")
+	public String manager_exhibitionapplylist(Model model) {
+		
+		List<ExhibitionDetailBean> enrollAllBean = AdminService.getAllExhibitionEnroll();
+		model.addAttribute("enrollAllBean", enrollAllBean);
+		
+		return "/admin/manager_exhibitionapplylist";
+	}
+	
+	// 관리자 페이지 전시회 등록 확인 페이지 매핑
+	@GetMapping("/manager_exhibitionenrolladd")
+	public String manager_exhibitionenrolladd(@RequestParam("exhibition_enroll_id") int exhibition_enroll_id ,Model model) {
+		
+		// 해당 전시회 등록 모든 정보 가져오기
+		ExhibitionDetailBean AddDetailEnrollExhibitionBean = AdminService.getOneEnrollExhitiion(exhibition_enroll_id);
+		model.addAttribute("AddDetailEnrollExhibitionBean",AddDetailEnrollExhibitionBean);
+		
+		return "/admin/manager_exhibitionenrolladd";
+	}
+	
+	// 관리자 페이지 전시회 등록 신청 -> 전시회 등록으로 넘어가는 메소드
+	@PostMapping("manager_exhibitionenrolladd_pro")
+	public String manager_exhibitionenrolladd_pro(@ModelAttribute("AddDetailEnrollExhibitionBean") ExhibitionDetailBean AddDetailEnrollExhibitionBean, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+		
+		// 파일을 변경 할 수 있으므로 파일 변경을 할 경우 새로 파일 저장
+		if(AddDetailEnrollExhibitionBean.getMain_poster_file().getSize()>0) {
+			// 메인 포스터 파일 변경
+			AdminService.adddetailfiletableExhibition(AddDetailEnrollExhibitionBean);
+		}
+		
+		if(AddDetailEnrollExhibitionBean.getDetail_poster_file().getSize()>0) {
+			// 상세 포스터 파일 변경
+			AdminService.addexhibitiontableExhibition(AddDetailEnrollExhibitionBean);
+		}
+		
+		// 전시회 테이블 추가
+		AdminService.addexhibitiontableExhibition(AddDetailEnrollExhibitionBean);	
+		
+		// 전시회 등록 신청 완료 후 상태값 2로 변경
+		AdminService.UpdateExhibitionEnrollState(2, AddDetailEnrollExhibitionBean.getExhibition_enroll_id());
+		
+		// 넘어가는 페이지 가져갈 것들
+		// 전시회 목록 가져가기
+		List<ExhibitionBean> AdminExhibitionInfoBean = AdminService.getAdminexhibitionmange(page);
+		model.addAttribute("AdminExhibitionInfoBean", AdminExhibitionInfoBean);
+				
+		// 전시회 총개수, 전시예정, 종료, 진행중 전시 개수 반환
+		ExhibitionBean ExhibitionCountBean = AdminService.getExhibitionCount();
+		model.addAttribute("ExhibitionCountBean",ExhibitionCountBean);
+			 	
+		// 전시회 페이징 처리
+		PageBean pageBean = AdminService.getExhibitionCnt(page);
+		model.addAttribute("pageBean", pageBean);
+				
+		return "/admin/manager_exhibitionlist";
+	}
+	
 }
