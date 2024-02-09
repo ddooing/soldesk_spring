@@ -384,9 +384,6 @@
 								</ul>
 							</div>
 						</c:when>
-						<c:otherwise>
-						<p>asdf</p>
-						</c:otherwise>
 					</c:choose>
 
 

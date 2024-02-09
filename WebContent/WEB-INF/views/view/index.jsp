@@ -17,6 +17,9 @@
 	<!-- Font Awesome icons (free version)-->
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
+	<!-- sweetalert2 알림 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 	<!-- Google fonts-->
 	<link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900"
 		rel="stylesheet" />
@@ -156,14 +159,31 @@
 
 	<div id="right-side-menu">
 		<div style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">
-			<div id="sidebar_menu"
-				style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
-				<div style=" justify-content: center;">
-					<a href="Exhibition_Enroll.html" style="color: black; text-decoration: none;">
-						<p1>전시회 등록</p1>
-					</a>
-				</div>
-			</div>
+			
+				<c:choose>
+					<c:when test="${loginUserBean.userLogin == false}">
+					<div id="sidebar_menu" onclick="nologin();"
+						style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style=" justify-content: center;" >
+							<a href="#" style="color: black; text-decoration: none;">
+								<p1>전시회 등록</p1>
+							</a>
+						</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+					<div id="sidebar_menu" onclick="window.location.href='${root}/exhibition/Exhibition_Enroll'" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style=" justify-content: center;">
+							<a href="#" style="color: black; text-decoration: none;">
+								<p1>전시회 등록</p1>
+							</a>
+						</div>
+					</div>
+					</c:otherwise>
+				</c:choose>
+				
+				
+			
 			<hr style="margin:auto; width: 80px; color: black;" />
 
 			<div id="sidebar_menu"
@@ -188,7 +208,7 @@
 
 			<c:choose>
 			    <c:when test="${loginUserBean.userLogin == false}">
-				    <div id="sidebar_menu" onclick="location.href='${root}/user/not_login'" style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+				    <div id="sidebar_menu" onclick="nologin();" style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
 								<div style="justify-content: center;">
 									<p1>Q&A</p1>
 								</div>
@@ -206,6 +226,19 @@
 			</c:choose>
 		</div>
 	</div>
+	
+	<script>
+		function nologin() {
+			Swal.fire({
+				  icon: "error",
+				  title: "로그인 오류",
+				  text: "로그인이 필요한 서비스입니다",
+				  showConfirmButton: true
+				}).then(function() {
+				  window.location.href = "${root}/user/login";
+				});			
+		}
+	</script>
 
 	<!--Q&A 모달 창-->
 	<div class="modal fade" id="qnaModal" tabindex="-1" aria-labelledby="qnaModalLabel" aria-hidden="true">
@@ -461,7 +494,7 @@
 					<div class="carousel">
 						<ul>
 							<c:forEach items="${SoonExhibitionInfo }" var="soonexhibition">
-								<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${soonexhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${soonexhibition.main_poster_path}${soonexhibition.main_poster_name}"></a></li>
+								<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${soonexhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${soonexhibition.main_poster_path}${soonexhibition.main_poster_name}" style="width:255px; height:375px;"></a></li>
 							</c:forEach>
 						</ul>
 					</div>

@@ -309,9 +309,6 @@ public class AdminService {
 					// 저장된 파일 file_id exhibitionDetailBean에 set 해줌
 					exhibitionDetailBean.setDetail_poster_file_id(adminDao.getFileId(detail_poster_file_name));
 				}
-				
-				// 전시회 테이블 저장
-				addexhibitiontableExhibition(exhibitionDetailBean);
 	}
 	
 	// 전시회 추가 전시회 테이블에 저장

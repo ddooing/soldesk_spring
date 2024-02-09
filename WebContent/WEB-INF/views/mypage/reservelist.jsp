@@ -168,13 +168,7 @@
 							</div>
 						</div>
 					</c:forEach>
-				</c:otherwise>
-			</c:choose>
-			
-				
-			</div>
-			
-			<div class="d-none d-md-block" style="margin-top:50px;">
+					<div class="d-none d-md-block" style="margin-top:50px;">
 				<ul class="pagination justify-content-center">
 					<c:choose>
 						<c:when test="${pageBean.prevPage <= 0 }">
@@ -235,6 +229,14 @@
 					</li>
 				</ul>
 			</div>
+					
+				</c:otherwise>
+			</c:choose>
+			
+				
+			</div>
+			
+			
 	
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/> 

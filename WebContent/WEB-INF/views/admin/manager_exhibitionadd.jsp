@@ -114,10 +114,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 	margin: 0;
 }
 
-#poster svg {
-	width: 100px; /* SVG 이미지의 너비를 조정하세요 */
-	height: 100px; /* 높이를 자동으로 조정하여 가로세로 비율을 유지합니다 */
-}
+
 </style>
 
 </head>
@@ -157,8 +154,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					<div style="display: flex; width: 100%;">
 						<div
 							style="flex: 1; margin: 10px; border: 1px solid black; background-color: white;">
-							<div
-								style="margin-left: 50px; margin-top: 30px; display: flex; align-items: baseline;">
+							<div style="margin-left: 50px; margin-top: 30px; display: flex; align-items: baseline;">
 								<h3>전시회 기본정보</h3>
 								<p style="margin-left: 20px; color: #888888">* 표시는 필수항목입니다</p>
 							</div>
@@ -299,7 +295,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 							<div
 								style="align-items: center; margin: 30px; border: 0.2px solid black; width: 600px; margin-left: auto; margin-right: auto;">
-								<img src="../img/white.png" id="poster" alt="포스터"
+								<img src="../img/main_poster_here.png" id="poster" alt="포스터"
 									style="margin-left: auto; border: 1px solid black; margin-right: auto; display: block; margin-top: 30px; margin-bottom: 10px; width: 250px; height: 350px;" />
 								<div class="filebox"
 									style="margin-top: 25px; margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 20px;">
@@ -320,7 +316,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 							<div
 								style="align-items: center; margin: 30px; border: 0.2px solid black; width: 600px; margin-left: auto; margin-right: auto;">
-								<img src="../img/white.png" id="detail-poster" alt="포스터"
+								<img src="../img/detail_poster_here.png" id="detail-poster" alt="포스터"
 									style="margin-left: auto; border: 1px solid black; margin-right: auto; display: block; margin-top: 30px; margin-bottom: 10px; width: 250px; height: 350px;" />
 								<div class="filebox1"
 									style="margin-top: 25px; margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 20px;">
@@ -330,8 +326,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 										id="file1" accept="image/*" required="required" />
 								</div>
 							</div>
-
-
 
 						</div>
 					</div>

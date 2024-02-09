@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.dao.ExhibitionDao;
@@ -117,7 +118,7 @@ public class ExhibitionService {
 		return exhibitionDao.getIndexPageSoonExhibitionInfo();
 	}
 	
-	// 전시회 클릭스 리뷰정보 가져가기
+	// 전시회 클릭시 리뷰정보 가져가기
 	public List<ReviewBean> getExhibition_clickReviewAllInfo(int exhibition_id, int page) {
 		
 		int start = (page - 1) * exhibitionreview_listcnt;
@@ -125,6 +126,11 @@ public class ExhibitionService {
 
 		
 		return exhibitionDao.getExhibition_clickReviewAllInfo(exhibition_id, rowBounds);
+	}
+	
+	// 해당 전시회 리뷰 평균 점수 반환
+	public double getExhibitionReviewAVG(int exhibition_id) {
+		return exhibitionDao.getExhibitionReviewAVG(exhibition_id);
 	}
 	
 	// 전시회 클릭(상세) 페이지 리뷰 페이징 처리
@@ -135,5 +141,21 @@ public class ExhibitionService {
 		// 전체 게시글/현재 페이지/페이지제한(10)/화면에 보여지는 버튼의 최대개수(10)를 매개변수로 하는 pageBean을 객체로 생성해 리턴
 		
 		return pageBean;
+	}
+	
+	// ========================== 전시회 등록 신청 ==================
+	
+	// exhibition_enroll 테이블에 추가
+	public void AddExhibition_Enroll(ExhibitionDetailBean exhibitionDetailBean) {
+		
+		// 전시시간 String으로 open 에 set해줌
+		String open = (exhibitionDetailBean.getOpen_time() + " - " + exhibitionDetailBean.getClose_time());
+		exhibitionDetailBean.setOpen(open);
+		
+		// 상태값 등록신청 1 로 set해줌
+		exhibitionDetailBean.setState(1);
+		
+		
+		exhibitionDao.AddExhibition_Enroll(exhibitionDetailBean);
 	}
 }

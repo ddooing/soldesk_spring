@@ -501,29 +501,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 	</section>
 
-	<c:choose>
-		<c:when test="${exhibitionBean.longitude == 0 }">
-				<section id="exhibition_navbar">
-		<div
-			style="margin-top: 30px; text-align: center; margin-bottom: 15px;">
-			<button id="exhibition_info_button"
-				style="color: black; font-size: 25px; text-decoration: none; border: none; background-color: transparent;">전시회
-				정보</button>
-			<button id="exhibition_detail_button"
-				style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 150px;">전시회
-				상세</button>
-			<button id="exhibition_review_button"
-				style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 150px;">후기</button>
-
-		</div>
-
-	</section>
-				
-		</c:when>
-		<c:otherwise>
+	
 			<section id="exhibition_navbar">
-				<div
-					style="margin-top: 30px; text-align: center; margin-bottom: 15px;">
+				<div style="margin-top: 30px; text-align: center; margin-bottom: 15px;">
 					<button id="exhibition_info_button"
 						style="color: black; font-size: 25px; text-decoration: none; border: none; background-color: transparent;">전시회
 						정보</button>
@@ -534,13 +514,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 						style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 150px;">지도</button>
 					<button id="exhibition_review_button"
 						style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 150px;">후기</button>
-
 				</div>
-
 			</section>
 
-		</c:otherwise>
-	</c:choose>
+		
 
 
 	<script>
@@ -643,12 +620,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 	</section>
 
 
-	<c:choose>
-		<c:when test="${exhibitionBean.longitude == 0 }">
-
-		</c:when>
-
-		<c:otherwise>
+	
 			<section id="exhibition_map" style="margin-top: 20px;">
 				<!--지도-->
 				<hr style="margin: auto; margin-top: 100px; width: 1000px;" />
@@ -659,8 +631,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					</div>
 				</div>
 			</section>
-		</c:otherwise>
-	</c:choose>
+		
 
 	<!--후기-->
 	<section id="exhibition_review"
@@ -680,6 +651,41 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 		<c:choose>
 			<c:when test="${!empty exhibitionreviewBean}">
 				<div style="width: 800px; padding: 20px;">
+					<div style="margin-bottom:20px;">
+					<c:choose>
+						<c:when test="${empty exhibitionreviewBean}">
+						
+						</c:when>
+						<c:when test="${reviewAVG >= 0 && reviewAVG < 1}">
+							<span style="color: #ddd; font-size: 25px;">★★★★★</span>
+							<span>평균 : ${String.format("%.1f", reviewAVG)}</span>
+						</c:when>
+					    <c:when test="${reviewAVG >= 1 && reviewAVG < 2}">
+					    	<span style="color: gold; font-size: 25px;">★</span>
+							<span style="color: #ddd; font-size: 25px;">★★★★</span>
+							<span>평균 : ${String.format("%.1f", reviewAVG)}</span>
+						</c:when>
+					    <c:when test="${reviewAVG >= 2 && reviewAVG < 3}">
+					    	<span style="color: gold; font-size: 25px;">★★</span>
+							<span style="color: #ddd; font-size: 25px;">★★★</span>
+							<span>평균 : ${String.format("%.1f", reviewAVG)}</span>
+					    </c:when>
+					    <c:when test="${reviewAVG >= 3 && reviewAVG < 4}">
+					    	<span style="color: gold; font-size: 25px;">★★★</span>
+							<span style="color: #ddd; font-size: 25px;">★★</span>
+							<span>평균 : ${String.format("%.1f", reviewAVG)}</span>
+					    </c:when>
+					    <c:when test="${reviewAVG >= 4 && reviewAVG < 5}">
+					    	<span style="color: gold; font-size: 25px;">★★★★</span>
+							<span style="color: #ddd; font-size: 25px;">★</span>
+							<span>평균 : ${String.format("%.1f", reviewAVG)}</span>
+					    </c:when>
+					    <c:when test="${reviewAVG >= 5}">
+					    	<span style="color: gold; font-size: 25px;">★★★★★</span>
+					    	<span>평균 : ${reviewAVG }</span>
+					    </c:when>
+					</c:choose>
+					</div>
 					<c:forEach items="${exhibitionreviewBean }" var="reviewBean">
 						<div
 							style="padding: 25px; display: flex; flex-direction: column; background-color: white; border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px; margin-bottom: 25px;">
@@ -730,14 +736,21 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 											<span style="color: #ddd; font-size: 25px;"></span>
 										</c:when>
 									</c:choose>
-
 								</div>
+								
 								<div id="review">
 									<p class="short-text">${reviewBean.short_contents}</p>
-
-									<p class="full-text" style="display: none;">${reviewBean.contents}</p>
-									<button class="toggle-button"
-										style="background: transparent; border: none; float: right;">더보기</button>
+									
+									<c:choose>
+										<c:when test="${reviewBean.short_contents == reviewBean.contents}">
+											
+										</c:when>
+										<c:otherwise>
+											<p class="full-text" style="display: none;">${reviewBean.contents}</p>
+											<button class="toggle-button"
+												style="background: transparent; border: none; float: right;">더보기</button>
+										</c:otherwise>
+									</c:choose>
 								</div>
 							</div>
 						</div>
@@ -822,17 +835,15 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 	</section>
 
-	<script>
-		// '더보기' 버튼에 대한 모든 인스턴스를 선택합니다.
+	<script>	//리뷰 부분 더보기 버튼
 		var toggleButtons = document.querySelectorAll(".toggle-button");
 
 		toggleButtons.forEach(function(button) {
 			button.addEventListener("click", function() {
-				// 이 버튼과 관련된 텍스트 요소들을 찾습니다.
+
 				var fullText = this.parentNode.querySelector(".full-text");
 				var shortText = this.parentNode.querySelector(".short-text");
 
-				// 텍스트 요소들의 표시 상태를 전환합니다.
 				if (fullText.style.display === "none") {
 					fullText.style.display = "block";
 					shortText.style.display = "none";
@@ -850,43 +861,47 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 	<!--지도api 자바스크립트 건드리지말기!-->
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=7b2cf06203fb94dc8e07b3948ec6405a&libraries=services"></script>
+		
 	<script>
-		var mapContainer = document.getElementById('map'); // 지도를 표시할 div 
-
-		var X = parseFloat('${exhibitionBean.latitude}');
-		var Y = parseFloat('${exhibitionBean.longitude}');
-
-		var mapOption = {
-			center : new kakao.maps.LatLng(X, Y), // 지도의 중심좌표
-			level : 3
-		// 지도의 확대 레벨
-		};
-
-		var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-		var art_title = '${exhibitionBean.title}';
-
-		var iwContent = '<div style="width:180px; padding:5px;">' + art_title
-				+ '</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-		var iwPosition = new kakao.maps.LatLng(X, Y); //인포윈도우 표시 위치입니다
-		var iwRemoveable = true; // removeable 속성을 true로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-		// 인포윈도우를 생성하고 지도에 표시합니다
-		var infowindow = new kakao.maps.InfoWindow({
-			map : map, // 인포윈도우가 표시될 지도
-			position : iwPosition,
-			content : iwContent,
-			removable : iwRemoveable
-		});
-
-		// 아래 코드는 인포윈도우를 지도에서 제거합니다
-		// infowindow.close();
+		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+		    mapOption = {
+		        center: new kakao.maps.LatLng(37.569422, 126.986022), // 지도의 중심좌표
+		        level: 3 // 지도의 확대 레벨
+		    };  
+		
+		// 지도를 생성합니다    
+		var map = new kakao.maps.Map(mapContainer, mapOption); 
+		
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+		
+		// 주소로 좌표를 검색합니다
+		geocoder.addressSearch('${exhibitionBean.address}', function(result, status) {
+		
+			var art_title = '${exhibitionBean.title}';
+		    // 정상적으로 검색이 완료됐으면 
+		     if (status === kakao.maps.services.Status.OK) {
+		
+		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+		
+		        // 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            position: coords
+		        });
+		
+		        // 인포윈도우로 장소에 대한 설명을 표시합니다
+		        var infowindow = new kakao.maps.InfoWindow({
+		            content: '<div style="width:150px;text-align:center;padding:6px 0;">' + art_title + '</div>'
+		        });
+		        infowindow.open(map, marker);
+		
+		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		        map.setCenter(coords);
+		    } 
+		});    
 	</script>
-
-
-
-
-
+		
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
 
@@ -938,7 +953,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 
 
-
+	<!-- 데이트 피커 -->
 	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 	<script>

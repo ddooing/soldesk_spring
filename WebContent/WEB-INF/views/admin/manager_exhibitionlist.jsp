@@ -39,8 +39,6 @@
 		});
 	});
 </script>
-
-
 </head>
 
 <body class="sb-nav-fixed">
@@ -160,10 +158,10 @@
 									
 									<c:choose>
 										<c:when test="${exhibitionlist.state == 1}">
-											<td><input type="checkbox" value="open" id="open" checked="checked"/></td>	
+											<td><input type="checkbox" value="open" id="open" checked="checked" disabled/></td>	
 										</c:when>
 										<c:otherwise>
-											<td><input type="checkbox" value="open" id="open"/></td>
+											<td><input type="checkbox" value="open" id="open" disabled/></td>
 										</c:otherwise>
 									</c:choose>
 									

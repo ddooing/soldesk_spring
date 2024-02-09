@@ -176,10 +176,8 @@
 					</table>
 				</div>
 			</div>	
-				</c:otherwise>
-		</c:choose>
 			
-		<div class="d-none d-md-block" style="margin-top:50px;">
+			<div class="d-none d-md-block" style="margin-top:50px;">
 				<ul class="pagination justify-content-center">
 					<c:choose>
 						<c:when test="${pageBean.prevPage <= 0 }">
@@ -240,6 +238,10 @@
 					</li>
 				</ul>
 			</div>
+				</c:otherwise>
+		</c:choose>
+			
+		
 		
 		
 	

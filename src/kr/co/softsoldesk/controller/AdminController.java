@@ -360,10 +360,13 @@ public class AdminController {
 	@PostMapping("/exhibition_exhibitionadd_pro")
 	public String exhibition_exhibitionadd_pro(@ModelAttribute("AddDetailExhibitionBean") ExhibitionDetailBean AddDetailExhibitionBean, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 
-		// 파일테이블, 전시회 테이블 추가
+		// 파일테이블 추가
 		AdminService.addfiletableExhibition(AddDetailExhibitionBean);
 		
+		// 전시회 테이블 추가
+		AdminService.addexhibitiontableExhibition(AddDetailExhibitionBean);
 		
+		// 넘어가는 페이지 가져갈 것들
 		// 전시회 목록 가져가기
 	 	List<ExhibitionBean> AdminExhibitionInfoBean = AdminService.getAdminexhibitionmange(page);
 		model.addAttribute("AdminExhibitionInfoBean", AdminExhibitionInfoBean);
@@ -375,7 +378,6 @@ public class AdminController {
 		// 전시회 페이징 처리
 		PageBean pageBean = AdminService.getExhibitionCnt(page);
 		model.addAttribute("pageBean", pageBean);
-		
 		
 		return "/admin/manager_exhibitionlist";
 	}

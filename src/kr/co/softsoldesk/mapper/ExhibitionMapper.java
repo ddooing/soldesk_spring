@@ -2,17 +2,20 @@ package kr.co.softsoldesk.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
 
 public interface ExhibitionMapper {
 	
 	// 전시회 인기 페이지 조회	(상태값 1:현재 공개여부 공개된값)
-	@Select("SELECT e.exhibition_id, e.title, e.regdate, e.author, e.price, e.exhibition_start, e.exhibition_end, e.open, e.holiday, e.ticket_cnt, e.address, e.place, e.site, e.views, e.latitude, e.longitude, e.state, f1.path as main_poster_path, f1.name as main_poster_name, f2.path as detail_poster_path, f2.name as detail_poster_name FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND SYSDATE BETWEEN e.exhibition_start AND e.exhibition_end AND e.state = 1 ORDER BY e.ticket_cnt desc")
+	@Select("SELECT e.exhibition_id, e.title, e.regdate, e.author, e.price, e.exhibition_start, e.exhibition_end, e.open, e.holiday, e.ticket_cnt, e.address, e.place, e.site, e.views, e.state, f1.path as main_poster_path, f1.name as main_poster_name, f2.path as detail_poster_path, f2.name as detail_poster_name FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND SYSDATE BETWEEN e.exhibition_start AND e.exhibition_end AND e.state = 1 ORDER BY e.ticket_cnt desc")
 	List<ExhibitionBean> getPopularExhibitionInfo(RowBounds rowBounds);
 	
 	// 전시회 인기 페이지 페이징처리를 위한 개수 반환 메소드
@@ -20,7 +23,7 @@ public interface ExhibitionMapper {
 	int getPopularExhibitionCnt();
 	
 	// 전시회 상세페이지 조회
-	@Select("SELECT e.exhibition_id, e.title, e.regdate, e.author, e.price, e.exhibition_start, e.exhibition_end, e.open, e.holiday, e.ticket_cnt, e.address, e.place, e.site, e.views, e.latitude, e.longitude, e.state, f1.path as main_poster_path, f1.name as main_poster_name, f2.path as detail_poster_path, f2.name as detail_poster_name FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND exhibition_id = #{exhibition_id}")
+	@Select("SELECT e.exhibition_id, e.title, e.regdate, e.author, e.price, e.exhibition_start, e.exhibition_end, e.open, e.holiday, e.ticket_cnt, e.address, e.place, e.site, e.views, e.state, f1.path as main_poster_path, f1.name as main_poster_name, f2.path as detail_poster_path, f2.name as detail_poster_name FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND exhibition_id = #{exhibition_id}")
 	ExhibitionBean getExhibitionDetailInfo(int exhibition_id);
 	
 	// 전시회 클릭시 조회수 증가
@@ -43,8 +46,6 @@ public interface ExhibitionMapper {
 			+ "    e.place, \r\n"
 			+ "    e.site, \r\n"
 			+ "    e.views, \r\n"
-			+ "    e.latitude, \r\n"
-			+ "    e.longitude, \r\n"
 			+ "    e.state, \r\n"
 			+ "    f1.path as main_poster_path, \r\n"
 			+ "    f1.name as main_poster_name, \r\n"
@@ -79,8 +80,6 @@ public interface ExhibitionMapper {
 			+ "    e.place, \r\n"
 			+ "    e.site, \r\n"
 			+ "    e.views, \r\n"
-			+ "    e.latitude, \r\n"
-			+ "    e.longitude, \r\n"
 			+ "    e.state, \r\n"
 			+ "    f1.path as main_poster_path, \r\n"
 			+ "    f1.name as main_poster_name, \r\n"
@@ -115,8 +114,6 @@ public interface ExhibitionMapper {
 			+ "    e.place, \r\n"
 			+ "    e.site, \r\n"
 			+ "    e.views, \r\n"
-			+ "    e.latitude, \r\n"
-			+ "    e.longitude, \r\n"
 			+ "    e.state, \r\n"
 			+ "    f1.path as main_poster_path, \r\n"
 			+ "    f1.name as main_poster_name, \r\n"
@@ -174,6 +171,14 @@ public interface ExhibitionMapper {
 			+ "    r.review_id DESC")
 	List<ReviewBean> getExhibition_clickReviewAllInfo(int exhibition_id, RowBounds rowBounds);
 	
+	// 해당전시 리뷰 평균 점수 반환
+	@Select("SELECT COALESCE(AVG(r.rating), 0.0) AS average_rating\r\n"
+			+ "FROM review r\r\n"
+			+ "JOIN reserve rv ON r.reserve_id = rv.reserve_id\r\n"
+			+ "WHERE rv.exhibition_id = #{exhibition_id}\r\n")
+	double getExhibitionReviewAVG(@Param("exhibition_id") int exhibition_id);
+
+	
 	// 페이징 처리에서 해당 전시 리뷰 총 개수 리턴받기
 	@Select("SELECT\r\n"
 			+ "    COUNT(*)\r\n"
@@ -186,4 +191,10 @@ public interface ExhibitionMapper {
 			+ "    AND rv.exhibition_id = #{exhibition_id}")
 	int getExhibitionReviewCnt(int exhibition_id);
 	
+	
+	// =================================== 전시회 등록 신청 ==================================
+	
+	// 전시회 등록 신청 폼 작성
+	@Insert("INSERT INTO exhibition_enroll (title, place, regdate, author, address, price, state, exhibition_start, exhibition_end, open, holiday, site, apply_person, main_poster_file_id, detail_poster_file_id) VALUES (#{title}, #{place}, sysdate, #{author}, #{address, jdbcType=VARCHAR}, #{price}, #{state} ,#{exhibition_start}, #{exhibition_end}, #{open}, #{holiday}, #{site}, #{apply_person}, #{main_poster_file_id}, #{detail_poster_file_id})")
+	void AddExhibition_Enroll(ExhibitionDetailBean exhibitionDetailBean);
 }	

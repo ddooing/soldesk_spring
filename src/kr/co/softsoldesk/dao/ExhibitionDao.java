@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.mapper.ExhibitionMapper;
 
@@ -84,8 +85,19 @@ public class ExhibitionDao {
 		return exhibitionMapper.getExhibition_clickReviewAllInfo(exhibition_id, rowBounds);
 	}
 	
+	// 해당 전시회 리뷰 평균 점수 반환
+	public double getExhibitionReviewAVG(int exhibition_id) {
+		return exhibitionMapper.getExhibitionReviewAVG(exhibition_id);
+	}
+	
 	// 해당 전시 리뷰 개수 반환 메소드 리뷰 페이징처리
 	public int getExhibitionReviewCnt(int exhibition_id) {
 		return exhibitionMapper.getExhibitionReviewCnt(exhibition_id);
+	}
+	
+	// =================== 전시회 등록신청 =======================
+	//전시회 등록 테이블에 추가
+	public void AddExhibition_Enroll(ExhibitionDetailBean exhibitionDetailBean) {
+		exhibitionMapper.AddExhibition_Enroll(exhibitionDetailBean);
 	}
 }

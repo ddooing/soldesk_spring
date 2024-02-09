@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.softsoldesk.Beans.BookMarkBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.BookMarkService;
 import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.ReserveService;
@@ -41,6 +43,9 @@ public class ExhibitionController {
 	
 	@Autowired
 	private BookMarkService bookMarkService;
+	
+	@Autowired
+	private AdminService adminService;
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
@@ -124,6 +129,10 @@ public class ExhibitionController {
 	    // 리뷰 페이징 처리
      	PageBean pageBean = exhibitionService.getExhibitionReviewCnt(exhibition_id, page);
      	model.addAttribute("pageBean", pageBean);
+     	
+     	// 리뷰 평균 점수 반환
+     	double reviewAVG = exhibitionService.getExhibitionReviewAVG(exhibition_id);
+     	model.addAttribute("reviewAVG", reviewAVG);
 	    
 	    return "exhibition/exhibition_click";
 	}
@@ -188,6 +197,30 @@ public class ExhibitionController {
 	@GetMapping("bookmark_not_login")
 	public String bookmark_not_login() {
 		return "exhibition/bookmark_not_login";
+	}
+	
+	// 전시회 등록 페이지 매핑
+	@GetMapping("/Exhibition_Enroll")
+	public String Exhibition_Enroll(@ModelAttribute("addExhibitionDetailBean") ExhibitionDetailBean exhibitionDetailBean, Model model) {
+		
+		// 로그인된 모든 정보 가져옴 (이름, 이메일, 전화번호) readonly용
+		UserBean getLoginUserAllInfo = UserService.getLoginUserAllInfo(loginUserBean.getUser_id());
+		model.addAttribute("getLoginUserAllInfo", getLoginUserAllInfo);
+		
+		return "exhibition/Exhibition_Enroll";
+	}
+	
+	// 전시회 등록 폼 제출
+	@PostMapping("/Exhibition_Enroll_pro")
+	public String Exhibition_Enroll_pro(@ModelAttribute("addExhibitionDetailBean") ExhibitionDetailBean exhibitionDetailBean, Model model) {
+		
+		// 파일 테이블에 추가 및 파일 저장 (관리자 전시회 직접추가때 사용한 메소드 재사용)
+		adminService.addfiletableExhibition(exhibitionDetailBean);
+		
+		// exhibition_enroll 테이블에 저장
+		exhibitionService.AddExhibition_Enroll(exhibitionDetailBean);
+		
+		return "/exhibition/exhibition_enroll_complete";
 	}
 	
 

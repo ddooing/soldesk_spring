@@ -187,15 +187,21 @@
 
 	<c:choose>
 		<c:when test="${empty ArchiveAllInfoBean}">
-			<div style="background :#d3d3d32e;  width:860px; height:300px; margin:auto; border-radius:15px;" >
-					<div class="test-center" style="margin:auto;   display:flex;  flex-direction:column; align-items:center;">
-					    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-x-circle" style="margin-top:80px;" viewBox="0 0 16 16">
-					        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-					        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+			<div
+				style="background: #d3d3d32e; width: 860px; height: 300px; margin: auto; border-radius: 15px;">
+				<div class="test-center"
+					style="margin: auto; display: flex; flex-direction: column; align-items: center;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"
+						fill="currentColor" class="bi bi-x-circle"
+						style="margin-top: 80px;" viewBox="0 0 16 16">
+					        <path
+							d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+					        <path
+							d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
 					    </svg>
-					    <h3 style="margin-top:50px;">아카이브 내역이 없습니다</h3>
-					</div>
-				</div>	
+					<h3 style="margin-top: 50px;">아카이브 내역이 없습니다</h3>
+				</div>
+			</div>
 		</c:when>
 		<c:otherwise>
 			<div class="archive" style="margin: auto;">
@@ -235,7 +241,7 @@
 								<div class="modal-content">
 									<div class="modal-header">
 										<h5 class="modal-title" id="exampleModalLabel">소감문 수정</h5>
-										
+
 									</div>
 									<div class="modal-body">
 										<div style="display: flex; margin-top: 20px;">
@@ -402,8 +408,10 @@
 												</c:choose>
 												<label for="switch-17-${archivelist.reserve_id}"></label> <span
 													style="margin-left: 10px;">공개 여부</span>
-												<button type="button" class="btn btn-danger btn-close-reviewmodal" data-target="#modal-${archivelist.reserve_id}"
-													style="margin-left: 200px;" role="button">취소</button>	
+												<button type="button"
+													class="btn btn-danger btn-close-reviewmodal"
+													data-target="#modal-${archivelist.reserve_id}"
+													style="margin-left: 200px;" role="button">취소</button>
 												<button type="submit" class="btn btn-dark"
 													style="margin-left: 10px;" role="button">수정</button>
 											</div>
@@ -474,7 +482,7 @@ $(document).ready(function() {
 });
 </script>
 
-<script>
+						<script>
 		$(document).ready(function() {
 		    // 모달 열기
 		    $('.btn-open-reviewmodal').click(function() {
@@ -502,61 +510,55 @@ $(document).ready(function() {
 
 				<!-- 소감문 작성 전 - 소감문 작성 페이지로 이동 , 소감문 작성 후 - 소감문 모달창 -->
 
-				<div class="d-none d-md-block" style="margin-top:50px;">
-    <ul class="pagination justify-content-center">
-        <c:choose>
-            <c:when test="${pageBean.prevPage <= 0 }">
-                <li class="page-item disabled">
-                    <a href="#" class="page-link">이전</a>
-                </li>
-            </c:when>
-            <c:otherwise>
-                <li class="page-item">
-                    <a href="${root}/mypage/archive?user_id=${loginUserBean.user_id}&page=${pageBean.prevPage}" class="page-link">이전</a>
-                </li>
-            </c:otherwise>
-        </c:choose>
-        
-        <c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
-            <c:choose>
-                <c:when test="${idx == pageBean.currentPage}">
-                    <li class="page-item active">
-                        <a href="${root}/mypage/archive?user_id=${loginUserBean.user_id}&page=${idx}" class="page-link">${idx}</a>
-                    </li>
-                </c:when>
-                <c:otherwise>
-                    <li class="page-item">
-                        <a href="${root}/mypage/archive?user_id=${loginUserBean.user_id}&page=${idx}" class="page-link">${idx}</a>
-                    </li>
-                </c:otherwise>
-            </c:choose>
-        </c:forEach>
-        
-        <c:choose>
-            <c:when test="${pageBean.max >= pageBean.pageCnt}">
-                <li class="page-item disabled">
-                    <a href="#" class="page-link">다음</a>
-                </li>
-            </c:when>
-            <c:otherwise>
-                <li class="page-item">
-                    <a href="${root}/mypage/archive?user_id=${loginUserBean.user_id}&page=${pageBean.nextPage}" class="page-link">다음</a>
-                </li>
-            </c:otherwise>
-        </c:choose>
-    </ul>
-</div>
+				<div class="d-none d-md-block" style="margin-top: 50px;">
+					<ul class="pagination justify-content-center">
+						<c:choose>
+							<c:when test="${pageBean.prevPage <= 0 }">
+								<li class="page-item disabled"><a href="#"
+									class="page-link">이전</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item"><a
+									href="${root}/mypage/archive?user_id=${loginUserBean.user_id}&page=${pageBean.prevPage}"
+									class="page-link">이전</a></li>
+							</c:otherwise>
+						</c:choose>
 
-<div class="d-block d-md-none">
-    <ul class="pagination justify-content-center">
-        <li class="page-item"> 
-            <a href="#" class="page-link">이전</a>
-        </li>
-        <li class="page-item">
-            <a href="#" class="page-link">다음</a>
-        </li>
-    </ul>
-</div>
+						<c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
+							<c:choose>
+								<c:when test="${idx == pageBean.currentPage}">
+									<li class="page-item active"><a
+										href="${root}/mypage/archive?user_id=${loginUserBean.user_id}&page=${idx}"
+										class="page-link">${idx}</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="page-item"><a
+										href="${root}/mypage/archive?user_id=${loginUserBean.user_id}&page=${idx}"
+										class="page-link">${idx}</a></li>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+
+						<c:choose>
+							<c:when test="${pageBean.max >= pageBean.pageCnt}">
+								<li class="page-item disabled"><a href="#"
+									class="page-link">다음</a></li>
+							</c:when>
+							<c:otherwise>
+								<li class="page-item"><a
+									href="${root}/mypage/archive?user_id=${loginUserBean.user_id}&page=${pageBean.nextPage}"
+									class="page-link">다음</a></li>
+							</c:otherwise>
+						</c:choose>
+					</ul>
+				</div>
+
+				<div class="d-block d-md-none">
+					<ul class="pagination justify-content-center">
+						<li class="page-item"><a href="#" class="page-link">이전</a></li>
+						<li class="page-item"><a href="#" class="page-link">다음</a></li>
+					</ul>
+				</div>
 
 
 
