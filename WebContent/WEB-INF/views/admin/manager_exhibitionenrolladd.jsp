@@ -131,16 +131,19 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				<div
 					style="position: relative; display: flex; justify-content: center; margin: 10px; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 
-					<!-- 검색부분 수정필요 -->
-					<form action="${root }/admin/manager_exhibitionlist" method="get">
-						<select name="exhibitioncombo" id="exhibitioncombo"
-							style="width: 150px; height: 40px; margin-right: 30px;">
-							<option value="" disabled selected>검색조건선택</option>
-							<option value="author">작가</option>
-							<option value="title">제목</option>
-						</select> <input type="text" name="exhibitionsearch" id="exhibitionsearch"
-							style="width: 500px; height: 40px; margin-right: 30px;"
-							placeholder="검색어를 입력해주세요" />
+					<form action="${root }/admin/manager_exhibitionapplylist" method="get">
+								<select name="exhibitioncombo" id="exhibitioncombo"
+									style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled selected>검색조건선택</option>
+									<option value="title">제목</option>
+									<option value="apply_person">신청인</option>
+									<option value="author">작가</option>
+									<option value="enroll_state">상태</option>
+								</select>
+								<input type="text" name="exhibitionsearch" id="exhibitionsearch"
+									style="width: 500px; height: 40px; margin-right: 30px;"
+									placeholder="검색어를 입력해주세요" />
+							
 						<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
 					</form>
 				</div>
@@ -155,12 +158,23 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					<form:hidden path="apply_person" />
 					<form:hidden path="enroll_state" />
 					<div style="display: flex; width: 100%;">
-						<div
-							style="flex: 1; margin: 10px; border: 1px solid black; background-color: white;">
+						<div style="flex: 1; margin: 10px; border: 1px solid black; background-color: white;">
 							<div
 								style="margin-left: 50px; margin-top: 30px; display: flex; align-items: baseline;">
 								<h3>전시회 기본정보</h3>
-								<p style="margin-left: 20px; color: #888888">* 표시는 필수항목입니다</p>
+								<p style="margin-left: 20px; color: #888888; margin-right:200px;">* 표시는 필수항목입니다</p>
+								<c:choose>
+									<c:when test="${AddDetailEnrollExhibitionBean.enroll_state == 1 }">
+										<h5>상태 : 등록대기</h5>		
+									</c:when>
+									<c:when test="${AddDetailEnrollExhibitionBean.enroll_state == 2 }">
+										<h5>상태 : 등록완료</h5>		
+									</c:when>
+									<c:when test="${AddDetailEnrollExhibitionBean.enroll_state == 3 }">
+										<h5 style="color:red;">상태 : 거절</h5>		
+									</c:when>
+								</c:choose>
+								
 							</div>
 							<table class="table table-hover table-borderless"
 								style="margin-top: 50px; width: 700px; margin-left: auto; margin-right: auto; vertical-align: middle;">
@@ -365,6 +379,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 								test="${AddDetailEnrollExhibitionBean.enroll_state == 1 }">
 								<a href="${root }/admin/manager_exhibitionapplylist"
 									class="btn btn-danger" style="width: 70px; margin-right: 10px;">취소</a>
+								<button class="btn btn-danger" style="width:70px; margin-right:10px;" type="button" onclick="confirmRejection();">거절</button>	
 								<button type="button" class="btn btn-dark" style="width: 70px;"
 									onclick="showConfirmation();">추가</button>
 							</c:when>
@@ -541,6 +556,32 @@ function showConfirmation() {
 		    }
 		</script>
 
+<script>
+    function confirmRejection() {
+        Swal.fire({
+            title: '거절하시겠습니까?',
+            text: '거절하면 복구 할 수 없습니다',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '거절',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    '거절되었습니다!',
+                    '전시회 신청이 거절되었습니다.',
+                    'success'
+                ).then((result) => {
+                    if (result.isConfirmed) {
+                    	 window.location.href = '${root}/admin/manager_enroll_reject?exhibition_enroll_id=' + ${AddDetailEnrollExhibitionBean.exhibition_enroll_id};
+                    }
+                });
+            }
+        });
+    }
+    </script>
 
 
 	<script

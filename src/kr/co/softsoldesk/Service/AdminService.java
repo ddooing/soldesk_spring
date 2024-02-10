@@ -449,5 +449,101 @@ public class AdminService {
 		adminDao.UpdateExhibitionEnrollState(enroll_state, exhibition_enroll_id);
 	}
 	
+	// 전시회 등록 신청 관리자 페이지 뱃지 개수 반환
+	public ExhibitionDetailBean getEnrollExhibitionbadgeCnt() {
+		return adminDao.getEnrollExhibitionbadgeCnt();
+	}
+	
+	// 전시회 등록 신청 제목 검색
+	public List<ExhibitionDetailBean> getEnrollExhibitionSearchTitle(String search, int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getEnrollExhibitionSearchTitle(search, rowBounds);
+	}
+	
+	// 전시회 등록 신청 제목 검색 배지 개수 반환
+	public ExhibitionDetailBean getEnrollExhibitionSearchTitleBadgeCnt(String search) {
+		return adminDao.getEnrollExhibitionSearchTitleBadgeCnt(search);
+	}
+	
+	// 전시회 등록 신청 제목 검색 페이징 처리를 위한 총개수 반환
+	public PageBean getEnrollExhibitionSearchTitletotalCnt(String search, int currentPage) {
+		
+		int titlesearch_Cnt = adminDao.getEnrollExhibitionSearchTitletotalCnt(search);
+		PageBean pageBean = new PageBean(titlesearch_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}
+	
+	// 전시회 등록 신청 신청인 검색
+	public List<ExhibitionDetailBean> getEnrollExhibitionSearchapply_person(String search, int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getEnrollExhibitionSearchapply_person(search, rowBounds);
+	}
+	
+	// 전시회 등록 신청 신청인 검색 중 배지 개수 반환
+	public ExhibitionDetailBean getEnrollExhibitionSearchapply_personBadgeCnt(String search) {
+		return adminDao.getEnrollExhibitionSearchapply_personBadgeCnt(search);
+	}
+	
+	// 전시회 등록 신청 신청인 검색 페이징 처리를 위한 총개수 반환
+	public PageBean getEnrollExhibitionSearchapply_persontotalCnt(String search, int currentPage) {
+
+		int apply_personsearch_Cnt = adminDao.getEnrollExhibitionSearchapply_persontotalCnt(search);
+		PageBean pageBean = new PageBean(apply_personsearch_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}
+	
+	// 전시회 등록 신청 작가 검색
+	public List<ExhibitionDetailBean> getEnrollExhibitionSearchauthor(String search, int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getEnrollExhibitionSearchauthor(search, rowBounds);
+	}
+	
+	// 전시회 등록 신청 작가 검색 중 배지 개수 반환
+	public ExhibitionDetailBean getEnrollExhibitionSearchauthorBadgeCnt(String search) {
+		return adminDao.getEnrollExhibitionSearchauthorBadgeCnt(search);
+	}
+	
+	// 전시회 등록 신청 작가 검색 페이징 처리를 위한 총개수 반환
+	public PageBean getEnrollExhibitionSearchauthortotalCnt(String search, int currentPage) {
+		
+		int authorsearch_Cnt = adminDao.getEnrollExhibitionSearchauthortotalCnt(search);
+		PageBean pageBean = new PageBean(authorsearch_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}
+	
+	// 전시회 등록 신청 상태 검색
+	public List<ExhibitionDetailBean> getEnrollExhibitionSearchstate(int search, int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getEnrollExhibitionSearchstate(search, rowBounds);
+	}
+	
+	// 전시회 등록 신청 상태 검색 중 배지 개수 반환
+	public ExhibitionDetailBean getEnrollExhibitionSearchstateBadgeCnt(int search) {
+		return adminDao.getEnrollExhibitionSearchstateBadgeCnt(search);
+	}
+	
+	// 전시회 등록 신청 상태 검색 페이징 처리를 위한 총개수 반환
+	public PageBean getEnrollExhibitionSearchstatetotalCnt(int search, int currentPage) {
+		
+		int statesearch_Cnt = adminDao.getEnrollExhibitionSearchstatetotalCnt(search);
+		PageBean pageBean = new PageBean(statesearch_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}
 }
 

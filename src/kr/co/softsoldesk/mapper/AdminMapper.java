@@ -426,4 +426,206 @@ public interface AdminMapper {
 	//전시회 등록 신청 -> 전시회 등록 완료 하면 exhibition_enroll 테이블 상태값 변경해주기
 	@Update("UPDATE exhibition_enroll SET enroll_state = #{enroll_state} where exhibition_enroll_id = #{exhibition_enroll_id}")
 	void UpdateExhibitionEnrollState(@Param("enroll_state")int enroll_state,@Param("exhibition_enroll_id") int exhibition_enroll_id);
+	
+	// 전시회 등록 신청 관리자 페이지 뱃지에 넣을 개수 반환
+	@Select("SELECT\r\n"
+			+ "    COUNT(*) AS total_exhibition_eroll_count,\r\n"
+			+ "    COUNT(CASE WHEN enroll_state = 1 THEN 1 END) AS stay_exhibition_eroll_count,\r\n"
+			+ "    COUNT(CASE WHEN enroll_state = 2 THEN 1 END) AS complete_exhibition_eroll_count\r\n"
+			+ "FROM\r\n"
+			+ "    exhibition_enroll")
+	ExhibitionDetailBean getEnrollExhibitionbadgeCnt();
+	
+	// 전시회 등록 신청 제목 검색
+	@Select("SELECT \r\n"
+			+ "    e.exhibition_enroll_id, \r\n"
+			+ "    e.title, \r\n"
+			+ "    e.author, \r\n"
+			+ "    e.price, \r\n"
+			+ "    TO_CHAR(e.exhibition_start, 'yyyy-mm-dd') AS exhibition_start, \r\n"
+			+ "    TO_CHAR(e.exhibition_end, 'yyyy-mm-dd') AS exhibition_end, \r\n"
+			+ "    e.enroll_state, \r\n"
+			+ "    u.name AS apply_name\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(e.title) LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC\r\n")
+	List<ExhibitionDetailBean> getEnrollExhibitionSearchTitle(@Param("search") String search, RowBounds rowBounds);
+	
+	// 전시회 등록 신청 제목 검색 배지 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*) AS total_exhibition_eroll_count,\r\n"
+			+ "    COUNT(CASE WHEN enroll_state = 1 THEN 1 END) AS stay_exhibition_eroll_count,\r\n"
+			+ "    COUNT(CASE WHEN enroll_state = 2 THEN 1 END) AS complete_exhibition_eroll_count\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(e.title) LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC")
+	ExhibitionDetailBean getEnrollExhibitionSearchTitleBadgeCnt(@Param("search") String search);
+	
+	// 전시회 등록 신청 제목 검색 페이징 처리를 위한 총 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*)\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(e.title) LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC")
+	int getEnrollExhibitionSearchTitletotalCnt(@Param("search") String search);
+	
+	
+	// 전시회 등록 신청 신청인 검색
+	@Select("SELECT \r\n"
+			+ "    e.exhibition_enroll_id, \r\n"
+			+ "    e.title, \r\n"
+			+ "    e.author, \r\n"
+			+ "    e.price, \r\n"
+			+ "    TO_CHAR(e.exhibition_start, 'yyyy-mm-dd') AS exhibition_start, \r\n"
+			+ "    TO_CHAR(e.exhibition_end, 'yyyy-mm-dd') AS exhibition_end, \r\n"
+			+ "    e.enroll_state, \r\n"
+			+ "    u.name AS apply_name\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(u.name) LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC\r\n")
+	List<ExhibitionDetailBean> getEnrollExhibitionSearchapply_person(@Param("search") String search, RowBounds rowBounds);
+	
+	// 전시회 등록 신청 제목 검색 배지 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*) AS total_exhibition_eroll_count,\r\n"
+			+ "    COUNT(CASE WHEN enroll_state = 1 THEN 1 END) AS stay_exhibition_eroll_count,\r\n"
+			+ "    COUNT(CASE WHEN enroll_state = 2 THEN 1 END) AS complete_exhibition_eroll_count\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(u.name) LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC")
+	ExhibitionDetailBean getEnrollExhibitionSearchapply_personBadgeCnt(@Param("search") String search);		
+	
+	// 전시회 등록 신청 제목 검색 페이징 처리를 위한 총 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*)\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(u.name) LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC")
+	int getEnrollExhibitionSearchapply_persontotalCnt(@Param("search") String search);		
+	
+	// 전시회 등록 신청 작가 검색
+	@Select("SELECT \r\n"
+			+ "    e.exhibition_enroll_id, \r\n"
+			+ "    e.title, \r\n"
+			+ "    e.author, \r\n"
+			+ "    e.price, \r\n"
+			+ "    TO_CHAR(e.exhibition_start, 'yyyy-mm-dd') AS exhibition_start, \r\n"
+			+ "    TO_CHAR(e.exhibition_end, 'yyyy-mm-dd') AS exhibition_end, \r\n"
+			+ "    e.enroll_state, \r\n"
+			+ "    u.name AS apply_name\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(e.author) LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC\r\n")
+	List<ExhibitionDetailBean> getEnrollExhibitionSearchauthor(@Param("search") String search, RowBounds rowBounds);
+	
+	// 전시회 등록 신청 제목 검색 배지 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*) AS total_exhibition_eroll_count,\r\n"
+			+ "    COUNT(CASE WHEN enroll_state = 1 THEN 1 END) AS stay_exhibition_eroll_count,\r\n"
+			+ "    COUNT(CASE WHEN enroll_state = 2 THEN 1 END) AS complete_exhibition_eroll_count\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(e.author) LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC")
+	ExhibitionDetailBean getEnrollExhibitionSearchauthorBadgeCnt(@Param("search") String search);	
+	
+	// 전시회 등록 신청 제목 검색 페이징 처리를 위한 총 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*)\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(e.author) LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC")
+	int getEnrollExhibitionSearchauthortotalCnt(@Param("search") String search);	
+	
+	// 전시회 등록 신청 상태 검색
+	@Select("SELECT \r\n"
+			+ "    e.exhibition_enroll_id, \r\n"
+			+ "    e.title, \r\n"
+			+ "    e.author, \r\n"
+			+ "    e.price, \r\n"
+			+ "    TO_CHAR(e.exhibition_start, 'yyyy-mm-dd') AS exhibition_start, \r\n"
+			+ "    TO_CHAR(e.exhibition_end, 'yyyy-mm-dd') AS exhibition_end, \r\n"
+			+ "    e.enroll_state, \r\n"
+			+ "    u.name AS apply_name\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    e.enroll_state = #{search} \r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC")
+	List<ExhibitionDetailBean> getEnrollExhibitionSearchstate(@Param("search") int search, RowBounds rowBounds);
+	
+	// 전시회 등록 신청 상태 검색 배지 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*) AS total_exhibition_eroll_count,\r\n"
+			+ "    COUNT(CASE WHEN enroll_state = 1 THEN 1 END) AS stay_exhibition_eroll_count,\r\n"
+			+ "    COUNT(CASE WHEN enroll_state = 2 THEN 1 END) AS complete_exhibition_eroll_count\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    e.enroll_state = #{search} \r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC")
+	ExhibitionDetailBean getEnrollExhibitionSearchstateBadgeCnt(@Param("search") int search);	
+	
+	// 전시회 등록 신청 제목 검색 페이징 처리를 위한 총 개수 반환
+	@Select("SELECT \r\n"
+			+ "    COUNT(*)\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition_enroll e\r\n"
+			+ "JOIN \r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE \r\n"
+			+ "    e.enroll_state = #{search} \r\n"
+			+ "ORDER BY \r\n"
+			+ "    e.exhibition_enroll_id DESC")
+	int getEnrollExhibitionSearchstatetotalCnt(@Param("search") int search);	
 }

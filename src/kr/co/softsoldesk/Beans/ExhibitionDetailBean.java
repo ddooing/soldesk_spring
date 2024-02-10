@@ -49,4 +49,10 @@ public class ExhibitionDetailBean {
 	private int exhibition_enroll_id;
 	private int enroll_state;
 	
+	
+	private int total_exhibition_eroll_count;	// 전시회 신청관리 뱃지 부분 총개수
+	private int stay_exhibition_eroll_count;	// 전시회 신청관리 뱃지 부분 등록대기개수
+	private int complete_exhibition_eroll_count;// 전시회 신청관리 뱃지 부분 완료개수
+	
+	
 }

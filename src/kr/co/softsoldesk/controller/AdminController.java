@@ -24,6 +24,7 @@ import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.UserService;
+import kr.co.softsoldesk.dao.ExhibitionDao;
 
 @Controller
 @RequestMapping("/admin")
@@ -566,15 +567,144 @@ public class AdminController {
 	
 	// 관리자페이지 전시회 등록 신청 리스트 
 	@GetMapping("/manager_exhibitionapplylist")
-	public String manager_exhibitionapplylist(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+	public String manager_exhibitionapplylist(@RequestParam(value="exhibitioncombo", required=false) String exhibitioncombo, @RequestParam(value="exhibitionsearch", required=false) String exhibitionsearch, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
-		// 리스트 찍는 정보 가져가기
-		List<ExhibitionDetailBean> enrollAllBean = AdminService.getAllExhibitionEnroll(page);
-		model.addAttribute("enrollAllBean", enrollAllBean);
+		if (exhibitioncombo == null || exhibitioncombo.isEmpty() || exhibitionsearch == null || exhibitionsearch.isEmpty()) {
+			// 리스트 찍는 정보 가져가기
+			List<ExhibitionDetailBean> enrollAllBean = AdminService.getAllExhibitionEnroll(page);
+			model.addAttribute("enrollAllBean", enrollAllBean);
+			
+			// 페이징 처리
+			PageBean pageBean = AdminService.getEnrollExhibitionCnt(page);
+			model.addAttribute("pageBean", pageBean);
+			
+			// 뱃지에 넣을 개수 반환 Bean (total_exhibition_eroll_count,stay_exhibition_eroll_count,complete_exhibition_eroll_count)
+			ExhibitionDetailBean countBean = AdminService.getEnrollExhibitionbadgeCnt();
+			model.addAttribute("countBean", countBean);
+			
+			return "/admin/manager_exhibitionapplylist";
+		}
 		
-		// 페이징 처리
-		PageBean pageBean = AdminService.getEnrollExhibitionCnt(page);
-		model.addAttribute("pageBean", pageBean);
+		
+		if("title".equals(exhibitioncombo)) {	// 제목검색
+			
+			// 제목 검색 리스트
+			List<ExhibitionDetailBean> titlesearchBean = AdminService.getEnrollExhibitionSearchTitle(exhibitionsearch, page);
+			model.addAttribute("enrollAllBean",titlesearchBean);
+			
+			// 제목 검색 중 배지 개수 반환
+			ExhibitionDetailBean titlesearchCntBean = AdminService.getEnrollExhibitionSearchTitleBadgeCnt(exhibitionsearch);
+			model.addAttribute("countBean",titlesearchCntBean);
+			
+			// 제목 검색 페이징 처리
+			PageBean pageBean = AdminService.getEnrollExhibitionSearchTitletotalCnt(exhibitionsearch, page);
+			model.addAttribute("pageBean1", pageBean);
+			
+			// 페이징 처리로 인한 검색조건 검색어 가져가기
+			model.addAttribute("exhibitioncombo",exhibitioncombo);
+			model.addAttribute("exhibitionsearch",exhibitionsearch);
+			
+		} else if("apply_person".equals(exhibitioncombo)) {	// 신청인검색
+			
+			// 신청인 검색 리스트
+			List<ExhibitionDetailBean> apply_personsearchBean = AdminService.getEnrollExhibitionSearchapply_person(exhibitionsearch, page);
+			model.addAttribute("enrollAllBean",apply_personsearchBean);
+			
+			// 신청인 검색 중 배지 개수 반환
+			ExhibitionDetailBean apply_personsearchCntBean = AdminService.getEnrollExhibitionSearchapply_personBadgeCnt(exhibitionsearch);
+			model.addAttribute("countBean",apply_personsearchCntBean);
+			
+			// 신청인 검색 페이징 처리
+			PageBean pageBean = AdminService.getEnrollExhibitionSearchapply_persontotalCnt(exhibitionsearch, page);
+			model.addAttribute("pageBean2", pageBean);
+			
+			// 페이징 처리로 인한 검색조건 검색어 가져가기
+			model.addAttribute("exhibitioncombo",exhibitioncombo);
+			model.addAttribute("exhibitionsearch",exhibitionsearch);			
+		} else if("author".equals(exhibitioncombo)) {	// 작가검색
+			
+			// 작가 검색 리스트
+			List<ExhibitionDetailBean> getEnrollExhibitionSearchauthor = AdminService.getEnrollExhibitionSearchauthor(exhibitionsearch, page);
+			model.addAttribute("enrollAllBean", getEnrollExhibitionSearchauthor);
+			
+			// 작가 검색 중 배지 개수 반환
+			ExhibitionDetailBean authorsearchCntBean = AdminService.getEnrollExhibitionSearchauthorBadgeCnt(exhibitionsearch);
+			model.addAttribute("countBean", authorsearchCntBean);
+			
+			// 작가 검색 페이징 처리
+			PageBean pageBean = AdminService.getEnrollExhibitionSearchauthortotalCnt(exhibitionsearch, page);
+			model.addAttribute("pageBean3", pageBean);
+			
+			// 페이징 처리로 인한 검색조건 검색어 가져가기
+			model.addAttribute("exhibitioncombo",exhibitioncombo);
+			model.addAttribute("exhibitionsearch",exhibitionsearch);
+			
+		} else if("enroll_state".equals(exhibitioncombo)) {		// 상태검색
+			
+			// 상태 검색 매핑?
+			if(exhibitionsearch.contains("대기")) {
+				
+				int searching = 1;
+				// 상태 검색 리스트
+				List<ExhibitionDetailBean> getEnrollExhibitionSearchstate = AdminService.getEnrollExhibitionSearchstate(searching, page);
+				model.addAttribute("enrollAllBean",getEnrollExhibitionSearchstate);
+				
+				// 상태 검색 중 배지 개수 반환
+				ExhibitionDetailBean getEnrollExhibitionSearchstateBadgeCnt = AdminService.getEnrollExhibitionSearchstateBadgeCnt(searching);
+				model.addAttribute("countBean",getEnrollExhibitionSearchstateBadgeCnt);
+				
+				// 상태 검색 페이징 처리
+				PageBean pageBean = AdminService.getEnrollExhibitionSearchstatetotalCnt(searching, page);
+				model.addAttribute("pageBean4", pageBean);
+				
+				// 페이징 처리로 인한 검색조건 검색어 가져가기
+				model.addAttribute("exhibitioncombo",exhibitioncombo);
+				model.addAttribute("searching",searching);
+				model.addAttribute("exhibitionsearch",exhibitionsearch);
+				
+			} else if(exhibitionsearch.contains("등록")||exhibitionsearch.contains("완료")) {
+				
+				int searching = 2;
+				// 상태 검색 리스트
+				List<ExhibitionDetailBean> getEnrollExhibitionSearchstate = AdminService.getEnrollExhibitionSearchstate(searching, page);
+				model.addAttribute("enrollAllBean",getEnrollExhibitionSearchstate);
+				
+				// 상태 검색 중 배지 개수 반환
+				ExhibitionDetailBean getEnrollExhibitionSearchstateBadgeCnt = AdminService.getEnrollExhibitionSearchstateBadgeCnt(searching);
+				model.addAttribute("countBean",getEnrollExhibitionSearchstateBadgeCnt);
+				
+				// 상태 검색 페이징 처리
+				PageBean pageBean = AdminService.getEnrollExhibitionSearchstatetotalCnt(searching, page);
+				model.addAttribute("pageBean4", pageBean);
+				
+				// 페이징 처리로 인한 검색조건 검색어 가져가기
+				model.addAttribute("exhibitioncombo",exhibitioncombo);
+				model.addAttribute("searching",searching);
+				model.addAttribute("exhibitionsearch",exhibitionsearch);
+				
+			} else if(exhibitionsearch.contains("거절")) {
+				
+				int searching = 3;
+				// 상태 검색 리스트
+				List<ExhibitionDetailBean> getEnrollExhibitionSearchstate = AdminService.getEnrollExhibitionSearchstate(searching, page);
+				model.addAttribute("enrollAllBean",getEnrollExhibitionSearchstate);
+				
+				// 상태 검색 중 배지 개수 반환
+				ExhibitionDetailBean getEnrollExhibitionSearchstateBadgeCnt = AdminService.getEnrollExhibitionSearchstateBadgeCnt(searching);
+				model.addAttribute("countBean",getEnrollExhibitionSearchstateBadgeCnt);
+				
+				// 상태 검색 페이징 처리
+				PageBean pageBean = AdminService.getEnrollExhibitionSearchstatetotalCnt(searching, page);
+				model.addAttribute("pageBean4", pageBean);
+				
+				// 페이징 처리로 인한 검색조건 검색어 가져가기
+				model.addAttribute("exhibitioncombo",exhibitioncombo);
+				model.addAttribute("searching",searching);
+				model.addAttribute("exhibitionsearch",exhibitionsearch);
+				
+			}
+			
+		}
 		
 		return "/admin/manager_exhibitionapplylist";
 	}
@@ -623,8 +753,31 @@ public class AdminController {
 		// 전시회 페이징 처리
 		PageBean pageBean = AdminService.getExhibitionCnt(page);
 		model.addAttribute("pageBean", pageBean);
+		
 				
 		return "/admin/manager_exhibitionlist";
+	}
+	
+	@GetMapping("/manager_enroll_reject")
+	public String manager_enroll_reject(@RequestParam(value = "page", defaultValue = "1") int page,@RequestParam("exhibition_enroll_id") int exhibition_enroll_id, Model model) {
+		
+		// 상태값 거절(3) 으로 변경
+		AdminService.UpdateExhibitionEnrollState(3, exhibition_enroll_id);
+		
+		// 리스트 찍는 정보 가져가기
+		List<ExhibitionDetailBean> enrollAllBean = AdminService.getAllExhibitionEnroll(page);
+		model.addAttribute("enrollAllBean", enrollAllBean);
+					
+		// 페이징 처리
+		PageBean pageBean = AdminService.getEnrollExhibitionCnt(page);
+		model.addAttribute("pageBean", pageBean);
+					
+		// 뱃지에 넣을 개수 반환 Bean (total_exhibition_eroll_count,stay_exhibition_eroll_count,complete_exhibition_eroll_count)
+		ExhibitionDetailBean countBean = AdminService.getEnrollExhibitionbadgeCnt();
+		model.addAttribute("countBean", countBean);
+					
+		return "/admin/manager_exhibitionapplylist";		
+		
 	}
 	
 }
