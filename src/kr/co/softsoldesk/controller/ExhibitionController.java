@@ -152,7 +152,7 @@ public class ExhibitionController {
 			model.addAttribute("exhibition_id",exhibition_id);
 			model.addAttribute("user_id",user_id);
 			
-			return "exhibition/bookmark_add";
+			return "redirect:/exhibition/exhibition_click?exhibition_id=" + exhibition_id + "&user_id=" + user_id;
 			
 		} else {
 			//북마크 삭제 메소드
@@ -164,7 +164,7 @@ public class ExhibitionController {
 			model.addAttribute("exhibition_id",exhibition_id);
 			model.addAttribute("user_id",user_id);
 			
-			return "exhibition/bookmark_delete";
+			return "redirect:/exhibition/exhibition_click?exhibition_id=" + exhibition_id + "&user_id=" + user_id;
 		} 
 	}
 	

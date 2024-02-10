@@ -153,7 +153,7 @@ public class ExhibitionService {
 		exhibitionDetailBean.setOpen(open);
 		
 		// 상태값 등록신청 1 로 set해줌
-		exhibitionDetailBean.setState(1);
+		exhibitionDetailBean.setEnroll_state(1);
 		
 		
 		exhibitionDao.AddExhibition_Enroll(exhibitionDetailBean);

@@ -173,8 +173,13 @@ public class AdminDao {
 	
 	// ====================== 전시회 등록 신청 ===========================
 	// 전시회 등록 신청 관리자 페이지 리스트
-	public List<ExhibitionDetailBean> getAllExhibitionEnroll() {
-		return adminMapper.getAllExhibitionEnroll();
+	public List<ExhibitionDetailBean> getAllExhibitionEnroll(RowBounds rowBounds) {
+		return adminMapper.getAllExhibitionEnroll(rowBounds);
+	}
+	
+	// 전시회 등록 신청 관리자 페이지 페이징처리
+	public int getEnrollExhibitionCnt() {
+		return adminMapper.getEnrollExhibitionCnt();
 	}
 	
 	// 전시회 등록 신청 한개 모든 정보 가져오기
@@ -182,8 +187,13 @@ public class AdminDao {
 		return adminMapper.getOneEnrollExhitiion(exhibition_enroll_id);
 	}
 	
+	// 전시회 등록 신청 -> 전시회 등록 할때
+	public void addEnrollexhibitiontableExhibition(ExhibitionDetailBean exhibitionDetailBean) {
+		adminMapper.addEnrollexhibitiontableExhibition(exhibitionDetailBean);
+	}
+	
 	// 전시회 등록 신청 한 후 상태값 변경
-	public void UpdateExhibitionEnrollState(int state, int exhibition_enroll_id) {
-		adminMapper.UpdateExhibitionEnrollState(state, exhibition_enroll_id);
+	public void UpdateExhibitionEnrollState(int enroll_state, int exhibition_enroll_id) {
+		adminMapper.UpdateExhibitionEnrollState(enroll_state, exhibition_enroll_id);
 	}
 }

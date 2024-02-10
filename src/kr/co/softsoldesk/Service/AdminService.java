@@ -235,7 +235,22 @@ public class AdminService {
 	
 	// 전시회 관리 전시회 수정 페이지 들어가기
 	public ExhibitionDetailBean getAllDetailExhibitionBean(int exhibition_id) {
-		return adminDao.getAllDetailExhibitionBean(exhibition_id);
+		
+		ExhibitionDetailBean b1 = adminDao.getAllDetailExhibitionBean(exhibition_id);
+		
+		// open 컬럼 open_time ~ close_time 으로 나눔
+		if (b1.getOpen() != null && !b1.getOpen().isEmpty()) {
+	        String[] times = b1.getOpen().split(" - ");
+	        if (times.length == 2) {
+	            String open_time = times[0]; // "09:00"
+	            String close_time = times[1]; // "18:00"
+	            
+	            b1.setOpen_time(open_time);
+	            b1.setClose_time(close_time);
+	        }
+	    }
+		
+		return b1;
 	}
 	
 	// 전시회 수정 업데이트문 1 (file table)
@@ -376,8 +391,21 @@ public class AdminService {
 	
 	// =========================== 전시회 등록 신청 ========================
 	// 전시회 등록신청 관리자 페이지 리스트
-	public List<ExhibitionDetailBean> getAllExhibitionEnroll() {
-		return adminDao.getAllExhibitionEnroll();
+	public List<ExhibitionDetailBean> getAllExhibitionEnroll(int page) {
+		//페이징 처리
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getAllExhibitionEnroll(rowBounds);
+	}
+	
+	// 전시회 등록신청 관리자 페이지 페이징 처리
+	public PageBean getEnrollExhibitionCnt(int currentPage) {
+		
+		int Enroll_Cnt = adminDao.getEnrollExhibitionCnt();
+		PageBean pageBean = new PageBean(Enroll_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
 	}
 	
 	// 전시회 등록신청 한개 모든 정보 가져오기
@@ -400,10 +428,25 @@ public class AdminService {
 		return b1;
 	}
 	
-	// 전시회 등록 신청 완료 후 상태값 변경
-	public void UpdateExhibitionEnrollState(int state, int exhibition_enroll_id) {
+	// 전시회 등록 신청 -> 전시회 등록 할때
+	public void addEnrollexhibitiontableExhibition(ExhibitionDetailBean exhibitionDetailBean) {
 		
-		adminDao.UpdateExhibitionEnrollState(state, exhibition_enroll_id);
+		// 전시회 휴무일이 없을경우
+		if(exhibitionDetailBean.getHoliday() == null) {
+			exhibitionDetailBean.setHoliday("없음");
+		}
+				
+		// open 컬럼 변경
+		String open = (exhibitionDetailBean.getOpen_time()+ " - " + exhibitionDetailBean.getClose_time());
+		exhibitionDetailBean.setOpen(open);
+		
+		adminDao.addEnrollexhibitiontableExhibition(exhibitionDetailBean);
+	}
+	
+	// 전시회 등록 신청 완료 후 상태값 변경
+	public void UpdateExhibitionEnrollState(int enroll_state, int exhibition_enroll_id) {
+		
+		adminDao.UpdateExhibitionEnrollState(enroll_state, exhibition_enroll_id);
 	}
 	
 }

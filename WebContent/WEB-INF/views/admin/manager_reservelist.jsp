@@ -11,7 +11,7 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<link rel="icon" type="image/x-icon" href="assets/ARTMEE_PAGELOGO.png" />
+<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 <title>관리자 페이지</title>
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
@@ -36,19 +36,39 @@ $(document).ready(function(){
     });
 });
 </script>
+<style>
+input[type="date"]{
+	position: relative;
+	width: 180px;
+	height: 48px;
+	padding-right: 42px;
+	border: 1px solid white;
+	border-radius: 12px;
+}
 
-<script>	// 사이드바 토글
-		window.addEventListener('DOMContentLoaded', event => {
-			const sidebarToggle = document.body.querySelector('#sidebarToggle');
-			if (sidebarToggle) {
-				sidebarToggle.addEventListener('click', event => {
-					event.preventDefault();
-					document.body.classList.toggle('sb-sidenav-toggled');
-					localStorage.setItem('sb|sidebar-toggle', document.body.classList.contains('sb-sidenav-toggled'));
-				});
-			}
-		});
-	</script>
+input[type="date"]::before{
+	content: attr(data-placeholder);
+	width: 100%;
+	text-align: center;
+}
+input[type="date"]::valid::before{
+	display: none;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	background: transparent;
+	color: transparent;
+}
+
+</style>
+
+
 </head>
 
 <body class="sb-nav-fixed">
@@ -65,12 +85,19 @@ $(document).ready(function(){
 					</div>
 					<div
 						style="display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
+						
+						<div style="margin-right: 50px;">
+							<input type="date" name="start_date" style="border: 0.2px solid #e2e2e2" data-placeholder="시작일자"/>
+							<label style="margin-left: 30px; margin-right: 30px;">~</label>
+							<input type="date" name="end_date" style="border: 0.2px solid #e2e2e2" data-placeholder="종료일자"/>
+						</div>
+						
 						<select name="usercombo" id="usercombo"
 							style="width: 150px; height: 40px; margin-right: 30px;">
 							<option value="" disabled selected>검색조건선택</option>
-							<option value="option1">1</option>
-							<option value="option2">2</option>
-							<option value="option3">3</option>
+							<option value="option1">결제수단</option>
+							<option value="option2">구매자명</option>
+							<option value="option3">구매상품</option>
 						</select> 
 						<input type="text" name="usersearch" id="usersearch"
 							style="width: 500px; height: 40px; margin-right: 30px;"
@@ -89,6 +116,7 @@ $(document).ready(function(){
 									<th scope="col" style="width: 150px;">주문일시</th>
 									<th scope="col" style="width: 150px;">결제일시</th>
 									<th scope="col">주문번호</th>
+									<th scope="col">결제 수단</th>
 									<th scope="col" style="width: 150px;">결제상태</th>
 									<th scope="col" style="width: 150px;">구매자명</th>
 									<th scope="col">결제액</th>
@@ -104,12 +132,14 @@ $(document).ready(function(){
 									<th scope="row"><%=i %></th>
 									<td style="width: 150px;">2024.02.07 00:00:00</td>
 									<td style="width: 150px;">2024.02.07 00:00:00</td>
-									<td>551efa0c-3fac-4ffb-926f-04069c3df166</td>
+									<td>574645465865747</td>
+									<td>간편결제</td>
 									<td style="width: 150px;">완료</td>
 									<td style="width: 150px;">노승찬</td>
 									<td style="width: 200px;">500,000,000</td>
 									<td>노승찬의 매직쇼</td>
-									<td>
+									<td style="width: 150px;"><button class="btn btn-danger"
+							style="float: right; margin-right: 50px; margin-top: 20px; margin-bottom: 20px;">취소</button>
 									</td>
 								</tr>
 								<%
@@ -119,8 +149,7 @@ $(document).ready(function(){
 							
 
 						</table>
-						<button class="btn btn-danger"
-							style="float: right; margin-right: 50px; margin-top: 20px; margin-bottom: 20px;">삭제</button>
+						
 
 						<div style="display: flex; justify-content: center; margin-top:30px;">
 							<nav aria-label="Page navigation example" class="mx-auto">

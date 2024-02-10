@@ -39,6 +39,8 @@
 <!-- JQuery 자바스크립트-->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+<!-- sweet alert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- CSS -->
 <link href="css/styles.css" rel="stylesheet" />
@@ -230,7 +232,7 @@
 			  <input type="checkbox" id="switch-17" onchange="updateCheckboxValue(this)" />
 			  <label for="switch-17"></label>
 			  <span style="margin-left: 10px;">공개 여부</span>
-			  <button type="submit" class="btn btn-dark" style="margin-left: 580px;" role="button">저장하기</button>
+			  <button type="button" onclick="submitForm();" class="btn btn-dark" style="margin-left: 580px;" role="button">저장하기</button>
 			</div>
 
 			
@@ -301,6 +303,27 @@ function updateCheckboxValue(checkbox) {
             }
         });
     </script>
+    
+    <script>
+	function submitForm() {
+	    Swal.fire({
+	        title: '아카이브를 저장하시겠습니까?',
+	        icon: 'question', 
+	        showCancelButton: true,
+	        confirmButtonText: '저장',
+	        cancelButtonText: '취소',
+	    }).then((result) => {
+	        if (result.isConfirmed) {
+	            Swal.fire({
+	                title: '저장되었습니다!',
+	                icon: 'success' 
+	            }).then(() => {
+	                document.forms[0].submit();
+	            });
+	        }
+	    });
+	}
+	</script>
 
 </body>
 

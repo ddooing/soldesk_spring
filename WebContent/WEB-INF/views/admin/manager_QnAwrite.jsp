@@ -27,9 +27,9 @@
 
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"></script>
-<script
-	src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"
-	referrerpolicy="origin"></script>
+
+<!-- sweet alert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- JQuery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -130,7 +130,7 @@ $(document).ready(function(){
 										
 								</c:when>
 								<c:otherwise>
-									<button class="btn btn-danger" onclick="window.location.href='${root}/admin/manager_QnAdelete?qna_id=${oneQnaInfo.qna_id }'" style="float:right; margin-right: 20px;">삭제</button>
+									<button class="btn btn-danger" onclick="confirmDeletion('${root}/admin/manager_QnAdelete?qna_id=${oneQnaInfo.qna_id}')" style="float:right; margin-right: 20px;">삭제</button>
 								</c:otherwise>
 							</c:choose>
 							
@@ -165,15 +165,15 @@ $(document).ready(function(){
    								 height: 400     // 에디터의 높이를 400픽셀로 설정
  								});
 						</script>
-						<form:form action="${root }/admin/qna_reply_enroll" method="post" modelAttribute="oneQnaInfo">
-						<form:hidden path="qna_id" value=""/>
+						<form:form action="${root }/admin/qna_reply_enroll" method="post" modelAttribute="oneQnaInfo" id="form">
+						<form:hidden path="qna_id"/>
 						<table class="table table-bordered">
 							<tr style="align-items: center; height: 100px; ">
 								<th style="vertical-align: middle; font-size:20px; width: 200px; text-align:center;">답변</th>
 								<td>
 									<c:choose>
 										<c:when test="${oneQnaInfo.state == 2 }">
-	   						 				<form:textarea path="reply" rows="15" cols="133" name="reply" style="resize:none;" readonly="true" disabled="true" />
+	   						 				<form:textarea path="reply" rows="15" cols="133" name="reply" style="resize:none;" readonly="true" />
 	   						 			</c:when>
 	   						 			<c:otherwise>
 	   						 				<form:textarea path="reply" rows="15" cols="133" name="reply" style="resize:none;"/>	
@@ -188,11 +188,11 @@ $(document).ready(function(){
 								<c:choose>
 									<c:when test="${oneQnaInfo.state == 2 }">	<!-- state 2일때만 취소 복구 버튼 -->
 										<a href="${root}/admin/manager_QnAlist" class="btn btn-danger" style="margin-right: 15px;">취소</a>
-										<button class="btn btn-info" style="margin-right: 30px;" onclick="window.location.href='${root}/admin/QnA_recovery?qna_id=${oneQnaInfo.qna_id}&reply=${qnalist.reply }'">복구하기</button>
+										<button class="btn btn-info" type="button" onclick="confirmRecovery('${root}/admin/QnA_recovery?qna_id=${oneQnaInfo.qna_id}&reply=${oneQnaInfo.reply}')">복구하기</button>
 									</c:when>
 									<c:otherwise>	<!-- 나머지 일때 state 0, 1 취소 등록하기 버튼 -->
 										<a href="${root}/admin/manager_QnAlist" class="btn btn-danger" style="margin-right: 15px;">돌아가기</a>
-										<button class="btn btn-dark" style="margin-right: 30px;" >등록하기</button>
+										<button type="button" class="btn btn-dark" style="margin-right: 30px;" onclick="submitForm()">등록하기</button>
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -208,6 +208,92 @@ $(document).ready(function(){
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
+	
+	<script>
+
+    function submitForm() {
+        Swal.fire({
+            title: '등록하시겠습니까?',
+            text: '변경 사항을 저장합니다.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '등록',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    '등록되었습니다!',
+                    '변경 사항이 저장되었습니다.',
+                    'success'
+                ).then((result) => {
+                    if (result.isConfirmed) {
+                        // 폼 제출
+                        $("form").submit();
+                    }
+                });
+            }
+        });
+    }
+    
+
+    function confirmDeletion(url) {
+        Swal.fire({
+            title: '삭제하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '삭제',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    '삭제되었습니다!',
+                    '항목이 삭제되었습니다.',
+                    'success'
+                ).then((result) => {
+                    if (result.isConfirmed) {
+                        // 삭제 처리 URL로 리디렉션
+                        window.location.href = url;
+                    }
+                });
+            }
+        });
+    }
+
+
+	</script>
+	
+	<script>
+function confirmRecovery(url) {
+    Swal.fire({
+        title: '복구하시겠습니까?',
+        text: '선택한 항목을 복구합니다.',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '복구',
+        cancelButtonText: '취소'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                '복구되었습니다!',
+                '항목이 복구되었습니다.',
+                'success'
+            ).then((result) => {
+                if (result.isConfirmed) {
+                    // 복구 처리 URL로 리디렉션
+                    window.location.href = url;
+                }
+            });
+        }
+    });
+}
+</script>
+	
 
 </body>
 

@@ -216,7 +216,7 @@
 				</c:when>
 			
 			<c:otherwise>
-				<div id="sidebar_menu" data-bs-toggle="modal" data-bs-target="#qnaModal"
+				<div id="sidebar_menu" onclick="window.location.href='${root}/mypage/QnA?user_id=${loginUserBean.user_id}'"
 						style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
 							<div style="justify-content: center;">
 								<p1>Q&A</p1>
@@ -240,97 +240,6 @@
 		}
 	</script>
 
-	<!--Q&A 모달 창-->
-	<div class="modal fade" id="qnaModal" tabindex="-1" aria-labelledby="qnaModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content" style="width: 950px;">
-				<div class="modal-header">
-					<h5 class="modal-title" id="qnaModalLabel">Q&A</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form action="#"><!--폼열기-->
-						<div class="container h-100 align-items-center justify-content-center">
-							<div class="d-flex align-items-center" style="margin-top: 20px;">
-								<div style="width: 150px; text-align: left;">
-									<label for="gender" style="font-size: 20px; text-align: left;">회원
-										여부</label>
-								</div>
-								<div style="margin-left: 20px; width: 218px;">
-									<input type="radio" name="gender" id="man" style="margin-right: 20px;" /> <label
-										for="man">회원</label> <input type="radio" name="gender" id="woman"
-										style="margin-left: 50px; margin-right: 20px;" /> <label for="woman">비회원</label>
-								</div>
-								<div style="margin-left: 20px; width: 100px;"></div>
-							</div>
-
-							<div class="d-flex align-items-center " style="margin-top: 50px;">
-								<div style="width: 150px; text-align: left;">
-									<label for="nickname" style="font-size: 18px;">ARTMEE
-										아이디</label>
-								</div>
-								<div style="margin-left: 20px;">
-									<input type="text" name="id" placeholder="회원일 경우만 작성" />
-								</div>
-							</div>
-
-							<div class="d-flex align-items-center" style="margin-top: 50px;">
-								<div style="width: 150px; text-align: left;">
-									<label for="name" style="font-size: 18px;">성함</label>
-								</div>
-								<div style="margin-left: 20px;">
-									<input type="text" name="id" placeholder="" />
-								</div>
-
-								<div style="width: 150px; text-align: left; margin-left: 80px;">
-									<label for="email" style="font-size: 18px;">이메일</label>
-								</div>
-								<div style="margin-left: 15px;">
-									<input type="text" name="email" placeholder="@ 포함" />
-								</div>
-							</div>
-
-							<div class="d-flex align-items-center " style="margin-top: 50px;">
-								<div style="width: 150px; text-align: left;">
-									<label for="QnAtitle" style="font-size: 18px;">제목</label>
-								</div>
-								<div style="margin-left: 20px;">
-									<input type="text" name="QnAtitle" placeholder="" style="width: 700px;" />
-								</div>
-							</div>
-
-							<div class="d-flex align-items-center" style="margin-top: 50px;">
-								<div style="width: 150px; text-align: left;">
-									<label for="QnAcontent" style="font-size: 18px;">문의 내용</label>
-								</div>
-								<div style="margin-left: 20px;">
-									<textarea name="QnAcontent" placeholder="정확한 상담을 위해 문의 내용을 자세히 작성해 주세요."
-										style="width: 700px; height: 400px; resize: none;"></textarea>
-								</div>
-							</div>
-							<hr style="margin: auto; margin-top: 50px; width: 900px;" />
-
-							<div class="d-flex align-items-center" style="margin-top: 50px;">
-								<div class="gain">
-									<h3>개인정보 수집 및 이용안내</h3>
-									아트맵은 문의사항 답변을 희망하는 회원을 대상으로 아래와 같이 개인정보를 수집하고 있습니다.<br> 1.
-									수집 개인정보 항목 : [필수] 회원 성함, 전화번호 이메일주소<br> 2. 개인정보의 수집 및
-									이용목적:문의 신청에 따른 본인확인 및 원활한 의사소통 경로 확보<br> <b>3. 개인정보의 보유
-										및 이용기간: 문의 사항 처리종료 시점으로부터 6개월간 보관 후 파기합니다.</b><br> 4. 동의 거부권리
-									안내 추가 : 위와 같은 개인정보 수입동의를 거부할 수있습니다.<br> 다만 동의를 거부하는 경우 문의
-									신청이 제한 됩니다.
-								</div>
-							</div>
-						</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-dark">Submit</button>
-				</div>
-			</div>
-			</form>
-		</div>
-	</div>
 	</div>
 
 	<script>

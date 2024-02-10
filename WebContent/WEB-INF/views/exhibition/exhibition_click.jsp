@@ -38,6 +38,8 @@
 <!-- Core theme JS-->
 <script src="../js/scripts.js"></script>
 
+<!-- sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>	
 
 <!-- JQuery 자바스크립트-->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -247,7 +249,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 								<c:when
 									test="${loginUserBean.user_id != 0 && bookmarksure == 1}">
 									<button type="button"
-										onclick="location.href='${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}'"
+										onclick="removeBookmarkAlert();"
 										id="heartButton" style="background: none; border: none;">
 										<svg id="fill_heart" xmlns="http://www.w3.org/2000/svg"
 											width="30" height="30" fill="currentColor"
@@ -261,7 +263,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 								<c:when
 									test="${loginUserBean.user_id != 0 && bookmarksure == 0}">
 									<button type="button"
-										onclick="location.href='${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}'"
+										onclick="bookmarkAlert();"
 										id="heartButton" style="background: none; border: none;">
 										<svg id="empty_heart" xmlns="http://www.w3.org/2000/svg"
 											width="30" height="30" fill="currentColor"
@@ -273,7 +275,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 								</c:when>
 								<c:otherwise>
 									<button type="button"
-										onclick="location.href='${root}/exhibition/bookmark_not_login'"
+										onclick="notLoggedInAlert();"
 										id="heartButton" style="background: none; border: none;">
 										<svg id="empty_heart" xmlns="http://www.w3.org/2000/svg"
 											width="30" height="30" fill="currentColor"
@@ -977,6 +979,55 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 			$('#hiddenDateField').val(formattedToday);
 		});
 	</script>
+	
+	<script>
+    function bookmarkAlert() {
+        Swal.fire({
+            title: '북마크 추가',
+            text: "북마크에 추가하시겠습니까?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '네',
+            cancelButtonText: '아니요'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}';
+            }
+        });
+    }
+
+    function removeBookmarkAlert() {
+        Swal.fire({
+            title: '북마크 제거',
+            text: "북마크에서 제거하시겠습니까?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '네',
+            cancelButtonText: '아니요'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}';
+            }
+        });
+    }
+
+    function notLoggedInAlert() {
+        Swal.fire({
+            title: '로그인 필요',
+            text: "북마크를 추가하려면 로그인이 필요합니다.",
+            icon: 'info',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: '확인'
+        }).then(() => {
+            window.location.href = '${root}/user/login';
+        });
+    }
+</script>
+	
 
 
 </body>

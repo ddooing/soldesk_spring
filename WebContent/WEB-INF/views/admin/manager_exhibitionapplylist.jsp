@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
@@ -30,16 +30,15 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-$(document).ready(function(){
-    $("#allcheck").click(function(){
-        if($(this).is(":checked")) {
-            $("tbody tr th input[type='checkbox']").prop("checked", true);
-        } else {
-            $("tbody tr th input[type='checkbox']").prop("checked", false);
-        }
-    });
-});
-
+	$(document).ready(function() {
+		$("#allcheck").click(function() {
+			if ($(this).is(":checked")) {
+				$("tbody tr th input[type='checkbox']").prop("checked", true);
+			} else {
+				$("tbody tr th input[type='checkbox']").prop("checked", false);
+			}
+		});
+	});
 </script>
 
 
@@ -48,112 +47,157 @@ $(document).ready(function(){
 <body class="sb-nav-fixed">
 	<c:import url="/WEB-INF/views/include/admin_header.jsp" />
 
-		<!--실제 내용(대시보드) 부분-->
-		<div id="layoutSidenav_content">
-			<main style="background-color: ivory;">
-				<div class="container-fluid px-4">
-					<div style="margin-top: 30px;">
-						<h3>전시회 신청관리</h3>
+	<!--실제 내용(대시보드) 부분-->
+	<div id="layoutSidenav_content">
+		<main style="background-color: ivory;">
+			<div class="container-fluid px-4">
+				<div style="margin-top: 30px;">
+					<h3>전시회 신청관리</h3>
+				</div>
+				<div
+					style="position: relative; display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
+					<div style="position: absolute; left: 150px;">
+						<span
+							class="badge bg-success-subtle text-success-emphasis rounded-pill"
+							style="background-color: black; font-size: 15px;">전시회 수
+							20건</span>
 					</div>
-					<div
-						style="position: relative; display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-						<div style="position: absolute; left: 150px;">
-							<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size:15px;">전시회 수 20건</span>
-						</div>
-						<select name="usercombo" id="usercombo"
-							style="width: 150px; height: 40px; margin-right: 30px;">
-							<option value="" disabled selected>검색조건선택</option>
-							<option value="option1">제목</option>
-							<option value="option2">작가</option>
-						</select> <input type="text" name="usersearch" id="usersearch"
-							style="width: 500px; height: 40px; margin-right: 30px;"
-							placeholder="검색어를 입력해주세요" />
-						<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
-					</div>
+					<select name="usercombo" id="usercombo"
+						style="width: 150px; height: 40px; margin-right: 30px;">
+						<option value="" disabled selected>검색조건선택</option>
+						<option value="option1">제목</option>
+						<option value="option2">작가</option>
+					</select> <input type="text" name="usersearch" id="usersearch"
+						style="width: 500px; height: 40px; margin-right: 30px;"
+						placeholder="검색어를 입력해주세요" />
+					<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+				</div>
 
 
-					<div style="background-color: white; margin-top: 30px;">
+				<div style="background-color: white; margin-top: 30px;">
 
 
 
-						<table class="table table-striped" style="text-align: center; ">
-							<thead>
+					<table class="table table-striped" style="text-align: center;">
+						<thead>
+							<tr style="vertical-align: middle;">
+								<th scope="col" style="width: 50px;"><input type="checkbox"
+									id="allcheck" /></th>
+								<th scope="col" style="width: 50px;">No</th>
+								<th scope="col">신청인</th>
+								<th scope="col">제목</th>
+								<th scope="col">전시기간</th>
+								<th scope="col">작가</th>
+								<th scope="col">가격</th>
+								<th scope="col">상태</th>
+								<th scope="col">관리</th>
+							</tr>
+						</thead>
+						<tbody>
+
+							<c:forEach items="${enrollAllBean}" var="enrolllist">
 								<tr style="vertical-align: middle;">
-									<th scope="col" style="width: 50px;"><input type="checkbox" id="allcheck" /></th>
-									<th scope="col" style="width: 50px;">No</th>
-									<th scope="col">신청인</th>
-									<th scope="col">제목</th>
-									<th scope="col">전시기간</th>
-									<th scope="col">작가</th>
-									<th scope="col">가격</th>
-									<th scope="col">상태</th>
-									<th scope="col">관리</th>
-								</tr>
-							</thead>
-							<tbody>
-							
-								<c:forEach items="${enrollAllBean}" var="enrolllist">
-									<tr style="vertical-align: middle;">
-									<th scope="row"><input type="checkbox" style="width: 50px;" /></th>
+									<th scope="row"><input type="checkbox"
+										style="width: 50px;" /></th>
 									<td style="width: 50px;">${enrolllist.exhibition_enroll_id }</td>
 									<td style="width: 150px;">${enrolllist.apply_name }</td>
-									<td style="width: 600px; text-align: left;">${enrolllist.title }</td>
+									<td style="width: 500px; text-align: left;">${enrolllist.title }</td>
 									<td style="width: 300px;">${enrolllist.exhibition_start }~${enrolllist.exhibition_end }</td>
 									<td style="width: 150px;">${enrolllist.author }</td>
 									<td>${enrolllist.price }원</td>
-									
+
 									<c:choose>
-										<c:when test="${enrolllist.state == 1 }">
-												<td>대기</td>
+										<c:when test="${enrolllist.enroll_state == 1 }">
+											<td>대기</td>
 										</c:when>
-										<c:when test="${enrolllist.state == 2 }">
-												<td>등록완료</td>
+										<c:when test="${enrolllist.enroll_state == 2 }">
+											<td>등록완료</td>
 										</c:when>
-										<c:when test="${enrolllist.state == 3 }">
-												<td style="color:red;">거절</td>
+										<c:when test="${enrolllist.enroll_state == 3 }">
+											<td style="color: red;">거절</td>
 										</c:when>
 									</c:choose>
-									
+
 									<td>
-										<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_exhibitionenrolladd?exhibition_enroll_id=${enrolllist.exhibition_enroll_id}'">상세</button>
-										<button class="btn btn-danger">거절</button>
+										<c:choose>
+											<c:when test="${enrolllist.enroll_state == 1 }">
+												<button class="btn btn-dark"
+													onclick="location.href='${root}/admin/manager_exhibitionenrolladd?exhibition_enroll_id=${enrolllist.exhibition_enroll_id}'">상세</button>
+												<button class="btn btn-danger">거절</button>
+											</c:when>
+											<c:otherwise>
+												<button class="btn btn-dark"
+													onclick="location.href='${root}/admin/manager_exhibitionenrolladd?exhibition_enroll_id=${enrolllist.exhibition_enroll_id}'">상세</button>
+											</c:otherwise>
+										</c:choose>
+										
 									</td>
 								</tr>
-								</c:forEach>
-								
-							</tbody>
-						</table>
-						<div style="display:flex; margin-top: 20px; margin-bottom: 20px; float: right;">
-						<button class="btn btn-danger" style="margin-left: 30px; margin-right: 30px;">거절</button>
-						</div>
-						<div
-							style="display: flex; justify-content: center; margin-top: 30px;">
-							<nav aria-label="Page navigation example" class="mx-auto">
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Previous"> <span
-											aria-hidden="true">&laquo;</span>
-									</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">1</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">2</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">3</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Next"> <span
-											aria-hidden="true">&raquo;</span>
-									</a></li>
-								</ul>
-							</nav>
-						</div>
+							</c:forEach>
 
+						</tbody>
+					</table>
+					
+
+
+					<div class="d-none d-md-block" style="margin-top: 50px;">
+						<ul class="pagination justify-content-center">
+							<c:choose>
+								<c:when test="${pageBean.prevPage <= 0 }">
+									<li class="page-item disabled"><a href="#"
+										class="page-link">이전</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="page-item"><a
+										href="${root}/admin/manager_exhibitionapplylist?page=${pageBean.prevPage}"
+										class="page-link">이전</a></li>
+								</c:otherwise>
+							</c:choose>
+
+							<c:forEach var="idx" begin="${pageBean.min}"
+								end="${pageBean.max}">
+								<c:choose>
+									<c:when test="${idx == pageBean.currentPage}">
+										<li class="page-item active"><a
+											href="${root}/admin/manager_exhibitionapplylist?page=${idx}"
+											class="page-link">${idx}</a></li>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a
+											href="${root}/admin/manager_exhibitionapplylist?page=${idx}"
+											class="page-link">${idx}</a></li>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+
+							<c:choose>
+								<c:when test="${pageBean.max >= pageBean.pageCnt}">
+									<li class="page-item disabled"><a href="#"
+										class="page-link">다음</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="page-item"><a
+										href="${root}/admin/manager_exhibitionapplylist?page=${pageBean.nextPage}"
+										class="page-link">다음</a></li>
+								</c:otherwise>
+							</c:choose>
+						</ul>
 					</div>
-				</div>
-			</main>
 
-			
-		</div>
+					<div class="d-block d-md-none">
+						<ul class="pagination justify-content-center">
+							<li class="page-item"><a href="#" class="page-link">이전</a></li>
+							<li class="page-item"><a href="#" class="page-link">다음</a></li>
+						</ul>
+					</div>
+
+
+				</div>
+			</div>
+		</main>
+
+
+	</div>
 	</div>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

@@ -216,8 +216,9 @@ public class AdminController {
 		return "admin/manager_QnAwrite";
 	}
 	
+	// qna 답변 등록
 	@PostMapping("/qna_reply_enroll")
-	public String qna_reply_enroll(@ModelAttribute("oneQnaInfo") QnABean qnaBean, @RequestParam("qna_id") int qna_id) {
+	public String qna_reply_enroll(@RequestParam(value="usercombo", required=false) String usercombo, @RequestParam(value="usersearch", required=false) String usersearch,@RequestParam(value = "page", defaultValue = "1") int page, Model model, @ModelAttribute("oneQnaInfo") QnABean qnaBean, @RequestParam("qna_id") int qna_id) {
 		
 		qnaBean.setQna_id(qna_id);
 		
@@ -228,21 +229,128 @@ public class AdminController {
 			qnaBean.setState(1);
 			AdminService.updateQnAReply(qnaBean);
 		}
-
-		return "admin/QnA_reply_enroll_complete";
+		
+		// 리다이렉트 필요한것들
+			if (usercombo == null || usercombo.isEmpty() || usersearch == null || usersearch.isEmpty()) {
+				// QnA 모든 정보 가져가기
+				List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
+				model.addAttribute("qnaAllBean", qnaAllBean);
+						
+				// QnA 총 개수, 답변전, 답변완료 개수 가져가기
+				QnABean qnaCountBean = AdminService.getQnACount();
+				model.addAttribute("qnaCountBean",qnaCountBean);
+						
+				// QnA 관리자 페이지 페이징 처리
+				PageBean pageBean = AdminService.getTotalQnACnt(page);
+				model.addAttribute("pageBean", pageBean);
+						
+				return "admin/manager_QnAlist";
+	    }
+		
+		
+		if("nickname".equals(usercombo)) {
+			// 닉네임 검색
+			List<QnABean> nicknameSearchBean = AdminService.getnicknameSearchQnAInfo(usersearch, page);
+			model.addAttribute("qnaAllBean", nicknameSearchBean);
+			
+			// 닉네임 검색 개수 반환 메소드
+			QnABean QnAnicknamesearchCount = AdminService.getnicknameSearchQnACount(usersearch);
+			model.addAttribute("qnaCountBean",QnAnicknamesearchCount);
+			
+			// 페이징 처리
+			PageBean pageBean1 = AdminService.getnicknameSearchQnACnt(usersearch, page);
+			model.addAttribute("pageBean1", pageBean1);
+	
+			// 페이징 처리로 인한 검색조건 검색어 가져가기
+			model.addAttribute("usercombo",usercombo);
+			model.addAttribute("usersearch",usersearch);
+			
+		} else if ("title".equals(usercombo)) {
+			// 제목 검색
+			List<QnABean> titleSearchBean = AdminService.gettitleSearchQnAInfo(usersearch, page);
+			model.addAttribute("qnaAllBean", titleSearchBean);
+			
+			// 제목 검색 개수 반환 메소드
+			QnABean QnAtitlesearchCount = AdminService.gettitleSearchQnACount(usersearch);
+			model.addAttribute("qnaCountBean",QnAtitlesearchCount);
+			
+			// 페이징 처리
+			PageBean pageBean2 = AdminService.gettitleSearchQnACnt(usersearch, page);
+			model.addAttribute("pageBean2", pageBean2);
+			
+			// 페이징 처리로 인한 검색조건 검색어 가져가기
+			model.addAttribute("usercombo",usercombo);
+			model.addAttribute("usersearch",usersearch);
+		} 
+			
+	
+			return "admin/manager_QnAlist";
 	}
 	
 	@GetMapping("/manager_QnAdelete")
-	public String manager_QnAdelete(@RequestParam("qna_id") int qna_id) {
+	public String manager_QnAdelete(@RequestParam(value="usercombo", required=false) String usercombo, @RequestParam(value="usersearch", required=false) String usersearch,@RequestParam(value = "page", defaultValue = "1") int page, Model model, @ModelAttribute("oneQnaInfo") QnABean qnaBean, @RequestParam("qna_id") int qna_id) {
 		
 		// QnA 삭제 처리
 		AdminService.deleteQnA(qna_id);
 		
-		return "admin/QnA_delete_complete";
+		// QnAlist 가져가야 되는 것들
+		if (usercombo == null || usercombo.isEmpty() || usersearch == null || usersearch.isEmpty()) {
+			// QnA 모든 정보 가져가기
+			List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
+			model.addAttribute("qnaAllBean", qnaAllBean);
+					
+			// QnA 총 개수, 답변전, 답변완료 개수 가져가기
+			QnABean qnaCountBean = AdminService.getQnACount();
+			model.addAttribute("qnaCountBean",qnaCountBean);
+					
+			// QnA 관리자 페이지 페이징 처리
+			PageBean pageBean = AdminService.getTotalQnACnt(page);
+			model.addAttribute("pageBean", pageBean);
+					
+			return "admin/manager_QnAlist";
+    }
+	
+	
+	if("nickname".equals(usercombo)) {
+		// 닉네임 검색
+		List<QnABean> nicknameSearchBean = AdminService.getnicknameSearchQnAInfo(usersearch, page);
+		model.addAttribute("qnaAllBean", nicknameSearchBean);
+		
+		// 닉네임 검색 개수 반환 메소드
+		QnABean QnAnicknamesearchCount = AdminService.getnicknameSearchQnACount(usersearch);
+		model.addAttribute("qnaCountBean",QnAnicknamesearchCount);
+		
+		// 페이징 처리
+		PageBean pageBean1 = AdminService.getnicknameSearchQnACnt(usersearch, page);
+		model.addAttribute("pageBean1", pageBean1);
+
+		// 페이징 처리로 인한 검색조건 검색어 가져가기
+		model.addAttribute("usercombo",usercombo);
+		model.addAttribute("usersearch",usersearch);
+		
+	} else if ("title".equals(usercombo)) {
+		// 제목 검색
+		List<QnABean> titleSearchBean = AdminService.gettitleSearchQnAInfo(usersearch, page);
+		model.addAttribute("qnaAllBean", titleSearchBean);
+		
+		// 제목 검색 개수 반환 메소드
+		QnABean QnAtitlesearchCount = AdminService.gettitleSearchQnACount(usersearch);
+		model.addAttribute("qnaCountBean",QnAtitlesearchCount);
+		
+		// 페이징 처리
+		PageBean pageBean2 = AdminService.gettitleSearchQnACnt(usersearch, page);
+		model.addAttribute("pageBean2", pageBean2);
+		
+		// 페이징 처리로 인한 검색조건 검색어 가져가기
+		model.addAttribute("usercombo",usercombo);
+		model.addAttribute("usersearch",usersearch);
+	} 
+		
+		return "admin/manager_QnAlist";
 	}
 	
 	@GetMapping("/QnA_recovery")
-	public String QnA_recovery(@RequestParam("reply") String reply, @RequestParam("qna_id") int qna_id) {
+	public String QnA_recovery(@RequestParam("reply") String reply,@RequestParam(value="usercombo", required=false) String usercombo, @RequestParam(value="usersearch", required=false) String usersearch,@RequestParam(value = "page", defaultValue = "1") int page, Model model, @ModelAttribute("oneQnaInfo") QnABean qnaBean, @RequestParam("qna_id") int qna_id) {
 		
 		// QnA 복구 
 		if(reply != "") {	// 답글이 달려있을때는 state 값 1로 아닐때는 0으로 복구
@@ -252,8 +360,62 @@ public class AdminController {
 			int state = 0;
 			AdminService.recoveryQnA(state, qna_id);
 		}
+		
+		
+		// QnAlist 가져가야 되는 것들
+				if (usercombo == null || usercombo.isEmpty() || usersearch == null || usersearch.isEmpty()) {
+					// QnA 모든 정보 가져가기
+					List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
+					model.addAttribute("qnaAllBean", qnaAllBean);
+							
+					// QnA 총 개수, 답변전, 답변완료 개수 가져가기
+					QnABean qnaCountBean = AdminService.getQnACount();
+					model.addAttribute("qnaCountBean",qnaCountBean);
+							
+					// QnA 관리자 페이지 페이징 처리
+					PageBean pageBean = AdminService.getTotalQnACnt(page);
+					model.addAttribute("pageBean", pageBean);
+							
+					return "admin/manager_QnAlist";
+		    }
+			
+			
+			if("nickname".equals(usercombo)) {
+				// 닉네임 검색
+				List<QnABean> nicknameSearchBean = AdminService.getnicknameSearchQnAInfo(usersearch, page);
+				model.addAttribute("qnaAllBean", nicknameSearchBean);
+				
+				// 닉네임 검색 개수 반환 메소드
+				QnABean QnAnicknamesearchCount = AdminService.getnicknameSearchQnACount(usersearch);
+				model.addAttribute("qnaCountBean",QnAnicknamesearchCount);
+				
+				// 페이징 처리
+				PageBean pageBean1 = AdminService.getnicknameSearchQnACnt(usersearch, page);
+				model.addAttribute("pageBean1", pageBean1);
 
-		return "admin/QnA_recovery_complete";
+				// 페이징 처리로 인한 검색조건 검색어 가져가기
+				model.addAttribute("usercombo",usercombo);
+				model.addAttribute("usersearch",usersearch);
+				
+			} else if ("title".equals(usercombo)) {
+				// 제목 검색
+				List<QnABean> titleSearchBean = AdminService.gettitleSearchQnAInfo(usersearch, page);
+				model.addAttribute("qnaAllBean", titleSearchBean);
+				
+				// 제목 검색 개수 반환 메소드
+				QnABean QnAtitlesearchCount = AdminService.gettitleSearchQnACount(usersearch);
+				model.addAttribute("qnaCountBean",QnAtitlesearchCount);
+				
+				// 페이징 처리
+				PageBean pageBean2 = AdminService.gettitleSearchQnACnt(usersearch, page);
+				model.addAttribute("pageBean2", pageBean2);
+				
+				// 페이징 처리로 인한 검색조건 검색어 가져가기
+				model.addAttribute("usercombo",usercombo);
+				model.addAttribute("usersearch",usersearch);
+			} 
+
+		return "admin/manager_QnAlist";
 	}
 	
 	// 선택 삭제 메소드
@@ -340,12 +502,29 @@ public class AdminController {
 	
 	// 전시회 수정
 	@PostMapping("/exhibition_exhibitionmodify_pro")
-	public String exhibition_exhibitionmodify_pro(@ModelAttribute("DetailExhibitionBean") ExhibitionDetailBean DetailExhibitionBean) {
+	public String exhibition_exhibitionmodify_pro(@ModelAttribute("DetailExhibitionBean") ExhibitionDetailBean DetailExhibitionBean, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+		
+		// open 컬럼 set => open_time + " - " + close_time
+		String open = (DetailExhibitionBean.getOpen_time() + " - " + DetailExhibitionBean.getClose_time());
+		DetailExhibitionBean.setOpen(open);
 		
 		// 파일 저장하고 전시회 관련 업데이트
 		AdminService.UpdateExhibitionInfo2(DetailExhibitionBean);
 		
-		return "/admin/exhibitionmodify_success";
+		// 넘어가는 페이지 가져갈 것들
+		// 전시회 목록 가져가기
+		List<ExhibitionBean> AdminExhibitionInfoBean = AdminService.getAdminexhibitionmange(page);
+		model.addAttribute("AdminExhibitionInfoBean", AdminExhibitionInfoBean);
+				
+		// 전시회 총개수, 전시예정, 종료, 진행중 전시 개수 반환
+		ExhibitionBean ExhibitionCountBean = AdminService.getExhibitionCount();
+		model.addAttribute("ExhibitionCountBean",ExhibitionCountBean);
+			 	
+		// 전시회 페이징 처리
+		PageBean pageBean = AdminService.getExhibitionCnt(page);
+		model.addAttribute("pageBean", pageBean);
+				
+		return "/admin/manager_exhibitionlist";
 	}
 	
 	
@@ -387,10 +566,15 @@ public class AdminController {
 	
 	// 관리자페이지 전시회 등록 신청 리스트 
 	@GetMapping("/manager_exhibitionapplylist")
-	public String manager_exhibitionapplylist(Model model) {
+	public String manager_exhibitionapplylist(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
-		List<ExhibitionDetailBean> enrollAllBean = AdminService.getAllExhibitionEnroll();
+		// 리스트 찍는 정보 가져가기
+		List<ExhibitionDetailBean> enrollAllBean = AdminService.getAllExhibitionEnroll(page);
 		model.addAttribute("enrollAllBean", enrollAllBean);
+		
+		// 페이징 처리
+		PageBean pageBean = AdminService.getEnrollExhibitionCnt(page);
+		model.addAttribute("pageBean", pageBean);
 		
 		return "/admin/manager_exhibitionapplylist";
 	}
@@ -422,7 +606,7 @@ public class AdminController {
 		}
 		
 		// 전시회 테이블 추가
-		AdminService.addexhibitiontableExhibition(AddDetailEnrollExhibitionBean);	
+		AdminService.addEnrollexhibitiontableExhibition(AddDetailEnrollExhibitionBean);	
 		
 		// 전시회 등록 신청 완료 후 상태값 2로 변경
 		AdminService.UpdateExhibitionEnrollState(2, AddDetailEnrollExhibitionBean.getExhibition_enroll_id());

@@ -28,6 +28,8 @@
 <script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
+<!-- sweet alert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Font Awesome icons (free version)-->
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -262,7 +264,7 @@
 										</div>
 
 										<hr />
-										<form
+										<form id="modifyform"
 											action="${root }/mypage/archive_modify?user_id=${loginUserBean.user_id }"
 											method="post">
 											<input type="hidden" name="reserve_id"
@@ -412,8 +414,7 @@
 													class="btn btn-danger btn-close-reviewmodal"
 													data-target="#modal-${archivelist.reserve_id}"
 													style="margin-left: 200px;" role="button">취소</button>
-												<button type="submit" class="btn btn-dark"
-													style="margin-left: 10px;" role="button">수정</button>
+												<button type="button" onclick="submitArchiveForm(this)" class="btn btn-dark" style="margin-left: 10px;" role="button">수정</button>
 											</div>
 
 										</form>
@@ -613,8 +614,28 @@ $(document).ready(function() {
 
 
 
+<script>	// 아카이브 수정
+function submitArchiveForm(button) {
+    var form = $(button).closest('form');
 
-
+    Swal.fire({
+        title: '아카이브를 수정하시겠습니까?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '수정',
+        cancelButtonText: '취소',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: '수정되었습니다!',
+                icon: 'success' 
+            }).then(() => {
+                form.submit();
+            });
+        }
+    });
+}
+</script>
 
 
 

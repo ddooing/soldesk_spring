@@ -353,8 +353,6 @@ public interface AdminMapper {
 			+ "    holiday = #{holiday}, \r\n"
 			+ "    address = #{address}, \r\n"
 			+ "    place = #{place}, \r\n"
-			+ "    latitude = #{latitude}, \r\n"
-			+ "    longitude = #{longitude}, \r\n"
 			+ "    site = #{site, jdbcType=VARCHAR}\r\n"
 			+ "WHERE \r\n"
 			+ "    exhibition_id = #{exhibition_id}")
@@ -369,17 +367,21 @@ public interface AdminMapper {
 	int getFileId(String name);
 	
 	// 전시회 관리자가 직접 추가 2번 exhibition 테이블
-	@Insert("INSERT INTO exhibition (exhibition_id, title, regdate, author, price, exhibition_start, exhibition_end, open, holiday, address, place, site, latitude, longitude, state, main_poster_file_id, detail_poster_file_id) VALUES (exhibition_id_seq.NEXTVAL, #{title}, sysdate, #{author}, #{price}, #{exhibition_start}, #{exhibition_end}, #{open}, #{holiday}, #{address}, #{place}, #{site}, #{latitude}, #{longitude}, #{state}, #{main_poster_file_id}, #{detail_poster_file_id})")
+	@Insert("INSERT INTO exhibition (exhibition_id, title, regdate, author, price, exhibition_start, exhibition_end, open, holiday, address, place, site, state, main_poster_file_id, detail_poster_file_id) VALUES (exhibition_id_seq.NEXTVAL, #{title}, sysdate, #{author}, #{price}, #{exhibition_start}, #{exhibition_end}, #{open}, #{holiday}, #{address}, #{place}, #{site}, #{state},#{main_poster_file_id}, #{detail_poster_file_id})")
 	void addexhibitiontableExhibition(ExhibitionDetailBean exhibitiondetailBean);
 
 	
 	// ============================ 전시회 등록 신청 ============================
 	// 전시회 등록신청 관리자 페이지 리스트
-	@Select("SELECT e.exhibition_enroll_id, e.title, e.author, e.price, To_char(e.exhibition_start, 'yyyy-mm-dd') as exhibition_start , To_char(e.exhibition_end, 'yyyy-mm-dd') as exhibition_end, e.state, u.name as apply_name\r\n"
+	@Select("SELECT e.exhibition_enroll_id, e.title, e.author, e.price, To_char(e.exhibition_start, 'yyyy-mm-dd') as exhibition_start , To_char(e.exhibition_end, 'yyyy-mm-dd') as exhibition_end, e.enroll_state, u.name as apply_name\r\n"
 			+ "FROM exhibition_enroll e\r\n"
 			+ "JOIN user_table u ON e.apply_person = u.user_id\r\n"
 			+ "ORDER BY e.exhibition_enroll_id DESC")
-	List<ExhibitionDetailBean> getAllExhibitionEnroll();
+	List<ExhibitionDetailBean> getAllExhibitionEnroll(RowBounds rowBounds);
+	
+	// 전시회 등록신청 관리자 페이지 페이징 처리 위한 총개수 반환 메소드
+	@Select("select count(*) from exhibition_enroll")
+	int getEnrollExhibitionCnt();
 	
 	// 전시회 1개 상세 정보 가져가기
 	@Select("SELECT \r\n"
@@ -394,9 +396,10 @@ public interface AdminMapper {
 			+ "    e.address, \r\n"
 			+ "    e.place, \r\n"
 			+ "    e.site, \r\n"
-			+ "    e.state, \r\n"
+			+ "    e.enroll_state, \r\n"
 			+ "    e.main_poster_file_id,       \r\n"
 			+ "    e.detail_poster_file_id,     \r\n"
+			+ "	   e.apply_person,		 \r\n"
 			+ "    u.name AS apply_name, \r\n"
 			+ "    u.email AS apply_email, \r\n"
 			+ "    u.telephone AS apply_telephone,\r\n"
@@ -416,7 +419,11 @@ public interface AdminMapper {
 			+ "    e.exhibition_enroll_id = #{exhibition_enroll_id}")
 	ExhibitionDetailBean getOneEnrollExhitiion(int exhibition_enroll_id);
 	
+	// 전시회 등록 신청 -> 전시회 등록 하는 메소드
+	@Insert("INSERT INTO exhibition (exhibition_id, title, regdate, author, price, exhibition_start, exhibition_end, open, holiday, address, place, site, state, apply_person, main_poster_file_id, detail_poster_file_id) VALUES (exhibition_id_seq.NEXTVAL, #{title}, sysdate, #{author}, #{price}, #{exhibition_start}, #{exhibition_end}, #{open}, #{holiday}, #{address}, #{place}, #{site}, #{state}, #{apply_person},#{main_poster_file_id}, #{detail_poster_file_id})")
+	void addEnrollexhibitiontableExhibition(ExhibitionDetailBean exhibitiondetailBean);
+	
 	//전시회 등록 신청 -> 전시회 등록 완료 하면 exhibition_enroll 테이블 상태값 변경해주기
-	@Update("UPDATE exhibition_enroll SET state = #{state} where exhibition_enroll_id = #{exhibition_enroll_id}")
-	void UpdateExhibitionEnrollState(@Param("state")int state,@Param("exhibition_enroll_id") int exhibition_enroll_id);
+	@Update("UPDATE exhibition_enroll SET enroll_state = #{enroll_state} where exhibition_enroll_id = #{exhibition_enroll_id}")
+	void UpdateExhibitionEnrollState(@Param("enroll_state")int enroll_state,@Param("exhibition_enroll_id") int exhibition_enroll_id);
 }

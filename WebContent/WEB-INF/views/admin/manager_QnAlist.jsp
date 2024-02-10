@@ -23,6 +23,9 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
 	rel="stylesheet">
 
+<!-- sweet alert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"></script>
 <!-- JQuery -->
@@ -177,20 +180,71 @@
 													<td>
 														<button class="btn btn-dark"
 															onclick="window.location.href='${root}/admin/manager_QnAwrite?qna_id=${qnalist.qna_id}'">수정</button>
-														<button class="btn btn-danger"
-															onclick="window.location.href='${root}/admin/manager_QnAdelete?qna_id=${qnalist.qna_id}'">삭제</button>
+														<button class="btn btn-danger" onclick="confirmDeletion('${root}/admin/manager_QnAdelete?qna_id=${qnalist.qna_id}')">삭제</button>
 													</td>
 												</c:when>
 												<c:when test="${qnalist.state == 2 }">
 													<td>
 														<button class="btn btn-dark"
 															onclick="window.location.href='${root}/admin/manager_QnAwrite?qna_id=${qnalist.qna_id}'">보기</button>
-														<button class="btn btn-info"
-															onclick="window.location.href='${root}/admin/QnA_recovery?qna_id=${qnalist.qna_id}&reply=${qnalist.reply }'">복구</button>
+														<button class="btn btn-info" onclick="confirmRecovery('${qnalist.qna_id}', '${qnalist.reply}')" >복구</button>
 													</td>
 												</c:when>
 											</c:choose>
 										</tr>
+										<script>	// qna 복구
+											function confirmRecovery(qnaId, reply) {
+											    Swal.fire({
+											        title: '복구하시겠습니까?',
+											        text: '선택한 항목을 복구합니다.',
+											        icon: 'question',
+											        showCancelButton: true,
+											        confirmButtonColor: '#3085d6',
+											        cancelButtonColor: '#d33',
+											        confirmButtonText: '복구',
+											        cancelButtonText: '취소'
+											    }).then((result) => {
+											        if (result.isConfirmed) {
+											            Swal.fire(
+											                '복구되었습니다!',
+											                '항목이 복구되었습니다.',
+											                'success'
+											            ).then((result) => {
+											                if (result.isConfirmed) {
+											                    // 복구 처리 URL로 리디렉션
+											                    window.location.href = '${root}/admin/QnA_recovery?qna_id=' + qnaId + '&reply=' + reply;
+											                }
+											            });
+											        }
+											    });
+											}
+										
+											 function confirmDeletion(url) {
+											        Swal.fire({
+											            title: '삭제하시겠습니까?',
+											            icon: 'warning',
+											            showCancelButton: true,
+											            confirmButtonColor: '#d33',
+											            cancelButtonColor: '#3085d6',
+											            confirmButtonText: '삭제',
+											            cancelButtonText: '취소'
+											        }).then((result) => {
+											            if (result.isConfirmed) {
+											                Swal.fire(
+											                    '삭제되었습니다!',
+											                    '항목이 삭제되었습니다.',
+											                    'success'
+											                ).then((result) => {
+											                    if (result.isConfirmed) {
+											                        // 삭제 처리 URL로 리디렉션
+											                        window.location.href = url;
+											                    }
+											                });
+											            }
+											        });
+											    }
+										</script>
+										
 									</c:forEach>
 								</c:otherwise>
 							</c:choose>
@@ -417,16 +471,36 @@
 						data : {
 							qnaIds : selectedQnaIds
 						},
-						success : function(response) {
-							alert('선택한 항목을 삭제 처리하였습니다.');
-							location.reload(); // 페이지를 새로고침하여 변경된 상태를 반영합니다.
+						success: function(response) {
+						    Swal.fire({
+						        title: '완료!',
+						        text: '선택한 항목을 삭제 처리하였습니다.',
+						        icon: 'success',
+						        confirmButtonText: '확인'
+						    }).then((result) => {
+						        if (result.isConfirmed) {
+						            location.reload(); // 사용자가 '확인' 버튼을 클릭했을 때 페이지 새로고침
+						        }
+						    });
 						},
 						error : function(xhr, status, error) {
-							alert('삭제 처리 중 문제가 발생하였습니다.');
+							Swal.fire({
+							    title: '알림',
+							    text: '삭제 처리 중 문제가 발생하였습니다.',
+							    icon: 'warning',
+							    confirmButtonText: '확인'
+							});
+
 						}
 					});
 				} else {
-					alert('삭제할 항목을 선택해주세요.');
+					Swal.fire({
+					    title: '알림',
+					    text: '삭제할 항목을 선택해주세요.',
+					    icon: 'warning',
+					    confirmButtonText: '확인'
+					});
+
 				}
 			});
 		});

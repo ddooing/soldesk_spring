@@ -47,5 +47,6 @@ public class ExhibitionDetailBean {
 	private String path;
 	
 	private int exhibition_enroll_id;
+	private int enroll_state;
 	
 }

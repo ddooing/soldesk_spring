@@ -27,7 +27,7 @@
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"></script>
 
-
+<!-- sweetalert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- JQuery -->
@@ -113,8 +113,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 	appearance: none;
 	margin: 0;
 }
-
-
 </style>
 
 </head>
@@ -128,12 +126,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 		<main style="background-color: ivory;">
 			<div class="container-fluid px-4">
 				<div style="margin-top: 30px;">
-					<h3>전시회 추가</h3>
+					<h3>전시회 등록 확인</h3>
 				</div>
 				<div
 					style="position: relative; display: flex; justify-content: center; margin: 10px; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 
-<!-- 검색부분 수정필요 -->
+					<!-- 검색부분 수정필요 -->
 					<form action="${root }/admin/manager_exhibitionlist" method="get">
 						<select name="exhibitioncombo" id="exhibitioncombo"
 							style="width: 150px; height: 40px; margin-right: 30px;">
@@ -147,15 +145,20 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					</form>
 				</div>
 
-				<form:form action="${root }/admin/manager_exhibitionenrolladd_pro" id="myForm"
-					method="post" modelAttribute="AddDetailEnrollExhibitionBean" enctype="multipart/form-data">
-				<form:hidden path="main_poster_file_id"/>
-				<form:hidden path="detail_poster_file_id"/>
-				<form:hidden path="exhibition_enroll_id"/>
+				<form:form action="${root }/admin/manager_exhibitionenrolladd_pro"
+					id="myForm" method="post"
+					modelAttribute="AddDetailEnrollExhibitionBean"
+					enctype="multipart/form-data">
+					<form:hidden path="main_poster_file_id" />
+					<form:hidden path="detail_poster_file_id" />
+					<form:hidden path="exhibition_enroll_id" />
+					<form:hidden path="apply_person" />
+					<form:hidden path="enroll_state" />
 					<div style="display: flex; width: 100%;">
 						<div
 							style="flex: 1; margin: 10px; border: 1px solid black; background-color: white;">
-							<div style="margin-left: 50px; margin-top: 30px; display: flex; align-items: baseline;">
+							<div
+								style="margin-left: 50px; margin-top: 30px; display: flex; align-items: baseline;">
 								<h3>전시회 기본정보</h3>
 								<p style="margin-left: 20px; color: #888888">* 표시는 필수항목입니다</p>
 							</div>
@@ -188,12 +191,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 									<td style="width: 400px;">
 										<div style="display: flex;">
 											<form:input type="date" id="exhibition_start"
-												path="exhibition_start"
+												path="exhibition_start" onchange="validateDate()"
 												style="border:none; border-bottom: 1px solid black; width:200px; text-align: center; font-size: 20px; margin-right:35px;"
 												required="required" />
 											~
 											<form:input type="date" id="exhibition_end"
-												path="exhibition_end"
+												path="exhibition_end" onchange="validateDate()"
 												style="border:none; border-bottom: 1px solid black; width:200px; text-align: center; font-size: 20px;margin-left:35px;"
 												required="required" />
 										</div>
@@ -214,6 +217,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 										</div>
 									</td>
 								</tr>
+
 								<tr style="height: 80px;">
 									<th style="width: 200px; text-align: center; font-size: 20px;">예매
 										가격 *</th>
@@ -222,6 +226,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 											style="border:none; border-bottom: 1px solid black; width:95%; text-align: right; font-size: 20px;"
 											required="required" />원</td>
 								</tr>
+
+
 							</table>
 
 
@@ -251,15 +257,23 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 										</div>
 									</td>
 								</tr>
+
+								<tr style="height: 80px;">
+									<th style="width: 200px; text-align: center; font-size: 20px;">주소*</th>
+									<td style="width: 400px;">
+										<div style="display: flex;">
+											<form:input path="address"
+												style="border:none; border-bottom: 1px solid black; width:80%; margin-right:10px; text-align: right; font-size: 20px;"
+												readonly="true" required="required" />
+											<button class="btn btn-dark" style="height: 50px; width: 15%"
+												type="button" onclick="sample4_execDaumPostcode();">검색</button>
+										</div>
+									</td>
+								</tr>
+
 								<tr style="height: 80px;">
 									<th style="width: 200px; text-align: center; font-size: 20px;">휴무일</th>
 									<td style="width: 400px;"><form:input path="holiday"
-											style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;" />
-									</td>
-								</tr>
-								<tr style="height: 80px;">
-									<th style="width: 200px; text-align: center; font-size: 20px;">주소</th>
-									<td style="width: 400px;"><form:input path="address"
 											style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;" />
 									</td>
 								</tr>
@@ -269,15 +283,21 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 											style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;" />
 									</td>
 								</tr>
+
 								<tr style="height: 80px;">
-									<th style="width: 200px; text-align: center; font-size: 20px;">위도</th>
-									<td style="width: 400px;"><form:input path="latitude"
+									<th style="width: 200px; text-align: center; font-size: 20px;">신청인
+										이름</th>
+									<td style="width: 400px;"><form:input path="apply_name"
+											readonly="true"
 											style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;" />
 									</td>
 								</tr>
+
 								<tr style="height: 80px;">
-									<th style="width: 200px; text-align: center; font-size: 20px;">경도</th>
-									<td style="width: 400px;"><form:input path="longitude"
+									<th style="width: 200px; text-align: center; font-size: 20px;">신청인
+										전화번호</th>
+									<td style="width: 400px;"><form:input
+											path="apply_telephone" readonly="true"
 											style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;" />
 									</td>
 								</tr>
@@ -296,14 +316,17 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 							<div
 								style="align-items: center; margin: 30px; border: 0.2px solid black; width: 600px; margin-left: auto; margin-right: auto;">
-								<img src="${AddDetailEnrollExhibitionBean.main_poster_path }${AddDetailEnrollExhibitionBean.main_poster_name }" id="poster" alt="포스터"
+								<img
+									src="${AddDetailEnrollExhibitionBean.main_poster_path }${AddDetailEnrollExhibitionBean.main_poster_name }"
+									id="poster" alt="포스터"
 									style="margin-left: auto; border: 1px solid black; margin-right: auto; display: block; margin-top: 30px; margin-bottom: 10px; width: 250px; height: 350px;" />
 								<div class="filebox"
 									style="margin-top: 25px; margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 20px;">
-									<input class="upload-name" value="${AddDetailEnrollExhibitionBean.main_poster_name }"> <label for="file">파일찾기</label>
+									<input class="upload-name"
+										value="${AddDetailEnrollExhibitionBean.main_poster_name }">
+									<label for="file">파일찾기</label>
 									<form:input type="file" id="file" path="main_poster_file"
-										value="" onchange="updateImage(event)" accept="image/*"
-										 />
+										value="" onchange="updateImage(event)" accept="image/*" />
 								</div>
 							</div>
 						</div>
@@ -317,14 +340,17 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 							<div
 								style="align-items: center; margin: 30px; border: 0.2px solid black; width: 600px; margin-left: auto; margin-right: auto;">
-								<img src="${AddDetailEnrollExhibitionBean.detail_poster_path }${AddDetailEnrollExhibitionBean.detail_poster_name }" id="detail-poster" alt="포스터"
+								<img
+									src="${AddDetailEnrollExhibitionBean.detail_poster_path }${AddDetailEnrollExhibitionBean.detail_poster_name }"
+									id="detail-poster" alt="포스터"
 									style="margin-left: auto; border: 1px solid black; margin-right: auto; display: block; margin-top: 30px; margin-bottom: 10px; width: 250px; height: 350px;" />
 								<div class="filebox1"
 									style="margin-top: 25px; margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 20px;">
-									<input class="upload-name1" value="${AddDetailEnrollExhibitionBean.detail_poster_name }"> <label
-										for="file1">파일찾기</label>
+									<input class="upload-name1"
+										value="${AddDetailEnrollExhibitionBean.detail_poster_name }">
+									<label for="file1">파일찾기</label>
 									<form:input path="detail_poster_file" value="" type="file"
-										id="file1" accept="image/*"  />
+										id="file1" accept="image/*" />
 								</div>
 							</div>
 
@@ -334,9 +360,23 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 					<div
 						style="float: right; margin-right: 30px; margin-top: 20px; margin-bottom: 50px;">
-						<a href="${root }/admin/manager_exhibitionapplylist"
-							class="btn btn-danger" style="width: 70px; margin-right: 10px;">취소</a>
-						<button type="button" class="btn btn-dark" style="width: 70px;" onclick="showConfirmation();">추가</button>
+						<c:choose>
+							<c:when
+								test="${AddDetailEnrollExhibitionBean.enroll_state == 1 }">
+								<a href="${root }/admin/manager_exhibitionapplylist"
+									class="btn btn-danger" style="width: 70px; margin-right: 10px;">취소</a>
+								<button type="button" class="btn btn-dark" style="width: 70px;"
+									onclick="showConfirmation();">추가</button>
+							</c:when>
+							<c:when
+								test="${AddDetailEnrollExhibitionBean.enroll_state != 1 }">
+								<a href="${root }/admin/manager_exhibitionapplylist"
+									class="btn btn-dark" style="width: 100px; margin-right: 10px;">뒤로가기</a>
+							</c:when>
+						</c:choose>
+
+
+
 					</div>
 				</form:form>
 			</div>
@@ -380,7 +420,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 		});
 	</script>
 
-<script>
+	<script>
 function validateTime() {
     var openTime = document.getElementById('open_time').value;
     var closeTime = document.getElementById('close_time').value;
@@ -398,13 +438,35 @@ function validateTime() {
             	  title: "오류",
             	  text: "종료 시간은 시작 시간보다 빠를 수 없습니다.",
             	});
-            document.getElementById('close_time').value = ''; // 종료 시간 초기화
+            document.getElementById('close_time').value = openTime; // 종료 시간 초기화
+        }
+    }
+}
+
+function validateDate() {
+    var startDate = document.getElementById('exhibition_start').value;
+    var endDate = document.getElementById('exhibition_end').value;
+    
+    // 날짜가 모두 입력된 경우에만 검증
+    if(startDate && endDate) {
+        // 날짜 객체로 변환하여 비교합니다.
+        var start = new Date(startDate);
+        var end = new Date(endDate);
+        
+        // 종료 날짜가 시작 날짜보다 이를 경우
+        if(end < start) {
+            Swal.fire({
+                icon: "error",
+                title: "오류",
+                text: "종료 날짜는 시작 날짜보다 빠를 수 없습니다.",
+            });
+            document.getElementById('exhibition_end').value = startDate; // 종료 날짜 초기화
         }
     }
 }
 </script>
 
-<script>
+	<script>
 function showConfirmation() {
   // 폼 요소를 가져옵니다.
  var form = document.getElementById("myForm");
@@ -427,6 +489,11 @@ function showConfirmation() {
       } else {
         // 유효성 검사에 실패했을 경우, 오류 메시지를 브라우저가 표시하도록 합니다.
         form.reportValidity();
+        Swal.fire({
+      	  icon: "error",
+      	  title: "오류",
+      	  text: "필수 입력사항을 입력해주세요",
+      	});
       }
     } else if (result.isDenied) {
       window.location.href = "${root}/admin/manager_exhibitionapplylist";
@@ -437,12 +504,49 @@ function showConfirmation() {
 </script>
 
 
+	<!-- 주소 검색 -->
+	<script
+		src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+		    //본 예제에서는 도로명 주소 표기 방식에 대한 법령에 따라, 내려오는 데이터를 조합하여 올바른 주소를 구성하는 방법을 설명합니다.
+		    function sample4_execDaumPostcode() {
+		        new daum.Postcode({
+		            oncomplete: function(data) {
+		                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+		
+		                // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+		                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+		                var roadAddr = data.roadAddress; // 도로명 주소 변수
+		                var extraRoadAddr = ''; // 참고 항목 변수
+		
+		                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+		                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+		                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+		                    extraRoadAddr += data.bname;
+		                }
+		                // 건물명이 있고, 공동주택일 경우 추가한다.
+		                if(data.buildingName !== '' && data.apartment === 'Y'){
+		                   extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+		                }
+		                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+		                if(extraRoadAddr !== ''){
+		                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+		                }
+		
+		                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+		                document.getElementById("address").value = roadAddr;
+		
+		            }
+		        }).open();
+		    }
+		</script>
+
 
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
-	
+
 
 </body>
 

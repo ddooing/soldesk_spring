@@ -83,7 +83,7 @@ public class MyPageController {
 			UserService.IncreaseExp(50, user_id);
 		}
 		
-		return "/mypage/archive_enroll_complete";
+		return "redirect:/mypage/archive?user_id=" + user_id;
 	}
 	
 
@@ -119,7 +119,7 @@ public class MyPageController {
 		// 리뷰수정
 		MyPageService.modifyArchive(r1);
 		
-		return "/mypage/archive_modify_complete";
+		return "redirect:/mypage/archive?user_id=" + user_id;
 	}
 	
 	
@@ -218,14 +218,14 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/QnA_add")			//QnA 매핑
-	public String QnA_add(@ModelAttribute("qnaBean") QnABean qnaBean, Model model) {
+	public String QnA_add(@ModelAttribute("qnaBean") QnABean qnaBean,@RequestParam("user_id") int user_id, Model model) {
 		
 		MyPageService.addUserQnA(qnaBean);
 		
 		// 마이페이지 다시 가는 용도 user_id 넘김
 		model.addAttribute("user_id",qnaBean.getUser_id());
 		
-		return "/mypage/QnA_complete";
+		return "redirect:/mypage/QnA?user_id=" + user_id;
 	}
 	
 	@GetMapping("/reservelist")		// 예약내역 매핑

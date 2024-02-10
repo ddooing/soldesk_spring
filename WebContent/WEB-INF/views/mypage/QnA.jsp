@@ -46,6 +46,8 @@
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
 	rel="stylesheet">
 
+<!-- sweet alert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Core theme JS-->
 <script src="js/scripts.js"></script>
@@ -326,7 +328,7 @@
 	</div>
 
 	<!-- QnA 모달 시작 -->
-	<form:form action="${root }/mypage/QnA_add" method="post"
+	<form:form action="${root }/mypage/QnA_add?user_id=${loginUserBean.user_id }" method="post"
 		modelAttribute="qnaBean">
 		<form:hidden path="user_id" value="${loginUserBean.user_id }" />
 		<div class="modal fade" id="qnaModal" tabindex="-1"
@@ -367,7 +369,7 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-dark">등록</button>
+						<button type="button" onclick="submitQnAForm(this)" class="btn btn-dark">등록</button>
 					</div>
 				</div>
 			</div>
@@ -483,31 +485,50 @@
     });
 </script>
 
-	<script>
-    // 회원 탈퇴 모달과 열기, 닫기 버튼을 선택
+	<script>	// 회원탈퇴 모달
     const deleteModal = document.querySelector('.deletemodal');
     const openDeleteModalButton = document.querySelector('#delete');
     const closeDeleteModalButton = deleteModal.querySelector('.btn-close-deletemodal');
 
-    // '회원 탈퇴' 버튼에 이벤트 리스너 추가
     openDeleteModalButton.addEventListener('click', () => {
         deleteModal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // 모달이 열렸을 때 스크롤 방지
+        document.body.style.overflow = 'hidden'; 
     });
 
-    // 닫기 버튼에 이벤트 리스너 추가
     closeDeleteModalButton.addEventListener('click', () => {
         deleteModal.style.display = 'none';
-        document.body.style.overflow = 'visible'; // 스크롤 가능하게 복원
+        document.body.style.overflow = 'visible'; 
     });
 
-    // 모달 외부 클릭 시 모달 닫기
     window.addEventListener('click', (e) => {
         if (e.target === deleteModal) {
             deleteModal.style.display = 'none';
-            document.body.style.overflow = 'visible'; // 스크롤 가능하게 복원
+            document.body.style.overflow = 'visible'; 
         }
     });
+</script>
+
+<script>
+function submitQnAForm(button) {
+    var form = $(button).closest('form');
+
+    Swal.fire({
+        title: 'QnA를 등록하시겠습니까?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: '등록',
+        cancelButtonText: '취소',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: '등록되었습니다!',
+                icon: 'success'
+            }).then(() => {
+                form.submit();
+            });
+        }
+    });
+}
 </script>
 
 
