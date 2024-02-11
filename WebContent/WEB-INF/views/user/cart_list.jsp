@@ -38,7 +38,7 @@
 	<script src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 	<script src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
 	
-	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 	<style>
 		#jcl-demo {
@@ -117,11 +117,8 @@
 </head>
 
 <body id="page-top">
-
 	<!-- 메뉴바 -->
 	<c:import url="/WEB-INF/views/include/header.jsp"/>
-
-
 
 	<section style="margin-top: 150px;">
 		<div class="container mb-1">
@@ -145,68 +142,59 @@
 						 	   method="post" modelAttribute="tempReserveBean">
 						 
 						<c:forEach items="${list}" var="cartlist" varStatus="status">
-							
-						    
-						    
+
 						    <input type="hidden" name="reserve_date" id="inputReserveDate" value=""/>
 	   						<input type="hidden" name="ticket_count" id="inputTicketCount" value=""/>
 						    <input type="hidden" name="exhibition_id" id="inputExhibition_id" value=""/>
-						      
-						    <div>
-						    	<button type="button" class="btn-close" aria-label="Close"></button>
-						    </div>
-						    
-							<div style="display: flex; align-items: center; flex-direction: row;">
-								<div style="margin-left: 150px; margin-top: 20px;">
-							        <input type="radio" name="selectedItem" 
-							        data-index="${status.index}"
-							        data-reserve_date="${cartlist.reserve_date}"
-							        data-exhibition_id="${cartlist.exhibition_id}"
-							        data-ticket_count="${cartlist.ticket_count}"
-	               						 <c:if test="${fn:length(list) == 1}">checked</c:if>>
-		           							${cartlist.exhibition_id}	 
+						       
+						    <div style="display: flex; flex-direction: column;"> 
+						       	<div>
+							    	<button type="button" class="btn-close" aria-label="Close" onclick="removeCartItem(${status.index})"/>
 							    </div>
-								<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
-									style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
-				
-								<div style="margin-left: 200px;">
-									<h3>${cartlist.title }</h3>
-				
-									<div style="display: flex; margin-top: 40px;">
-										<div style="margin-right: 10px; width: 200px;">예약 날짜</div>
-										<div style="margin-left: auto;">
-											<span class="reserveDateValue" style="width: 10px;">${cartlist.reserve_date }</span>
-										</div>
-									</div>
-									<script>
-										console.log(${cartlist.ticket_count });
-										var ticket_cnt= ${cartlist.ticket_count };
-									</script>
-									<div style="display: flex; margin-top: 10px;">
-										<div style="margin-right: 10px;  width: 200px;">티켓 수량</div>
-										<div style="margin-left: auto;">
-											<div class="counter">
-												
-												<span class="counterValue" style="width: 10px;">
-					                                ${cartlist.ticket_count}
-					                            </span>
-												
+								<div style="display: flex; align-items: center; flex-direction: row;">
+									
+									<div style="margin-left: 150px; margin-top: 20px;">
+								        <input type="radio" name="selectedItem" 
+								        data-index="${status.index}"
+								        data-reserve_date="${cartlist.reserve_date}"
+								        data-exhibition_id="${cartlist.exhibition_id}"
+								        data-ticket_count="${cartlist.ticket_count}"
+		               						 <c:if test="${fn:length(list) == 1}">checked</c:if>>
+			           							${cartlist.exhibition_id}	 
+								    </div>
+									<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
+										style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
+					
+									<div style="margin-left: 200px;">
+										<h3>${cartlist.title }</h3>
+					
+										<div style="display: flex; margin-top: 40px;">
+											<div style="margin-right: 10px; width: 200px;">예약 날짜</div>
+											<div style="margin-left: auto;">
+												<span class="reserveDateValue" style="width: 10px;">${cartlist.reserve_date }</span>
 											</div>
 										</div>
-									</div>
-									
-									<div style="display: flex; margin-top: 10px;">
-										<div style="margin-right: 10px;  width: 200px;">총 티켓 가격</div>
-										<div style="margin-left: auto;">
-										${cartlist.total_price } 원
+										<script>
+											console.log(${cartlist.ticket_count });
+											var ticket_cnt= ${cartlist.ticket_count };
+										</script>
+										<div style="display: flex; margin-top: 10px;">
+											<div style="margin-right: 10px;  width: 200px;">티켓 수량</div>
+											<div style="margin-left: auto;">
+												<div class="counter">
+													<span class="counterValue" style="width: 10px;">${cartlist.ticket_count}</span>
+												</div>
+											</div>
+										</div>
+										
+										<div style="display: flex; margin-top: 10px;">
+											<div style="margin-right: 10px;  width: 200px;">총 티켓 가격</div>
+											<div style="margin-left: auto;">${cartlist.total_price } 원</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							
-				
-				
-							<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
+							<hr style="margin:auto; margin-top: 50px; width: 1000px;"/>
 						</c:forEach>
 							
 							<c:if test="${not empty list}">
@@ -223,60 +211,65 @@
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
-
 </body>
-		<script>
-		    document.addEventListener('DOMContentLoaded', function() {
-		    	
-		        var radioButtons = document.querySelectorAll('input[name="selectedItem"]');
-		
-		        radioButtons.forEach(function(radioButton) {
-		            radioButton.addEventListener('click', function() {
-		            	var index = this.getAttribute('data-index');
-		            	var reserve_date = this.getAttribute('data-reserve_date');
-		            	var exhibition_id = this.getAttribute('data-exhibition_id');
-		            	var ticket_count = this.getAttribute('data-ticket_count');
-	
-		                console.log("선택된 항목의 인덱스: " + index);
-		                console.log("선택된 항목의 예약 날짜: " + reserve_date);
-		                console.log("선택된 항목의 exhibition_id: " + exhibition_id);
-		                console.log("선택된 항목의 ticket_count: " + ticket_count);
-		             
-		             // hidden input 값 설정
-		                document.getElementById('inputReserveDate').value =reserve_date;
-		                document.getElementById('inputTicketCount').value = ticket_count;
-		                document.getElementById('inputExhibition_id').value = exhibition_id;
-		                
-		                
-		                var inputReserveDateValue = document.getElementById('inputReserveDate').value;
-		                var inputTicketCountValue = document.getElementById('inputTicketCount').value;
+	<script>
+	    function removeCartItem(index) {
+	        window.location.href = '${root}/user/cart_cancel?no=' + index;
+	    }
+	</script>
 
-		                console.log("inputReserveDate 값: " + inputReserveDateValue);
-		                console.log("inputTicketCount 값: " + inputTicketCountValue);
-		                
-		                
-		                var formElement = document.getElementById('paymentForm');
-		                formElement.action = '${root}/exhibition/payment?exhibition_id='+exhibition_id;
+	<script>
+	    document.addEventListener('DOMContentLoaded', function() {
+	    	
+	        var radioButtons = document.querySelectorAll('input[name="selectedItem"]');
 	
-		                
-		            });
-		        });
-		        
-		    });
-		</script>
-		
-		<script>
-			
-				document.getElementById('payment-button').addEventListener('click', function() {
-					
-					var inputReserveDateValue = document.getElementById('inputReserveDate').value;
-					var inputTicketCountValue = document.getElementById('inputTicketCount').value;
+	        radioButtons.forEach(function(radioButton) {
+	            radioButton.addEventListener('click', function() {
+	            	var index = this.getAttribute('data-index');
+	            	var reserve_date = this.getAttribute('data-reserve_date');
+	            	var exhibition_id = this.getAttribute('data-exhibition_id');
+	            	var ticket_count = this.getAttribute('data-ticket_count');
 
-					console.log("inputReserveDate 값: " + inputReserveDateValue);
-					console.log("inputTicketCount 값: " + inputTicketCountValue);
-				   	console.log("버튼 클릭")
-					//formElement.submit();
-				});
-			
-		</script>
+	                console.log("선택된 항목의 인덱스: " + index);
+	                console.log("선택된 항목의 예약 날짜: " + reserve_date);
+	                console.log("선택된 항목의 exhibition_id: " + exhibition_id);
+	                console.log("선택된 항목의 ticket_count: " + ticket_count);
+	             
+	             // hidden input 값 설정
+	                document.getElementById('inputReserveDate').value =reserve_date;
+	                document.getElementById('inputTicketCount').value = ticket_count;
+	                document.getElementById('inputExhibition_id').value = exhibition_id;
+	                
+	                
+	                var inputReserveDateValue = document.getElementById('inputReserveDate').value;
+	                var inputTicketCountValue = document.getElementById('inputTicketCount').value;
+
+	                console.log("inputReserveDate 값: " + inputReserveDateValue);
+	                console.log("inputTicketCount 값: " + inputTicketCountValue);
+	                
+	                
+	                var formElement = document.getElementById('paymentForm');
+	                formElement.action = '${root}/exhibition/payment?exhibition_id='+exhibition_id;
+
+	                
+	            });
+	        });
+	        
+	    });
+	</script>
+	
+	<script>
+		
+			document.getElementById('payment-button').addEventListener('click', function() {
+				
+				var inputReserveDateValue = document.getElementById('inputReserveDate').value;
+				var inputTicketCountValue = document.getElementById('inputTicketCount').value;
+
+				console.log("inputReserveDate 값: " + inputReserveDateValue);
+				console.log("inputTicketCount 값: " + inputTicketCountValue);
+			   	console.log("버튼 클릭")
+				//formElement.submit();
+			});
+		
+	</script>
 </html>

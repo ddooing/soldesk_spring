@@ -24,7 +24,7 @@ public class ReserveBean {
 	private int pay_approval_state;
 	private String order_id;
 	private String paymentkey;
-
+	private String method; // 결제 방법: 
 	public ReserveBean(){
 		this.order_id= UUID.randomUUID().toString();
 	}
@@ -140,6 +140,54 @@ public class ReserveBean {
 
 	public void setPay_approval_state(int pay_approval_state) {
 		this.pay_approval_state = pay_approval_state;
+	}
+
+	public String getRequested_at() {
+		return requested_at;
+	}
+
+	public void setRequested_at(String requested_at) {
+		this.requested_at = requested_at;
+	}
+
+	public String getApproved_at() {
+		return approved_at;
+	}
+
+	public void setApproved_at(String approved_at) {
+		this.approved_at = approved_at;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getMain_poster_path() {
+		return main_poster_path;
+	}
+
+	public void setMain_poster_path(String main_poster_path) {
+		this.main_poster_path = main_poster_path;
+	}
+
+	public String getMain_poster_name() {
+		return main_poster_name;
+	}
+
+	public void setMain_poster_name(String main_poster_name) {
+		this.main_poster_name = main_poster_name;
+	}
+
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
 	}
 	
 	

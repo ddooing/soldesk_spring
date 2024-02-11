@@ -8,6 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
 <meta charset="utf-8" />
 <meta name="viewport"
@@ -20,6 +21,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.1.0/css/datepicker.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.1.0/js/datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         var today = new Date();
@@ -44,14 +46,7 @@
         });
     });
     </script>
-    <script>
-	    document.addEventListener('DOMContentLoaded', function() {
-	        <c:if test="${not empty cartMessage}">
-	            alert("${cartMessage}");
-	            console.log("${cartMessage}");
-	        </c:if>
-	    });
-	</script>
+
     
 	<script>
 		console.log("loginUserBean :" +loginUserBean.user_id);
@@ -917,9 +912,25 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 	
 	<c:if test="${not empty cartMessage}">
         <script>
-        	alert("${cartMessage}");
-         	console.log("cartMessage : "+${cartMessage});
-        </script>
+        Swal.fire({
+            //title: "Are you sure?",
+            text: "${cartMessage}",
+            icon: "${icon}",
+            showCancelButton: true,
+            confirmButtonColor: "#4F6F52",
+            cancelButtonColor: "gray",
+            confirmButtonText: "장바구니 보기",
+            cancelButtonText: '계속 쇼핑?하기'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // confirmButtonText를 눌렀을 때, 지정된 URL로 이동
+                window.location.href = "${root}/user/cart_list";
+            }
+            // cancelButtonText를 눌렀을 때, 대화 상자가 자동으로 닫힘 (아무 작업도 필요 없음)
+        });
+
+        console.log("cartMessage: " + "${cartMessage}");
+    </script>
     </c:if>
 </body>
 

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.softsoldesk.Beans.CartBean;
@@ -67,7 +68,8 @@ public class CartController {
 	    		&& (avo.getTicket_count()== cvo.getTicket_count())  				
 	    ){
 	    	
-		    redirectAttributes.addFlashAttribute("cartMessage", "장바구니 내역에 존재합니다.");
+		    redirectAttributes.addFlashAttribute("cartMessage", "장바구니에 존재합니다");
+		    redirectAttributes.addFlashAttribute("icon", "warning");
 		    bCheck = true;
 	        break;
 	    }
@@ -88,7 +90,8 @@ public class CartController {
 			
 	    list.add(cvo);
 	    session.setAttribute("cart", list);
-	    redirectAttributes.addFlashAttribute("cartMessage", "장바구니에 추가되었습니다.");
+	    redirectAttributes.addFlashAttribute("cartMessage", "장바구니에 추가되었습니다");
+	    redirectAttributes.addFlashAttribute("icon", "success");
 	  }
 		System.out.println("cart insert 컨트롤러 - tempReserveBean.getExhibition_id "+tempReserveBean.getExhibition_id());
 		
@@ -96,25 +99,9 @@ public class CartController {
 	   
 
 	    return "redirect:/exhibition/exhibition_click";
-		
-		//return "user/cart_insert";
-		// return "redirect:/user/cart_list";
-		// 리다이렉트할 URL 구성
-	   // String redirectUrl = "/exhibition/exhibition_click?exhibition_id=" + tempReserveBean.getExhibition_id();
 
-	    //return "redirect:" + redirectUrl;
-		//return "/exhibition/exhibition_click";
 	}
-	
-	/*
-	//만약 중간 장바구니 바로가기 or 현재 페이지에 머무리기 있을 시 사용하기 
-	@GetMapping("/cart_insert_success")
-	public String cart_insert_success(HttpSession session, Model model) {
-	 
-	  return "user/cart_insert_successt";
-	}
-	*/
-	
+
 	@GetMapping("/cart_list")
 	public String goods_cart_list(HttpSession session, Model model) {
 	  //세션 속에 저장된 장바구니 리스트를 불러 와야 함
@@ -140,11 +127,13 @@ public class CartController {
 	}
 	
 	@GetMapping("/cart_cancel")
-	public String cart_cancel(int no, HttpSession session) {
-	  List < CartBean > list = (List < CartBean > ) session.getAttribute("cart");
-	  list.remove(no);
-	  //메시지 추가하기 : 삭제되었습니다 .
-	  return "redirect:/user/cart_list";
+	public String cart_cancel(@RequestParam("no") int no, HttpSession session) {
+	    List<CartBean> list = (List<CartBean>) session.getAttribute("cart");
+	    if (list != null && no >= 0 && no < list.size()) {
+	        list.remove(no);
+	    }
+	    return "redirect:/user/cart_list";
 	}
+
 	
 }
