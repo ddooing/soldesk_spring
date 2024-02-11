@@ -2,6 +2,7 @@ package kr.co.softsoldesk.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -10,6 +11,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
+import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.QnABean;
 
 public interface AdminMapper {
@@ -628,4 +630,184 @@ public interface AdminMapper {
 			+ "ORDER BY \r\n"
 			+ "    e.exhibition_enroll_id DESC")
 	int getEnrollExhibitionSearchstatetotalCnt(@Param("search") int search);	
+	
+	
+	// ================================== 메인 배너 관리 ==============================
+	
+	// 메인 배너 관리 페이지
+	@Select("SELECT \r\n"
+			+ "    mb.main_banner_id, \r\n"
+			+ "    mb.exhibition_id, \r\n"
+			+ "    TO_CHAR(mb.start_date, 'yyyy-mm-dd') AS start_date, \r\n"
+			+ "    TO_CHAR(mb.end_date, 'yyyy-mm-dd') AS end_date, \r\n"
+			+ "    mb.expose_order, \r\n"
+			+ "    mb.state, \r\n"
+			+ "    e.title, \r\n"
+			+ "    ft.name as main_banner_name, \r\n"
+			+ "    ft.path as main_banner_path\r\n"
+			+ "FROM \r\n"
+			+ "    main_banner mb\r\n"
+			+ "INNER JOIN \r\n"
+			+ "    exhibition e ON mb.exhibition_id = e.exhibition_id\r\n"
+			+ "INNER JOIN \r\n"
+			+ "    file_table ft ON mb.banner_file_id = ft.file_id\r\n"
+			+ "WHERE \r\n"
+			+ "    mb.state = 1\r\n"
+			+ "ORDER BY\r\n"
+			+ "    mb.expose_order ASC")
+	List<MainBannerBean> getAllShowMainbannerInfo();
+	
+	// 메인 배너 관리 state 2 (숨김)
+	@Select("SELECT \r\n"
+			+ "    mb.main_banner_id, \r\n"
+			+ "    mb.exhibition_id, \r\n"
+			+ "    TO_CHAR(mb.start_date, 'yyyy-mm-dd') AS start_date, \r\n"
+			+ "    TO_CHAR(mb.end_date, 'yyyy-mm-dd') AS end_date, \r\n"
+			+ "    mb.expose_order, \r\n"
+			+ "    mb.state, \r\n"
+			+ "    e.title, \r\n"
+			+ "    ft.name as main_banner_name, \r\n"
+			+ "    ft.path as main_banner_path\r\n"
+			+ "FROM \r\n"
+			+ "    main_banner mb\r\n"
+			+ "INNER JOIN \r\n"
+			+ "    exhibition e ON mb.exhibition_id = e.exhibition_id\r\n"
+			+ "INNER JOIN \r\n"
+			+ "    file_table ft ON mb.banner_file_id = ft.file_id\r\n"
+			+ "WHERE \r\n"
+			+ "    mb.state = 2\r\n"
+			+ "ORDER BY\r\n"
+			+ "    mb.expose_order ASC")
+	List<MainBannerBean> getAllHideMainbannerInfo();
+	
+	// 메인 배너 관리 페이지 배지 관련
+	@Select("SELECT\r\n"
+			+ "  COUNT(*) AS banner_all_Cnt,\r\n"
+			+ "  COUNT(CASE WHEN state = 1 THEN 1 END) AS banner_show_Cnt,\r\n"
+			+ "  COUNT(CASE WHEN state = 2 THEN 1 END) AS banner_hide_Cnt\r\n"
+			+ "FROM main_banner")
+	MainBannerBean getMainBannerBadgeCnt();
+	
+	// 메인 배너 관리 페이지 제목 검색
+	@Select("SELECT \r\n"
+			+ "    mb.main_banner_id, \r\n"
+			+ "    mb.exhibition_id, \r\n"
+			+ "    TO_CHAR(mb.start_date, 'yyyy-mm-dd') AS start_date, \r\n"
+			+ "    TO_CHAR(mb.end_date, 'yyyy-mm-dd') AS end_date, \r\n"
+			+ "    mb.expose_order, \r\n"
+			+ "    mb.state, \r\n"
+			+ "    e.title, \r\n"
+			+ "    ft.name as main_banner_name, \r\n"
+			+ "    ft.path as main_banner_path\r\n"
+			+ "FROM \r\n"
+			+ "    main_banner mb\r\n"
+			+ "INNER JOIN \r\n"
+			+ "    exhibition e ON mb.exhibition_id = e.exhibition_id\r\n"
+			+ "INNER JOIN \r\n"
+			+ "    file_table ft ON mb.banner_file_id = ft.file_id\r\n"
+			+ "WHERE \r\n"
+			+ "    e.title LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    mb.expose_order asc")
+	List<MainBannerBean> titleSearchMainbannerInfo(@Param("search") String search);
+	
+	// 메인 배너 관리 페이지 제목 검색 뱃지 관련
+	@Select("SELECT \r\n"
+			+ "    COUNT(*) AS banner_all_Cnt,\r\n"
+			+ "    COUNT(CASE WHEN mb.state = 1 THEN 1 END) AS banner_show_Cnt,\r\n"
+			+ "    COUNT(CASE WHEN mb.state = 2 THEN 1 END) AS banner_hide_Cnt\r\n"
+			+ "FROM \r\n"
+			+ "    main_banner mb\r\n"
+			+ "INNER JOIN \r\n"
+			+ "    exhibition e ON mb.exhibition_id = e.exhibition_id\r\n"
+			+ "INNER JOIN \r\n"
+			+ "    file_table ft ON mb.banner_file_id = ft.file_id\r\n"
+			+ "WHERE \r\n"
+			+ "    e.title LIKE '%' || #{search} || '%'\r\n"
+			+ "ORDER BY \r\n"
+			+ "    mb.expose_order asc")
+	MainBannerBean getTitleSearchMainBannerBadgeCnt(@Param("search") String search);
+	
+	// 배너 순서 업데이트
+	@Update("UPDATE main_banner SET expose_order = #{exposeOrder} WHERE main_banner_id = #{mainBannerId}")
+    void updateExposeOrder(@Param("mainBannerId") int mainBannerId, @Param("exposeOrder") int exposeOrder);
+	
+	// index 페이지 메인 캐러셀 가져가기
+	@Select("SELECT \r\n"
+			+ "    mb.main_banner_id,\r\n"
+			+ "    mb.exhibition_id,\r\n"
+			+ "    mb.expose_order,\r\n"
+			+ "    mb.state,\r\n"
+			+ "    ft.name AS main_banner_name,\r\n"
+			+ "    ft.path AS main_banner_path\r\n"
+			+ "FROM \r\n"
+			+ "    main_banner mb\r\n"
+			+ "INNER JOIN \r\n"
+			+ "    file_table ft ON mb.banner_file_id = ft.file_id\r\n"
+			+ "WHERE \r\n"
+			+ "    mb.state = 1\r\n"
+			+ "    AND mb.end_date >= SYSDATE\r\n"
+			+ "ORDER BY \r\n"
+			+ "    mb.expose_order ASC")
+	List<MainBannerBean> IndexMainBannerBeanList();
+	
+	// 배너 삭제
+	@Delete("DELETE FROM main_banner where main_banner_id = #{main_banner_id}")
+	void DeleteMainBanner(int main_banner_id);
+	
+	// 배너 삭제 시 노출순서가 삭제한 배너보다 높은 노출 순서 1개씩 줄이기
+	@Update("UPDATE main_banner SET expose_order = expose_order - 1 WHERE expose_order > #{expose_order}")
+	void UpdateDeleteAndExpose_order(@Param("expose_order") int expose_order);
+	
+	// 메인 배너 관리자 페이지 메인배너 한개 모든 정보 가져가기
+	@Select("SELECT\r\n"
+			+ "    mb.main_banner_id,\r\n"
+			+ "    mb.exhibition_id,\r\n"
+			+ "    To_char(mb.start_date, 'yyyy-mm-dd') as start_date,\r\n"
+			+ "    To_char(mb.end_date, 'yyyy-mm-dd') as end_date,\r\n"
+			+ "    mb.expose_order,\r\n"
+			+ "    mb.state,\r\n"
+			+ "	   mb.pay_money, \r\n"
+			+ "	   mb.banner_file_id, \r\n"
+			+ "    To_char(mb.regdate, 'yyyy-mm-dd') as regdate,\r\n"
+			+ "    ut.name AS user_name,\r\n"
+			+ "    ut.telephone AS telephone,\r\n"
+			+ "    e.title AS title,\r\n"
+			+ "    ft.name AS main_banner_name,\r\n"
+			+ "    ft.path AS main_banner_path\r\n"
+			+ "FROM\r\n"
+			+ "    main_banner mb\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    user_table ut ON mb.apply_person_id = ut.user_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    exhibition e ON mb.exhibition_id = e.exhibition_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    file_table ft ON mb.banner_file_id = ft.file_id\r\n"
+			+ "WHERE\r\n"
+			+ "    mb.main_banner_id = #{main_banner_id}")
+	MainBannerBean getOneMainBannerInfo(int main_banner_id);
+	
+	// 메인 배너 업데이트시 파일 테이블에 파일 추가
+	@Insert("INSERT INTO file_table (file_id, name, path, file_date) values (file_id_seq.nextval, #{name}, #{path}, sysdate)")
+	void addfiletableBanner(MainBannerBean mainBannerBean);
+	
+	// 배너 수정 업데이트
+	@Update("UPDATE main_banner SET state=#{state}, start_date=#{start_date}, end_date=#{end_date},expose_order=#{expose_order} ,banner_file_id=#{banner_file_id} where main_banner_id=#{main_banner_id}")
+	void UpdateMainBanner(MainBannerBean mainBannerBean);
+	
+	// 배너 수정 업데이트시 state 값 변경 확인하려고 쓰는 메소드
+	@Select("SELECT state from main_banner where main_banner_id = #{main_banner_id}")
+	Integer getMainBannerState(int main_banner_id);
+	
+	// 배너 수정 업데이트시 state 최대 값 반환 메소드
+	@Select("SELECT MAX(expose_order) FROM main_banner where state = 1")
+	int getMaxExposeOrder();
+	
+	// 배너 수정 업데이트시 expose_order 값 1씩 줄이기
+	@Update("UPDATE main_banner SET expose_order = expose_order - 1 WHERE expose_order BETWEEN #{order} + 1 AND (SELECT MAX(expose_order) FROM main_banner)")
+	void UpdateExpose_order(@Param("order") int expose_order);
+	
+	// 메인 배너 관리자 직접 추가
+	@Insert("insert into main_banner (exhibition_id, start_date, end_date, expose_order, regdate, state, banner_file_id) values (#{exhibition_id},#{start_date},#{end_date},#{expose_order},sysdate,#{state},#{banner_file_id})")
+	void AddmanagerMainBanner(MainBannerBean mainBannerBean);
 }

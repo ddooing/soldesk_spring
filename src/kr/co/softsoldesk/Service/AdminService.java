@@ -8,10 +8,12 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
+import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.dao.AdminDao;
@@ -27,6 +29,12 @@ public class AdminService {
 	
 	@Value("${path.detailupload}")
 	private String path_detailupload;
+	
+	@Value("${path.mainbannerupload}")
+	private String path_mainbannerupload;
+	
+	@Value("${path.subbannerupload}")
+	private String path_subbannerupload;
 	
 	@Value("${admin.listcnt}")
 	private int admin_listcnt;
@@ -69,6 +77,38 @@ public class AdminService {
 			return file_name;
 		}
 	
+	
+	private String saveSubBannerUploadFile(MultipartFile upload_file) {	// 메인 배너 업로드 경로
+		
+		String file_name = System.currentTimeMillis() + "_" + FilenameUtils.getBaseName(upload_file.getOriginalFilename()) 
+						   + "." + FilenameUtils.getExtension(upload_file.getOriginalFilename());
+		
+		
+		// 파일 저장 위치에 저장하기 
+		try {
+			upload_file.transferTo(new File(path_subbannerupload+"/"+file_name));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return file_name;
+	}
+	
+	private String saveMainBannerUploadFile(MultipartFile upload_file) {	// 서브 배너 업로드 경로
+			
+			String file_name = System.currentTimeMillis() + "_" + FilenameUtils.getBaseName(upload_file.getOriginalFilename()) 
+							   + "." + FilenameUtils.getExtension(upload_file.getOriginalFilename());
+			
+			
+			// 파일 저장 위치에 저장하기 
+			try {
+				upload_file.transferTo(new File(path_mainbannerupload+"/"+file_name));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return file_name;
+		}
 	
 	// ===================================QnA===================================
 	
@@ -417,8 +457,8 @@ public class AdminService {
 		if (b1.getOpen() != null && !b1.getOpen().isEmpty()) {
 	        String[] times = b1.getOpen().split(" - ");
 	        if (times.length == 2) {
-	            String open_time = times[0]; // "09:00"
-	            String close_time = times[1]; // "18:00"
+	            String open_time = times[0]; 
+	            String close_time = times[1]; 
 	            
 	            b1.setOpen_time(open_time);
 	            b1.setClose_time(close_time);
@@ -544,6 +584,104 @@ public class AdminService {
 		PageBean pageBean = new PageBean(statesearch_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
 		
 		return pageBean;
+	}
+	
+	// =========================== 관리자페이지 배너 관리 ==========================
+	// 모든 배너 가져가기 state 1
+	public List<MainBannerBean> getAllShowMainbannerInfo() {
+		return adminDao.getAllShowMainbannerInfo();
+	}
+	
+	// 모든 배너 가져가기 state 2
+	public List<MainBannerBean> getAllHideMainbannerInfo() {
+		return adminDao.getAllHideMainbannerInfo();
+	}
+	
+	// 배너 관리 페이지 배지 관련
+	public MainBannerBean getMainBannerBadgeCnt() {
+		return adminDao.getMainBannerBadgeCnt();
+	}
+	
+	// 배너 관리 페이지 제목 검색 리스트
+	public List<MainBannerBean> titleSearchMainbannerInfo(String search) {
+		return adminDao.titleSearchMainbannerInfo(search);
+	}
+	
+	// 배너 관리 페이지 제목 검색 뱃지 관련
+	public MainBannerBean getTitleSearchMainBannerBadgeCnt(String search) {
+		return adminDao.getTitleSearchMainBannerBadgeCnt(search);
+	}
+	
+	// 배너 순서 업데이트
+	public void updateExposeOrder(String[] ids) {
+        for (int i = 0; i < ids.length; i++) {
+            int bannerId = Integer.parseInt(ids[i]);
+            adminDao.updateExposeOrder(bannerId, i + 1);
+        }
+    }
+	
+	// Index 페이지 메인 배너 가져가기
+	public List<MainBannerBean> IndexMainBannerBeanList() {
+		return adminDao.IndexMainBannerBeanList();
+	}
+	
+	// 메인 배너 삭제
+	public void DeleteMainBanner(int main_banner_id) {
+		adminDao.DeleteMainBanner(main_banner_id);
+	}
+	
+	// 메인 배너 삭제 시 삭제한 배너보다 노출 순서 높은거 1개씩 줄이기
+	public void UpdateDeleteAndExpose_order(int expose_order) {
+		adminDao.UpdateDeleteAndExpose_order(expose_order);
+	}
+	
+	// 메인 배너 한개 모든 정보 가져가기
+	public MainBannerBean getOneMainBannerInfo(int main_banner_id) {
+		return adminDao.getOneMainBannerInfo(main_banner_id);
+	}
+	
+	// 메인 배너 수정시 파일 변경시 filetable에 추가
+	public void addfiletableBanner(MainBannerBean mainBannerBean) {
+		MultipartFile main_banner_upload_file  = mainBannerBean.getMain_banner_file();
+		
+		if(main_banner_upload_file.getSize()>0) {
+			String main_banner_file_name = saveMainBannerUploadFile(main_banner_upload_file);
+			
+			// file_table 메인포스터 이름 저장
+			mainBannerBean.setName(main_banner_file_name);
+			mainBannerBean.setPath("/Spring_Project_Dream/img/main_banner/");
+			
+			// file_table 상세포스터 이름 저장
+			adminDao.addfiletableBanner(mainBannerBean);
+			
+			// 저장된 파일 file_id exhibitionDetailBean에 set 해줌
+			mainBannerBean.setBanner_file_id(adminDao.getFileId(main_banner_file_name));
+		}
+	}
+
+	// 메인 배너 수정
+	public void UpdateMainBanner(MainBannerBean mainBannerBean) {
+		adminDao.UpdateMainBanner(mainBannerBean);
+	}
+	
+	// 메인 배너 수정 시 state 값 변경 확인 메소드
+	public Integer getMainBannerState(int main_banner_id) {
+		return adminDao.getMainBannerState(main_banner_id);
+	}
+	
+	// 메인 배너 수정 시 expose_order 최대 값 반환
+	public int getMaxExposeOrder() {
+		return adminDao.getMaxExposeOrder();
+	}
+	
+	// 메인 배너 수정 시 expose_order 값 1씩 내림
+	public void UpdateExpose_order(int expose_order) {
+		adminDao.UpdateExpose_order(expose_order);
+	}
+	
+	// 메인 배너 관리자 직접 추가
+	public void AddmanagerMainBanner(MainBannerBean mainBannerBean) {
+		adminDao.AddmanagerMainBanner(mainBannerBean);
 	}
 }
 

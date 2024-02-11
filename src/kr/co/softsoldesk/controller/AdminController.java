@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
+import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.AdminService;
+import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.UserService;
 import kr.co.softsoldesk.dao.ExhibitionDao;
 
@@ -35,6 +37,9 @@ public class AdminController {
 	
 	@Autowired
 	private UserService UserService;
+	
+	@Autowired
+	private ExhibitionService ExhibitionService;
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
@@ -149,7 +154,7 @@ public class AdminController {
 	
 	
 	// ======================================= QnA관리 ================================
-	// ======================================================승찬 부분
+	// ======================================= 승찬 부분 ===============================
 	@GetMapping("/manager_QnAlist")
 	public String manager_QnAlist(@RequestParam(value="usercombo", required=false) String usercombo, @RequestParam(value="usersearch", required=false) String usersearch,@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
@@ -642,7 +647,7 @@ public class AdminController {
 		} else if("enroll_state".equals(exhibitioncombo)) {		// 상태검색
 			
 			// 상태 검색 매핑?
-			if(exhibitionsearch.contains("대기")) {
+			if(exhibitionsearch.contains("대")||exhibitionsearch.contains("기")) {
 				
 				int searching = 1;
 				// 상태 검색 리스트
@@ -662,7 +667,7 @@ public class AdminController {
 				model.addAttribute("searching",searching);
 				model.addAttribute("exhibitionsearch",exhibitionsearch);
 				
-			} else if(exhibitionsearch.contains("등록")||exhibitionsearch.contains("완료")) {
+			} else if(exhibitionsearch.contains("완")||exhibitionsearch.contains("료")||exhibitionsearch.contains("등")||exhibitionsearch.contains("록")) {
 				
 				int searching = 2;
 				// 상태 검색 리스트
@@ -682,7 +687,7 @@ public class AdminController {
 				model.addAttribute("searching",searching);
 				model.addAttribute("exhibitionsearch",exhibitionsearch);
 				
-			} else if(exhibitionsearch.contains("거절")) {
+			} else if(exhibitionsearch.contains("거")||exhibitionsearch.contains("절")) {
 				
 				int searching = 3;
 				// 상태 검색 리스트
@@ -780,4 +785,180 @@ public class AdminController {
 		
 	}
 	
+	// ============================== 관리자 페이지 배너관리 ================================
+	// 메인 배너 관리 관리자 페이지
+	@GetMapping("/manager_mainbannershowlist")
+	public String manager_bannerlist(@RequestParam(value="bannercombo", required=false) String bannercombo, @RequestParam(value="bannersearch", required=false) String bannersearch,Model model) {
+		
+		if (bannercombo == null || bannercombo.isEmpty() || bannersearch == null || bannersearch.isEmpty()) {
+			
+			// 메인 배너 모든 정보 가져가기
+			List<MainBannerBean> AllMainBannerInfo = AdminService.getAllShowMainbannerInfo();
+			model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+			
+			// 메인 배너 뱃지 관련
+			MainBannerBean BadgeCnt = AdminService.getMainBannerBadgeCnt();
+			model.addAttribute("BadgeCnt", BadgeCnt);
+			
+			return "/admin/manager_mainbannershowlist";
+		}
+		
+		if("title".equals(bannercombo)) {	// 제목검색
+			
+			// 메인 배너 제목 검색 모든 정보 가져가기
+			List<MainBannerBean> TitleSearchBannerInfo = AdminService.titleSearchMainbannerInfo(bannersearch);
+			model.addAttribute("AllMainBannerInfo",TitleSearchBannerInfo);
+			
+			// 메인 배너 제목 검색 뱃지 관련
+			MainBannerBean TitleSearchBadgeCnt = AdminService.getTitleSearchMainBannerBadgeCnt(bannersearch);
+			model.addAttribute("BadgeCnt",TitleSearchBadgeCnt);
+			
+			model.addAttribute("bannercombo",bannercombo);
+			model.addAttribute("bannersearch",bannersearch);
+		}
+		
+		
+		return "/admin/manager_mainbannershowlist";
+	}
+	
+	// 배너 순서 변경 (드래그앤 드롭)
+	@PostMapping("/saveRowOrder")	
+	public ResponseEntity<?> saveRowOrder(@RequestParam("order") String order) {
+	    String[] ids = order.split(",");
+	    AdminService.updateExposeOrder(ids);
+	    return ResponseEntity.ok("Row order saved");
+	}
+	
+	// 메인 배너 수정 페이지 매핑
+	@GetMapping("/manager_mainbannermodify")
+	public String manager_mainbannermodify(@RequestParam("main_banner_id") int main_banner_id, Model model) {
+		
+		// 메인 배너 한개 모든 정보 가져오기
+		MainBannerBean getOneMainBannerInfo = AdminService.getOneMainBannerInfo(main_banner_id);
+		model.addAttribute("getOneMainBannerInfoBean",getOneMainBannerInfo);
+		
+		// 메인 배너 뱃지 관련
+		MainBannerBean BadgeCnt = AdminService.getMainBannerBadgeCnt();
+		model.addAttribute("BadgeCnt", BadgeCnt);
+		
+		return "admin/manager_mainbannermodify";
+	}
+	
+	// 배너 삭제
+	@GetMapping("/DeleteMainBanner")
+	public String DeleteMainBanner(@RequestParam("main_banner_id") int main_banner_id, @RequestParam("expose_order") int expose_order ,Model model) {
+
+		// 배너 삭제
+		AdminService.DeleteMainBanner(main_banner_id);
+		
+		// 노출 순서 높은것들 노출순서 낮추기
+		AdminService.UpdateDeleteAndExpose_order(expose_order);
+
+		// 메인 배너 모든 정보 가져가기
+		List<MainBannerBean> AllMainBannerInfo = AdminService.getAllShowMainbannerInfo();
+		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+					
+		// 메인 배너 뱃지 관련
+		MainBannerBean BadgeCnt = AdminService.getMainBannerBadgeCnt();
+		model.addAttribute("BadgeCnt", BadgeCnt);
+					
+		return "/admin/manager_mainbannershowlist";
+	}
+	
+	// 숨김 만 보이는 메인 배너 관리 페이지
+	@GetMapping("/manager_mainbannerhidelist")
+	public String manager_mainbannerhidelist(@RequestParam(value="bannercombo", required=false) String bannercombo, @RequestParam(value="bannersearch", required=false) String bannersearch,Model model) {
+		
+		if (bannercombo == null || bannercombo.isEmpty() || bannersearch == null || bannersearch.isEmpty()) {
+			
+			// 메인 배너 모든 정보 가져가기 state 2 (숨김)
+			List<MainBannerBean> AllMainBannerInfo = AdminService.getAllHideMainbannerInfo();
+			model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+			
+			// 메인 배너 뱃지 관련
+			MainBannerBean BadgeCnt = AdminService.getMainBannerBadgeCnt();
+			model.addAttribute("BadgeCnt", BadgeCnt);
+			
+			return "/admin/manager_mainbannerhidelist";
+		}
+
+		return "/admin/manager_mainbannerhidelist";
+	}
+	
+	// 배너 수정 페이지 업데이트수행
+	@PostMapping("/manager_mainbannermodify_pro")
+	public String manager_mainbannerUpdate(@ModelAttribute("getOneMainBannerInfoBean") MainBannerBean mainBannerBean ,Model model) {
+		
+		// state 값 비교해서 expose_order 값 재정렬
+		Integer originalState = AdminService.getMainBannerState(mainBannerBean.getMain_banner_id());
+				
+		// 파일 변경시 파일 변경
+		if(mainBannerBean.getMain_banner_file().getSize()>0) {
+			AdminService.addfiletableBanner(mainBannerBean);
+		}
+		
+		
+		// expose_order 값 재정렬
+	    if (originalState != mainBannerBean.getState()) {
+	        if (mainBannerBean.getState() == 1) { // 숨김에서 노출로 변경
+	        	int maxExposeOrder = AdminService.getMaxExposeOrder() + 1;
+	            mainBannerBean.setExpose_order(maxExposeOrder);
+	        } else if (originalState == 1 && mainBannerBean.getState() == 2) { // 노출에서 숨김으로 변경
+	            AdminService.UpdateExpose_order(mainBannerBean.getExpose_order());
+	        }
+	    }
+	    
+	    // 업데이트
+        AdminService.UpdateMainBanner(mainBannerBean);
+
+		// 메인 배너 모든 정보 가져가기
+		List<MainBannerBean> AllMainBannerInfo = AdminService.getAllShowMainbannerInfo();
+		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+					
+		// 메인 배너 뱃지 관련
+		MainBannerBean BadgeCnt = AdminService.getMainBannerBadgeCnt();
+		model.addAttribute("BadgeCnt", BadgeCnt);
+		
+		return "/admin/manager_mainbannershowlist";
+	}
+	
+	// 메인 배너 추가
+	@GetMapping("/manager_mainbanneradd")
+	public String manager_mainbanneradd(@ModelAttribute("AddBannerBean") MainBannerBean AddBannerBean, Model model) {
+		
+		//모든 전시회 콤보박스 활용 가져가기
+		List<ExhibitionBean> exhibitiontitleAndid = ExhibitionService.getexhibitionallTitle();
+		model.addAttribute("exhibitiontitleAndid",exhibitiontitleAndid);
+		
+		return "/admin/manager_mainbanneradd";
+	}
+	
+	// 메인 배너 관리자 직접 추가
+	@PostMapping("/manager_mainbanneradd_pro")
+	public String manager_mainbanneradd_pro(@ModelAttribute("AddBannerBean") MainBannerBean AddBannerBean, Model model) {
+		
+		// 파일 저장
+		if(AddBannerBean.getMain_banner_file().getSize()>0) {
+			AdminService.addfiletableBanner(AddBannerBean);
+		}
+		
+		// expose_order 최대값으로 set해주기
+		int maxExposeOrder = AdminService.getMaxExposeOrder() + 1;
+		AddBannerBean.setExpose_order(maxExposeOrder);
+		
+		// 메인 배너 main_banner 테이블 추가
+		AdminService.AddmanagerMainBanner(AddBannerBean);
+		
+		// 리다이렉트 필요한 것들
+		// 메인 배너 모든 정보 가져가기
+		List<MainBannerBean> AllMainBannerInfo = AdminService.getAllShowMainbannerInfo();
+		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+							
+		// 메인 배너 뱃지 관련
+		MainBannerBean BadgeCnt = AdminService.getMainBannerBadgeCnt();
+		model.addAttribute("BadgeCnt", BadgeCnt);
+		
+		return "/admin/manager_mainbannershowlist";
+	}
+
 }

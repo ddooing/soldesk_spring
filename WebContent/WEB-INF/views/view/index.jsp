@@ -119,40 +119,39 @@
 
 	 <c:import url="/WEB-INF/views/include/header.jsp"/> 
 
-<a href="${root }/admin/manager_QnAlist">관리자 qna list</a>	<br />
-
-<a href="/Spring_Project_Dream/admin/manager_QnAlist">/Spring_Project_Dream</a>
+<a href="${root }/admin/manager_mainbannershowlist">관리자 배너 list</a>	<br />
 
 	<!-- 상단 케러셀-->
 	<header class="masthead">
 		<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 			<div class="carousel-indicators">
-				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-					aria-current="true" aria-label="Slide 1"></button>
-				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-					aria-label="Slide 2"></button>
-				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-					aria-label="Slide 3"></button>
+			    <c:forEach items="${AllMainBannerInfo}" var="mainBanner" varStatus="status">
+			        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}" 
+			                class="${status.index == 0 ? 'active' : ''}" aria-label="Slide ${status.index + 1}">
+			        </button>
+			    </c:forEach>
 			</div>
 			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<a href='${root }/exhibition/exhibition_click'>
-						<img src="../img/carousel1.jpg" class="d-block w-80 mx-auto img-fluid"
-							style="max-height: 400px;" alt="img1">
-					</a>
-				</div>
-				<div class="carousel-item">
-					<a href="#2">
-						<img src="../img/carousel2.jpg" class="d-block w-80 mx-auto img-fluid"
-							style="max-height: 400px;" alt="img2">
-					</a>
-				</div>
-				<div class="carousel-item">
-					<a href="#3">
-						<img src="../img/carousel3.jpg" class="d-block w-80 mx-auto img-fluid"
-							style="max-height: 400px;" alt="img3">
-					</a>
-				</div>
+				<c:forEach items="${AllMainBannerInfo}" var="mainBanner" varStatus="status">
+				    <c:choose>
+				        <c:when test="${status.index == 0}">
+				            <div class="carousel-item active">
+				                <a href='${root}/exhibition/exhibition_click?exhibition_id=${mainBanner.exhibition_id}'>
+				                    <img src="${mainBanner.main_banner_path}${mainBanner.main_banner_name}" class="d-block w-80 mx-auto img-fluid" style="height: 400px;" alt="img1">
+				                </a>
+				            </div>
+				        </c:when>
+				        <c:otherwise>
+				            <div class="carousel-item">
+				                <a href='${root}/exhibition/exhibition_click?exhibition_id=${mainBanner.exhibition_id}'>
+				                    <img src="${mainBanner.main_banner_path}${mainBanner.main_banner_name}" class="d-block w-80 mx-auto img-fluid" style="height: 400px;" alt="img1">
+				                </a>
+				            </div>
+				        </c:otherwise>
+				    </c:choose>
+				</c:forEach>
+
+				
 			</div>
 		</div>
 	</header>

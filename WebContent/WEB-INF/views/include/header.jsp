@@ -16,6 +16,8 @@
 	<!-- Font Awesome icons (free version)-->
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
+	<!-- sweet alert 2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<!-- Google fonts-->
 	<link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900"
@@ -86,7 +88,6 @@
 					    <c:otherwise>
 					        <li class="nav-item"><a href="${root}/mypage/reservelist?user_id=${loginUserBean.user_id}" class="nav-link">마이페이지</a></li>
 					        <li class="nav-item"><a href="${root}/user/logout" class="nav-link">로그아웃</a></li>
-					        
 					        <c:choose>
 						        <c:when test="${loginUserBean.state == 3}">
 						            <li class="nav-item"><a href="${root}/admin/manager_accountmanager" class="nav-link">관리자 페이지</a></li>
@@ -98,6 +99,9 @@
 			</div>
 		</div>
 	</nav>
+
+
+
 
 	
 </body>

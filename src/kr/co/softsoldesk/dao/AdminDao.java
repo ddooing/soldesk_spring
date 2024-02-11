@@ -2,12 +2,14 @@ package kr.co.softsoldesk.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
+import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.mapper.AdminMapper;
 
@@ -260,5 +262,87 @@ public class AdminDao {
 	// 전시회 등록 신청 상태 검색 페이징 처리를 위한 검색시 총개수 반환
 	public int getEnrollExhibitionSearchstatetotalCnt(int search) {
 		return adminMapper.getEnrollExhibitionSearchstatetotalCnt(search);
+	}
+	
+	// ============================= 관리자 페이지 배너 관리 =====================================
+	
+	// 모든 배너 가져가기 state 1
+	public List<MainBannerBean> getAllShowMainbannerInfo() {
+		return adminMapper.getAllShowMainbannerInfo();
+	}
+	
+	// 모든 배너 가져가기 state 2
+	public List<MainBannerBean> getAllHideMainbannerInfo() {
+		return adminMapper.getAllHideMainbannerInfo();
+	}
+	
+	// 메인 배너 관리 페이지 뱃지
+	public MainBannerBean getMainBannerBadgeCnt() {
+		return adminMapper.getMainBannerBadgeCnt();
+	}
+	
+	// 메인 배너 관리 페이지 제목 검색
+	public List<MainBannerBean> titleSearchMainbannerInfo(String search) {
+		return adminMapper.titleSearchMainbannerInfo(search);
+	}
+	
+	// 메인 배너 관리 페이지 제목 검색 뱃지 관련
+	public MainBannerBean getTitleSearchMainBannerBadgeCnt(String search) {
+		return adminMapper.getTitleSearchMainBannerBadgeCnt(search);
+	}
+	
+	// 배너 순서 업데이트
+	public void updateExposeOrder(int mainBannerId, int exposeOrder) {
+		adminMapper.updateExposeOrder(mainBannerId, exposeOrder);
+	}
+	
+	// Index 메인 페이지 메인 배너
+	public List<MainBannerBean> IndexMainBannerBeanList() {
+		return adminMapper.IndexMainBannerBeanList();
+	}
+	
+	// 배너 삭제
+	public void DeleteMainBanner(int main_banner_id) {
+		adminMapper.DeleteMainBanner(main_banner_id);
+	}
+	
+	// 배너 삭제시 삭제한 배너보다 노출순서 높은것들 1개씩 노출순서 내리기
+	public void UpdateDeleteAndExpose_order(int expose_order) {
+		adminMapper.UpdateDeleteAndExpose_order(expose_order);
+	}
+	
+	// 배너 한개 모든 정보 가져가기 (배너 수정)
+	public MainBannerBean getOneMainBannerInfo(int main_banner_id) {
+		return adminMapper.getOneMainBannerInfo(main_banner_id);
+	}
+	
+	// 메인 배너 수정시 사진 바꿀시 filetable에 추가
+	public void addfiletableBanner(MainBannerBean mainBannerBean) {
+		adminMapper.addfiletableBanner(mainBannerBean);
+	}
+	
+	// 메인 배너 수정
+	public void UpdateMainBanner(MainBannerBean mainBannerBean) {
+		adminMapper.UpdateMainBanner(mainBannerBean);
+	}
+	
+	// 메인 배너 수정시 state 값 비교 메소드
+	public Integer getMainBannerState(int main_banner_id) {
+		return adminMapper.getMainBannerState(main_banner_id);
+	}
+	
+	// 메인 배너 수정시 state 최대 값 반환
+	public int getMaxExposeOrder() {
+		return adminMapper.getMaxExposeOrder();
+	}
+	
+	// 메인 배너 수정시 state 값 1씩 내림
+	public void UpdateExpose_order(int expose_order) {
+		adminMapper.UpdateExpose_order(expose_order);
+	}
+	
+	// 메인 배너 관리자 직접 추가
+	public void AddmanagerMainBanner(MainBannerBean mainBannerBean) {
+		adminMapper.AddmanagerMainBanner(mainBannerBean);
 	}
 }

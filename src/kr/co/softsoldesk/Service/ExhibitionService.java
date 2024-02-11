@@ -158,4 +158,11 @@ public class ExhibitionService {
 		
 		exhibitionDao.AddExhibition_Enroll(exhibitionDetailBean);
 	}
+	
+	// ================== 메인 배너 관리자 직접 추가 ================
+	
+	// exhibition_id, title 반환
+	public List<ExhibitionBean> getexhibitionallTitle() {
+		return exhibitionDao.getexhibitionallTitle();
+	}
 }

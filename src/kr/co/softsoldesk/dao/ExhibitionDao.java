@@ -100,4 +100,10 @@ public class ExhibitionDao {
 	public void AddExhibition_Enroll(ExhibitionDetailBean exhibitionDetailBean) {
 		exhibitionMapper.AddExhibition_Enroll(exhibitionDetailBean);
 	}
+	
+	// =================== 메인배너 관리자 직접 추가 ==============
+	//메인배너 관리자 직접 추가 모든 전시회 id, title 가져오기
+	public List<ExhibitionBean> getexhibitionallTitle() {
+		return exhibitionMapper.getexhibitionallTitle();
+	}
 }

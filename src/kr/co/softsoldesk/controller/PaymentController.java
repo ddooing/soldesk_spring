@@ -91,9 +91,7 @@ public class PaymentController {
 			
 			// 유저테이블 포인트 변경(+)			
 			UserService.UpdatepointPlus(pointsavingInt, reserveBean.getUser_id());
-		} else {
-			return "/user/paymentpage_error2";
-		}
+		} 
 		
 		// 포인트 사용
 		if(reserveBean.getPoint_deduction() > 0) {

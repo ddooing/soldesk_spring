@@ -80,7 +80,7 @@ public class UserController {
 		
 		loginUserBean.setUserLogin(false);
 		
-		return "user/logout";
+		return "/view/index";
 	}
 	
 	@GetMapping("/not_login")

@@ -61,30 +61,3 @@ public class SpringConfigClass implements WebApplicationInitializer {
 }
 
 
-/*
-public class SpringConfigClass extends AbstractAnnotationConfigDispatcherServletInitializer{
-
-	@Override
-	protected Class<?>[] getRootConfigClasses() {
-		return new Class[] { RootAppContext.class };
-	}//������Ʈ���� ����� Bean���� �����ϱ� ���� Ŭ���� ����
-
-	@Override
-	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] { ServletAppContext.class };
-	}//Spring MVC ������Ʈ ������ ���� Ŭ���� ����
-
-	@Override
-	protected String[] getServletMappings() {
-		return new String[] {"/"};
-	}//DispatcherServlet�� ������ ��û �ּҸ� ����
-
-	@Override
-	protected Filter[] getServletFilters() {
-		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-		encodingFilter.setEncoding("UTF-8");
-		return new Filter[] { encodingFilter };
-	} //�Ķ���� ���ڵ� ���� ����
-	
-}
-*/

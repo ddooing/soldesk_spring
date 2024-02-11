@@ -197,4 +197,10 @@ public interface ExhibitionMapper {
 	// 전시회 등록 신청 폼 작성
 	@Insert("INSERT INTO exhibition_enroll (title, place, regdate, author, address, price, enroll_state, exhibition_start, exhibition_end, open, holiday, site, apply_person, main_poster_file_id, detail_poster_file_id) VALUES (#{title}, #{place}, sysdate, #{author}, #{address, jdbcType=VARCHAR}, #{price}, #{enroll_state} ,#{exhibition_start}, #{exhibition_end}, #{open}, #{holiday}, #{site}, #{apply_person}, #{main_poster_file_id}, #{detail_poster_file_id})")
 	void AddExhibition_Enroll(ExhibitionDetailBean exhibitionDetailBean);
+	
+	// ================================== 관리자 페이지 메인 배너 추가==========================
+	
+	// 메인 베너 추가시 모든 전시회 이름, id 반환
+	@Select("Select exhibition_id, title from exhibition")
+	List<ExhibitionBean> getexhibitionallTitle();
 }	
