@@ -36,19 +36,64 @@
 	
 <!-- 부트스트랩 아이콘 CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-	
+
+<!-- 드래그앤 드롭 -->
+<!-- jQuery UI 라이브러리 추가 -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script>
-$(document).ready(function(){
-    $("#allcheck").click(function(){
-        if($(this).is(":checked")) {
-            $("tbody tr th input[type='checkbox']").prop("checked", true);
+$(document).ready(function() {
+    // 행이 재정렬될 때마다 순서 업데이트
+    $('tbody').sortable({
+        axis: 'y',
+        update: function(event, ui) {
+            rowOrder = [];
+            $(this).find('tr').each(function() {
+                // tr 태그의 id 속성에서 배너 ID 추출
+                var bannerId = $(this).attr('id').split('-')[1];
+                if (bannerId) {
+                    rowOrder.push(bannerId);
+                }
+            });
+            console.log("Updated Row Order: ", rowOrder);
+        }
+    });
+
+    // 저장 버튼 클릭 이벤트
+    $('#saveButton').click(function() {
+        if (rowOrder.length > 0) {
+            console.log("Sending Row Order: ", rowOrder);
+            $.ajax({
+                url: '${root}/admin/saveRowOrder',
+                type: 'POST',
+                data: { order: rowOrder.join(',') },
+                success: function(response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "순서 변경 성공",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload(); // 페이지 새로고침
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "오류",
+                        text: "순서 변경 실패",
+                    });
+                }
+            });
         } else {
-            $("tbody tr th input[type='checkbox']").prop("checked", false);
+            console.log("No changes to save");
         }
     });
 });
 
 </script>
+
 
 </head>
 
@@ -60,18 +105,18 @@ $(document).ready(function(){
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top: 30px;">
-						<h3>메인 배너 관리</h3>
+						<h3>메인 배너 신청 관리</h3>
 					</div>
 					<div style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 					<div style="position: flex; margin-right: 60px; width: 450px; float: left;">
-						<span class="badge text-bg-success rounded-pill"
-							style="font-size: 15px; margin-right: 10px; margin-left: 50px;">노출배너
+						<span class="badge text-bg-danger rounded-pill"
+							style="font-size: 15px; margin-right: 10px; margin-left: 50px;">등록대기
 							${BadgeCnt.banner_show_Cnt }건</span> <span
-							class="badge text-bg-danger rounded-pill"
-							style="font-size: 15px; margin-right: 10px;">숨김배너
+							class="badge text-bg-success rounded-pill"
+							style="font-size: 15px; margin-right: 10px;">등록완료
 							${BadgeCnt.banner_hide_Cnt }건</span> <span
 							class="badge bg-success-subtle text-success-emphasis rounded-pill"
-							style="background-color: black; font-size: 15px;">배너
+							style="background-color: black; font-size: 15px;">배너신청
 							총${BadgeCnt.banner_all_Cnt}건</span>
 					</div>
 
@@ -94,19 +139,20 @@ $(document).ready(function(){
 				</div>
 				
 				<div style="display: flex; margin-top:30px;">
-				<h3 onclick="window.location='${root}/admin/manager_mainbannershowlist'" style="cursor: pointer; color:#e2e2e2;">노출중</h3>
-				<h3 onclick="window.location='${root}/admin/manager_mainbannerhidelist'" style=" margin-left:30px; color:black;  cursor: pointer;">숨김</h3>
+				<h3 onclick="window.location='${root}/admin/manager_mainbannershowlist'" style="cursor: pointer;">메인 배너</h3>
+				<h3 onclick="window.location='${root}/admin/manager_mainbannerhidelist'" style=" margin-left:30px; color:#e2e2e2; cursor: pointer;">서브 배너</h3>
 				</div>
 					<div style="background-color: white; margin-top:20px;" >
 						
 						<table class="table table-striped" style="text-align: center; ">
 							<thead>
 								<tr style="vertical-align: middle;">
-									
+									<th scope="col" style="width:50px;">순서</th>
 									<th scope="col" style="width:50px;">No</th>
 									<th scope="col" style="width:500px;">제목</th>
 									<th scope="col" style="width:320px;">배너이미지</th>
 									<th scope="col">노출기간</th>
+									<th scope="col" style="width:100px;">노출순서</th>
 									<th scope="col">상태</th>
 									<th scope="col">관리</th>
 								</tr>
@@ -114,12 +160,12 @@ $(document).ready(function(){
 							<tbody>
 								<c:forEach items="${AllMainBannerInfo }" var="bannerBean">
 									<tr id="banner-${bannerBean.main_banner_id}" style="vertical-align: middle; height:150px;">
-										
+										<th scope="row" style="width:50px;"><i class="bi bi-arrows-vertical" style="height:30px; cursor: move;"></i></th>
 										<td style="width:50px;">${bannerBean.main_banner_id }</td>
 										<td style="width:500px; text-align: left;"><a href="${root }/exhibition/exhibition_click?exhibition_id=${bannerBean.exhibition_id}" style="color:black;">${bannerBean.title }</a></td>
 										<td style="width:320px;"><img src="${bannerBean.main_banner_path }${bannerBean.main_banner_name }" style="width:300px; height:120px;" /></td>
 										<td>${bannerBean.start_date } ~ ${bannerBean.end_date }</td>
-										
+										<td style="width:100px;">${bannerBean.expose_order }</td>
 										<c:choose>
 											<c:when test="${bannerBean.state  == 1}">
 												<td>노출중</td>		
@@ -140,8 +186,10 @@ $(document).ready(function(){
 						</table>
 						<div style="display:flex; margin-top: 20px; margin-bottom: 20px; float: right;">
 						
-							<button class="btn btn-dark" style="margin-right:30px;" onclick="location.href='${root}/admin/manager_mainbanneradd'">추가</button>
-						
+							<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_mainbanneradd'">추가</button>
+						<c:if test="${bannersearch == null }">
+							<button class="btn btn-dark" style="margin-left: 30px; margin-right: 30px;" id="saveButton">순서저장</button>
+						</c:if>
 						</div>
 
 					</div>

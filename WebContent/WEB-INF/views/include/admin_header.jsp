@@ -149,8 +149,9 @@
 						<div class="collapse" id="collapseexhibition"
 							aria-labelledby="headingFour" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="${root }/admin/manager_mainbannershowlist">메인 배너 관리</a> 
-								<a class="nav-link" href="#">배너 신청내역</a>
+								<a class="nav-link" href="${root }/admin/manager_mainbannershowlist">메인 배너 관리</a>
+								<a class="nav-link" href="${root }/admin/manager_subbannershowlist">서브 배너 관리</a> 
+								<a class="nav-link" href="${root }/admin/manager_mainbannerapplylist">배너 신청내역</a>
 							</nav>
 						</div>
 

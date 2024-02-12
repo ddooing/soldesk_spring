@@ -119,8 +119,6 @@
 
 	 <c:import url="/WEB-INF/views/include/header.jsp"/> 
 
-<a href="${root }/admin/manager_mainbannershowlist">관리자 배너 list</a>	<br />
-
 	<!-- 상단 케러셀-->
 	<header class="masthead">
 		<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -137,14 +135,14 @@
 				        <c:when test="${status.index == 0}">
 				            <div class="carousel-item active">
 				                <a href='${root}/exhibition/exhibition_click?exhibition_id=${mainBanner.exhibition_id}'>
-				                    <img src="${mainBanner.main_banner_path}${mainBanner.main_banner_name}" class="d-block w-80 mx-auto img-fluid" style="height: 400px;" alt="img1">
+				                    <img src="${mainBanner.main_banner_path}${mainBanner.main_banner_name}" class="d-block w-80 mx-auto img-fluid" style="height: 400px; width:1200px;" alt="img1">
 				                </a>
 				            </div>
 				        </c:when>
 				        <c:otherwise>
 				            <div class="carousel-item">
 				                <a href='${root}/exhibition/exhibition_click?exhibition_id=${mainBanner.exhibition_id}'>
-				                    <img src="${mainBanner.main_banner_path}${mainBanner.main_banner_name}" class="d-block w-80 mx-auto img-fluid" style="height: 400px;" alt="img1">
+				                    <img src="${mainBanner.main_banner_path}${mainBanner.main_banner_name}" class="d-block w-80 mx-auto img-fluid" style="height: 400px; width:1200px;" alt="img1">
 				                </a>
 				            </div>
 				        </c:otherwise>
@@ -184,15 +182,30 @@
 				
 			
 			<hr style="margin:auto; width: 80px; color: black;" />
-
-			<div id="sidebar_menu"
-				style="border: 1px solid #e7e7e7;  border-top: none; border-bottom: none; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
-				<div style=" justify-content: center; ">
-					<a href="" style="color: black; text-decoration: none;">
-						<p1>배너 신청</p1>
-					</a>
-				</div>
-			</div>
+			
+				<c:choose>
+					<c:when test="${loginUserBean.userLogin == false}">
+					<div id="sidebar_menu" onclick="nologin();"
+						style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style=" justify-content: center;" >
+							<a href="#" style="color: black; text-decoration: none;">
+								<p1>배너 신청</p1>
+							</a>
+						</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+					<div id="sidebar_menu" onclick="window.location.href='${root}/admin/bannerapply'" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style=" justify-content: center;">
+							<a href="#" style="color: black; text-decoration: none;">
+								<p1>배너 신청</p1>
+							</a>
+						</div>
+					</div>
+					</c:otherwise>
+				</c:choose>
+			
+			
 			<hr style="margin:auto; width: 80px; color: black;" />
 
 			<div id="sidebar_menu"

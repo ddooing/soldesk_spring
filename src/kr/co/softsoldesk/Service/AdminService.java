@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
@@ -78,7 +79,7 @@ public class AdminService {
 		}
 	
 	
-	private String saveSubBannerUploadFile(MultipartFile upload_file) {	// 메인 배너 업로드 경로
+	private String saveSubBannerUploadFile(MultipartFile upload_file) {	// 서브 배너 업로드 경로
 		
 		String file_name = System.currentTimeMillis() + "_" + FilenameUtils.getBaseName(upload_file.getOriginalFilename()) 
 						   + "." + FilenameUtils.getExtension(upload_file.getOriginalFilename());
@@ -94,7 +95,7 @@ public class AdminService {
 		return file_name;
 	}
 	
-	private String saveMainBannerUploadFile(MultipartFile upload_file) {	// 서브 배너 업로드 경로
+	private String saveMainBannerUploadFile(MultipartFile upload_file) {	// 메인 배너 업로드 경로
 			
 			String file_name = System.currentTimeMillis() + "_" + FilenameUtils.getBaseName(upload_file.getOriginalFilename()) 
 							   + "." + FilenameUtils.getExtension(upload_file.getOriginalFilename());
@@ -683,5 +684,59 @@ public class AdminService {
 	public void AddmanagerMainBanner(MainBannerBean mainBannerBean) {
 		adminDao.AddmanagerMainBanner(mainBannerBean);
 	}
+	
+	// 배너 신청 페이지 신청인이 신청한 전시회 목록 가져가기 (select용)
+	public List<ExhibitionBean> getApply_personExhibitionlist(int user_id) {
+		return adminDao.getApply_personExhibitionlist(user_id);
+	}
+	
+	// 배너 신청 테이블에 insert
+	public void insertbanner_apply_form(BannerApplyFormBean bannerApplyFormBean) {
+		adminDao.insertbanner_apply_form(bannerApplyFormBean);
+	}
+	
+	// 메인 배너 신청시 배너 파일 저장
+	public void addfiletableBannerBannerApplyFormBean(BannerApplyFormBean bannerApplyFormBean) {
+		MultipartFile main_banner_upload_file  = bannerApplyFormBean.getBanner_file();
+			
+		if(main_banner_upload_file.getSize()>0) {
+			String main_banner_file_name = saveMainBannerUploadFile(main_banner_upload_file);
+			
+			// file_table name, path set
+			bannerApplyFormBean.setName(main_banner_file_name);
+			bannerApplyFormBean.setPath("/Spring_Project_Dream/img/main_banner/");
+				
+			// file_table 에 저장
+			adminDao.addfiletableBanner1(bannerApplyFormBean);
+				
+			// 저장된 파일 file_id bannerApplyFormBean에 set 해줌
+			bannerApplyFormBean.setBanner_file_id(adminDao.getFileId(main_banner_file_name));
+		}
+	}
+	
+	// 서브 배너 신청시 배너 파일 저장
+		public void addfiletableBannerSubBannerApplyFormBean(BannerApplyFormBean bannerApplyFormBean) {
+			MultipartFile main_banner_upload_file  = bannerApplyFormBean.getBanner_file();
+				
+			if(main_banner_upload_file.getSize()>0) {
+				String main_banner_file_name = saveSubBannerUploadFile(main_banner_upload_file);
+				
+				// file_table name, path set
+				bannerApplyFormBean.setName(main_banner_file_name);
+				bannerApplyFormBean.setPath("/Spring_Project_Dream/img/sub_banner/");
+					
+				// file_table 에 저장
+				adminDao.addfiletableBanner1(bannerApplyFormBean);
+					
+				// 저장된 파일 file_id bannerApplyFormBean에 set 해줌
+				bannerApplyFormBean.setBanner_file_id(adminDao.getFileId(main_banner_file_name));
+			}
+		}
+	
+	// 배너 신청시 파일테이블에 파일 저장
+	public void addfiletableBanner1(BannerApplyFormBean bannerApplyFormBean) {
+		adminDao.addfiletableBanner1(bannerApplyFormBean);
+	}
+	
 }
 

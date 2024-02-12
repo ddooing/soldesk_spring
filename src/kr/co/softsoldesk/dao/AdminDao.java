@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
@@ -344,5 +345,20 @@ public class AdminDao {
 	// 메인 배너 관리자 직접 추가
 	public void AddmanagerMainBanner(MainBannerBean mainBannerBean) {
 		adminMapper.AddmanagerMainBanner(mainBannerBean);
+	}
+	
+	// 배너 신청 페이지
+	public List<ExhibitionBean> getApply_personExhibitionlist(int user_id) {
+		return adminMapper.getApply_personExhibitionlist(user_id);
+	}
+	
+	// 배너 신청 폼에 insert
+	public void insertbanner_apply_form(BannerApplyFormBean bannerApplyFormBean) {
+		adminMapper.insertbanner_apply_form(bannerApplyFormBean);
+	}
+	
+	// 배너 신청 시 file 테이블에 저장
+	public void addfiletableBanner1(BannerApplyFormBean bannerApplyFormBean) {
+		adminMapper.addfiletableBanner1(bannerApplyFormBean);
 	}
 }

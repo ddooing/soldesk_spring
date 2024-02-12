@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.PointDetailService;
 import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.UserService;
@@ -33,6 +36,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService UserService;
+	
+	@Autowired
+	private AdminService adminService;
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
@@ -184,7 +190,6 @@ public class UserController {
 		
 		
 	}
-	
 	
 	
 	@InitBinder

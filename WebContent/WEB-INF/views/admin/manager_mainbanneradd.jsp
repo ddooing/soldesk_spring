@@ -262,7 +262,7 @@
 					</div>
 					<div
 						style="float: right; margin-right: 30px; margin-top: 20px; margin-bottom: 50px;">
-						<a href="${root }/admin/manager_exhibitionlist"
+						<a href="${root }/admin/manager_mainbannershowlist"
 							class="btn btn-danger" style="width: 70px; margin-right: 10px;">취소</a>
 						<button type="button" class="btn btn-dark" style="width: 70px;"
 							onclick="updateConfirm();">저장</button>

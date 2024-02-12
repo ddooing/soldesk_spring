@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
+import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
@@ -733,21 +734,21 @@ public interface AdminMapper {
     void updateExposeOrder(@Param("mainBannerId") int mainBannerId, @Param("exposeOrder") int exposeOrder);
 	
 	// index 페이지 메인 캐러셀 가져가기
-	@Select("SELECT \r\n"
+	@Select("SELECT\r\n"
 			+ "    mb.main_banner_id,\r\n"
 			+ "    mb.exhibition_id,\r\n"
 			+ "    mb.expose_order,\r\n"
 			+ "    mb.state,\r\n"
 			+ "    ft.name AS main_banner_name,\r\n"
 			+ "    ft.path AS main_banner_path\r\n"
-			+ "FROM \r\n"
+			+ "FROM\r\n"
 			+ "    main_banner mb\r\n"
-			+ "INNER JOIN \r\n"
+			+ "INNER JOIN\r\n"
 			+ "    file_table ft ON mb.banner_file_id = ft.file_id\r\n"
-			+ "WHERE \r\n"
+			+ "WHERE\r\n"
 			+ "    mb.state = 1\r\n"
-			+ "    AND mb.end_date >= SYSDATE\r\n"
-			+ "ORDER BY \r\n"
+			+ "    AND SYSDATE BETWEEN mb.start_date AND mb.end_date\r\n"
+			+ "ORDER BY\r\n"
 			+ "    mb.expose_order ASC")
 	List<MainBannerBean> IndexMainBannerBeanList();
 	
@@ -810,4 +811,25 @@ public interface AdminMapper {
 	// 메인 배너 관리자 직접 추가
 	@Insert("insert into main_banner (exhibition_id, start_date, end_date, expose_order, regdate, state, banner_file_id) values (#{exhibition_id},#{start_date},#{end_date},#{expose_order},sysdate,#{state},#{banner_file_id})")
 	void AddmanagerMainBanner(MainBannerBean mainBannerBean);
+	
+	// 배너 신청 페이지 신청한 apply_person이 신청한 전시회 목록 가져가기
+	@Select("SELECT\r\n"
+			+ "    e.exhibition_id,\r\n"
+			+ "    e.title\r\n"
+			+ "FROM\r\n"
+			+ "    exhibition e\r\n"
+			+ "INNER JOIN\r\n"
+			+ "    user_table u ON e.apply_person = u.user_id\r\n"
+			+ "WHERE\r\n"
+			+ "    u.user_id = #{user_id}")
+	List<ExhibitionBean> getApply_personExhibitionlist(@Param("user_id") int user_id);
+	
+	
+	// 배너 신청 폼 테이블에 insert
+	@Insert("insert into banner_apply_form (apply_person_id, exhibition_id, start_date, end_date, command, regdate, payment, state, banner_type, banner_file_id) values (#{apply_person_id}, #{exhibition_id}, #{start_date}, #{end_date}, #{command}, sysdate,#{payment} ,#{state}, #{banner_type}, #{banner_file_id})")
+	void insertbanner_apply_form(BannerApplyFormBean bannerApplyFormBean);
+	
+	// 배너 신청 할때 파일테이블에 저장
+	@Insert("INSERT INTO file_table (file_id, name, path, file_date) values (file_id_seq.nextval, #{name, jdbcType=VARCHAR}, #{path, jdbcType=VARCHAR}, sysdate)")
+	void addfiletableBanner1(BannerApplyFormBean bannerApplyFormBean);
 }

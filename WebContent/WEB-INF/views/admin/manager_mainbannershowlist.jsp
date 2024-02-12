@@ -150,7 +150,7 @@ $(document).ready(function() {
 									<th scope="col" style="width:50px;">순서</th>
 									<th scope="col" style="width:50px;">No</th>
 									<th scope="col" style="width:500px;">제목</th>
-									<th scope="col" style="width:320px;">이미지</th>
+									<th scope="col" style="width:320px;">배너이미지</th>
 									<th scope="col">노출기간</th>
 									<th scope="col" style="width:100px;">노출순서</th>
 									<th scope="col">상태</th>

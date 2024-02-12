@@ -18,6 +18,7 @@ public class MainBannerBean {
 	private String regdate;
 	private int banner_file_id;
 	private int pay_money;
+	private int apply_person_id;
 	
 	// 파일 테이블
 	// 가져올때
