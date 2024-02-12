@@ -41,7 +41,7 @@ public interface ReserveMapper {
 	        "state = 1, " +
 	        "requested_at = TO_TIMESTAMP_TZ(#{requested_at}, 'YYYY-MM-DD\"T\"HH24:MI:SS.FF TZH:TZM'), " +
 	        "approved_at = TO_TIMESTAMP_TZ(#{approved_at}, 'YYYY-MM-DD\"T\"HH24:MI:SS.FF TZH:TZM'),"
-	        + " payment_method=#{method} WHERE order_id = #{orderId}")
+	        + " pay_method=#{method} WHERE order_id = #{orderId}")
 	void realReserveState(@Param("orderId") String orderId, 
 	                      @Param("requested_at") String requested_at, 
 	                      @Param("approved_at") String approved_at,
