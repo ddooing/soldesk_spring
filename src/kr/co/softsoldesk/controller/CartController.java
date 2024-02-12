@@ -94,9 +94,6 @@ public class CartController {
 	    redirectAttributes.addFlashAttribute("icon", "success");
 	  }
 		System.out.println("cart insert 컨트롤러 - tempReserveBean.getExhibition_id "+tempReserveBean.getExhibition_id());
-		
-		
-	   
 
 	    return "redirect:/exhibition/exhibition_click";
 

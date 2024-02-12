@@ -112,6 +112,39 @@
 			padding: 5px;
 			margin-right: 180px;
 		}
+		input[type=radio] {
+		  --s: 1em;     /* control the size */
+		  --c: #009688; /* the active color */
+		  
+		  height: var(--s);
+		  aspect-ratio: 1;
+		  border: calc(var(--s)/8) solid #939393;
+		  padding: calc(var(--s)/8);
+		  background: 
+		     radial-gradient(farthest-side,var(--c) 94%,#0000) 
+		     50%/0 0 no-repeat content-box;
+		  border-radius: 50%;
+		  outline-offset: calc(var(--s)/10);
+		  -webkit-appearance: none;
+		  -moz-appearance: none;
+		  appearance: none;
+		  cursor: pointer;
+		  font-size: inherit;
+		  transition: .3s;
+		}
+		input[type=radio]:checked {
+		  border-color: var(--c);
+		  background-size: 100% 100%;
+		}
+
+		@media print {
+		  input[type=radio] {
+		    -webkit-appearance: auto;
+		    -moz-appearance: auto;
+		    appearance: auto;
+		    background: none;
+		  }
+		}
 	</style>
 
 </head>
@@ -120,7 +153,7 @@
 	<!-- 메뉴바 -->
 	<c:import url="/WEB-INF/views/include/header.jsp"/>
 
-	<section style="margin-top: 150px;">
+	<section style="margin-top: 100px;">
 		<div class="container mb-1">
 			<h1 style="margin-left: 180px;">장바구니</h1>
 			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
@@ -148,22 +181,24 @@
 						    <input type="hidden" name="exhibition_id" id="inputExhibition_id" value=""/>
 						       
 						    <div style="display: flex; flex-direction: column;"> 
-						       	<div>
-							    	<button type="button" class="btn-close" aria-label="Close" onclick="removeCartItem(${status.index})"/>
+						       	<div style="margin-top: 25px; margin-right: 150px;margin-left: auto;">
+							    	<button type="button" class="btn-close" aria-label="Close" 
+							    	style="background-size: 1.5em 1.5em; " onclick="removeCartItem(${status.index})"/>
 							    </div>
 								<div style="display: flex; align-items: center; flex-direction: row;">
 									
-									<div style="margin-left: 150px; margin-top: 20px;">
-								        <input type="radio" name="selectedItem" 
+									<div style="margin-left: 155px; margin-top: 20px;">
+								        <input type="radio" name="selectedItem"
+								         style="border-radius: 25%; width: 20px; height: 20px;"
 								        data-index="${status.index}"
 								        data-reserve_date="${cartlist.reserve_date}"
 								        data-exhibition_id="${cartlist.exhibition_id}"
 								        data-ticket_count="${cartlist.ticket_count}"
-		               						 <c:if test="${fn:length(list) == 1}">checked</c:if>>
-			           							${cartlist.exhibition_id}	 
+		               						 <c:if test="${status.last}">checked</c:if>> 
 								    </div>
 									<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
-										style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
+										style="width: 200px; height: 280px; margin-left: 150px; margin-top: 40px;" 
+										onclick="location.href='${root}/exhibition/exhibition_click?exhibition_id=${cartlist.exhibition_id}';"/>
 					
 									<div style="margin-left: 200px;">
 										<h3>${cartlist.title }</h3>
@@ -198,7 +233,7 @@
 						</c:forEach>
 							
 							<c:if test="${not empty list}">
-							    <div class="text-center" style="margin-top: 50px;">
+							    <div class="text-center" style="margin-top: 50px; text-align: right !important; margin-right: 150px;">
 							        <button id="payment-button"  class="btn btn-dark" style="width: 150px; height: 50px;" >예매하기</button>
 							    </div>
 							</c:if>
