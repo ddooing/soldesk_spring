@@ -51,7 +51,7 @@
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-	
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 	<!--  reserve_date 값 yyyy-mm-dd 로 출력하기  -->
 	<script>
 		//tempReserveBean.reserve_date 처리 
@@ -84,9 +84,7 @@
 
 
 </script>
-<script>
-	alert('예매되었습니다.')
-</script>
+
 </head>
 
 <body id="page-top">
@@ -290,12 +288,24 @@
 					}
 				}
 			</script>
+			
 		</div>
 	</section>
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
+	<c:if test="${not empty successMessage}">
+        <script>
+        Swal.fire({
+            title: "예매 완료",
+            text: "예매가 성공적으로 되었습니다",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 2000
+        });
 
+    	</script>
+    </c:if>
 </body>
 
 </html>

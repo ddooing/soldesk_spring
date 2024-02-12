@@ -183,9 +183,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				<form:hidden path="ticket_count" value="${tempReserveBean.ticket_count }"/>
 				<form:hidden path="user_id" value="${LoginAllInfoBean.user_id }" />
 				<form:hidden path="payment" id="payment-field" /> <!--  최종 결제 금액  -->
-				<form:hidden path="total_price" value="${exhibitionBean.price * tempReserveBean.ticket_count}"/>
+				<form:hidden path="total_price" value="${tempReserveBean.total_price}"/>
 				<form:hidden path="exhibition_id" value="${exhibitionBean.exhibition_id }" />
-
+				<form:hidden path="plusPoint" value="${tempReserveBean.plusPoint }" />
+				
 				<!--주문자 정보 부분-->
 				<div>
 					<h3 style="margin-left: 180px; margin-top: 50px;">주문자 정보</h3>
@@ -283,7 +284,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				<a style="font-size: 20px;">포인트 혜택</a>
 				<div
 					style="margin-left: 50px; margin-top: 30px; display: flex; width: 300px; text-align: center;">
-					<a style="font-size: 20px; margin-right: 10px;">회원등급 적립</a>
+					<a style="font-size: 20px; margin-right: 10px;">예매 적립</a>
 					<!--회원등급 모달-->
 					<svg xmlns="http://www.w3.org/2000/svg" id="membermodal"
 						style="color: black; cursor: pointer;" width="20" height="20"
@@ -293,13 +294,9 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 						<path
 							d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
 					</svg>
-					<a style="font-size: 20px; margin-left: auto;">ex) 300</a>
+					<a style="font-size: 20px; margin-left: auto;">${tempReserveBean.plusPoint} p</a>
 				</div>
-				<div
-					style="margin-left: 50px; margin-top: 20px; display: flex; width: 300px; text-align: center;">
-					<a style="font-size: 20px; margin-right: 10px;">소감문 적립</a> <a
-						style="font-size: 20px; margin-left: auto;">ex) 50</a>
-				</div>
+
 			</div>
 
 			<!-- 회원 등급 클릭 모달 -->
@@ -339,21 +336,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 								적립</b><br /> <b style="margin-top: 10px;">exp 900 ~</b>
 
 						</div>
-					</div>
-
-					<hr
-						style="width: 550px; margin-left: auto; margin-right: auto; border-color: black; border-width: 2px 0 0 0; margin-top: 50px;" />
-
-
-					<div style="margin-top: 50px;">
-						<h3 style="margin-left: 30px;">경험치 획득방법</h3>
-						<br /> <b style="margin-top: 80px; margin-left: 50px;">전시회 예매
-							+ 50 exp</b> <br /> <br /> <b
-							style="margin-top: 50px; margin-left: 50px;">소감문 작성시 최대 + 10
-							exp</b> <br /> <br /> <b
-							style="margin-top: 50px; margin-left: 50px;">소감문 공개 허용시 추가 + 5
-							exp</b> <br /> <br />
-
 					</div>
 
 					<hr

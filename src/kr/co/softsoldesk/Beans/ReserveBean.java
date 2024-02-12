@@ -25,6 +25,9 @@ public class ReserveBean {
 	private String order_id;
 	private String paymentkey;
 	private String method; // 결제 방법: 
+	
+	private int plusPoint; // 예매 시, 등급에 따른 포인트 
+	
 	public ReserveBean(){
 		this.order_id= UUID.randomUUID().toString();
 	}
@@ -108,8 +111,6 @@ public class ReserveBean {
 		this.state = state;
 	}
 
-	
-
 	public String getOrder_id() {
 		return order_id;
 	}
@@ -188,6 +189,14 @@ public class ReserveBean {
 
 	public void setMethod(String method) {
 		this.method = method;
+	}
+
+	public int getPlusPoint() {
+		return plusPoint;
+	}
+
+	public void setPlusPoint(int plusPoint) {
+		this.plusPoint = plusPoint;
 	}
 	
 	

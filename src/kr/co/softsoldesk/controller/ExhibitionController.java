@@ -31,7 +31,7 @@ public class ExhibitionController {
 	private ReserveService reserveService;
 	
 	@Autowired
-	private UserService UserService;
+	private UserService userService;
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
@@ -68,7 +68,6 @@ public class ExhibitionController {
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);	
 	    model.addAttribute("exhibitionBean", exhibitionBean);		// 전시회 정보 객체
 		
-	    
 	    System.out.println("tempReserveBean 티켓 날짜 처리 전  : "+tempReserveBean.getReserve_date());
 	    String replace_reserve_date = removeCommasFromReserveDate(tempReserveBean.getReserve_date());
 	    tempReserveBean.setReserve_date(replace_reserve_date);
@@ -78,18 +77,24 @@ public class ExhibitionController {
 		model.addAttribute("tempReserveBean",tempReserveBean);// 전시회 상세조회 페이지에서 선택한 티켓수와 날짜 객체에 담아서 payment로 보낼 객체
 		
 		//로그인 한 유저의 정보를 예매 폼의 예매자 정보에 넣기 위함
-		UserBean LoginAllInfoBean = UserService.getLoginUserAllInfo(loginUserBean.getUser_id());
+		UserBean LoginAllInfoBean = userService.getLoginUserAllInfo(loginUserBean.getUser_id());
 		model.addAttribute("LoginAllInfoBean",LoginAllInfoBean);
 		
+		int totalprice = tempReserveBean.getTicket_count()*exhibitionBean.getPrice();
+		tempReserveBean.setTotal_price(totalprice);
+		
+		int plusPoint = getPlusePoint(loginUserBean.getUser_id(),tempReserveBean.getTotal_price()); 
+		tempReserveBean.setPlusPoint(plusPoint);
 		
 		// 확인용 
 		System.out.println("exhibition_id : "+exhibitionBean.getExhibition_id());
 		System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getTicket_count());
 		System.out.println("tempReserveBean 티켓 날짜 처리 휴: "+tempReserveBean.getReserve_date());
-		
+		System.out.println("tempReserveBean 포인트 : "+tempReserveBean.getPlusPoint());
 		System.out.println("LoginAllInfoBean : "+LoginAllInfoBean.getName());
 		return "exhibition/payment";
 	}
+	
 	
 	@GetMapping("/payment_complete")
 	public String showPaymentComplete(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
@@ -112,6 +117,29 @@ public class ExhibitionController {
 	        return null;
 	    }
 	    return reserveDate.replace(",", "");
+	}
+	
+	//예매 시 얻을 포인트 
+	public int getPlusePoint(int userid,int totalPrice) {
+		String level = userService.getLevel(userid);
+        int reservePulsPoint=0;// 예매 시 적립되는 포인트
+        
+        
+        if(level.equals("level1")) // 레벨 1 일때 5%만큼 포인트 지급
+        {
+        	reservePulsPoint = (int)(totalPrice*0.05);
+        }
+        else if(level.equals("level2")) // 레벨 2 일때 10%만큼 포인트 지급
+        {
+        	reservePulsPoint = (int)(totalPrice*0.1);
+        }
+        else if(level.equals("level3")) // 레벨 3 일때 15%만큼 포인트 지급
+        {
+        	reservePulsPoint = (int)(totalPrice*0.15);
+        }
+        
+        return reservePulsPoint; 
+        
 	}
 
 	

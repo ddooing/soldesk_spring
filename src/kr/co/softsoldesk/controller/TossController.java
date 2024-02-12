@@ -26,7 +26,6 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
@@ -97,7 +96,7 @@ public class TossController {
 		 redirectAttributes.addFlashAttribute("exhibitionBean", exhibitionBean);
 	    redirectAttributes.addFlashAttribute("tempReserveBean", reserveInfoBean);
 	    redirectAttributes.addFlashAttribute("plusPoint", plusPoint);
-	    
+	    redirectAttributes.addFlashAttribute("successMessage", "성공");
 	    System.out.println("pluspoint : "+plusPoint);
 	    
 		return "redirect:/exhibition/payment_complete";
@@ -152,12 +151,13 @@ public class TossController {
 	@GetMapping("/success") 
     public String successPage(@RequestParam String orderId, 
             					@RequestParam String paymentKey, 
-            					@RequestParam int amount,HttpServletRequest request, Model model) throws Exception  {
+            					@RequestParam int amount,HttpServletRequest request, Model model,
+            					RedirectAttributes redirectAttributes) throws Exception  {
 		
 		System.out.println("orderId :"+orderId);
 		System.out.println("paymentKey :"+paymentKey);
 		System.out.println("amount :"+amount);
-		
+
 		// [1].결제 요청 전에 예매정보 데이터(/checkout 에서 저장한 정보)와 인증 결과(orderId,paymentKey,amount) 검증
 		String  isOrderIdValid = reserveService.checkOrderId(orderId);
 
@@ -167,7 +167,7 @@ public class TossController {
 		
 			// (1 결과 : false): 다를 경우, 실패 페이지로 이동 
 		if(isOrderIdValid==null) {// pay_approval_state : 승인 거부 0 인 상태
-			return "toss/fail";
+			return "toss/fail"; //INVALID_REQUEST	잘못된 요청입니다.다시 예매 해야함
 		}
 
 			//(1 결과  : true): orderId를 통해 reserve 정보 가져오기  
@@ -187,7 +187,7 @@ public class TossController {
 		if(reqBeforePayment!=amount)//pay_approval_state : 승인 거부 0 인 상태
 		{
 			System.out.println("reqBeforePayment!=amount");
-			return "redirect:/toss/fail";
+			return "redirect:/toss/fail";//결제 금액이 올바르지않음 
 		}
 		
 			//(2 결과: true) :결제 승인 요청 전에 db 저장 
@@ -209,8 +209,7 @@ public class TossController {
             String code = jsonObject.optString("code", "Unknown"); // 기본값 설정
             String message = jsonObject.optString("message", "No message provided");
 
-            // RedirectAttributes를 사용하여 데이터 전달
-            RedirectAttributes redirectAttributes = new RedirectAttributesModelMap(); // 실제 사용 시에는 메서드 인자로 받거나 적절하게 생성
+            //RedirectAttributes redirectAttributes = new RedirectAttributesModelMap(); // 실제 사용 시에는 메서드 인자로 받거나 적절하게 생성
             //redirectAttributes.addAttribute("code", code);
             //redirectAttributes.addAttribute("message", message);
             //redirectAttributes.addFlashAttribute(attributeName, attributeValue)
@@ -266,12 +265,11 @@ public class TossController {
         System.out.println("결제가 성공적으로 처리되었습니다.");
         System.out.println("pluspoint : "+plusPoint);
         
-        String successWidgetInfo = prepareSuccessWidgetInfo(paymentKey, orderId, amount);
-        
         model.addAttribute("exhibitionBean", exhibitionBean);
         model.addAttribute("tempReserveBean",reserveInfoBean);
-        model.addAttribute("successWidgetInfo", successWidgetInfo);
         model.addAttribute("plusPoint", plusPoint);
+        
+        redirectAttributes.addFlashAttribute("successMessage", "성공");
         return "toss/success";
    
     }
@@ -288,30 +286,19 @@ public class TossController {
 		    model.addAttribute("code", code);
 
 		    return "toss/fail";
-		
 	}
-	
 
-	
-	private String prepareSuccessWidgetInfo(String paymentKey, String orderId, int amount) {
-	    // "/success"가 위젯이 포함된 결제 성공 페이지가 렌더링되는 URL이라고 가정합니다.
-	    String successUrl 
-	    ="http://localhost:8080/Spring_Project_Dream/toss/success?orderId=" + orderId + "&amount=" + amount + "&paymentKey=" + paymentKey;
-	    return successUrl;
-	}
-	
-	
 	private void addService(ReserveBean reserveBean) {
 		
 		 //user_id 값
         int userid = reserveBean.getUser_id();
-
+        int totalPrice =reserveBean.getTotal_price();
 		 // 2.사용자 포인트 내역 저장 
-        int totalPrice = reserveBean.getTotal_price();
+        
         
 	    		// 2-1.무조건 포인트 적립
 			    // 포인트 적립 : 유저 등급의 적립율에 따른 포인트 지급 
-
+        //!! payment의 포인트 부분 겹침 -- 후에 처리하기 
         String level = userService.getLevel(userid);
         int reservePulsPoint=0;// 예매 시 적립되는 포인트
         
@@ -331,8 +318,7 @@ public class TossController {
         
         plusPoint= reservePulsPoint; 
         
-        PointDetailBean pointDetailBean =new PointDetailBean();
-			     
+        PointDetailBean pointDetailBean =new PointDetailBean(); 
         pointDetailBean.setPoint(reservePulsPoint);
         pointDetailBean.setUser_id(userid);
         pointDetailBean.setPoint_state_code(1);	// 포인트 1:+
@@ -370,10 +356,7 @@ public class TossController {
     		// 5.전시회 티켓수를 사용자가 구매한 티켓수만큼 증가		
         											// 예매한 전시회 id			       			//예매한 티켓 수 int 값
         exhibitionService.increase_exhibitionTotalTicket(reserveBean.getExhibition_id(),reserveBean.getTicket_count());
-        
-        		
-        
-        
+ 
         System.out.println("add service 처리 완료 ");
 	}
 	
