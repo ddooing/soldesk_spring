@@ -435,20 +435,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 		</div>
 	</section>
 
-	<!-- 푸터-->
-	<c:import url="/WEB-INF/views/include/footer.jsp" />
-	<c:if test="${not empty failmsg}">
-        <script>
-        Swal.fire({
-            title: "결제 오류",
-            text: "${failmsg}",
-            icon: "warning",
-            showConfirmButton: false,
-            timer: 2000
-        });
-
-    	</script>
-    </c:if>
+	
 
 </body>
 

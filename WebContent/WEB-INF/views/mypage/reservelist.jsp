@@ -146,11 +146,11 @@
 													<span>
 														결제완료
 													</span>
-													<button class="reserCancel" >예매취소</button>
+													<button class="reserCancel" >예매 상세</button>
 												</p>
 												
 											</c:when>
-											<c:when test="${reservelist.state == 2 }">
+											<c:when test="${reservelist.state == 0 }">
 												<p style=" color:gray;">예매 상태 : 
 													<span>
 														결제취소

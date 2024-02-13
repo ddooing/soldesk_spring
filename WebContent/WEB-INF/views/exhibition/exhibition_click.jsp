@@ -432,8 +432,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 												<form:button type="submit"
 													style="width:120px; margin-right:30px;"
 													class="btn btn-dark">예매하기</form:button>
-												<form:button type="submit" style="width:120px;"
-													class="btn btn-dark">장바구니</form:button>
+												<button type="button" id="cartButton"  style="width:120px;"class="btn btn-dark">장바구니</button>
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -444,7 +443,16 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							</div>
 						</div>
 
+						<!--  장바구니 보내기  -->
+						<script>
+							document.getElementById("cartButton").addEventListener("click", function() {
+							    var form = document.getElementById("reservationForm");
+							    form.action = "${root}/user/cart_insert"; // action 변경
+							    form.method = "post"; // POST 메소드 설정
+							    form.submit(); // 폼 제출
+							});
 
+						</script>
 						<script>
 							window.addEventListener('scroll', function() {
 								var scrollPosition = window.pageYOffset
@@ -982,52 +990,89 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 	</script>
 	
 	<script>
-    function bookmarkAlert() {
+	    function bookmarkAlert() {
+	        Swal.fire({
+	            title: '북마크 추가',
+	            text: "북마크에 추가하시겠습니까?",
+	            icon: 'question',
+	            showCancelButton: true,
+	            confirmButtonColor: '#3085d6',
+	            cancelButtonColor: '#d33',
+	            confirmButtonText: '네',
+	            cancelButtonText: '아니요'
+	        }).then((result) => {
+	            if (result.isConfirmed) {
+	                window.location.href = '${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}';
+	            }
+	        });
+	    }
+	
+	    function removeBookmarkAlert() {
+	        Swal.fire({
+	            title: '북마크 제거',
+	            text: "북마크에서 제거하시겠습니까?",
+	            icon: 'warning',
+	            showCancelButton: true,
+	            confirmButtonColor: '#3085d6',
+	            cancelButtonColor: '#d33',
+	            confirmButtonText: '네',
+	            cancelButtonText: '아니요'
+	        }).then((result) => {
+	            if (result.isConfirmed) {
+	                window.location.href = '${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}';
+	            }
+	        });
+	    }
+	
+	    function notLoggedInAlert() {
+	        Swal.fire({
+	            title: '로그인 필요',
+	            text: "북마크를 추가하려면 로그인이 필요합니다.",
+	            icon: 'info',
+	            confirmButtonColor: '#3085d6',
+	            confirmButtonText: '확인'
+	        }).then(() => {
+	            window.location.href = '${root}/user/login';
+	        });
+	    }
+	</script>
+	<!--  장바구니 추가 관련  -->
+	
+	<c:if test="${not empty cartMessage}">
+        <script>
         Swal.fire({
-            title: '북마크 추가',
-            text: "북마크에 추가하시겠습니까?",
-            icon: 'question',
+            //title: "Are you sure?",
+            text: "${cartMessage}",
+            icon: "${icon}",
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '네',
-            cancelButtonText: '아니요'
+            confirmButtonColor: "#4F6F52",
+            cancelButtonColor: "gray",
+            confirmButtonText: "장바구니 보기",
+            cancelButtonText: '확인?'
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = '${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}';
+                // confirmButtonText를 눌렀을 때, 지정된 URL로 이동
+                window.location.href = "${root}/user/cart_list";
             }
+            // cancelButtonText를 눌렀을 때, 대화 상자가 자동으로 닫힘 (아무 작업도 필요 없음)
         });
-    }
 
-    function removeBookmarkAlert() {
+    </script>
+    </c:if>
+    
+	<!-- 결제 실패 -->
+    <c:if test="${not empty failmsg}">
+        <script>
         Swal.fire({
-            title: '북마크 제거',
-            text: "북마크에서 제거하시겠습니까?",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '네',
-            cancelButtonText: '아니요'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = '${root}/exhibition/bookmark?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}';
-            }
+            title: "결제 실패",
+            html: "${failmsg} <br><br> 예매를 다시 진행해주세요.",
+            icon: "error",
+            confirmButtonColor: "#4F6F52",
+            confirmButtonText: "확인"
         });
-    }
 
-    function notLoggedInAlert() {
-        Swal.fire({
-            title: '로그인 필요',
-            text: "북마크를 추가하려면 로그인이 필요합니다.",
-            icon: 'info',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: '확인'
-        }).then(() => {
-            window.location.href = '${root}/user/login';
-        });
-    }
-</script>
+    </script>
+    </c:if>
 	
 
 
