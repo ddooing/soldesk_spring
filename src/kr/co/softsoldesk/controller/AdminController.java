@@ -1005,6 +1005,10 @@ public class AdminController {
 		// 메인 캐러셀
 		List<MainBannerBean> AllMainBannerInfo = AdminService.IndexMainBannerBeanList();
 		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+		
+		// 서브 캐러셀
+		List<SubBannerBean> AllSubBannerInfo = AdminService.IndexSubBannerBeanList();
+		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
 				
 		// 인기 전시 캐러셀
 		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
@@ -1258,7 +1262,7 @@ public class AdminController {
 		@PostMapping("/saveRowOrder1")	
 		public ResponseEntity<?> saveRowOrder1(@RequestParam("order") String order) {
 		    String[] ids = order.split(",");
-		    AdminService.updateExposeOrder(ids);
+		    AdminService.updateSubExposeOrder(ids);
 		    return ResponseEntity.ok("Row order saved");
 		}
 	

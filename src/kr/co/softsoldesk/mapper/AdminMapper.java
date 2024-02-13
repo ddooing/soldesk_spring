@@ -994,4 +994,23 @@ public interface AdminMapper {
 	@Update("UPDATE sub_banner SET expose_order = #{exposeOrder} WHERE sub_banner_id = #{subBannerId}")
 	void updateSubExposeOrder(@Param("subBannerId") int subBannerId, @Param("exposeOrder") int exposeOrder);
 	
+	// index 페이지 메인 캐러셀 가져가기
+	@Select("SELECT\r\n"
+			+ "    mb.sub_banner_id,\r\n"
+			+ "    mb.exhibition_id,\r\n"
+			+ "    mb.expose_order,\r\n"
+			+ "    mb.state,\r\n"
+			+ "    ft.name AS sub_banner_name,\r\n"
+			+ "    ft.path AS sub_banner_path\r\n"
+			+ "FROM\r\n"
+			+ "    sub_banner mb\r\n"
+			+ "INNER JOIN\r\n"
+			+ "    file_table ft ON mb.banner_file_id = ft.file_id\r\n"
+			+ "WHERE\r\n"
+			+ "    mb.state = 1\r\n"
+			+ "    AND SYSDATE BETWEEN mb.start_date AND mb.end_date\r\n"
+			+ "ORDER BY\r\n"
+			+ "    mb.expose_order ASC")
+	List<SubBannerBean> IndexSubBannerBeanList();		
+	
 }

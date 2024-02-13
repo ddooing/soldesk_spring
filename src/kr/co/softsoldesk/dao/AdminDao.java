@@ -437,4 +437,9 @@ public class AdminDao {
 	public void updateSubExposeOrder(int subBannerId, int exposeOrder) {
 		adminMapper.updateSubExposeOrder(subBannerId, exposeOrder);
 	}
+	
+	// index 서브 배너 정보 가져가기
+	public List<SubBannerBean> IndexSubBannerBeanList() {
+		return adminMapper.IndexSubBannerBeanList();
+	}
 }

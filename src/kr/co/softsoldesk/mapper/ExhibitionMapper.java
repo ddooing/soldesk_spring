@@ -30,7 +30,7 @@ public interface ExhibitionMapper {
 	@Update("UPDATE exhibition SET views = views + 1 WHERE exhibition_id = #{exhibition_id}")
 	void increaseViewsExhibition(int exhibition_id);
 	
-	// 전시회 최신 페이지 리스트
+	// 전시회 최신 페이지 리스트				페이징 처리 해야지이이이~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@Select("SELECT \r\n"
 			+ "    e.exhibition_id, \r\n"
 			+ "    e.title, \r\n"
@@ -58,13 +58,13 @@ public interface ExhibitionMapper {
 			+ "WHERE \r\n"
 			+ "    e.exhibition_start BETWEEN SYSDATE - INTERVAL '30' DAY AND SYSDATE AND e.state = 1 "
 			+ "ORDER BY e.exhibition_start desc")
-	List<ExhibitionBean> getRecentExhibitionInfo();
+	List<ExhibitionBean> getRecentExhibitionInfo(RowBounds rowBounds);
 	
 	// 전시회 페이지 최근 페이징 처리를 위한 개수 반환 메소드
 	@Select("SELECT count(exhibition_id) from exhibition WHERE exhibition_start BETWEEN SYSDATE - INTERVAL '30' DAY AND SYSDATE AND state = 1")
 	int getRecentExhibitionCnt();
 	
-	// 전시회 페이지 곧종료 리스트
+	// 전시회 페이지 곧종료 리스트				페이징 처리 해야지이이이~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@Select("SELECT \r\n"
 			+ "    e.exhibition_id, \r\n"
 			+ "    e.title, \r\n"
@@ -92,13 +92,13 @@ public interface ExhibitionMapper {
 			+ "WHERE \r\n"
 			+ "    e.exhibition_end BETWEEN SYSDATE AND SYSDATE + INTERVAL '30' DAY AND e.state = 1"
 			+ "ORDER BY e.exhibition_end asc")
-	List<ExhibitionBean> getSoonEndExhibitionInfo();
+	List<ExhibitionBean> getSoonEndExhibitionInfo(RowBounds rowBounds);
 	
 	// 전시회 곧종료 페이징 처리
 	@Select("SELECT count(exhibition_id) FROM exhibition WHERE exhibition_end BETWEEN SYSDATE AND SYSDATE + INTERVAL '30' DAY AND state = 1")
 	int getsoonEndExhibitionCnt();
 	
-	// 전시회 페이지 무료
+	// 전시회 페이지 무료				페이징 처리 해야지이이이~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@Select("SELECT \r\n"
 			+ "    e.exhibition_id, \r\n"
 			+ "    e.title, \r\n"
@@ -125,7 +125,7 @@ public interface ExhibitionMapper {
 			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id \r\n"
 			+ "WHERE \r\n"
 			+ "    e.price = 0 AND e.state = 1")
-	List<ExhibitionBean> getFreeExhibitionInfo();
+	List<ExhibitionBean> getFreeExhibitionInfo(RowBounds rowBounds);
 	
 	// 전시회 페이지 무료 페이징 처리 위한 개수 반환 메소드
 	@Select("SELECT count(exhibition_id) FROM exhibition WHERE price = 0 AND state = 1")

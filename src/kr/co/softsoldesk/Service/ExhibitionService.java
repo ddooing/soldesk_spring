@@ -67,8 +67,12 @@ public class ExhibitionService {
 	}
 	
 	// 전시회 페이지 최근 카테고리 조회
-	public List<ExhibitionBean> getRecentExhibitionInfo() {
-		return exhibitionDao.getRecentExhibitionInfo();
+	public List<ExhibitionBean> getRecentExhibitionInfo(int page) {
+		
+		int start = (page - 1) * exhibition_listcnt;
+		RowBounds rowBounds = new RowBounds(start, exhibition_listcnt);
+		
+		return exhibitionDao.getRecentExhibitionInfo(rowBounds);
 	}
 	
 	// 전시회 페이지 최근 카테고리 페이징 처리
@@ -81,8 +85,12 @@ public class ExhibitionService {
 	}
 	
 	// 전시회 페이지 곧종료 카테고리 조회
-	public List<ExhibitionBean> getSoonEndExhibitionInfo() {
-		return exhibitionDao.getSoonEndExhibitionInfo();
+	public List<ExhibitionBean> getSoonEndExhibitionInfo(int page) {
+		
+		int start = (page - 1) * exhibition_listcnt;
+		RowBounds rowBounds = new RowBounds(start, exhibition_listcnt);
+		
+		return exhibitionDao.getSoonEndExhibitionInfo(rowBounds);
 	}
 	
 	// 전시회 페이지 곧종료 카테고리 페이징 처리
@@ -95,8 +103,12 @@ public class ExhibitionService {
 	}
 	
 	// 전시회 페이지 무료 카테고리 조회
-	public List<ExhibitionBean> getFreeExhibitionInfo() {
-		return exhibitionDao.getFreeExhibitionInfo();
+	public List<ExhibitionBean> getFreeExhibitionInfo(int page) {
+		
+		int start = (page - 1) * exhibition_listcnt;
+		RowBounds rowBounds = new RowBounds(start, exhibition_listcnt);
+		
+		return exhibitionDao.getFreeExhibitionInfo(rowBounds);
 	}
 	
 	// 전시회 페이지 무료 카테고리 페이징 처리

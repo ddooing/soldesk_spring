@@ -68,7 +68,7 @@ public class ExhibitionController {
 	public String exhibition_soon_end(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
 		// 곧종료 카테고리
-        List<ExhibitionBean> getSoonEndExhibitionInfo = exhibitionService.getSoonEndExhibitionInfo();
+        List<ExhibitionBean> getSoonEndExhibitionInfo = exhibitionService.getSoonEndExhibitionInfo(page);
         model.addAttribute("getSoonEndExhibitionInfo", getSoonEndExhibitionInfo);
         
         // 곧종료 카테고리 페이징 처리
@@ -82,7 +82,7 @@ public class ExhibitionController {
 	public String exhibition_recent(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
 		// 최신 카테고리
-        List<ExhibitionBean> getRecentExhibitionInfo = exhibitionService.getRecentExhibitionInfo();
+        List<ExhibitionBean> getRecentExhibitionInfo = exhibitionService.getRecentExhibitionInfo(page);
         model.addAttribute("getRecentExhibitionInfo", getRecentExhibitionInfo);
 
         // 최근 카테고리 페이징 처리
@@ -96,7 +96,7 @@ public class ExhibitionController {
 	public String exhibition_free(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
 		// 무료 카테고리
-        List<ExhibitionBean> getFreeExhibitionInfo = exhibitionService.getFreeExhibitionInfo();
+        List<ExhibitionBean> getFreeExhibitionInfo = exhibitionService.getFreeExhibitionInfo(page);
         model.addAttribute("getFreeExhibitionInfo", getFreeExhibitionInfo);
         
         // 무료 카테고리 페이징 처리

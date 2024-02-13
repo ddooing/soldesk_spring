@@ -21,6 +21,7 @@ import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
+import kr.co.softsoldesk.Beans.SubBannerBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.ExhibitionService;
@@ -59,6 +60,10 @@ public class UserController {
 						Model model) {
 		model.addAttribute("fail", fail);
 		
+		// 서브 캐러셀
+		List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+		
 		return "user/login";
 	}
 	
@@ -66,6 +71,10 @@ public class UserController {
     public String login_pro(@ModelAttribute("tempLoginUserBean") UserBean tempLoginUserBean, BindingResult result, Model model) {
 		
 		if(result.hasErrors()) {
+			
+			// 서브 캐러셀
+			List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+			model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
 			
 			return "user/login";
 			
@@ -75,18 +84,23 @@ public class UserController {
         
         if(loginUserBean.isUserLogin() == true) {
         	
-        	// 메인 캐러셀
+
+    		// index 필요한 것들
+    		// 메인 캐러셀
     		List<MainBannerBean> AllMainBannerInfo = adminService.IndexMainBannerBeanList();
     		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
-    		
+    				
+    		// 서브 캐러셀
+    		List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+    		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+    						
     		// 인기 전시 캐러셀
     		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
     		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
-    		
+    						
     		// 곧전시 캐러셀
     		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
     		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
-        	
         	
         	return "view/index";
         } else {
@@ -104,14 +118,19 @@ public class UserController {
 		
 		loginUserBean.setUserLogin(false);
 		
+		// index 필요한 것들
 		// 메인 캐러셀
 		List<MainBannerBean> AllMainBannerInfo = adminService.IndexMainBannerBeanList();
 		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
-		
+				
+		// 서브 캐러셀
+		List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+						
 		// 인기 전시 캐러셀
 		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
 		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
-		
+						
 		// 곧전시 캐러셀
 		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
 		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
@@ -145,14 +164,19 @@ public class UserController {
 		}
 		UserService.addUserInfo(joinUserBean);
 		
+		// index 필요한 것들
 		// 메인 캐러셀
 		List<MainBannerBean> AllMainBannerInfo = adminService.IndexMainBannerBeanList();
 		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
-		
+				
+		// 서브 캐러셀
+		List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+						
 		// 인기 전시 캐러셀
 		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
 		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
-		
+						
 		// 곧전시 캐러셀
 		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
 		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
@@ -213,17 +237,22 @@ public class UserController {
 				
 				// index 페이지 가져가야 될 것들
 				
-				// 메인 캐러셀
-				List<MainBannerBean> AllMainBannerInfo = adminService.IndexMainBannerBeanList();
-				model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
-				
-				// 인기 전시 캐러셀
-				List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
-				model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
-				
-				// 곧전시 캐러셀
-				List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
-				model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
+				// index 필요한 것들
+	    		// 메인 캐러셀
+	    		List<MainBannerBean> AllMainBannerInfo = adminService.IndexMainBannerBeanList();
+	    		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+	    				
+	    		// 서브 캐러셀
+	    		List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+	    		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+	    						
+	    		// 인기 전시 캐러셀
+	    		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
+	    		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
+	    						
+	    		// 곧전시 캐러셀
+	    		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
+	    		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
 				
 				
 				return "view/index";

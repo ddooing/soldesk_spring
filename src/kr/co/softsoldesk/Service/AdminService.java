@@ -830,5 +830,10 @@ public class AdminService {
             adminDao.updateSubExposeOrder(bannerId, i + 1);
         }
 	}
+	
+	// index 서브 배너 정보 가져가기
+	public List<SubBannerBean> IndexSubBannerBeanList() {
+		return adminDao.IndexSubBannerBeanList();
+	}
 }
 

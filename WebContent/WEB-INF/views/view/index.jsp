@@ -385,19 +385,22 @@
 	        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
 	            <!-- 캐러셀 인디케이터 -->
 	            <div class="carousel-indicators">
-	                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-	                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-	                <!-- 추가 슬라이드에 대한 버튼을 여기에 추가 -->
+	                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+	                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
+	                            class="${status.index == 0 ? 'active' : ''}" aria-label="Slide ${status.index + 1}">
+	                    </button>
+	                </c:forEach>
 	            </div>
 	
 	            <!-- 캐러셀 슬라이드 -->
 	            <div class="carousel-inner">
-	                <div class="carousel-item active">
-	                    <img src="../img/banner1.png" class="d-block w-100" alt="Banner 1" style="height:150px;">
-	                </div>
-	                <div class="carousel-item">
-	                    <img src="../img/banner1.png" class="d-block w-100" alt="Banner 2" style="height:150px;">
-	                </div>
+	                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+	                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+	                        <a href='${root}/exhibition/exhibition_click?exhibition_id=${subBanner.exhibition_id}'>
+	                            <img src="${subBanner.sub_banner_path}${subBanner.sub_banner_name}" class="d-block w-100" alt="Banner ${status.index + 1}" style="height:150px;">
+	                        </a>
+	                    </div>
+	                </c:forEach>
 	            </div>
 	
 	            <!-- 캐러셀 컨트롤 -->
@@ -412,6 +415,7 @@
 	        </div>
 	    </div>
 	</section>
+
 
 
 	<!-- 곧 전시 캐러셀 -->
