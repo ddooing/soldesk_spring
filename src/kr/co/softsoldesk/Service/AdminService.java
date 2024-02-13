@@ -17,6 +17,7 @@ import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
+import kr.co.softsoldesk.Beans.SubBannerBean;
 import kr.co.softsoldesk.dao.AdminDao;
 
 @Service
@@ -738,5 +739,96 @@ public class AdminService {
 		adminDao.addfiletableBanner1(bannerApplyFormBean);
 	}
 	
+	// 서브 배너 관리자 페이지 showlist 페이지
+	public List<SubBannerBean> getAllShowSubbannerInfo() {
+		return adminDao.getAllShowSubbannerInfo();
+	}
+	
+	// 서브 배너 뱃지 관련
+	public SubBannerBean getSubBannerBadgeCnt() {
+		return adminDao.getSubBannerBadgeCnt();
+	}
+	
+	// 서브 배너 제목 검색 리스트
+	public List<SubBannerBean> titleSearchSubbannerInfo(String search) {
+		return adminDao.titleSearchSubbannerInfo(search);
+	}
+	
+	// 서브 배너 제목 검색 뱃지 관련
+	public SubBannerBean getTitleSearchSubBannerBadgeCnt(String search) {
+		return adminDao.getTitleSearchSubBannerBadgeCnt(search);
+	}
+	
+	// 서브 배너 hide(숨김 state=2) 리스트
+	public List<SubBannerBean> getAllHideSubbannerInfo() {
+		return adminDao.getAllHideSubbannerInfo();
+	}
+	
+	// 서브 배너 삭제
+	public void DeleteSubBanner(int sub_banner_id) {
+		adminDao.DeleteSubBanner(sub_banner_id);
+	}
+	
+	// 서브 배너 삭제 시 삭제한 배너의 expose_order보다 큰거 expose_order 한개씩 내리기
+	public void UpdateDeleteAndExpose_orderSub(int expose_order) {
+		adminDao.UpdateDeleteAndExpose_orderSub(expose_order);
+	}
+	
+	// 서브 배너 수정 페이지 들어가기 위한 모든 정보 가져가기
+	public SubBannerBean getOneSubBannerInfo(int sub_banner_id) {
+		return adminDao.getOneSubBannerInfo(sub_banner_id);
+	}
+	
+	// 서브 배너 수정시 state 값 변경 확인 메소드'
+	public Integer getSubBannerState(int sub_banner_id) {
+		return adminDao.getSubBannerState(sub_banner_id);
+	}
+	
+	// 서브 배너 업데이트 시 파일 변경할 경우 파일 테이블에 파일 저장
+	public void addfiletableBanner2(SubBannerBean subBannerBean) {
+		MultipartFile sub_banner_upload_file  = subBannerBean.getSub_banner_file();
+		
+		if(sub_banner_upload_file.getSize()>0) {
+			String sub_banner_file_name = saveSubBannerUploadFile(sub_banner_upload_file);
+			
+			// file_table name, path set
+			subBannerBean.setName(sub_banner_file_name);
+			subBannerBean.setPath("/Spring_Project_Dream/img/sub_banner/");
+			
+			// file_table 저정
+			adminDao.addfiletableBanner2(subBannerBean);
+			
+			// 저장된 파일 file_id exhibitionDetailBean에 set 해줌
+			subBannerBean.setBanner_file_id(adminDao.getFileId(sub_banner_file_name));
+		}
+	}
+	
+	// 서브 배너 order_expose max 값 반환
+	public int getSubMaxExposeOrder() {
+		return adminDao.getSubMaxExposeOrder();
+	}
+	
+	// 서브 배너 업데이트 시 expose_order 값 재정렬
+	public void UpdateSubBannerExpose_order(int expose_order) {
+		adminDao.UpdateSubBannerExpose_order(expose_order);
+	}
+	
+	// 서브 배너 업데이트
+	public void UpdateSubBanner(SubBannerBean subBannerBean) {
+		adminDao.UpdateSubBanner(subBannerBean);
+	}
+	
+	// 서브 배너 관리자 직접 추가
+	public void AddmanagerSubBanner(SubBannerBean subBannerBean) {
+		adminDao.AddmanagerSubBanner(subBannerBean);
+	}
+	
+	// 서브 배너 expose_order 순서 변경 (드래그앤 드롭)
+	public void updateSubExposeOrder(String[] ids) {
+        for (int i = 0; i < ids.length; i++) {
+            int bannerId = Integer.parseInt(ids[i]);
+            adminDao.updateSubExposeOrder(bannerId, i + 1);
+        }
+	}
 }
 

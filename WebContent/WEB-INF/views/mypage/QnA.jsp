@@ -407,7 +407,7 @@
 				<!-- 입력 필드 및 버튼 -->
 
 
-				<form:form action="${root }/user/delete_pro?user_id=${loginUserBean.user_id }" method="post" modelAttribute="deleteUserBean">
+				<form:form action="${root }/user/delete_pro?user_id=${loginUserBean.user_id }" method="post" modelAttribute="deleteUserBean" id="delete_user">
 							<div class="mb-3 text-center">
 								<div class="form-label-group">
 									<input type="text" class="form-control" placeholder="아이디"
@@ -430,7 +430,7 @@
 										<form:errors path="password2" style="color:red" />
 								</div>
 							</div>
-							<button type="submit" class="btn btn-danger" style="margin-left:177px;">회원 탈퇴</button>
+							<button type="button" onclick="confirmDelete()" class="btn btn-danger" style="margin-left:177px;">회원 탈퇴</button>
 						</form:form>
 			</div>
 		</div>
@@ -438,6 +438,27 @@
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
+	
+	<script>	// sweetalert 회원탈퇴
+	    function confirmDelete() {
+	        Swal.fire({
+	            title: '정말 회원탈퇴하시겠습니까?',
+	            text: "이 작업은 되돌릴 수 없습니다!",
+	            icon: 'warning',
+	            showCancelButton: true,
+	            confirmButtonColor: '#d33',
+	            cancelButtonColor: '#3085d6',
+	            confirmButtonText: '회원 탈퇴',
+	            cancelButtonText: '취소'
+	        }).then((result) => {
+	            if (result.isConfirmed) {
+	                document.getElementById("delete_user").submit();
+	            }
+	        });
+	    }
+	</script>
+
+	
 	<script>
     // 툴팁 아이콘과 모달 요소를 선택
     const toolTipIcon = document.querySelector('.bi.bi-question-circle-fill');

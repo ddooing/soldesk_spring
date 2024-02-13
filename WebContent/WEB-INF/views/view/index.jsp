@@ -378,15 +378,41 @@
 		</script>
 	</section>
 
-	<!-- 배너부분 -->
+	
+	<!-- 배너 캐러셀 -->
 	<section style="margin-top: 150px;">
-		<div class="container px-1">
-			<div class="d-flex justify-content-center">
-				<img src="../img/banner1.png" alt="banner1" style="border: 1px solid black;">
-			</div>
-		</div>
-		</div>
+	    <div class="container px-1" style="width:1100px;">
+	        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+	            <!-- 캐러셀 인디케이터 -->
+	            <div class="carousel-indicators">
+	                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+	                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+	                <!-- 추가 슬라이드에 대한 버튼을 여기에 추가 -->
+	            </div>
+	
+	            <!-- 캐러셀 슬라이드 -->
+	            <div class="carousel-inner">
+	                <div class="carousel-item active">
+	                    <img src="../img/banner1.png" class="d-block w-100" alt="Banner 1" style="height:150px;">
+	                </div>
+	                <div class="carousel-item">
+	                    <img src="../img/banner1.png" class="d-block w-100" alt="Banner 2" style="height:150px;">
+	                </div>
+	            </div>
+	
+	            <!-- 캐러셀 컨트롤 -->
+	            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+	                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	                <span class="visually-hidden">Previous</span>
+	            </button>
+	            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+	                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	                <span class="visually-hidden">Next</span>
+	            </button>
+	        </div>
+	    </div>
 	</section>
+
 
 	<!-- 곧 전시 캐러셀 -->
 	<section style="margin-top: 150px;">

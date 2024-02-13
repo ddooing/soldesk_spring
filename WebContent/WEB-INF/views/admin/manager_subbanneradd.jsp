@@ -112,7 +112,7 @@
 		<main style="background-color: ivory;">
 			<div class="container-fluid px-4">
 				<div style="margin-top: 30px;">
-					<h3>메인 배너 추가</h3>
+					<h3>서브 배너 추가</h3>
 				</div>
 				<div
 					style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
@@ -129,7 +129,7 @@
 							총${BadgeCnt.banner_all_Cnt}건</span>
 					</div>
 
-					<form action="${root }/admin/manager_mainbannershowlist"
+					<form action="${root }/admin/manager_subbannershowlist"
 						method="get">
 						<select name="bannercombo" id="bannercombo"
 							style="width: 150px; height: 40px; margin-right: 30px;">
@@ -153,7 +153,7 @@
 
 				</div>
 
-				<form:form action="${root }/admin/manager_mainbanneradd_pro" method="post" modelAttribute="AddBannerBean"
+				<form:form action="${root }/admin/manager_subbanneradd_pro" method="post" modelAttribute="AddBannerBean"
 					enctype="multipart/form-data" id="myForm">
 					
 					<div style="display: flex; width: 100%;">
@@ -168,7 +168,7 @@
 									<input class="upload-name"
 										value=""> <label
 										for="file">파일찾기</label>
-									<form:input type="file" id="file" path="main_banner_file"
+									<form:input type="file" id="file" path="sub_banner_file"
 										value=""
 										onchange="updateImage(event)" accept="image/*" required="required"/>
 								</div>

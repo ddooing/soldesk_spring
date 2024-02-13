@@ -12,6 +12,7 @@ import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.QnABean;
+import kr.co.softsoldesk.Beans.SubBannerBean;
 import kr.co.softsoldesk.mapper.AdminMapper;
 
 @Repository
@@ -360,5 +361,80 @@ public class AdminDao {
 	// 배너 신청 시 file 테이블에 저장
 	public void addfiletableBanner1(BannerApplyFormBean bannerApplyFormBean) {
 		adminMapper.addfiletableBanner1(bannerApplyFormBean);
+	}
+	
+	// 서브배너 관리자 페이지 showlist 가져가기
+	public List<SubBannerBean> getAllShowSubbannerInfo() {
+		return adminMapper.getAllShowSubbannerInfo();
+	}
+	
+	// 서브배너 관리 페이지 뱃지
+	public SubBannerBean getSubBannerBadgeCnt() {
+		return adminMapper.getSubBannerBadgeCnt();
+	}
+	
+	// 서브배너 제목 검색 리스트
+	public List<SubBannerBean> titleSearchSubbannerInfo(String search) {
+		return adminMapper.titleSearchSubbannerInfo(search);
+	}
+	
+	// 서브배너 제목 검색 뱃지 관련
+	public SubBannerBean getTitleSearchSubBannerBadgeCnt(String search) {
+		return adminMapper.getTitleSearchSubBannerBadgeCnt(search);
+	}
+	
+	// 서브 배너 hide (숨김 state=2) 리스트
+	public List<SubBannerBean> getAllHideSubbannerInfo() {
+		return adminMapper.getAllHideSubbannerInfo();
+	}
+	
+	// 서브 배너 삭제
+	public void DeleteSubBanner(int sub_banner_id) {
+		adminMapper.DeleteSubBanner(sub_banner_id);
+	}
+	
+	// 서브 배너 삭제시 expose_order 높은거 한개씩 내리기
+	public void UpdateDeleteAndExpose_orderSub(int expose_order) {
+		adminMapper.UpdateDeleteAndExpose_orderSub(expose_order);
+	}
+	
+	// 서브 배너 수정 페이지 들어가기 위한 서브 배너 한개 모든 정보 가져가기
+	public SubBannerBean getOneSubBannerInfo(int sub_banner_id) {
+		return adminMapper.getOneSubBannerInfo(sub_banner_id);
+	}
+	
+	// 서브 배너 수정시 state 값 확인하려고 사용하는 메소드
+	public Integer getSubBannerState(int sub_banner_id) {
+		return adminMapper.getSubBannerState(sub_banner_id);
+	}
+	
+	// 서브 배너 업데이트시 파일 변경시에 파일테이블에 파일 저장
+	public void addfiletableBanner2(SubBannerBean subBannerBean) {
+		adminMapper.addfiletableBanner2(subBannerBean);
+	}
+	
+	// 서브 배너 order_expose max 값 찾기
+	public int getSubMaxExposeOrder() {
+		return adminMapper.getSubMaxExposeOrder();
+	}
+	
+	// 서브 배너 수정시 expose_order 값 재정렬
+	public void UpdateSubBannerExpose_order(int expose_order) {
+		adminMapper.UpdateSubBannerExpose_order(expose_order);
+	}
+	
+	// 서브 배너 수정 업데이트
+	public void UpdateSubBanner(SubBannerBean subBannerBean) {
+		adminMapper.UpdateSubBanner(subBannerBean);
+	}
+	
+	// 서브 배너 관리자 직접 추가
+	public void AddmanagerSubBanner(SubBannerBean subBannerBean) {
+		adminMapper.AddmanagerSubBanner(subBannerBean);
+	}
+	
+	// 서브 배너 순서 변경 (드래그앤 드롭)
+	public void updateSubExposeOrder(int subBannerId, int exposeOrder) {
+		adminMapper.updateSubExposeOrder(subBannerId, exposeOrder);
 	}
 }

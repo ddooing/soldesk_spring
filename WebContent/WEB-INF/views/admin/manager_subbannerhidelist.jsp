@@ -105,22 +105,16 @@ $(document).ready(function() {
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top: 30px;">
-						<h3>메인 배너 관리</h3>
+						<h3>서브 배너 관리</h3>
 					</div>
 					<div style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 					<div style="position: flex; margin-right: 60px; width: 450px; float: left;">
-						<span class="badge text-bg-success rounded-pill"
-							style="font-size: 15px; margin-right: 10px; margin-left: 50px;">노출배너
-							${BadgeCnt.banner_show_Cnt }건</span> <span
-							class="badge text-bg-danger rounded-pill"
-							style="font-size: 15px; margin-right: 10px;">숨김배너
-							${BadgeCnt.banner_hide_Cnt }건</span> <span
-							class="badge bg-success-subtle text-success-emphasis rounded-pill"
-							style="background-color: black; font-size: 15px;">배너
-							총${BadgeCnt.banner_all_Cnt}건</span>
+						<span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">노출배너 ${BadgeCnt.banner_show_Cnt }건</span> 
+						<span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right: 10px;">숨김배너 ${BadgeCnt.banner_hide_Cnt }건</span> 
+						<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size: 15px;">배너 총${BadgeCnt.banner_all_Cnt}건</span>
 					</div>
 
-					<form action="${root }/admin/manager_mainbannershowlist" method="get">
+					<form action="${root }/admin/manager_subbannershowlist" method="get">
 								<select name="bannercombo" id="bannercombo" style="width: 150px; height: 40px; margin-right: 30px;">
 									<option value="title" selected>제목</option>
 								</select>
@@ -139,8 +133,8 @@ $(document).ready(function() {
 				</div>
 				
 				<div style="display: flex; margin-top:30px;">
-				<h3 onclick="window.location='${root}/admin/manager_mainbannershowlist'" style="cursor: pointer;">노출중</h3>
-				<h3 onclick="window.location='${root}/admin/manager_mainbannerhidelist'" style=" margin-left:30px; color:#e2e2e2; cursor: pointer;">숨김</h3>
+				<h3 onclick="window.location='${root}/admin/manager_subbannershowlist'" style="cursor: pointer; color:#e2e2e2;">노출중</h3>
+				<h3 onclick="window.location='${root}/admin/manager_subbannerhidelist'" style=" margin-left:30px; color:black;  cursor: pointer;">숨김</h3>
 				</div>
 					<div style="background-color: white; margin-top:20px;" >
 						
@@ -152,20 +146,18 @@ $(document).ready(function() {
 									<th scope="col" style="width:500px;">제목</th>
 									<th scope="col" style="width:320px;">배너이미지</th>
 									<th scope="col">노출기간</th>
-									<th scope="col" style="width:100px;">노출순서</th>
 									<th scope="col">상태</th>
 									<th scope="col">관리</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${AllMainBannerInfo }" var="bannerBean">
-									<tr id="banner-${bannerBean.main_banner_id}" style="vertical-align: middle; height:150px;">
+								<c:forEach items="${AllSubBannerInfo }" var="bannerBean">
+									<tr id="banner-${bannerBean.sub_banner_id}" style="vertical-align: middle; height:150px;">
 										<th scope="row" style="width:50px;"><i class="bi bi-arrows-vertical" style="height:30px; cursor: move;"></i></th>
-										<td style="width:50px;">${bannerBean.main_banner_id }</td>
+										<td style="width:50px;">${bannerBean.sub_banner_id }</td>
 										<td style="width:500px; text-align: left;"><a href="${root }/exhibition/exhibition_click?exhibition_id=${bannerBean.exhibition_id}" style="color:black;">${bannerBean.title }</a></td>
-										<td style="width:320px;"><img src="${bannerBean.main_banner_path }${bannerBean.main_banner_name }" style="width:300px; height:120px;" /></td>
+										<td style="width:320px;"><img src="${bannerBean.sub_banner_path }${bannerBean.sub_banner_name }" style="width:300px; height:120px;" /></td>
 										<td>${bannerBean.start_date } ~ ${bannerBean.end_date }</td>
-										<td style="width:100px;">${bannerBean.expose_order }</td>
 										<c:choose>
 											<c:when test="${bannerBean.state  == 1}">
 												<td>노출중</td>		
@@ -174,10 +166,9 @@ $(document).ready(function() {
 												<td>숨김</td>		
 											</c:when>
 										</c:choose>
-
 										<td>
-											<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_mainbannermodify?main_banner_id=${bannerBean.main_banner_id}'">수정</button>
-											<button class="btn btn-danger" type="button" onclick="confirmDelete(${bannerBean.main_banner_id},${bannerBean.expose_order },${bannerBean.state })">삭제</button>
+											<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_subbannermodify?sub_banner_id=${bannerBean.sub_banner_id}'">수정</button>
+											<button class="btn btn-danger" type="button" onclick="confirmDelete(${bannerBean.sub_banner_id},${bannerBean.expose_order },${bannerBean.state })">삭제</button>
 										</td>
 									</tr>
 								</c:forEach>
@@ -186,7 +177,7 @@ $(document).ready(function() {
 						</table>
 						<div style="display:flex; margin-top: 20px; margin-bottom: 20px; float: right;">
 						
-							<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_mainbanneradd'">추가</button>
+							<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_subbanneradd'">추가</button>
 						<c:if test="${bannersearch == null }">
 							<button class="btn btn-dark" style="margin-left: 30px; margin-right: 30px;" id="saveButton">순서저장</button>
 						</c:if>
@@ -205,7 +196,7 @@ $(document).ready(function() {
 	<script>	// 삭제 관련
 		function confirmDelete(bannerId, exposeOrder, state) {
 		    Swal.fire({
-		        title: '메인 배너를 삭제하시겠습니까?',
+		        title: '서브 배너를 삭제하시겠습니까?',
 		        text: "삭제하면 복구가 불가능합니다.",
 		        icon: 'warning',
 		        showCancelButton: true,
@@ -216,12 +207,12 @@ $(document).ready(function() {
 		    }).then((result) => {
 		        if (result.isConfirmed) {
 		            $.ajax({
-		                url: '${root}/admin/DeleteMainBanner?main_banner_id=' + bannerId + '&expose_order=' + exposeOrder + '&state=' + state,
+		                url: '${root}/admin/DeleteSubBanner?sub_banner_id=' + bannerId + '&expose_order=' + exposeOrder + '&state=' + state,
 		                type: 'GET',
 		                success: function(response) {
 		                    Swal.fire(
 		                        '삭제되었습니다!',
-		                        '메인 배너가 삭제되었습니다.',
+		                        '서브 배너가 삭제되었습니다.',
 		                        'success'
 		                    ).then((result) => {
 		                        if (result.isConfirmed) {

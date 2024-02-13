@@ -131,7 +131,7 @@ $(document).ready(function(){
 
 										<td>
 											<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_mainbannermodify?main_banner_id=${bannerBean.main_banner_id}'">수정</button>
-											<button class="btn btn-danger" type="button" onclick="confirmDelete(${bannerBean.main_banner_id},${bannerBean.expose_order })">삭제</button>
+											<button class="btn btn-danger" type="button" onclick="confirmDelete(${bannerBean.main_banner_id},${bannerBean.expose_order },${bannerBean.state })">삭제</button>
 										</td>
 									</tr>
 								</c:forEach>
@@ -155,7 +155,7 @@ $(document).ready(function(){
 	</div>
 	
 	<script>	// 삭제 관련
-		function confirmDelete(bannerId, exposeOrder) {
+		function confirmDelete(bannerId, exposeOrder, state) {
 		    Swal.fire({
 		        title: '메인 배너를 삭제하시겠습니까?',
 		        text: "삭제하면 복구가 불가능합니다.",
@@ -168,7 +168,7 @@ $(document).ready(function(){
 		    }).then((result) => {
 		        if (result.isConfirmed) {
 		            $.ajax({
-		                url: '${root}/admin/DeleteMainBanner?main_banner_id=' + bannerId + '&expose_order=' + exposeOrder,
+		                url: '${root}/admin/DeleteMainBanner?main_banner_id=' + bannerId + '&expose_order=' + exposeOrder + '&state=' + state,
 		                type: 'GET',
 		                success: function(response) {
 		                    Swal.fire(

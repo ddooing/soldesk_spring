@@ -23,6 +23,7 @@ import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.AdminService;
+import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.PointDetailService;
 import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.UserService;
@@ -36,6 +37,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService UserService;
+	
+	@Autowired
+	private ExhibitionService ExhibitionService;
 	
 	@Autowired
 	private AdminService adminService;
@@ -59,7 +63,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/login_pro")
-    public String login_pro(@ModelAttribute("tempLoginUserBean") UserBean tempLoginUserBean, BindingResult result) {
+    public String login_pro(@ModelAttribute("tempLoginUserBean") UserBean tempLoginUserBean, BindingResult result, Model model) {
 		
 		if(result.hasErrors()) {
 			
@@ -70,6 +74,20 @@ public class UserController {
         UserService.getLoginUserInfo(tempLoginUserBean);
         
         if(loginUserBean.isUserLogin() == true) {
+        	
+        	// 메인 캐러셀
+    		List<MainBannerBean> AllMainBannerInfo = adminService.IndexMainBannerBeanList();
+    		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+    		
+    		// 인기 전시 캐러셀
+    		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
+    		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
+    		
+    		// 곧전시 캐러셀
+    		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
+    		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
+        	
+        	
         	return "view/index";
         } else {
         	return "user/login_fail";
@@ -78,7 +96,7 @@ public class UserController {
     }
 	
 	@GetMapping("/logout")
-	public String logout() {
+	public String logout(Model model) {
 		loginUserBean.setUser_id(0);
 		loginUserBean.setId(null);
 		loginUserBean.setPassword(null);
@@ -86,14 +104,21 @@ public class UserController {
 		
 		loginUserBean.setUserLogin(false);
 		
+		// 메인 캐러셀
+		List<MainBannerBean> AllMainBannerInfo = adminService.IndexMainBannerBeanList();
+		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+		
+		// 인기 전시 캐러셀
+		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
+		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
+		
+		// 곧전시 캐러셀
+		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
+		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
+		
 		return "/view/index";
 	}
 	
-	@GetMapping("/not_login")
-	public String not_login() {
-		
-		return "user/not_login";
-	}
 	
 	@GetMapping("/paymentpage_error")
 	public String paymentpage_error() {
@@ -113,17 +138,27 @@ public class UserController {
 	
 	
 	@PostMapping("/Signup_pro")
-	public String Signup_pro(@Valid @ModelAttribute("joinUserBean")UserBean joinUserBean, BindingResult result) {
+	public String Signup_pro(@Valid @ModelAttribute("joinUserBean")UserBean joinUserBean, BindingResult result,Model model) {
 		
 		if(result.hasErrors()) {
-			
-			
 			return "user/Signup";
-			
 		}
 		UserService.addUserInfo(joinUserBean);
 		
-		return "/user/Signup_success";
+		// 메인 캐러셀
+		List<MainBannerBean> AllMainBannerInfo = adminService.IndexMainBannerBeanList();
+		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+		
+		// 인기 전시 캐러셀
+		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
+		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
+		
+		// 곧전시 캐러셀
+		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
+		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
+    	
+    	
+    	return "view/index";
 	}
 	//-----------------------------------------------------
 	
@@ -175,7 +210,23 @@ public class UserController {
 				loginUserBean.setState(0);
 		        
 				loginUserBean.setUserLogin(false);
-				return "user/delete_success";
+				
+				// index 페이지 가져가야 될 것들
+				
+				// 메인 캐러셀
+				List<MainBannerBean> AllMainBannerInfo = adminService.IndexMainBannerBeanList();
+				model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
+				
+				// 인기 전시 캐러셀
+				List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
+				model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
+				
+				// 곧전시 캐러셀
+				List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
+				model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
+				
+				
+				return "view/index";
 				
 			} else {
 				return "user/delete_fail_1";		//비밀번호1, 2 불일치

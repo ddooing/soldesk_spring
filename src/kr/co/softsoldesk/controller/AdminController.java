@@ -23,6 +23,7 @@ import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
+import kr.co.softsoldesk.Beans.SubBannerBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.ExhibitionService;
@@ -789,7 +790,7 @@ public class AdminController {
 	// ============================== 관리자 페이지 배너관리 ================================
 	// 메인 배너 관리 관리자 페이지
 	@GetMapping("/manager_mainbannershowlist")
-	public String manager_bannerlist(@RequestParam(value="bannercombo", required=false) String bannercombo, @RequestParam(value="bannersearch", required=false) String bannersearch,Model model) {
+	public String manager_mainbannershowlist(@RequestParam(value="bannercombo", required=false) String bannercombo, @RequestParam(value="bannersearch", required=false) String bannersearch,Model model) {
 		
 		if (bannercombo == null || bannercombo.isEmpty() || bannersearch == null || bannersearch.isEmpty()) {
 			
@@ -845,15 +846,18 @@ public class AdminController {
 		return "admin/manager_mainbannermodify";
 	}
 	
-	// 배너 삭제
+	// 메인 배너 삭제
 	@GetMapping("/DeleteMainBanner")
-	public String DeleteMainBanner(@RequestParam("main_banner_id") int main_banner_id, @RequestParam("expose_order") int expose_order ,Model model) {
+	public String DeleteMainBanner(@RequestParam("main_banner_id") int main_banner_id, @RequestParam("expose_order") int expose_order ,@RequestParam("state") int state, Model model) {
 
 		// 배너 삭제
 		AdminService.DeleteMainBanner(main_banner_id);
 		
-		// 노출 순서 높은것들 노출순서 낮추기
-		AdminService.UpdateDeleteAndExpose_order(expose_order);
+		// 노출 순서 높은것들 노출순서 낮추기 state 가 1일때만
+		if(state == 1) {
+			AdminService.UpdateDeleteAndExpose_order(expose_order);
+		}
+
 
 		// 메인 배너 모든 정보 가져가기
 		List<MainBannerBean> AllMainBannerInfo = AdminService.getAllShowMainbannerInfo();
@@ -886,7 +890,7 @@ public class AdminController {
 		return "/admin/manager_mainbannerhidelist";
 	}
 	
-	// 배너 수정 페이지 업데이트수행
+	// 메인 배너 수정 페이지 업데이트수행
 	@PostMapping("/manager_mainbannermodify_pro")
 	public String manager_mainbannerUpdate(@ModelAttribute("getOneMainBannerInfoBean") MainBannerBean mainBannerBean ,Model model) {
 		
@@ -906,6 +910,7 @@ public class AdminController {
 	            mainBannerBean.setExpose_order(maxExposeOrder);
 	        } else if (originalState == 1 && mainBannerBean.getState() == 2) { // 노출에서 숨김으로 변경
 	            AdminService.UpdateExpose_order(mainBannerBean.getExpose_order());
+	            mainBannerBean.setExpose_order(0);
 	        }
 	    }
 	    
@@ -1072,5 +1077,190 @@ public class AdminController {
 		
 		return "/admin/manager_mainbannerapplylist";
 	}
+	
+	
+	// 서브배너 showlist 매핑
+	@GetMapping("/manager_subbannershowlist")
+	public String manager_subbannershowlist(@RequestParam(value="bannercombo", required=false) String bannercombo, @RequestParam(value="bannersearch", required=false) String bannersearch,Model model) {
+		
+		if (bannercombo == null || bannercombo.isEmpty() || bannersearch == null || bannersearch.isEmpty()) {
+			
+			// 서브 배너 모든 정보 가져가기
+			List<SubBannerBean> AllSubBannerInfo = AdminService.getAllShowSubbannerInfo();
+			model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+			
+			// 서브 배너 뱃지 관련
+			SubBannerBean BadgeCnt = AdminService.getSubBannerBadgeCnt();
+			model.addAttribute("BadgeCnt", BadgeCnt);
+			
+			return "/admin/manager_subbannershowlist";
+		}
+		
+		if("title".equals(bannercombo)) {	// 제목검색
+			
+			// 서브 배너 제목 검색 모든 정보 가져가기
+			List<SubBannerBean> TitleSearchBannerInfo = AdminService.titleSearchSubbannerInfo(bannersearch);
+			model.addAttribute("AllSubBannerInfo",TitleSearchBannerInfo);
+			
+			// 서브 배너 제목 검색 뱃지 관련
+			SubBannerBean TitleSearchBadgeCnt = AdminService.getTitleSearchSubBannerBadgeCnt(bannersearch);
+			model.addAttribute("BadgeCnt",TitleSearchBadgeCnt);
+			
+			model.addAttribute("bannercombo",bannercombo);
+			model.addAttribute("bannersearch",bannersearch);
+		}
+		
+		
+		return "/admin/manager_subbannershowlist";
+	}
+		
+	
+	
+	// 서브배너 hidelist 매핑
+	@GetMapping("/manager_subbannerhidelist")
+	public String manager_subbannerhidelist(@RequestParam(value="bannercombo", required=false) String bannercombo, @RequestParam(value="bannersearch", required=false) String bannersearch,Model model) {
+		
+		if (bannercombo == null || bannercombo.isEmpty() || bannersearch == null || bannersearch.isEmpty()) {
+			
+			// 서브 배너 모든 정보 가져가기
+			List<SubBannerBean> AllSubBannerInfo = AdminService.getAllHideSubbannerInfo();
+			model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+			
+			// 서브 배너 뱃지 관련
+			SubBannerBean BadgeCnt = AdminService.getSubBannerBadgeCnt();
+			model.addAttribute("BadgeCnt", BadgeCnt);
+			
+			return "/admin/manager_subbannerhidelist";
+		}
+	
+		return "/admin/manager_subbannerhidelist";
+	}
+	
+	// 서브 배너 삭제
+	@GetMapping("/DeleteSubBanner")
+	public String DeleteSubBanner(@RequestParam("sub_banner_id") int sub_banner_id, @RequestParam("expose_order") int expose_order ,@RequestParam("state") int state ,Model model) {
+
+		// 배너 삭제
+		AdminService.DeleteSubBanner(sub_banner_id);
+		
+		// 노출 순서 높은것들 노출순서 낮추기
+		if(state == 1) {
+			AdminService.UpdateDeleteAndExpose_orderSub(expose_order);			
+		}
+
+
+		// 서브 배너 모든 정보 가져가기
+		List<SubBannerBean> AllSubBannerInfo = AdminService.getAllShowSubbannerInfo();
+		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+					
+		// 서브 배너 뱃지 관련
+		SubBannerBean BadgeCnt = AdminService.getSubBannerBadgeCnt();
+		model.addAttribute("BadgeCnt", BadgeCnt);
+					
+		return "/admin/manager_subbannershowlist";
+	}		
+	
+	
+	// 서브 배너 수정 페이지 매핑
+	@GetMapping("/manager_subbannermodify")
+	public String manager_subbannermodify(@RequestParam("sub_banner_id") int sub_banner_id, Model model) {
+		
+		// 서브 배너 한개 모든 정보 가져오기
+		SubBannerBean getOneSubBannerInfo = AdminService.getOneSubBannerInfo(sub_banner_id);
+		model.addAttribute("getOneSubBannerInfoBean",getOneSubBannerInfo);
+		
+		// 서브 배너 뱃지 관련
+		SubBannerBean BadgeCnt = AdminService.getSubBannerBadgeCnt();
+		model.addAttribute("BadgeCnt", BadgeCnt);
+		
+		return "admin/manager_subbannermodify";
+	}			
+	
+	// 서브 배너 수정 페이지 업데이트수행
+	@PostMapping("/manager_subbannermodify_pro")
+	public String manager_subbannermodify_pro(@ModelAttribute("getOneSubBannerInfoBean") SubBannerBean subBannerBean ,Model model) {
+		
+		// state 값 비교해서 expose_order 값 재정렬
+		Integer originalState = AdminService.getSubBannerState(subBannerBean.getSub_banner_id());
+		
+		// 파일 변경시 파일 변경
+		if(subBannerBean.getSub_banner_file().getSize()>0) {
+				AdminService.addfiletableBanner2(subBannerBean);
+		}
+		
+		
+		// expose_order 값 재정렬
+	    if (originalState != subBannerBean.getState()) {
+	        if (subBannerBean.getState() == 1) { // 숨김에서 노출로 변경
+	        	int maxExposeOrder = AdminService.getSubMaxExposeOrder() + 1;
+	        	subBannerBean.setExpose_order(maxExposeOrder);
+	        } else if (originalState == 1 && subBannerBean.getState() == 2) { // 노출에서 숨김으로 변경
+	            AdminService.UpdateSubBannerExpose_order(subBannerBean.getExpose_order());
+	            subBannerBean.setExpose_order(0);
+	        }
+	    }
+	    
+	    // 업데이트
+        AdminService.UpdateSubBanner(subBannerBean);
+		
+		// 리다이렉트 가져갈 것들
+		// 서브 배너 모든 정보 가져가기
+		List<SubBannerBean> AllSubBannerInfo = AdminService.getAllShowSubbannerInfo();
+		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+							
+		// 서브 배너 뱃지 관련
+		SubBannerBean BadgeCnt = AdminService.getSubBannerBadgeCnt();
+		model.addAttribute("BadgeCnt", BadgeCnt);
+							
+		return "/admin/manager_subbannershowlist";
+	}
+	
+	// 메인 배너 추가
+	@GetMapping("/manager_subbanneradd")
+	public String manager_subbanneradd(@ModelAttribute("AddBannerBean") SubBannerBean AddBannerBean, Model model) {
+			
+		//모든 전시회 콤보박스 활용 가져가기
+		List<ExhibitionBean> exhibitiontitleAndid = ExhibitionService.getexhibitionallTitle();
+		model.addAttribute("exhibitiontitleAndid",exhibitiontitleAndid);
+			
+		return "/admin/manager_subbanneradd";
+	}
+	
+	@PostMapping("/manager_subbanneradd_pro")
+	public String manager_subbanneradd_pro(@ModelAttribute("AddBannerBean") SubBannerBean AddBannerBean, Model model) {
+		
+		// 파일 저장
+		if(AddBannerBean.getSub_banner_file().getSize()>0) {
+				AdminService.addfiletableBanner2(AddBannerBean);
+		}
+		
+		// expose_order 최대값으로 set해주기
+		int maxExposeOrder = AdminService.getSubMaxExposeOrder() + 1;
+		AddBannerBean.setExpose_order(maxExposeOrder);
+					
+		// 메인 배너 main_banner 테이블 추가
+		AdminService.AddmanagerSubBanner(AddBannerBean);
+		
+		// 리다이렉트 가져갈 것들
+		// 서브 배너 모든 정보 가져가기
+		List<SubBannerBean> AllSubBannerInfo = AdminService.getAllShowSubbannerInfo();
+		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+									
+		// 서브 배너 뱃지 관련
+		SubBannerBean BadgeCnt = AdminService.getSubBannerBadgeCnt();
+		model.addAttribute("BadgeCnt", BadgeCnt);
+		
+		return "/admin/manager_subbannershowlist";
+	}
+	
+	
+	// 서브 배너 드래그 앤 드롭 순서 변경
+		@PostMapping("/saveRowOrder1")	
+		public ResponseEntity<?> saveRowOrder1(@RequestParam("order") String order) {
+		    String[] ids = order.split(",");
+		    AdminService.updateExposeOrder(ids);
+		    return ResponseEntity.ok("Row order saved");
+		}
+	
 	
 }

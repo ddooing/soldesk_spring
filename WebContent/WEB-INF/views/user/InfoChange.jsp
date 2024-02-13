@@ -37,6 +37,8 @@
 <!-- JQuery 자바스크립트-->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+<!-- sweet alert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- CSS -->
 <link href="css/styles.css" rel="stylesheet" />
@@ -151,7 +153,10 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
       var nickname = $("#nickname").val();
 
       if (nickname.length == 0) {
-         alert('닉네임을 입력해주세요');
+    	  Swal.fire({
+			  icon: "warning",
+			  title: "닉네임을 입력해주세요!",
+			});
          return;
       }
 
@@ -161,13 +166,17 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
          dataType : 'text',
          success : function(result) {
             if (result.trim() == 'true') {
-               alert('사용할 수 있는 닉네임입니다.');
+            	Swal.fire({
+					  icon: "success",
+					  title: "사용할 수 있는 닉네임 입니다!",
+					});
                $("#NickExist").val('true');
-               console.log('NickExist: true'); // 디버그 메시지
             } else if (result.trim() == 'false') {
-               alert('사용할 수 없는 닉네임입니다.');
+            	Swal.fire({
+					  icon: "error",
+					  title: "사용할 수 없는 닉네임 입니다!",
+					});
                $("#NickExist").val('false');
-               console.log('NickExist: false'); // 디버그 메시지
             }
          }
       });
@@ -175,7 +184,6 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 
    function resetNickExist() {
       $("#NickExist").val('false');
-      console.log('NickExist reset: false'); // 디버그 메시지
    }
 </script>
 
@@ -191,7 +199,7 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
       <h2>회원정보수정</h2>
       <hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 
-      <form:form action="${root}/user/InfoChange_pro" method="post"
+      <form:form action="${root}/user/InfoChange_pro" method="post" id="modifyform"
          modelAttribute="modifyUserBean">
          <form:hidden path="NickExist" />
          <form:hidden path="gender" />
@@ -297,6 +305,24 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
    </section>
    <!-- 푸터-->
    <c:import url="/WEB-INF/views/include/footer.jsp" />
+
+<script>
+    function confirmmodify() {
+        Swal.fire({
+            title: '회원정보를 수정하시겠습니까?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: '수정',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById("modifyform").submit();
+            }
+        });
+    }
+</script>
 
 </body>
 

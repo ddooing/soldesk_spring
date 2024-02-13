@@ -112,7 +112,7 @@
 		<main style="background-color: ivory;">
 			<div class="container-fluid px-4">
 				<div style="margin-top: 30px;">
-					<h3>메인 배너 추가</h3>
+					<h3>배너 수정</h3>
 				</div>
 				<div
 					style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
@@ -153,24 +153,26 @@
 
 				</div>
 
-				<form:form action="${root }/admin/manager_mainbanneradd_pro" method="post" modelAttribute="AddBannerBean"
+				<form:form action="${root }/admin/manager_subbannermodify_pro" method="post" modelAttribute="getOneSubBannerInfoBean"
 					enctype="multipart/form-data" id="myForm">
-					
+					<form:hidden path="sub_banner_id"/>
+					<form:hidden path="banner_file_id"/>
+					<form:hidden path="expose_order"/>
 					<div style="display: flex; width: 100%;">
 						<div
 							style="flex: 1; margin: 10px; border: 1px solid black; background-color: white;">
 							<div
 								style="align-items: center; margin: 30px; border: 0.2px solid black; width: 600px; margin-left: auto; margin-right: auto;">
 								<h3 style="margin-top: 20px; margin-left: 15px;">배너 이미지 변경</h3>
-								<img src="../img/main_banner_here.png" id="poster" alt="포스터" style="border:1px solid black; margin-left: auto; margin-right: auto; display: block; margin-top: 30px; margin-bottom: 10px; width: 500px; height: 200px;" />
+								<img src="${getOneSubBannerInfoBean.sub_banner_path }${getOneSubBannerInfoBean.sub_banner_name }" id="poster" alt="포스터" style="margin-left: auto; margin-right: auto; display: block; margin-top: 30px; margin-bottom: 10px; width: 500px; height: 200px;" />
 								<div class="filebox"
 									style="margin-top: 25px; margin-left: auto; margin-right: auto; text-align: center; margin-bottom: 20px;">
 									<input class="upload-name"
-										value=""> <label
+										value="${getOneSubBannerInfoBean.sub_banner_name }"> <label
 										for="file">파일찾기</label>
-									<form:input type="file" id="file" path="main_banner_file"
-										value=""
-										onchange="updateImage(event)" accept="image/*" required="required"/>
+									<form:input type="file" id="file" path="sub_banner_file"
+										value="${getOneSubBannerInfoBean.sub_banner_path }${getOneSubBannerInfoBean.sub_banner_name }"
+										onchange="updateImage(event)" accept="image/*" />
 								</div>
 							</div>
 
@@ -198,6 +200,19 @@
 										});
 							</script>
 
+							<div style="margin-top: 50px; text-align: center; margin-bottom:20px;">
+								<h3 style="margin-left: 100px; margin-top: 35px; text-align: left;">신청인</h3>
+								<form:input path="user_name"
+									style="background-color: transparent; border: none; border-bottom: 1px solid black; width: 600px; margin-top: 20px; font-size:20px;"
+									readonly="true" disabled="true" />
+								<h3 style="margin-left: 100px; margin-top: 35px; text-align: left;">전화번호</h3>
+								<form:input id="telephone" path="telephone"
+									style="background-color: transparent; border: none; border-bottom: 1px solid black; width: 600px; margin-top: 20px; font-size:20px;"
+									readonly="true" disabled="true" />
+							</div>
+
+
+
 						</div>
 
 
@@ -207,24 +222,72 @@
 								<h3>배너 상세정보</h3>
 								
 							</div>
-							<table class="table table-hover table-borderless" style="margin-top: 50px; width: 700px; margin-left: auto; margin-right: auto; vertical-align: middle;">
+							<table class="table table-hover table-borderless"
+								style="margin-top: 50px; width: 700px; margin-left: auto; margin-right: auto; vertical-align: middle;">
 								
 								<tr style="height: 80px;">
 									<th style="width: 200px; text-align: center; font-size: 20px;">전시회 제목</th>
-									<td style="width: 400px;">
-										<form:select path="exhibition_id" style="width:100%; height:30px;" >
-											<c:forEach items="${exhibitiontitleAndid }" var="exhibitionlist">
-												<form:option value="${exhibitionlist.exhibition_id }">${exhibitionlist.title }</form:option>
-											</c:forEach>
-									    </form:select>
+									<td style="width: 400px;"><form:input id="regdate"
+											path="title"
+											style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;" readonly="true" disabled="true"/></td>
+								</tr>
+								
+								<tr style="height: 80px;">
+									<th style="width: 200px; text-align: center; font-size: 20px;">등록일자</th>
+									<td style="width: 400px;"><form:input id="regdate"
+											path="regdate"
+											style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;"
+											readonly="true" disabled="true" /></td>
+								</tr>
+								<tr style="height: 80px;">
+									<th style="width: 200px; text-align: center; font-size: 20px;">결제금액</th>
+									<td style="width: 400px;"><form:input path="pay_money"
+											style="border:none; border-bottom: 1px solid black; width:95%; text-align: right; font-size: 20px;" readonly="true" disabled="true" />원
 									</td>
 								</tr>
-
 								<tr style="height: 80px;">
-									<th style="width: 200px; text-align: center; font-size: 20px;">노출여부</th>
+									<th style="width: 200px; text-align: center; font-size: 20px;">노출순서</th>
+									<td style="width: 400px;">
+										<c:choose>
+											<c:when test="${getOneSubBannerInfoBean.state == 1 }">
+												<form:input path="expose_order" style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;" disabled="true" readonly="true"/>	
+											</c:when>
+											<c:when test="${getOneSubBannerInfoBean.state == 2 }">
+												<input type="text" value="0" style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;" readonly="readonly" disabled="disabled"/>
+											</c:when>
+										</c:choose>
+									</td>
+								</tr>
+								<tr style="height: 80px;">
+									<th style="width: 200px; text-align: center; font-size: 20px;">노출여부*</th>
 									<td style="width: 400px;">
 										<div style="text-align: center;">
-											
+											<c:choose>
+												<c:when test="${getOneSubBannerInfoBean.state == 1 }">
+													<form:radiobutton path="state" id="view" value="1"
+														style="width: 15px; height: 15px;" checked="checked"
+														required="required" />
+													<label for="view"
+														style="margin-right: 50px; font-size: 20px; margin-left: 20px;">노출</label>
+													<form:radiobutton path="state" id="noview" value="2"
+														style="width: 15px; height: 15px;" required="required" />
+													<label for="noview"
+														style="font-size: 20px; margin-left: 20px;">숨김</label>
+												</c:when>
+
+												<c:when test="${getOneSubBannerInfoBean.state == 2 }">
+													<form:radiobutton path="state" id="view" value="1"
+														style="width: 15px; height: 15px;" required="required" />
+													<label for="view"
+														style="margin-right: 50px; font-size: 20px; margin-left: 20px;">노출</label>
+													<form:radiobutton path="state" id="noview" value="2"
+														style="width: 15px; height: 15px;" checked="checked"
+														required="required" />
+													<label for="noview"
+														style="font-size: 20px; margin-left: 20px;">숨김</label>
+												</c:when>
+
+												<c:otherwise>
 													<form:radiobutton path="state" id="view" value="1"
 														style="width: 15px; height: 15px;" required="required" />
 													<label for="view"
@@ -233,14 +296,15 @@
 														style="width: 15px; height: 15px;" required="required" />
 													<label for="noview"
 														style="font-size: 20px; margin-left: 20px;">숨김</label>
-												
+												</c:otherwise>
+											</c:choose>
 
 										</div>
 									</td>
 								</tr>
 								
 								<tr style="height: 80px;">
-									<th style="width: 200px; text-align: center; font-size: 20px;">노출기간</th>
+									<th style="width: 200px; text-align: center; font-size: 20px;">노출기간*</th>
 									<td style="width: 400px;">
 										<div style="display: flex;">
 											<form:input type="date" id="exhibition_start"
@@ -262,10 +326,10 @@
 					</div>
 					<div
 						style="float: right; margin-right: 30px; margin-top: 20px; margin-bottom: 50px;">
-						<a href="${root }/admin/manager_mainbannershowlist"
+						<a href="${root }/admin/manager_subbannershowlist"
 							class="btn btn-danger" style="width: 70px; margin-right: 10px;">취소</a>
 						<button type="button" class="btn btn-dark" style="width: 70px;"
-							onclick="updateConfirm();">저장</button>
+							onclick="updateConfirm();">수정</button>
 					</div>
 				</form:form>
 
@@ -308,19 +372,19 @@
 	
 	function updateConfirm() {
 	    Swal.fire({
-	        title: '저장하시겠습니까?',
-	        text: "저장을 완료하시려면 '저장' 버튼을 클릭하세요.",
+	        title: '수정하시겠습니까?',
+	        text: "수정을 완료하시려면 '수정' 버튼을 클릭하세요.",
 	        icon: 'warning',
 	        showCancelButton: true,
 	        confirmButtonColor: '#3085d6',
 	        cancelButtonColor: '#d33',
-	        confirmButtonText: '저장',
+	        confirmButtonText: '수정',
 	        cancelButtonText: '취소'
 	    }).then((result) => {
 	        if (result.isConfirmed) {
 	            Swal.fire(
-	                '저장되었습니다!',
-	                '메인 배너가 성공적으로 저장되었습니다.',
+	                '수정되었습니다!',
+	                '메인 배너가 성공적으로 수정되었습니다.',
 	                'success'
 	            ).then((result) => {
 	                if (result.isConfirmed) {

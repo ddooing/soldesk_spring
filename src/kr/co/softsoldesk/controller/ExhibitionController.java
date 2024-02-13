@@ -194,11 +194,6 @@ public class ExhibitionController {
 		return "exhibition/payment";
 	}
 	
-	@GetMapping("bookmark_not_login")
-	public String bookmark_not_login() {
-		return "exhibition/bookmark_not_login";
-	}
-	
 	// 전시회 등록 페이지 매핑
 	@GetMapping("/Exhibition_Enroll")
 	public String Exhibition_Enroll(@ModelAttribute("addExhibitionDetailBean") ExhibitionDetailBean exhibitionDetailBean, Model model) {
