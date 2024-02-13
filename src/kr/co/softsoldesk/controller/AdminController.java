@@ -1254,7 +1254,7 @@ public class AdminController {
 	}
 	
 	
-	// 서브 배너 드래그 앤 드롭 순서 변경
+	// 서브 배너 드래그 앤 드롭 순서 변경 오류오류 수정 필요
 		@PostMapping("/saveRowOrder1")	
 		public ResponseEntity<?> saveRowOrder1(@RequestParam("order") String order) {
 		    String[] ids = order.split(",");
