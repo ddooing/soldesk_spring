@@ -40,7 +40,7 @@ public interface ReserveMapper {
 	        "state = 1, " +
 	        "requested_at = TO_TIMESTAMP_TZ(#{requested_at}, 'YYYY-MM-DD\"T\"HH24:MI:SS.FF TZH:TZM'), " +
 	        "approved_at = TO_TIMESTAMP_TZ(#{approved_at}, 'YYYY-MM-DD\"T\"HH24:MI:SS.FF TZH:TZM'),"
-	        + " pay_method=#{method} WHERE order_id = #{orderId}")
+	        + " payment_method=#{method} WHERE order_id = #{orderId}")
 	void realReserveState(@Param("orderId") String orderId, 
 	                      @Param("requested_at") String requested_at, 
 	                      @Param("approved_at") String approved_at,
@@ -62,7 +62,7 @@ public interface ReserveMapper {
 	        "TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI') as approved_at, " +
 	        "r.state, r.pay_state, r.pay_approval_state, r.order_id, r.payment_method, r.paymentkey, u.name, e.title " +
 	        "FROM reserve r " +
-	        "INNER JOIN user_table2 u ON r.user_id = u.user_id " +
+	        "INNER JOIN user_table u ON r.user_id = u.user_id " +
 	        "INNER JOIN exhibition e ON r.exhibition_id = e.exhibition_id")
 	public List<ReserveBean> getReserveList();
 	

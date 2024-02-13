@@ -22,11 +22,11 @@ public interface UserMapper {
 	UserBean getLoginUserAllInfo(int user_id);
 	
 	//포인트와 경험치 증가
-	@Update("update user_table2 set point=point + #{point}, exp=exp+50 where user_id= #{user_id}")
+	@Update("update user_table set point=point + #{point}, exp=exp+50 where user_id= #{user_id}")
 	void point_expIncrease(@Param("user_id")int user_id,@Param("point")int point);
 	
 	// 예약시 유저의 레벨에 따라 적립이 다르게 보여지게 하려고 사용
-	@Select("SELECT g.grade as grade FROM user_table2 u JOIN grade g ON u.exp BETWEEN g.start_exp AND NVL(g.end_exp, u.exp) WHERE u.user_id = #{user_id}")
+	@Select("SELECT g.grade as grade FROM user_table u JOIN grade g ON u.exp BETWEEN g.start_exp AND NVL(g.end_exp, u.exp) WHERE u.user_id = #{user_id}")
 	String getLevel(int user_id);
 
 	// 경험치 부여

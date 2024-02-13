@@ -1,19 +1,16 @@
 package kr.co.softsoldesk.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,7 +25,6 @@ import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.UserService;
-import kr.co.softsoldesk.dao.ExhibitionDao;
 
 @Controller
 @RequestMapping("/admin")
@@ -145,15 +141,7 @@ public class AdminController {
 	}
 	
 	
-	// ====================================== 예매 관리 ================================
-	@GetMapping("/manager_reservelist")
-	public String manager_reservelist() {
-	      
-	   return "admin/manager_reservelist";
-	}
-	
-	
-	
+
 	
 	// ======================================= QnA관리 ================================
 	// ======================================= 승찬 부분 ===============================
