@@ -58,7 +58,7 @@ public interface ReserveMapper {
 	
 	@Select("SELECT r.reserve_id, e.exhibition_id, TO_CHAR(r.reserve_date, 'yyyy-mm-dd') AS reserve_date, " +
 	        "r.total_price, r.point_deduction, r.payment, r.ticket_count, " +
-	        "TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI') as requested_at, " +
+	        "TO_CHAR(requested_at, 'YYYY-MM-DD HH24:MI') as requested_at, " +
 	        "TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI') as approved_at, " +
 	        "r.state, r.pay_state, r.pay_approval_state, r.order_id, r.payment_method, r.paymentkey, u.name, e.title " +
 	        "FROM reserve r " +
