@@ -346,7 +346,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				<c:otherwise>
 					<form:form
 						action="payment?exhibition_id=${exhibitionBean.exhibition_id}"
-						method="post" modelAttribute="tempReserveBean">
+						method="post" modelAttribute="tempReserveBean" id="reservationForm">
 						<form:hidden path="user_id" value="${loginUserBean.user_id }"/>
 						<form:hidden path="exhibition_id" value="${exhibitionBean.exhibition_id}"/>
 						<div id="right-side-menu">
@@ -422,10 +422,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 										<c:choose>
 											<c:when test="${loginUserBean.userLogin == false}">
 												<!-- 로그인 안했을때 -->
-												<a href="${root}/user/not_login"
+												<a href="${root}/user/login"
 													style="width: 120px; margin-right: 30px;"
 													class="btn btn-dark">예매하기</a>
-												<a href="${root}/user/not_login" style="width: 120px;"
+												<a href="${root}/user/login" style="width: 120px;"
 													class="btn btn-dark">장바구니</a>
 											</c:when>
 											<c:otherwise>
@@ -443,7 +443,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							</div>
 						</div>
 
-						<!--  장바구니 보내기  -->
+						<!--    보내기  -->
 						<script>
 							document.getElementById("cartButton").addEventListener("click", function() {
 							    var form = document.getElementById("reservationForm");

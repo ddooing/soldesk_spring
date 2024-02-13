@@ -175,7 +175,7 @@
 						 	   method="post" modelAttribute="tempReserveBean">
 						 
 						<c:forEach items="${list}" var="cartlist" varStatus="status">
-
+							
 						    <input type="hidden" name="reserve_date" id="inputReserveDate" value=""/>
 	   						<input type="hidden" name="ticket_count" id="inputTicketCount" value=""/>
 						    <input type="hidden" name="exhibition_id" id="inputExhibition_id" value=""/>
@@ -217,7 +217,7 @@
 											<div style="margin-right: 10px;  width: 200px;">티켓 수량</div>
 											<div style="margin-left: auto;">
 												<div class="counter">
-													<span class="counterValue" style="width: 10px;">${cartlist.ticket_count}</span>
+													<span class="counterValue" style="width: 10px;">${cartlist.ticket_count} 매</span>
 												</div>
 											</div>
 										</div>
@@ -252,12 +252,45 @@
 	        window.location.href = '${root}/user/cart_cancel?no=' + index;
 	    }
 	</script>
+	
+	<script>
+	document.addEventListener('DOMContentLoaded', function() {
+	    var radioButtons = document.querySelectorAll('input[name="selectedItem"]');
+	    
+	    // list의 마지막 요소 선택
+	    if (radioButtons.length > 0) {
+	        var lastRadioButton = radioButtons[radioButtons.length - 1];
+	        lastRadioButton.checked = true;  // 마지막 라디오 버튼 선택
 
+	        // 마지막 요소의 정보 추출
+	        var index = lastRadioButton.getAttribute('data-index');
+	        var reserve_date = lastRadioButton.getAttribute('data-reserve_date');
+	        var exhibition_id = lastRadioButton.getAttribute('data-exhibition_id');
+	        var ticket_count = lastRadioButton.getAttribute('data-ticket_count');
+
+	        console.log("선택된 항목의 인덱스: " + index);
+	        console.log("선택된 항목의 예약 날짜: " + reserve_date);
+	        console.log("선택된 항목의 exhibition_id: " + exhibition_id);
+	        console.log("선택된 항목의 ticket_count: " + ticket_count);
+
+	        // hidden input 값 설정
+	        document.getElementById('inputReserveDate').value = reserve_date;
+	        document.getElementById('inputTicketCount').value = ticket_count;
+	        document.getElementById('inputExhibition_id').value = exhibition_id;
+
+	        // 폼의 action 업데이트
+	        var formElement = document.getElementById('paymentForm');
+	        formElement.action = '${root}/exhibition/payment?exhibition_id=' + exhibition_id;
+	    }
+	});
+
+	</script>
+	
 	<script>
 	    document.addEventListener('DOMContentLoaded', function() {
 	    	
 	        var radioButtons = document.querySelectorAll('input[name="selectedItem"]');
-	
+	            
 	        radioButtons.forEach(function(radioButton) {
 	            radioButton.addEventListener('click', function() {
 	            	var index = this.getAttribute('data-index');

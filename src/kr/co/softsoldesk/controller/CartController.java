@@ -1,6 +1,7 @@
 package kr.co.softsoldesk.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -116,6 +117,7 @@ public class CartController {
 	            System.out.println("cart select 티켓 수량 : " + avo.getTotal_price());
 	        }
 	    }
+	   Collections.reverse(list); // 리스트를 역순으로 정렬
 	  //데이터 전송
 	  model.addAttribute("list", list);
 	

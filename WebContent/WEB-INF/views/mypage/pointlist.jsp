@@ -160,14 +160,14 @@
 					        			<td>소감문 공개 포인트 적립</td>
 					        		</c:if>
 					        	</c:if>
-					        	<c:if test="${pointlist.point_state_code == 2}">
+					        	<c:if test="${pointlist.point_state_code == 0}">
 					        		<td>예매 포인트 사용</td>
 					        	</c:if>
 					        		
 					        	<c:if test="${pointlist.point_state_code == 1}">
 					        		<td style="color:green;">+${pointlist.point}P</td>
 					        	</c:if>
-					        	<c:if test="${pointlist.point_state_code == 2}">
+					        	<c:if test="${pointlist.point_state_code == 0}">
 					        		<td style="color:#ff6a00;">-${pointlist.point}P</td>
 					        	</c:if>
 					    	</tr>

@@ -52,38 +52,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-	<!--  reserve_date 값 yyyy-mm-dd 로 출력하기  -->
-	<script>
-		//tempReserveBean.reserve_date 처리 
-    // 예제로 사용할 날짜 문자열
-    var dbDateString = "${tempReserveBean.reserve_date}";
 
-    // Date 객체를 생성하여 날짜 문자열을 파싱
-    var date = new Date(dbDateString);
-
-    // 날짜를 원하는 형식으로 포맷
-    var formattedReserve_date = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-	console.log(formattedDate);
-	
-		//tempReserveBean.requested_at 처리 
-	// 서버에서 받은 날짜 문자열
-    var dateString = '${tempReserveBean.requested_at}';
-
-    // Date 객체로 변환
-    var date = new Date(dateString);
-
-    // Date 객체를 yyyy-MM-dd HH:mm 형식으로 포매팅
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더해줍니다.
-    var day = date.getDate();
-    var hour = date.getHours();
-    var minute = ('0' + date.getMinutes()).slice(-2); // 항상 두 자리 숫자를 유지합니다.
-
-    // 포매팅된 날짜 문자열 생성
-    var formattedDate = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
-
-
-</script>
 
 </head>
 
@@ -95,7 +64,7 @@
 		<div class="container mb-1">
 			<h1 style="margin-left: 180px;">예매 정보</h1>
 			<div style="color: gray; margin-left: 180px; margin-top: 20px;">
-			    ${formattedDate}
+			    ${tempReserveBean.request_at}
 			</div>
 
 			<hr style="margin:auto; margin-top: 10px; width: 1000px;" />
