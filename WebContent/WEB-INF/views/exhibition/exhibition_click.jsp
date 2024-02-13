@@ -929,7 +929,20 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
             // cancelButtonText를 눌렀을 때, 대화 상자가 자동으로 닫힘 (아무 작업도 필요 없음)
         });
 
-        console.log("cartMessage: " + "${cartMessage}");
+    </script>
+    </c:if>
+    
+    <!-- 결제 실패 -->
+    <c:if test="${not empty failmsg}">
+        <script>
+        Swal.fire({
+            title: "결제 실패",
+            html: "${failmsg} <br><br> 예매를 다시 진행해주세요.",
+            icon: "error",
+            confirmButtonColor: "#4F6F52",
+            confirmButtonText: "확인"
+        });
+
     </script>
     </c:if>
 </body>

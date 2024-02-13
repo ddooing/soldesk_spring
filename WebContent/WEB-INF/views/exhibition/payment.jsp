@@ -53,6 +53,7 @@
 <script
 	src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link
@@ -436,6 +437,18 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
+	<c:if test="${not empty failmsg}">
+        <script>
+        Swal.fire({
+            title: "결제 오류",
+            text: "${failmsg}",
+            icon: "warning",
+            showConfirmButton: false,
+            timer: 2000
+        });
+
+    	</script>
+    </c:if>
 
 </body>
 

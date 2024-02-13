@@ -1,6 +1,5 @@
 package kr.co.softsoldesk.controller;
 
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
@@ -62,7 +61,8 @@ public class TossController {
 	
 	String confirmUrl ="https://api.tosspayments.com/v1/payments/confirm";
 	
-
+	String failmsg="";
+	
 	private int plusPoint=0; // 적립되는 포인트 
 	private int exhibitionId=0;// fail 시 다시 전시회 정보 페이지 가기 위함
 	//에러 코드 재현할때 사용함
@@ -159,26 +159,21 @@ public class TossController {
 		System.out.println("amount :"+amount);
 
 		// [1].결제 요청 전에 예매정보 데이터(/checkout 에서 저장한 정보)와 인증 결과(orderId,paymentKey,amount) 검증
-		String  isOrderIdValid = reserveService.checkOrderId(orderId);
-
+		ReserveBean validReserveBean = reserveService.validcheckOrderId(orderId);
+		String  isOrderIdValid=validReserveBean.getOrder_id();
+		
 		//확인
 		System.out.println("isOrderIdValid :"+isOrderIdValid);
 
 		
 			// (1 결과 : false): 다를 경우, 실패 페이지로 이동 
 		if(isOrderIdValid==null) {// pay_approval_state : 승인 거부 0 인 상태
-			return "toss/fail"; //INVALID_REQUEST	잘못된 요청입니다.다시 예매 해야함
+			failmsg="주문번호 오류가 발생했습니다.";
+            redirectAttributes.addFlashAttribute("failmsg", failmsg);    
+            return "redirect:/exhibition/exhibition_click?exhibition_id="+validReserveBean.getExhibition_id(); 
 		}
 
-			//(1 결과  : true): orderId를 통해 reserve 정보 가져오기  
-		ReserveBean validReserveBean = reserveService.validcheckOrderId(orderId);
-		
-			//validReserveBean 확인 
-		System.out.println("validReserveBean.payment :"+validReserveBean.getPayment());
-		System.out.println("validReserveBean.user_id :"+validReserveBean.getUser_id());
-		System.out.println("validReserveBean.exhibition_id :"+validReserveBean.getExhibition_id());
-		//reserve_id 확인
-		System.out.println("validReserveBean.reserve_id :"+validReserveBean.getReserve_id());
+			//(1 결과  : true)
 
 		//[2].결제 요청 전의 결제 금액인 payment 와 결제 요청 결과의 결제 금액인 amount 같은지 체크		
 		int reqBeforePayment = validReserveBean.getPayment();
@@ -186,8 +181,9 @@ public class TossController {
 			//(2 결과 : false): 실패 페이지로 이동
 		if(reqBeforePayment!=amount)//pay_approval_state : 승인 거부 0 인 상태
 		{
-			System.out.println("reqBeforePayment!=amount");
-			return "redirect:/toss/fail";//결제 금액이 올바르지않음 
+			failmsg="결제금액 오류가 발생했습니다.";
+            redirectAttributes.addFlashAttribute("failmsg", failmsg);    
+            return "redirect:/exhibition/exhibition_click?exhibition_id="+validReserveBean.getExhibition_id();  
 		}
 		
 			//(2 결과: true) :결제 승인 요청 전에 db 저장 
@@ -209,13 +205,17 @@ public class TossController {
             String code = jsonObject.optString("code", "Unknown"); // 기본값 설정
             String message = jsonObject.optString("message", "No message provided");
 
-            //RedirectAttributes redirectAttributes = new RedirectAttributesModelMap(); // 실제 사용 시에는 메서드 인자로 받거나 적절하게 생성
-            //redirectAttributes.addAttribute("code", code);
-            //redirectAttributes.addAttribute("message", message);
-            //redirectAttributes.addFlashAttribute(attributeName, attributeValue)
+            if ("ALREADY_PROCESSED_PAYMENT".equals(code)) {
+                failmsg="이미 처리된 결제입니다.";
+                redirectAttributes.addFlashAttribute("failmsg", failmsg);
+                return "redirect:/mypage/reservelist?user_id="+validReserveBean.getUser_id();
+            }
             
-            return "redirect:/toss/fail?code="+code+"&message="+URLEncoder.encode(message, StandardCharsets.UTF_8.name());  
+            failmsg=message;
+            System.out.println("failmsg : "+failmsg);
+            redirectAttributes.addFlashAttribute("failmsg", failmsg);
             
+            return "redirect:/exhibition/exhibition_click?exhibition_id="+validReserveBean.getExhibition_id();   
         }
         
         
@@ -273,20 +273,6 @@ public class TossController {
         return "toss/success";
    
     }
-
-	@GetMapping("/fail")
-	public String fail( @RequestParam String message, @RequestParam String code,HttpServletRequest request, Model model) throws Exception {
-		 System.out.println("fail 컨트롤러 실행 ");
-
-		    System.out.println("message :" + message);
-		    System.out.println("code :" + code);
-
-		    // 필요한 경우 model에 데이터 추가
-		    model.addAttribute("message", message);
-		    model.addAttribute("code", code);
-
-		    return "toss/fail";
-	}
 
 	private void addService(ReserveBean reserveBean) {
 		
@@ -368,9 +354,10 @@ public class TossController {
             // 기본 인증을 위한 API 키를 Base64로 인코딩
             String encodedApiKey = Base64.getEncoder().encodeToString((apiKey + ":").getBytes("UTF-8"));
             headers.set("Authorization", "Basic " + encodedApiKey);
-            headers.set("Content-Type", "application/json");            
-            // headers.set 커스텀 헤더 추가해서 에러 재현하기 
-           // headers.set("TossPayments-Test-Code",testCode);
+            headers.set("Content-Type", "application/json");  
+            
+            //에러 재현하기 
+            //headers.set("TossPayments-Test-Code",testCode);
 
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("paymentKey", paymentKey);
@@ -392,4 +379,21 @@ public class TossController {
             //return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error completing payment");
         }
 	}
+	
+	
+	/*
+	@GetMapping("/fail")
+	public String fail( @RequestParam String message, @RequestParam String code,HttpServletRequest request, Model model) throws Exception {
+		 System.out.println("fail 컨트롤러 실행 ");
+
+		    System.out.println("message :" + message);
+		    System.out.println("code :" + code);
+
+		    // 필요한 경우 model에 데이터 추가
+		    model.addAttribute("message", message);
+		    model.addAttribute("code", code);
+
+		    return "toss/fail";
+	}
+	*/
 }

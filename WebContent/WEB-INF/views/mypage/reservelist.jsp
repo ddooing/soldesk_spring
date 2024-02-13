@@ -49,11 +49,7 @@
 	<link href="../css/Mypage.css" rel="stylesheet" />
 	
 	
-	
-   <!-- Font Awesome icons (free version) -->
-  <!--   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
--->
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <link  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 <title>Insert title here</title>
@@ -176,30 +172,44 @@
 	<c:import url="/WEB-INF/views/include/footer.jsp"/> 
 	
 	<script>
-    // 툴팁 아이콘과 모달 요소를 선택
-    const toolTipIcon = document.querySelector('.bi.bi-question-circle-fill');
-    const toolModal = document.querySelector('.tool-modal');
-    const toolCloseButton = document.querySelector('.tool-btn-close-modal');
+	    // 툴팁 아이콘과 모달 요소를 선택
+	    const toolTipIcon = document.querySelector('.bi.bi-question-circle-fill');
+	    const toolModal = document.querySelector('.tool-modal');
+	    const toolCloseButton = document.querySelector('.tool-btn-close-modal');
+	
+	    // 툴팁 아이콘 클릭 이벤트 리스너 추가
+	    toolTipIcon.addEventListener("click", () => {
+	        toolModal.style.display = "flex";
+	        document.body.style.overflow = 'hidden'; // 모달이 열렸을 때 스크롤 방지
+	    });
+	
+	    // 모달 닫기 버튼 클릭 이벤트 리스너 추가
+	    toolCloseButton.addEventListener("click", () => {
+	        toolModal.style.display = "none";
+	        document.body.style.overflow = 'visible'; // 스크롤 가능하게 복원
+	    });
+	
+	    // 모달 외부 클릭 시 모달 닫기
+	    window.addEventListener('click', (e) => {
+	        if (e.target === toolModal) {
+	            toolModal.style.display = "none";
+	            document.body.style.overflow = 'visible'; // 스크롤 가능하게 복원
+	        }
+	    });
+	</script>
 
-    // 툴팁 아이콘 클릭 이벤트 리스너 추가
-    toolTipIcon.addEventListener("click", () => {
-        toolModal.style.display = "flex";
-        document.body.style.overflow = 'hidden'; // 모달이 열렸을 때 스크롤 방지
-    });
+	<c:if test="${not empty failmsg}">
+        <script>
+        Swal.fire({
+            title: "결제 오류",
+            text: "${failmsg}",
+            icon: "warning",
+            showConfirmButton: false,
+            timer: 2000
+        });
 
-    // 모달 닫기 버튼 클릭 이벤트 리스너 추가
-    toolCloseButton.addEventListener("click", () => {
-        toolModal.style.display = "none";
-        document.body.style.overflow = 'visible'; // 스크롤 가능하게 복원
-    });
-
-    // 모달 외부 클릭 시 모달 닫기
-    window.addEventListener('click', (e) => {
-        if (e.target === toolModal) {
-            toolModal.style.display = "none";
-            document.body.style.overflow = 'visible'; // 스크롤 가능하게 복원
-        }
-    });
-</script>
+    	</script>
+    </c:if>
+	
 </body>
 </html>

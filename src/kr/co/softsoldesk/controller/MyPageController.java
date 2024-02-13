@@ -47,15 +47,7 @@ public class MyPageController {
 		// 마이페이지 예약 내역 bean객체 담은 리스트
 		List<ReserveBean> UserReserveListBean = MyPageService.getMyPageReserveList(user_id);
 		model.addAttribute("UserReserveListBean", UserReserveListBean);
-		
-		for (ReserveBean reserveBean : UserReserveListBean) {
-		    System.out.println("Reserve ID: " + reserveBean.getReserve_id());
-		    System.out.println("User ID: " + reserveBean.getUser_id());
-		    System.out.println("exhibition id : " + reserveBean.getExhibition_id());
-		    System.out.println("payment : " + reserveBean.getPayment());
-		    // 나머지 필드들도 필요한 만큼 출력
-		}
-		
+
 		return "/mypage/reservelist";
 	}
 	

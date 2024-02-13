@@ -41,17 +41,12 @@ public interface MyPageMapper {
 		
 		// 마이페이지에서 예매 리스트 출력 위한 메소드
 		@Select("SELECT  r.user_id, r.exhibition_id,TO_CHAR(r.reserve_date, 'yyyy-mm-dd') AS reserve_date, \r\n"
-				+ "r.total_price, r.ticket_count,r.state, r.reserve_id,r.payment"
+				+ "r.total_price, r.ticket_count,r.state, r.reserve_id,r.payment,"
 				+ "e.title,"
 				+ "f.name AS main_poster_name, f.path AS main_poster_path "
-				+ "FROM "
-				+ "reserve r\r\n"
-				+ "INNER JOIN \r\n"
-				+ "    exhibition e ON r.exhibition_id = e.exhibition_id\r\n"
-				+ "INNER JOIN \r\n"
-				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
-				+ "WHERE \r\n"
-				+ "    r.user_id = #{user_id} AND r.state = 1" // AND r.state = 1 추가됨
+				+ "FROM reserve r INNER JOIN exhibition e ON r.exhibition_id = e.exhibition_id\r\n"
+				+ "INNER JOIN file_table f ON e.main_poster_file_id = f.file_id\r\n"
+				+ "WHERE r.user_id = #{user_id} AND r.state = 1 " // AND r.state = 1 추가됨
 				+ "order by r.reserve_id desc")
 		List<ReserveBean> getMyPageReserveList(int user_id);
 		

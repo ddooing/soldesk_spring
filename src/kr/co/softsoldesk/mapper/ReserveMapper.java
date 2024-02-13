@@ -18,11 +18,8 @@ public interface ReserveMapper {
 	void checkoutReserveInfo(ReserveBean checkoutReserveBean);
 	
 	///success - 1
-	@Select("select order_id from reserve where order_id=#{orderId}")
-	String  checkOrderId(String orderId);
-	///success - 2
 	@Select("SELECT reserve_id,user_id, exhibition_id, To_char(reserve_date,'yyyy-mm-dd') as reserve_date,"
-			+ "total_price,point_deduction,payment,state,ticket_count,"
+			+ "total_price,point_deduction,payment,state,ticket_count,order_id,"
 			+ "pay_state,pay_approval_state,"
 			+ " TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI') as requested_at,"
 			+ " TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI') as approved_at, "
@@ -30,12 +27,12 @@ public interface ReserveMapper {
 			+ " FROM reserve where order_id=#{orderId}")
 	ReserveBean validcheckOrderId(String orderId);
 	
-	///success - 3
+	///success - 2
 	@Update("update reserve set paymentkey=#{paymentKey} ,pay_approval_state=1 "
 			+ "where order_id= #{orderId}")
 	void approvalBefore(@Param("orderId") String orderId, @Param("paymentKey") String paymentKey);
 	
-	///success - 4
+	///success - 3
 	@Update("UPDATE reserve " +
 	        "SET pay_state = 1, " +
 	        "state = 1, " +
