@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +21,7 @@ public class ReserveService {
 		reserveDao.checkoutReserveInfo(checkoutReserveBean);
 	}
 	
-	// 인증 결과인 orderId가  결제 요청전의 order_id인지 체크 
-	public String  checkOrderId(String orderId) {
-		return reserveDao.checkOrderId(orderId);
-	}
-	
+
 	public ReserveBean validcheckOrderId(String orderId){
 		
 		return reserveDao.validcheckOrderId(orderId);
@@ -48,7 +46,10 @@ public class ReserveService {
 		reserveDao.paymentZeroReserveInfo(reserveInfo);
 	}
 
-
+	public List<ReserveBean> getReserveList()
+	{
+		return reserveDao.getReserveList();
+	}
 
 	
 	

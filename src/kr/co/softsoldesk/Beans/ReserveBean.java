@@ -24,7 +24,11 @@ public class ReserveBean {
 	private int pay_approval_state;
 	private String order_id;
 	private String paymentkey;
-	private String method; // 결제 방법: 
+	private String payment_method; // 결제 방법: 
+	
+	
+	
+	private String name;
 	
 	private int plusPoint; // 예매 시, 등급에 따른 포인트 
 	
@@ -183,13 +187,7 @@ public class ReserveBean {
 		this.main_poster_name = main_poster_name;
 	}
 
-	public String getMethod() {
-		return method;
-	}
 
-	public void setMethod(String method) {
-		this.method = method;
-	}
 
 	public int getPlusPoint() {
 		return plusPoint;

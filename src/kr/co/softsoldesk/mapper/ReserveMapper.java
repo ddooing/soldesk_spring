@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -25,7 +27,7 @@ public interface ReserveMapper {
 			+ " TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI') as approved_at, "
 			+ "paymentkey"
 			+ " FROM reserve where order_id=#{orderId}")
-	ReserveBean validcheckOrderId(String orderId);
+	public ReserveBean validcheckOrderId(String orderId);
 	
 	///success - 2
 	@Update("update reserve set paymentkey=#{paymentKey} ,pay_approval_state=1 "
@@ -47,11 +49,22 @@ public interface ReserveMapper {
 	
 	// 결제 금액이 0 일 경우에 저장하는 
 	@Insert("INSERT INTO reserve (reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction,"
-			+ "payment, ticket_count, order_id,pay_state,pay_approval_state,requested_at,state) "
+			+ "payment, ticket_count, order_id,pay_state,pay_approval_state,requested_at,state,payment_method) "
 			+ "VALUES (reserve_id_seq.NEXTVAL, #{user_id}, #{exhibition_id},#{reserve_date, jdbcType=DATE},"
 			+ "#{total_price},#{point_deduction},#{payment},#{ticket_count},#{order_id},0,0,"
-			+ " TO_TIMESTAMP(TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH24:MI:SS.FF9'), 'YY/MM/DD HH24:MI:SS.FF9'), 1)")
+			+ " TO_TIMESTAMP(TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH24:MI:SS.FF9'), 'YY/MM/DD HH24:MI:SS.FF9'), 1,'포인트결제')")
 	public void paymentZeroReserveInfo(ReserveBean reserveInfo );
+	
+	
+	@Select("SELECT r.reserve_id, e.exhibition_id, TO_CHAR(r.reserve_date, 'yyyy-mm-dd') AS reserve_date, " +
+	        "r.total_price, r.point_deduction, r.payment, r.ticket_count, " +
+	        "TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI') as requested_at, " +
+	        "TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI') as approved_at, " +
+	        "r.state, r.pay_state, r.pay_approval_state, r.order_id, r.payment_method, r.paymentkey, u.name, e.title " +
+	        "FROM reserve r " +
+	        "INNER JOIN user_table2 u ON r.user_id = u.user_id " +
+	        "INNER JOIN exhibition e ON r.exhibition_id = e.exhibition_id")
+	public List<ReserveBean> getReserveList();
 	
 	
 }
