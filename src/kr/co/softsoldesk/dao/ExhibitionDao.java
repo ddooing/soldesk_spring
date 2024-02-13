@@ -95,6 +95,15 @@ public class ExhibitionDao {
 		return exhibitionMapper.getExhibitionReviewCnt(exhibition_id);
 	}
 	
+	//전시회 제목 
+	public String getExhibitionTitle(int exhibition_id) {
+		return exhibitionMapper.getExhibitionTitle(exhibition_id);
+	}
+	
+	public void increase_exhibitionTotalTicket(int exhibition_id,int ticket_cnt) {
+		exhibitionMapper.increase_exhibitionTotalTicket(exhibition_id,ticket_cnt);
+	}
+		
 	// =================== 전시회 등록신청 =======================
 	//전시회 등록 테이블에 추가
 	public void AddExhibition_Enroll(ExhibitionDetailBean exhibitionDetailBean) {

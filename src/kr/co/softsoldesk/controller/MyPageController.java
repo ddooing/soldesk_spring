@@ -21,7 +21,6 @@ import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.MyPageService;
 import kr.co.softsoldesk.Service.PointDetailService;
-import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.ReviewService;
 import kr.co.softsoldesk.Service.UserService;
 
@@ -240,15 +239,11 @@ public class MyPageController {
 		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
 
 		// 마이페이지 예약 내역 bean객체 담은 리스트
-		List<ReserveBean> UserReserveListBean = MyPageService.getMyPageReserveList(user_id, page);
+		List<ReserveBean> UserReserveListBean = MyPageService.getMyPageReserveList(user_id);
 		model.addAttribute("UserReserveListBean", UserReserveListBean);
-		
-		PageBean pageBean = MyPageService.getreservelistCnt(user_id, page);
-		model.addAttribute("pageBean", pageBean);
-		
+
 		return "/mypage/reservelist";
 	}
-	
 
 	
 	

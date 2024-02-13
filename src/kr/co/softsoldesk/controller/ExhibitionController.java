@@ -1,7 +1,6 @@
 package kr.co.softsoldesk.controller;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,7 +37,7 @@ public class ExhibitionController {
 	private ReserveService reserveService;
 	
 	@Autowired
-	private UserService UserService;
+	private UserService userService;
 	
 	@Autowired
 	private BookMarkService bookMarkService;
@@ -170,28 +168,84 @@ public class ExhibitionController {
 	
 	
 	@PostMapping("/payment")
-	public String exhibition_reserve(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, @RequestParam("exhibition_id") int exhibition_id, Model model) {
+	public String exhibition_reserve(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean, 
+			@RequestParam("exhibition_id") int exhibition_id, Model model) {
 		
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);	
 	    model.addAttribute("exhibitionBean", exhibitionBean);		// 전시회 정보 객체
 		
-		ReserveBean ReserveBean = reserveService.reservebtn_click(tempReserveBean);
-		model.addAttribute("ReserveBean",ReserveBean);				// 전시회 상세조회 페이지에서 선택한 티켓수와 날짜 객체에 담아서 payment로 보낼 객체
+	    System.out.println("tempReserveBean 티켓 날짜 처리 전  : "+tempReserveBean.getReserve_date());
+	    String replace_reserve_date = removeCommasFromReserveDate(tempReserveBean.getReserve_date());
+	    tempReserveBean.setReserve_date(replace_reserve_date);
+	    
+	    
+		//ReserveBean ReserveBean = reserveService.reservebtn_click(tempReserveBean);
+		model.addAttribute("tempReserveBean",tempReserveBean);// 전시회 상세조회 페이지에서 선택한 티켓수와 날짜 객체에 담아서 payment로 보낼 객체
 		
-		UserBean LoginAllInfoBean = UserService.getLoginUserAllInfo(loginUserBean.getUser_id());
+		//로그인 한 유저의 정보를 예매 폼의 예매자 정보에 넣기 위함
+		UserBean LoginAllInfoBean = userService.getLoginUserAllInfo(loginUserBean.getUser_id());
 		model.addAttribute("LoginAllInfoBean",LoginAllInfoBean);
 		
-		// 로그인 된 유저 객체에 추가해도 되는데 조인 어려워서 유저 grade만 받아오는 객체 따로 생성 (grade에만 값있고 다른거 다 null)
-		UserBean UserGradeBean = UserService.getUserGrade(tempReserveBean.getUser_id());
-		System.out.println(tempReserveBean.getUser_id());
-		model.addAttribute("UserGradeBean", UserGradeBean);
+		int totalprice = tempReserveBean.getTicket_count()*exhibitionBean.getPrice();
+		tempReserveBean.setTotal_price(totalprice);
 		
-		// 임시로 order_id에 랜덤값 넣으려고 보내는값 order_id(결제번호) 값 처리시 꼭 삭제
-		String randomValue = UUID.randomUUID().toString();
-        model.addAttribute("randomValue", randomValue);
+		int plusPoint = getPlusePoint(loginUserBean.getUser_id(),tempReserveBean.getTotal_price()); 
+		tempReserveBean.setPlusPoint(plusPoint);
 		
-		
+		// 확인용 
+		System.out.println("exhibition_id : "+exhibitionBean.getExhibition_id());
+		System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getTicket_count());
+		System.out.println("tempReserveBean 티켓 날짜 처리 휴: "+tempReserveBean.getReserve_date());
+		System.out.println("tempReserveBean 포인트 : "+tempReserveBean.getPlusPoint());
+		System.out.println("LoginAllInfoBean : "+LoginAllInfoBean.getName());
 		return "exhibition/payment";
+	}
+	
+	
+	@GetMapping("/payment_complete")
+	public String showPaymentComplete(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
+	                                  @ModelAttribute("exhibitionBean") ExhibitionBean exhibitionBean, 
+	                                  @ModelAttribute("plusPoint") Integer plusPoint,
+	                                  Model model) {
+	    // 데이터 출력
+	    System.out.println("ReserveBean: " + tempReserveBean);
+	    System.out.println("exhibitionBean : " + exhibitionBean);
+
+	    // 뷰에 데이터 추가
+	    model.addAttribute("tempReserveBean", tempReserveBean);
+	    model.addAttribute("exhibitionBean", exhibitionBean);
+	    model.addAttribute("plusPoint", plusPoint);
+	    return "exhibition/payment_complete";
+	}
+	// 장바구니 ~ 예매 reserve_date 쉼표 이슈  처리
+	public String removeCommasFromReserveDate(String reserveDate) {
+	    if (reserveDate == null) {
+	        return null;
+	    }
+	    return reserveDate.replace(",", "");
+	}
+	
+	//예매 시 얻을 포인트 
+	public int getPlusePoint(int userid,int totalPrice) {
+		String level = userService.getLevel(userid);
+        int reservePulsPoint=0;// 예매 시 적립되는 포인트
+        
+        
+        if(level.equals("level1")) // 레벨 1 일때 5%만큼 포인트 지급
+        {
+        	reservePulsPoint = (int)(totalPrice*0.05);
+        }
+        else if(level.equals("level2")) // 레벨 2 일때 10%만큼 포인트 지급
+        {
+        	reservePulsPoint = (int)(totalPrice*0.1);
+        }
+        else if(level.equals("level3")) // 레벨 3 일때 15%만큼 포인트 지급
+        {
+        	reservePulsPoint = (int)(totalPrice*0.15);
+        }
+        
+        return reservePulsPoint; 
+        
 	}
 	
 	// 전시회 등록 페이지 매핑
@@ -199,7 +253,7 @@ public class ExhibitionController {
 	public String Exhibition_Enroll(@ModelAttribute("addExhibitionDetailBean") ExhibitionDetailBean exhibitionDetailBean, Model model) {
 		
 		// 로그인된 모든 정보 가져옴 (이름, 이메일, 전화번호) readonly용
-		UserBean getLoginUserAllInfo = UserService.getLoginUserAllInfo(loginUserBean.getUser_id());
+		UserBean getLoginUserAllInfo = userService.getLoginUserAllInfo(loginUserBean.getUser_id());
 		model.addAttribute("getLoginUserAllInfo", getLoginUserAllInfo);
 		
 		return "exhibition/Exhibition_Enroll";

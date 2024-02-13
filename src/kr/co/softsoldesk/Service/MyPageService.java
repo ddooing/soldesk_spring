@@ -40,12 +40,8 @@ public class MyPageService {
 	}
 	
 	// 마이페이지 예약 조회 리스트
-	public List<ReserveBean> getMyPageReserveList(int user_id, int page) {
-		
-		int start = (page - 1) * point_listcnt;
-		RowBounds rowBounds = new RowBounds(start, point_listcnt);
-		
-		return myPageDao.getMyPageReserveList(user_id, rowBounds);
+	public List<ReserveBean> getMyPageReserveList(int user_id) {
+		return myPageDao.getMyPageReserveList(user_id);
 	}
 	
 	// 마이페이지 북마크 리스트

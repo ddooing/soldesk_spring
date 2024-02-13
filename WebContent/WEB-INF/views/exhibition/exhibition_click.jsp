@@ -61,7 +61,7 @@
 	src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 <script
 	src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 
 
@@ -347,7 +347,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					<form:form
 						action="payment?exhibition_id=${exhibitionBean.exhibition_id}"
 						method="post" modelAttribute="tempReserveBean">
-						<form:hidden path="user_id" value="${loginUserBean.user_id }" />
+						<form:hidden path="user_id" value="${loginUserBean.user_id }"/>
+						<form:hidden path="exhibition_id" value="${exhibitionBean.exhibition_id}"/>
 						<div id="right-side-menu">
 							<div
 								style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">

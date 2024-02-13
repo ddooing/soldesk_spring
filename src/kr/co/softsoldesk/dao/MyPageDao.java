@@ -26,10 +26,9 @@ public class MyPageDao {
 	}
 	
 	// 마이페이지 결제 내역 조회 메소드
-	public List<ReserveBean> getMyPageReserveList(int user_id, RowBounds rowBounds) {
-		return myPageMapper.getMyPageReserveList(user_id, rowBounds);
+	public List<ReserveBean> getMyPageReserveList(int user_id) {
+		return myPageMapper.getMyPageReserveList(user_id);
 	}
-	
 	// 마이페이지 북마크 내역 메소드
 	public List<ExhibitionBean> getMyPageBookmarkList(int user_id, RowBounds rowBounds) {
 		return myPageMapper.getMyPageBookmarkList(user_id,rowBounds);

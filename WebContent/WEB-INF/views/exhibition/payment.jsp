@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
@@ -16,7 +16,7 @@
 <meta name="author" content="" />
 <title>ARTMEE</title>
 
-<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
+<link rel="icon" type="image/x-icon" href="assets/ARTMEE_PAGELOGO.png" />
 
 <!-- Font Awesome icons (free version)-->
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -52,22 +52,14 @@
 	src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 <script
 	src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
-<script>
-  document.addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-      event.preventDefault(); // 기본 동작(폼의 submit) 막기
-    }
-  });
-</script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
 	rel="stylesheet">
+
 
 <style>
 input[type="radio"] {
@@ -109,7 +101,6 @@ input[type="radio"]:checked+label {
 	padding: 30px;
 	border: 1px solid #888;
 	width: 700px;
-	max-width: 30%;
 }
 
 .close {
@@ -118,7 +109,7 @@ input[type="radio"]:checked+label {
 	font-size: 28px;
 	font-weight: bold;
 	width: 25px;
-	margin-left: 550px;
+	margin-left: 625px;
 }
 
 .close:hover, .close:focus {
@@ -126,7 +117,6 @@ input[type="radio"]:checked+label {
 	text-decoration: none;
 	cursor: pointer;
 }
-
 input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button
 	{
 	-webkit-appearance: none;
@@ -150,9 +140,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				<h3 style="margin-left: 180px; margin-top: 50px;">전시회 정보</h3>
 			</div>
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img
-					src="${exhibitionBean.main_poster_path }${exhibitionBean.main_poster_name }"
-					alt="예약포스터"
+				<img src="${exhibitionBean.main_poster_path }${exhibitionBean.main_poster_name }" alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
 
 				<div style="margin-left: 200px;">
@@ -163,7 +151,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							<a style="font-size: 20px;">예약 날짜</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${ReserveBean.reserve_date }</a>
+							<a style="font-size: 20px;">${tempReserveBean.reserve_date }</a>
 						</div>
 					</div>
 
@@ -174,7 +162,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							<a style="font-size: 20px;">티켓 수량</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${ReserveBean.ticket_count} 매</a>
+							<a style="font-size: 20px;">${tempReserveBean.ticket_count} 매</a>
 						</div>
 					</div>
 
@@ -183,30 +171,23 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							<a style="font-size: 20px;">결제 금액</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px;">${exhibitionBean.price * ReserveBean.ticket_count}
+							<a style="font-size: 20px;">${exhibitionBean.price * tempReserveBean.ticket_count}
 								원</a>
 						</div>
 					</div>
 				</div>
 			</div>
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
-			<form:form action="${root }/exhibition/reserve" method="post"
-				modelAttribute="ReserveBean">
-				<form:hidden path="reserve_date"
-					value="${ReserveBean.reserve_date }" />
-				<form:hidden path="ticket_count"
-					value="${ReserveBean.ticket_count }" />
+			<form:form action="${root }/toss/checkout_pro" method="post"
+				modelAttribute="tempReserveBean">
+				<form:hidden path="reserve_date" value="${tempReserveBean.reserve_date }"/>
+				<form:hidden path="ticket_count" value="${tempReserveBean.ticket_count }"/>
 				<form:hidden path="user_id" value="${LoginAllInfoBean.user_id }" />
-				<form:hidden path="total_price"
-					value="${exhibitionBean.price * ReserveBean.ticket_count}" />
-				<form:hidden path="exhibition_id"
-					value="${exhibitionBean.exhibition_id }" />
-				<form:hidden path="state" value="1" />
-
-				<form:hidden path="order_id" value="${randomValue}" />
-				<!-- order_id unique 값으로 임시로 해놓음 -->
-				<!-- 예약상태 -->
-
+				<form:hidden path="payment" id="payment-field" /> <!--  최종 결제 금액  -->
+				<form:hidden path="total_price" value="${tempReserveBean.total_price}"/>
+				<form:hidden path="exhibition_id" value="${exhibitionBean.exhibition_id }" />
+				<form:hidden path="plusPoint" value="${tempReserveBean.plusPoint }" />
+				
 				<!--주문자 정보 부분-->
 				<div>
 					<h3 style="margin-left: 180px; margin-top: 50px;">주문자 정보</h3>
@@ -227,9 +208,8 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							<a style="font-size: 20px;">휴대폰</a>
 						</div>
 						<div>
-							<form:input readonly="true"
-								value="${LoginAllInfoBean.telephone }" path=""
-								style="width: 300px;" disabled="true" />
+							<form:input readonly="true" value="${LoginAllInfoBean.telephone }"
+								path="" style="width: 300px;" disabled="true" />
 						</div>
 					</div>
 
@@ -243,29 +223,28 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 						</div>
 					</div>
 				</div>
-
-				<!--포인트 사용부분-->
-				<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
-				<div style="display: flex; align-items: baseline;">
-					<h3 style="margin-left: 180px; margin-top: 50px;">포인트 사용</h3>
-					<a
-						style="font-size: 20px; margin-left: 100px; color: gray; margin-right: 5px;">보유
-						포인트 : </a> <a style="font-size: 20px; color: gray;" id="ownpoint">${LoginAllInfoBean.point }
-						p</a>
-				</div>
-
-				<div style="margin-top: 50px; margin-left: 300px; display: flex;">
-					<a style="font-size: 20px;">포인트</a>
-					<form:input type="number" path="point_deduction"
-						style="width: 150px; margin-left: 30px;" id="pointinput" />
-					<button type="button" class="btn btn-dark"
-						style="margin-left: 30px;" id="allpointuse"
-						onclick="useAllPoints()">전액사용</button>
-				</div>
-
-				<script>
-         	function updatePoints() {
-                var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
+			
+			<!--포인트 사용부분-->
+			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
+			<div style="display: flex; align-items: baseline;">
+				<h3 style="margin-left: 180px; margin-top: 50px;">포인트 사용</h3>
+				
+			</div>
+			
+			<div style="margin-top: 50px; margin-left: 300px; display: flex;">
+				<a style="font-size: 20px; color: gray; margin-right: 5px;">보유 포인트 :  
+					<a style="font-size: 20px; color: gray;" id="ownpoint">${LoginAllInfoBean.point } p</a>
+				</a>
+			</div>
+			<div style="margin-top: 50px; margin-left: 300px; display: flex;align-items: center;">
+               <a style="font-size: 20px;">포인트</a>
+               <form:input type="number" path="point_deduction" style="width: 150px; margin-left: 30px;" id="pointinput" />
+             <button type="button" class="btn btn-dark" style="margin-left:30px;" id="allpointuse" onclick="useAllPoints()">전액사용</button>
+            </div>
+            
+            <script>
+            function updatePoints() {
+                var totalPrice = ${exhibitionBean.price * tempReserveBean.ticket_count}; // 전체 가격
                 var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
                 var inputPoints = parseInt(document.getElementById('pointinput').value) || 0; // 입력값이 없는 경우 0으로 처리
                 var adjustedPoints = inputPoints;
@@ -285,142 +264,99 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
             }
 
             document.getElementById('pointinput').addEventListener('input', updatePoints);
-         	
-         	
+            
+            
 
-         	function useAllPoints() {
-         	    var totalPrice = ${exhibitionBean.price * ReserveBean.ticket_count}; // 전체 가격
-         	    var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
-         	    document.getElementById('pointinput').value = maxPoints;
-         	    document.getElementById('view_point_use').innerHTML = maxPoints + " p";
-         	    document.getElementById('view_total_price').innerHTML = totalPrice - maxPoints + " 원";
-         	    document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - maxPoints +" p";
-         	}
+            function useAllPoints() {
+                var totalPrice = ${exhibitionBean.price * tempReserveBean.ticket_count}; // 전체 가격
+                var maxPoints = Math.min(Math.floor(${LoginAllInfoBean.point} / 10) * 10, totalPrice); // 최대 포인트 계산
+                document.getElementById('pointinput').value = maxPoints;
+                document.getElementById('view_point_use').innerHTML = maxPoints + " p";
+                document.getElementById('view_total_price').innerHTML = totalPrice - maxPoints + " 원";
+                document.getElementById('ownpoint').innerHTML = ${LoginAllInfoBean.point} - maxPoints +" p";
+            }
 
+         </script>
 
-
-			</script>
-
-
-				<div style="margin-top: 50px; margin-left: 300px;">
-					<a style="font-size: 20px;">포인트 혜택</a>
-					<div
-						style="margin-left: 50px; margin-top: 30px; display: flex; width: 300px; text-align: center;">
-						<a style="font-size: 20px; margin-right: 10px;">회원등급 적립</a>
-						<!--회원등급 모달-->
-						<svg xmlns="http://www.w3.org/2000/svg" id="membermodal"
-							style="color: black; cursor: pointer;" width="20" height="20"
-							fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+		<!--  결제하기 버튼 클릭 시,최종  view_total_price ( 결제 금액) 을 
+		 -->
+		
+			<div style="margin-top: 50px; margin-left: 300px;">
+				<a style="font-size: 20px;">포인트 혜택</a>
+				<div
+					style="margin-left: 50px; margin-top: 30px; display: flex; width: 300px; text-align: center;">
+					<a style="font-size: 20px; margin-right: 10px;">예매 적립</a>
+					<!--회원등급 모달-->
+					<svg xmlns="http://www.w3.org/2000/svg" id="membermodal"
+						style="color: black; cursor: pointer;" width="20" height="20"
+						fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
 						<path
-								d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+							d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
 						<path
-								d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+							d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
 					</svg>
-						<c:choose>
-							<c:when test="${UserGradeBean.grade == 'level1'}">
-								<c:set var="savings"
-									value="${(exhibitionBean.price * ReserveBean.ticket_count) * 0.05}" />
-							</c:when>
-							<c:when test="${UserGradeBean.grade == 'level2'}">
-								<c:set var="savings"
-									value="${(exhibitionBean.price * ReserveBean.ticket_count) * 0.1}" />
-							</c:when>
-							<c:otherwise>
-								<c:set var="savings"
-									value="${(exhibitionBean.price * ReserveBean.ticket_count) * 0.2}" />
-							</c:otherwise>
-						</c:choose>
-
-						<c:set var="roundedSavings" value="${(savings - savings % 10)}" />
-						<a style="font-size: 20px; margin-left: auto;"> 
-						<fmt:formatNumber value="${roundedSavings}" pattern="0" /> p
-						</a>
-
-
-
-
-					</div>
-					<!-- <div
-					style="margin-left: 50px; margin-top: 20px; display: flex; width: 300px; text-align: center;">
-					<a style="font-size: 20px; margin-right: 10px;">소감문 적립</a> <a
-						style="font-size: 20px; margin-left: auto;">ex) 50</a>
-				</div> -->
+					<a style="font-size: 20px; margin-left: auto;">${tempReserveBean.plusPoint} p</a>
 				</div>
 
-				<!-- 회원 등급 클릭 모달 -->
-				<div id="memberModal" class="modal" style="display: none;">
-					<div class="modal-content">
-						<div class="close" style="float: right;">&times;</div>
-						<h2 style="margin-left: 30px;">회원등급 혜택 안내</h2>
+			</div>
+
+			<!-- 회원 등급 클릭 모달 -->
+			<div id="memberModal" class="modal" style="display: none;">
+				<div class="modal-content">
+					<div class="close" style="float: right;">&times;</div>
+					<h2 style="margin-left: 30px;">회원등급 혜택 안내</h2>
+					<div
+						style="display: flex; justify-content: center; margin-left: 50px; margin-right: 50px; margin-top: 50px;">
 						<div
-							style="display: flex; justify-content: center; margin-left: 50px; margin-right: 50px; margin-top: 50px;">
-							<div
-								style="display: inline-block; text-align: center; width: 200px; border-right: 1px solid black;">
-								<h5>LV.1</h5>
+							style="display: inline-block; text-align: center; width: 200px; border-right: 1px solid black;">
+							<h5>LV.1</h5>
 
-								<img src="../img/level/profile_Lv1.png"
-									style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
-								<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의
-									5% 적립</b><br /> <b style="margin-top: 10px;">exp 0 ~ 299</b>
-
-							</div>
-							<div
-								style="display: inline-block; text-align: center; width: 200px; border-right: 1px solid black;">
-								<h5>LV.2</h5>
-
-								<img src="../img/profileImg.png"
-									style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
-								<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의
-									10% 적립</b><br /> <b style="margin-top: 10px;">exp 300 ~ 899</b>
-
-							</div>
-							<div
-								style="display: inline-block; text-align: center; width: 200px;">
-								<h5>LV.3</h5>
-
-								<img src="../img/level/profile_Lv3.png"
-									style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
-								<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의
-									20% 적립</b><br /> <b style="margin-top: 10px;">exp 900 ~</b>
-
-							</div>
-						</div>
-
-						<hr
-							style="width: 550px; margin-left: auto; margin-right: auto; border-color: black; border-width: 2px 0 0 0; margin-top: 50px;" />
-
-
-						<div style="margin-top: 50px;">
-							<h3 style="margin-left: 30px;">경험치 획득방법</h3>
-							<br /> <b style="margin-top: 80px; margin-left: 50px;">전시회
-								예매 + 50 exp</b> <br /> <br /> <b
-								style="margin-top: 50px; margin-left: 50px;">소감문 작성시 최대 + 10
-								exp</b> <br /> <br /> <b
-								style="margin-top: 50px; margin-left: 50px;">소감문 공개 허용시 추가 5
-								exp</b> <br /> <br />
+							<img src="../img/level/profile_Lv1.png"
+								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 5%
+								적립</b><br /> <b style="margin-top: 10px;">exp 0 ~ 299</b>
 
 						</div>
+						<div
+							style="display: inline-block; text-align: center; width: 200px; border-right: 1px solid black;">
+							<h5>LV.2</h5>
 
-						<hr
-							style="width: 550px; margin-left: auto; margin-right: auto; border-color: black; border-width: 2px 0 0 0; margin-top: 30px;" />
+							<img src="../img/profileImg.png"
+								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 10%
+								적립</b><br /> <b style="margin-top: 10px;">exp 300 ~ 899</b>
 
+						</div>
+						<div
+							style="display: inline-block; text-align: center; width: 200px;">
+							<h5>LV.3</h5>
 
-						<div style="margin-top: 50px;">
-							<h3 style="margin-left: 30px;">적립 포인트 정책 안내</h3>
-							<br /> <b style="margin-left: 50px;">기간 내에 구매금액에 구매 확정 시점에
-								적립 포인트가 지급됩니다. </b> <br /> <br /> <b style="margin-left: 50px;">포인트
-								적립 내역이나 이용내역은 MyPage에서 확인할 수 있습니다.</b> <br /> <br /> <b
-								style="margin-left: 50px;">무료 전시회 관련 소감문 작성 시 ??의 포인트만 적립
-								가능합니다.</b> <br /> <br /> <b style="margin-left: 50px;">최초 적립했던
-								경로를 벗어나 새로운 경로(기기변경, 인터넷 창 변경 등)로</b><br /> <b
-								style="margin-left: 50px;">동일상품 구매시 포인트 적립이 되지 않을 수 있습니다.</b> <br />
-							<br />
+							<img src="../img/level/profile_Lv3.png"
+								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 15%
+								적립</b><br /> <b style="margin-top: 10px;">exp 900 ~</b>
+
 						</div>
 					</div>
+
+					<hr
+						style="width: 550px; margin-left: auto; margin-right: auto; border-color: black; border-width: 2px 0 0 0; margin-top: 30px;" />
+
+
+					<div style="margin-top: 50px;">
+						<h3 style="margin-left: 30px;">적립 포인트 정책 안내</h3>
+						<br /> <b style="margin-left: 50px;">기간 내에 구매금액에 구매 확정 시점에 적립
+							포인트가 지급됩니다. </b> <br /> <br /> <b style="margin-left: 50px;">포인트
+							적립 내역이나 이용내역은 MyPage에서 확인할 수 있습니다.</b> <br /> <br /> <b
+							style="margin-left: 50px;">무료 전시회 관련 소감문 작성 시 경험치만 적립
+							가능합니다.</b> <br />
+						<br />
+					</div>
 				</div>
+			</div>
 
 
-				<script>
+			<script>
 				// 회원 등급 클릭 자바 스크립트
 				// 모달을 가져옵니다
 				var modal = document.getElementById("memberModal");
@@ -449,45 +385,70 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				}
 			</script>
 
+			
+					
 
-				<!--결제 부분-->
-				<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
+			<!--결제 부분-->
+			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
+			<div
+				style="display: flex; align-items: baseline; margin-top: 50px; margin-left: 800px;">
+				<h5>포인트 사용 :</h5>
+				<a style="font-size: 20px; margin-left: 10px;" id="view_point_use">${tempReserveBean.point_deduction} P</a>	
+			</div>
+			
+			<div
+				style="display: flex; align-items: baseline; margin-top: 10px; margin-left: 800px;">
+				<h3>총 결제 금액 :</h3>
+				<a style="font-size: 30px; margin-left: 10px;" id="view_total_price">${exhibitionBean.price * tempReserveBean.ticket_count} 원</a>
+			</div>
 
+			<div
+				style="display: flex; align-items: baseline; margin-top: 80px; margin-left: 850px;">
+				<a href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id}" class="btn btn-dark" style="margin-left: 30px; width: 100px;">취소</a>
+				<button id="payment-button" class="btn btn-dark" style="margin-left: 30px; width: 100px; ">결제하기</button>
+			</div>
+			</form:form> 
+			
+			
+			<script>
+			//최종 설정된 1.포인트 사용 금액 2. 결제할 금액
+			document.getElementById('payment-button').addEventListener('click', function() {
+				
+			    var totalPriceElement = document.getElementById('view_total_price').innerHTML;
+			    var priceWithoutCurrency = totalPriceElement.replace('원', '').trim();
+			    var numericPrice = parseInt(priceWithoutCurrency, 10); // 문자열을 정수로 변환
 
-				<div
-					style="display: flex; align-items: baseline; margin-top: 50px; margin-left: 800px;">
-					<h5>포인트 사용 :</h5>
-					<a style="font-size: 20px; margin-left: 10px;" id="view_point_use">${ReserveBean.point_deduction}
-						P</a>
-				</div>
-
-				<div
-					style="display: flex; align-items: baseline; margin-top: 10px; margin-left: 800px;">
-					<h3>총 결제 금액 :</h3>
-					<a style="font-size: 30px; margin-left: 10px;"
-						id="view_total_price">${exhibitionBean.price * ReserveBean.ticket_count}
-						원</a>
-				</div>
-
-				<div
-					style="display: flex; align-items: center; justify-content: center; margin-top: 80px; margin-left: 850px;">
-					<a
-						href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionBean.exhibition_id}&user_id=${loginUserBean.user_id}"
-						class="btn btn-dark"
-						style="margin-left: 30px; width: 100px; height: 50px;">돌아가기</a>
-
-					<form:button type="submit" class="btn btn-dark"
-						style="margin-left: 30px; width: 100px; height: 50px;">결제하기</form:button>
-				</div>
-				<form:hidden path="pointsaving" value="${roundedSavings}" />
-			</form:form>
+			    
+			    
+			    // 숨겨진 폼 필드의 값을 설정합니다.
+			    document.getElementById('payment-field').value = priceWithoutCurrency;
+			
+			    // 폼 객체를 가져와서 제출합니다. id를 사용하여 폼을 찾습니다.
+			    var form = document.getElementById('payment-form');
+			    
+			    
+			  
+			    
+			    //form.submit();
+			});
+			</script>
 		</div>
 	</section>
 
-
-
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
+	<c:if test="${not empty failmsg}">
+        <script>
+        Swal.fire({
+            title: "결제 오류",
+            text: "${failmsg}",
+            icon: "warning",
+            showConfirmButton: false,
+            timer: 2000
+        });
+
+    	</script>
+    </c:if>
 
 </body>
 

@@ -51,40 +51,8 @@
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-	<!--  reserve_date 값 yyyy-mm-dd 로 출력하기  -->
-	<script>
-		//tempReserveBean.reserve_date 처리 
-    // 예제로 사용할 날짜 문자열
-    var dbDateString = "${tempReserveBean.reserve_date}";
-
-    // Date 객체를 생성하여 날짜 문자열을 파싱
-    var date = new Date(dbDateString);
-
-    // 날짜를 원하는 형식으로 포맷
-    var formattedReserve_date = date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + date.getDate()).slice(-2);
-	console.log(formattedDate);
 	
-		//tempReserveBean.requested_at 처리 
-	// 서버에서 받은 날짜 문자열
-    var dateString = '${tempReserveBean.requested_at}';
-
-    // Date 객체로 변환
-    var date = new Date(dateString);
-
-    // Date 객체를 yyyy-MM-dd HH:mm 형식으로 포매팅
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더해줍니다.
-    var day = date.getDate();
-    var hour = date.getHours();
-    var minute = ('0' + date.getMinutes()).slice(-2); // 항상 두 자리 숫자를 유지합니다.
-
-    // 포매팅된 날짜 문자열 생성
-    var formattedDate = year + '-' + month + '-' + day + ' ' + hour + ':' + minute;
-
-
-</script>
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 
 <body id="page-top">
@@ -95,7 +63,7 @@
 		<div class="container mb-1">
 			<h1 style="margin-left: 180px;">예매 정보</h1>
 			<div style="color: gray; margin-left: 180px; margin-top: 20px;">
-			    ${formattedDate}
+			    ${tempReserveBean.approved_at}
 			</div>
 
 			<hr style="margin:auto; margin-top: 10px; width: 1000px;" />
@@ -113,7 +81,7 @@
 							<a style="font-size: 20px;">예약 날짜</a>
 						</div>
 						<div style="margin-left: auto;">
-							<a style="font-size: 20px; ">${formattedReserve_date} </a>
+							<a style="font-size: 20px; ">${tempReserveBean.reserve_date} </a>
 						</div>
 					</div>
 					
@@ -163,7 +131,7 @@
 			
 			<div style="margin-top: 50px; margin-left: 300px; display: flex;">
 				<a style="font-size: 20px; color: gray; margin-right: 5px;">예매 적립  
-				
+				 
 					<a style="font-size: 20px; color: gray;" id="ownpoint">${plusPoint} p</a>
 				</a>
 			</div>
@@ -202,7 +170,7 @@
 
 							<img src="../img/level/profile_Lv1.png"
 								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 1%
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 5%
 								적립</b><br /> <b style="margin-top: 10px;">exp 0 ~ 299</b>
 
 						</div>
@@ -212,7 +180,7 @@
 
 							<img src="../img/profileImg.png"
 								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 3%
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 10%
 								적립</b><br /> <b style="margin-top: 10px;">exp 300 ~ 899</b>
 
 						</div>
@@ -222,7 +190,7 @@
 
 							<img src="../img/level/profile_Lv3.png"
 								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 5%
+							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 15%
 								적립</b><br /> <b style="margin-top: 10px;">exp 900 ~</b>
 
 						</div>
@@ -252,10 +220,8 @@
 						<br /> <b style="margin-left: 50px;">기간 내에 구매금액에 구매 확정 시점에 적립
 							포인트가 지급됩니다. </b> <br /> <br /> <b style="margin-left: 50px;">포인트
 							적립 내역이나 이용내역은 MyPage에서 확인할 수 있습니다.</b> <br /> <br /> <b
-							style="margin-left: 50px;">무료 전시회 관련 소감문 작성 시 ??의 포인트만 적립
-							가능합니다.</b> <br /> <br /> <b style="margin-left: 50px;">최초 적립했던
-							경로를 벗어나 새로운 경로(기기변경, 인터넷 창 변경 등)로</b><br /> <b
-							style="margin-left: 50px;">동일상품 구매시 포인트 적립이 되지 않을 수 있습니다.</b> <br />
+							style="margin-left: 50px;">무료 전시회 관련 소감문 작성 시 경험치만 적립
+							가능합니다.</b> <br /> 
 						<br />
 					</div>
 				</div>
@@ -289,11 +255,13 @@
 				}
 			</script>
 			
+			
 		</div>
 	</section>
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
+	
 	<c:if test="${not empty successMessage}">
         <script>
         Swal.fire({
