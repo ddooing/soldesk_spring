@@ -258,9 +258,10 @@
 			<div class="info__ttl">B.주문자 정보</div>
 			<div class="info__form">
 				<div class="content__wrap">
-				<form:form action="${root }/admin/subbannerapplyform_pro" method="post" modelAttribute="applybannerBean" enctype="multipart/form-data" id="application-form">
+				<form:form action="${root }/bannertoss/checkout" method="post" modelAttribute="applybannerBean" enctype="multipart/form-data" id="application-form">
 				<form:hidden path="apply_person_id" value="${userinfoBean.user_id }"/>
 				<form:hidden path="payment" id="payment" value=""/>	
+				<form:hidden path="banner_type" value="2"/>
 						<div id="canvas-target-1">
 							<div class="row">
 								<div class="input__title">성함</div>

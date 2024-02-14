@@ -26,21 +26,21 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.PointDetailService;
 import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.ReviewService;
 import kr.co.softsoldesk.Service.UserService;
 
-
 @Controller
-@RequestMapping("/toss")
-public class TossController {
-
+@RequestMapping("/bannertoss")
+public class BannerApplyTossController {
 	@Resource(name="loginUserBean") // 로그인한 유저 알기위함
 	private UserBean loginUserBean;
 
@@ -48,17 +48,19 @@ public class TossController {
 	private UserService userService;
 	
 	@Autowired
-	private ReserveService reserveService;
+	private AdminService adminService;
+	
+	
 	
 	@Autowired
+	private ReserveService reserveService;
+	@Autowired
 	private ExhibitionService exhibitionService;
-	
 	@Autowired
 	PointDetailService pointDetailService;
 	
 	@Autowired
 	private ReviewService reviewService;
-	
 	String confirmUrl ="https://api.tosspayments.com/v1/payments/confirm";
 	
 	String failmsg="";
@@ -66,83 +68,44 @@ public class TossController {
 	private int plusPoint=0; // 적립되는 포인트 
 	private int exhibitionId=0;// fail 시 다시 전시회 정보 페이지 가기 위함
 	//에러 코드 재현할때 사용함
-	String testCode = "INVALID_REQUEST"; // 에러 테스트용 코드
-	
-	@PostMapping("/checkout_pro")
-	public String checkout_pro(@ModelAttribute("tempReserveBean")ReserveBean tempReserveBean,
-				Model model,RedirectAttributes redirectAttributes) {
-
-		//결제할 금액 확인
-		int payment = tempReserveBean.getPayment();
-
-		//결제 금액이 0 이면 바로 예매 완료 페이지로 이동
-		if(payment == 0)
-		{
-			//1. 예매 정보 저장 
-			//reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction,payment, ticket_count, order_id 저장함
-			//pay_state(결제 상태),pay_approval_state(결제 승인 상태) 기본으로 0(false)로 .. 결제 요청하지 않기때문
-			// state 값을 1(예매 되었음)로
-		reserveService.paymentZeroReserveInfo(tempReserveBean); 
-		
-		//저장된 예매 정보 부르기 .. reserve_id를 가져오기 위함 
-		System.out.println("/toss_pro - orderid :"+tempReserveBean.getOrder_id());
-		ReserveBean reserveInfoBean =reserveService.validcheckOrderId(tempReserveBean.getOrder_id());
-		
-		// 2. 나머지 저장 
-		addService(reserveInfoBean);
-	
-		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveInfoBean.getExhibition_id());
-
-		redirectAttributes.addFlashAttribute("exhibitionBean", exhibitionBean);
-	    redirectAttributes.addFlashAttribute("tempReserveBean", reserveInfoBean);
-	    redirectAttributes.addFlashAttribute("plusPoint", plusPoint);
-	    System.out.println("pluspoint : "+plusPoint);
-	    
-		return "redirect:/exhibition/payment_complete";
-		}
-		// 결제 금액이 0이 아니면 ckeckout page로 이동
-		else {
-			//tempReserveBean,exhibition_id 정보 넘기기
-			redirectAttributes.addFlashAttribute("tempReserveBean", tempReserveBean);
-	        return "redirect:/toss/checkout";
-		}
-		
-	}
+	String testCode = "PROVIDER_ERROR"; // 에러 테스트용 코드
 	
 	
-	@GetMapping("/checkout")
-	//@PostMapping("/checkout")
-	public String checkout(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
+	@PostMapping("/checkout")
+	public String checkout(@ModelAttribute("applybannerBean") BannerApplyFormBean applybannerBean,
             				HttpServletRequest request, Model model) throws Exception  {
 		
-		//예매하려는 유저 아이디 찾기
-		UserBean loginUserDetailBean = userService.getLoginUserAllInfo(tempReserveBean.getUser_id());
+		//신청하려는 유저 아이디 찾기
+		UserBean loginUserDetailBean = userService.getLoginUserAllInfo(applybannerBean.getApply_person_id());
 		
-		//예매하려는 전시회 제목=> orderName 찾기
-		String title = exhibitionService.getExhibitionTitle(tempReserveBean.getExhibition_id());
-		
+		String title="";
+		//신청하려는 상품
+		if(applybannerBean.getBanner_type()==1)
+		{
+			title="메인배너";
+		}else if(applybannerBean.getBanner_type()==2)
+		{
+			title="서브배너";
+		}
 		
 		//결제 요청 전에 예매정보 데이터 저장
-		//checkout 지점 db 저장                                  *후에 임시 저장하는 방식으로 바꾸기 
-			//reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction,payment, ticket_count, order_id 저장함
-			//pay_state(결제 상태),pay_approval_state(결제 승인 상태) 기본으로 0(false)로 저장함 
-		reserveService.checkoutReserveInfo(tempReserveBean);
 		
-		/*
+		adminService.insertbanner_apply(applybannerBean);
+		
+		
 		//확인
-		System.out.println(" /checkout - tempReserveBean oderid : "+tempReserveBean.getOrder_id());
-	    System.out.println(" /checkout ReserveBean.payment: " + tempReserveBean.getPayment());
-	    System.out.println("/checkout Exhibition ID: " + tempReserveBean.getExhibition_id());
-		*/
+		System.out.println(" /checkout - tempReserveBean oderid : "+ applybannerBean.getOrder_id());
+	    System.out.println(" /checkout ReserveBean.payment: " + applybannerBean.getPayment());
+	    System.out.println("/checkout Exhibition ID: " + applybannerBean.getExhibition_id());
+		
 	    
-		model.addAttribute("orderid", tempReserveBean.getOrder_id()); 
-		model.addAttribute("tempReserveBean", tempReserveBean.getOrder_id()); 
-	    model.addAttribute("tempReserveBean", tempReserveBean);
+		model.addAttribute("orderid", applybannerBean.getOrder_id()); 
+	    model.addAttribute("applybannerBean", applybannerBean);
 	    model.addAttribute("loginUserDetailBean",loginUserDetailBean);
 	    model.addAttribute("title",title);
 	    
 	    
-		return "toss/checkout";
+		return "bannertoss/checkout";
 	}
 	
 	//[결제 요청 성공이였을 때]

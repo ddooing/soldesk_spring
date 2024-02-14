@@ -130,6 +130,7 @@
 				<c:otherwise>
 					<c:forEach items="${UserReserveListBean}" var="reservelist">
 						<div style="background:#d3d3d32e;height:290px; display: flex; flex-direction: row;  padding: 30px; width:830px;" >
+							
 							<div>
 								<img src="${reservelist.main_poster_path}${reservelist.main_poster_name}" style="width:160px; height:220px;"/>
 							</div>

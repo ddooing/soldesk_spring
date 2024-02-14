@@ -2,7 +2,6 @@ package kr.co.softsoldesk.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -436,5 +435,12 @@ public class AdminDao {
 	// 서브 배너 순서 변경 (드래그앤 드롭)
 	public void updateSubExposeOrder(int subBannerId, int exposeOrder) {
 		adminMapper.updateSubExposeOrder(subBannerId, exposeOrder);
+	}
+	
+	// 승연 ```````````````````````````````````````````````
+	
+	public void insertbanner_apply(BannerApplyFormBean bannerApplyFormBean)
+	{
+		adminMapper.insertbanner_apply(bannerApplyFormBean);
 	}
 }
