@@ -62,7 +62,7 @@ public class TossController {
 	String confirmUrl ="https://api.tosspayments.com/v1/payments/confirm";
 	
 	String failmsg="";
-	String successmsg="성공";
+	
 	private int plusPoint=0; // 적립되는 포인트 
 	private int exhibitionId=0;// fail 시 다시 전시회 정보 페이지 가기 위함
 	//에러 코드 재현할때 사용함
@@ -96,7 +96,6 @@ public class TossController {
 		 redirectAttributes.addFlashAttribute("exhibitionBean", exhibitionBean);
 	    redirectAttributes.addFlashAttribute("tempReserveBean", reserveInfoBean);
 	    redirectAttributes.addFlashAttribute("plusPoint", plusPoint);
-	    redirectAttributes.addFlashAttribute("successMessage", successmsg);
 	    System.out.println("pluspoint : "+plusPoint);
 	    
 		return "redirect:/exhibition/payment_complete";
@@ -269,8 +268,7 @@ public class TossController {
         model.addAttribute("tempReserveBean",reserveInfoBean);
         model.addAttribute("plusPoint", plusPoint);
         
-        redirectAttributes.addFlashAttribute("successMessage", successmsg);
-        return "redirect:/success?"+reserveInfoBean.getOrder_id()+"";
+        return "toss/success";
    
     }
 

@@ -255,18 +255,18 @@
 				}
 			</script>
 			
-			<c:if test="${not empty successMessage}">
-		        <script>
-		        Swal.fire({
-		            title: "예매 완료",
-		            text: "예매가 성공적으로 되었습니다",
-		            icon: "success",
-		            showConfirmButton: false,
-		            timer: 2000
-		        });
-				console.log("successMessage : ",successMessage);
-		    	</script>
-		    </c:if>
+			
+	        <script>
+	        Swal.fire({
+	            title: "예매 완료",
+	            text: "예매가 성공적으로 되었습니다",
+	            icon: "success",
+	            showConfirmButton: false,
+	            timer: 2000
+	        });
+			console.log("successMessage : ",successMessage);
+	    	</script>
+		    
 			
 		</div>
 	</section>

@@ -263,7 +263,7 @@
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
-	<c:if test="${not empty successMessage}">
+	
         <script>
         Swal.fire({
             title: "예매 완료",
@@ -274,7 +274,7 @@
         });
 
     	</script>
-    </c:if>
+    
 </body>
 
 </html>
