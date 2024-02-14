@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
@@ -956,108 +955,13 @@ public class AdminController {
 	}
 	
 	
-	// 배너 견적 신청
-	@GetMapping("/mainbannerapplyform")
-	public String mainbannerapplyform(@ModelAttribute("applybannerBean") BannerApplyFormBean applybannerBean ,Model model) {
-		
-		// user 모든 정보 가져가기
-		UserBean userinfoBean = UserService.getLoginUserAllInfo(loginUserBean.getUser_id());
-		model.addAttribute("userinfoBean",userinfoBean);
-		
-		// 해당 유저가 신청한 전시회 목록 가져가기
-		List<ExhibitionBean> apply_personexhibitionlist = AdminService.getApply_personExhibitionlist(loginUserBean.getUser_id());
-		model.addAttribute("apply_personexhibitionlist",apply_personexhibitionlist);
-		
-		return "/admin/mainbannerapplyform";
-	}
+	////////////////////////////////////////////////////////
+
+	///////////////////////////////////////////////////
 	
-	// 메인 배너 신청 폼 제출
-	@PostMapping("/mainbannerapplyform_pro")
-	public String mainbannerapplyform_pro(@ModelAttribute("applybannerBean") BannerApplyFormBean applybannerBean ,Model model) {
-		
-		// 파일저장 및 banner_file_id set
-		if(applybannerBean.getBanner_file().getSize()>0) {
-			AdminService.addfiletableBannerBannerApplyFormBean(applybannerBean);
-		} 
-		
-		// 상태 1 로 등록대기 상태 set
-		applybannerBean.setState(1);
-		// banner_type(메인배너1) set
-		applybannerBean.setBanner_type(1);
-		
-		// 배너신청폼 테이블 insert
-		AdminService.insertbanner_apply_form(applybannerBean);
-		
-		
-		// index 필요한 것들
-		// 메인 캐러셀
-		List<MainBannerBean> AllMainBannerInfo = AdminService.IndexMainBannerBeanList();
-		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
-				
-		// 인기 전시 캐러셀
-		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
-		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
-				
-		// 곧전시 캐러셀
-		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
-		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
-		
-		return "/view/index";
-	}
 	
-	// 서브 배너 매핑
-	@GetMapping("/subbannerapplyform")
-	public String estimate2(@ModelAttribute("applybannerBean") BannerApplyFormBean applybannerBean ,Model model) {
-		
-		// user 모든 정보 가져가기
-		UserBean userinfoBean = UserService.getLoginUserAllInfo(loginUserBean.getUser_id());
-		model.addAttribute("userinfoBean",userinfoBean);
-		
-		// 해당 유저가 신청한 전시회 목록 가져가기
-		List<ExhibitionBean> apply_personexhibitionlist = AdminService.getApply_personExhibitionlist(loginUserBean.getUser_id());
-		model.addAttribute("apply_personexhibitionlist",apply_personexhibitionlist);
-		
-		return "/admin/subbannerapplyform";
-	}
 	
-	// 서브 배너 신청 폼 제출
-	@PostMapping("/subbannerapplyform_pro")
-	public String subbannerapplyform_pro(@ModelAttribute("applybannerBean") BannerApplyFormBean applybannerBean ,Model model) {
-				
-		// 파일저장 및 banner_file_id set
-		if(applybannerBean.getBanner_file().getSize()>0) {
-			AdminService.addfiletableBannerSubBannerApplyFormBean(applybannerBean);
-		} 
-				
-		// 상태 1 로 등록대기 상태 set
-		applybannerBean.setState(1);
-		// banner_type(서브배너2) set
-		applybannerBean.setBanner_type(2);
-				
-		// 배너신청폼 테이블 insert
-		AdminService.insertbanner_apply_form(applybannerBean);
-				
-		// index 필요한 것들
-		// 메인 캐러셀
-		List<MainBannerBean> AllMainBannerInfo = AdminService.IndexMainBannerBeanList();
-		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
-						
-		// 인기 전시 캐러셀
-		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
-		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
-						
-		// 곧전시 캐러셀
-		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
-		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
-				
-		return "/view/index";
-	}
 	
-	// 인덱스 -> 배너 등록 페이지 매핑
-	@GetMapping("/bannerapply")
-	public String bannerapply() {
-		return "/admin/bannerapply";
-	}
 	
 	// 관리자 페이지 배너 신청 리스트 매핑
 	@GetMapping("/manager_mainbannerapplylist")
@@ -1065,6 +969,14 @@ public class AdminController {
 		
 		return "/admin/manager_mainbannerapplylist";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	// 서브배너 showlist 매핑

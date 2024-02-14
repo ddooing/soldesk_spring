@@ -362,7 +362,7 @@
 		    }).then((result) => {
 		        if (result.isConfirmed) {
 		            document.getElementById('application-form').submit();
-		            Swal.fire('신청되었습니다!', '', 'success');
+		            //Swal.fire('신청되었습니다!', '', 'success');
 		        }
 		    });
 		}

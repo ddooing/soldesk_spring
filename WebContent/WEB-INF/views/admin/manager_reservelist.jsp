@@ -219,6 +219,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 					<div style="margin-top:30px;">
 						<h3>예매 관리</h3>
 					</div>
+					<form:form action="payment?exhibition_id=${exhibitionBean.exhibition_id}"
+						method="post" modelAttribute="tempReserveBean" id="reservationForm">
+						<form:hidden path="start_date" id="startDate" value="" />
+						<form:hidden path="end_date" id="endDate" value="" />
 					<div style="display: flex; justify-content: center; height: 95px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 						
 						<div style="margin-right: 50px;">
@@ -232,7 +236,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							value="YYYY - MM - DD" spellcheck="false">
 							
 							  <script>
+							  
 							    window.addEventListener('DOMContentLoaded', () => {
+							    
+							    	 var today = new Date();
 							      new Pikaday({
 							        field: document.getElementById('datepicker'),
 							        theme: "pikaday-white",
@@ -256,6 +263,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							        field: document.getElementById('datepicker2'),
 							        theme: "pikaday-white",
 							        firstDay: 1,
+							        maxDate: today,
+							        defaultDate: today, // 오늘 날짜를 기본값으로 설정
+							        setDefaultDate: true, // 기본 날짜를 입력 필드에 표시
 							        i18n: {
 							        	previousMonth: 'Prev',
 							            nextMonth: 'Next',
@@ -300,6 +310,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							placeholder="검색어를 입력해주세요" />
 						<button class="btn btn-dark" style="width: 80px; height: 40px; margin-top: 22px;">검색</button>
 					</div>
+					</form:form>
 
 					<div style="background-color: white; margin-top: 30px;">
 						<table class="table table-striped" style="text-align: center;">

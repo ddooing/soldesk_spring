@@ -79,6 +79,11 @@ public class BannerApplyTossController {
 		UserBean loginUserDetailBean = userService.getLoginUserAllInfo(applybannerBean.getApply_person_id());
 		
 		String title="";
+		// 파일저장 및 banner_file_id set
+		if(applybannerBean.getBanner_file().getSize()>0) {
+			adminService.addfiletableBannerBannerApplyFormBean(applybannerBean);
+		} 
+				
 		//신청하려는 상품
 		if(applybannerBean.getBanner_type()==1)
 		{
