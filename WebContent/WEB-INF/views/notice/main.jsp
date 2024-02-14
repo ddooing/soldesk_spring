@@ -496,75 +496,18 @@ a:hover {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td><strong class="ico_imp"><span>중요</span></strong></td>
-								<td>전체</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2578"
-									class="txt_color01">공지사항 중요 게시글입니다.</a></td>
-								<td>2023-09-13</td>
-							</tr>
-							<tr>
-								<td><strong class="ico_imp"><span>중요</span></strong></td>
-								<td>전체</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2541"
-									class="txt_color01">공지사항 중요 게시글입니다.</a></td>
-								<td>2023-06-08</td>
-							</tr>
-							<tr>
-								<td>28</td>
-								<td>전체</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2606"
-									class="txt_color01">공지사항 게시글입니다.</a></td>
-								<td>2023-12-07</td>
-							</tr>
-							<tr>
-								<td>27</td>
-								<td>전체</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2605"
-									class="txt_color01">공지사항 게시글입니다.</a></td>
-								<td>2023-12-01</td>
-							</tr>
-							<tr>
-								<td>26</td>
-								<td>전체</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2602"
-									class="txt_color01">공지사항 게시글입니다.</a></td>
-								<td>2023-12-01</td>
-							</tr>
-							<tr>
-								<td>25</td>
-								<td>전체</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2596"
-									class="txt_color01">공지사항 게시글입니다.</a></td>
-								<td>2023-11-16</td>
-							</tr>
-							<tr>
-								<td>24</td>
-								<td>전체</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2594"
-									class="txt_color01">공지사항 게시글입니다.</a></td>
-								<td>2023-12-06</td>
-							</tr>
-							<tr>
-								<td>23</td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2591"
-									class="txt_color01">공지사항 전시회 게시글입니다.</a></td>
-								<td>2023-10-13</td>
-							</tr>
-							<tr>
-								<td>22</td>
-								<td>전체</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2590"
-									class="">공지사항 게시글입니다.</td>
-							</tr>
-							<tr>
-								<td>21</td>
-								<td>전시회</td>
-								<td class="text_l"><a href="#none" id="2587" class="">공지사항
-										전시회 게시글입니다.</a></td>
-								<td>2023-10-05</td>
-							</tr>
+						
+							<c:forEach var="notices" items="${notices }">
+								<tr>
+									<td>${notices.notice_id}</td>
+									<td class="text_l"><a
+										href="${root }/notice/post?notice_id=${notice_id}">
+											${notices.title } </a></td>
+									<td>${notices.title}</td>
+									<td>${notices.create_date}</td>
+								</tr>
+							</c:forEach>
+							
 						</tbody>
 					</table>
 

@@ -2,6 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="root" value="${pageContext.request.contextPath }"/>
 <script>
-	alert('회원탈퇴가 완료되었습니다.')
+	alert('회원탈퇴가 성공하였습니다.')
 	location.href = '${root}/view/index'
 </script>

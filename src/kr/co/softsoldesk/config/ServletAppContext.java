@@ -23,18 +23,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
+import kr.co.softsoldesk.mapper.BoardMapper;
 import kr.co.softsoldesk.mapper.ExhibitionMapper;
+import kr.co.softsoldesk.mapper.NoticeMapper;
 import kr.co.softsoldesk.mapper.UserMapper;
 
 @Configuration
-@EnableWebMvc // ��ĵ�� ��Ű�� ������ Ŭ���� �� Controller ������̼��� ������ �ִ� Ŭ��������
-				// Controller�� ���
+@EnableWebMvc //스캔한 패키지 내부의 클래스 중 Controller 어노테이션을 가지고 있는 클래스 들을 Controller로 등록
 @ComponentScan("kr.co.softsoldesk.controller")
 @ComponentScan("kr.co.softsoldesk.dao")
 @ComponentScan("kr.co.softsoldesk.Service")
 @PropertySource("/WEB-INF/properties/db.properties")
 public class ServletAppContext implements WebMvcConfigurer {
-//Spring MVC ������Ʈ�� ���õ� ������ �ϴ� Ŭ����
+	//Spring MVC 프로젝트에 관련된 설정을 하는 클래스
 
 	@Value("${db.classname}")
 	private String db_classname;
@@ -53,7 +54,7 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		// ���� ���� ��� ����
+		//정적 파일 경로 매핑
 		WebMvcConfigurer.super.addResourceHandlers(registry);
 		registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/");
 		// registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/assets/");
@@ -61,7 +62,7 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry) {
-		// Controller�� �޼��尡 ��ȯ�ϴ� ���� �յڿ� ����� Ȯ���� �߰�
+		//Controller의 메서드가 반환하는 파일 앞뒤에 경로와 확장자 추가
 		WebMvcConfigurer.super.configureViewResolvers(registry);
 		registry.jsp("/WEB-INF/views/", ".jsp");
 	}
@@ -82,12 +83,13 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(source);
+		//factoryBean.setTypeHandlersPackage("kr.co.softsoldesk.typehandler"); // TypeHandler가 위치한 패키지를 설정
 		SqlSessionFactory factory = factoryBean.getObject();
 
 		return factory;
 	}
-
-	@Bean
+	
+	@Bean		// 전시회 조회 
 	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) throws Exception {
 
 		MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<UserMapper>(UserMapper.class);
@@ -97,6 +99,25 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	}
 
+
+	@Bean
+	public MapperFactoryBean<BoardMapper> getBoardMapper(SqlSessionFactory factory) throws Exception {
+	    // MapperFactoryBean 객체를 생성합니다. 이 객체는 MyBatis의 SQL 매핑을 담당합니다.
+	    // BoardMapper 클래스를 이용하여 객체를 생성하고, SqlSessionFactory를 설정합니다.
+	    MapperFactoryBean<BoardMapper> factoryBean = new MapperFactoryBean<BoardMapper>(BoardMapper.class);
+	    factoryBean.setSqlSessionFactory(factory);
+	    return factoryBean; // 생성한 MapperFactoryBean 객체를 반환합니다.
+	}
+	
+	@Bean
+	public MapperFactoryBean<NoticeMapper> getNoticeMapper(SqlSessionFactory factory) throws Exception {
+	    // MapperFactoryBean 객체를 생성합니다. 이 객체는 MyBatis의 SQL 매핑을 담당합니다.
+	    // NoticeMapper 클래스를 이용하여 객체를 생성하고, SqlSessionFactory를 설정합니다.
+	    MapperFactoryBean<NoticeMapper> factoryBean = new MapperFactoryBean<NoticeMapper>(NoticeMapper.class);
+	    factoryBean.setSqlSessionFactory(factory);
+	    return factoryBean; // 생성한 MapperFactoryBean 객체를 반환합니다.
+	}
+	
 	@Bean		// 전시회 조회 
 	public MapperFactoryBean<ExhibitionMapper> getExhibitionMapper(SqlSessionFactory factory) throws Exception {
 
@@ -106,6 +127,8 @@ public class ServletAppContext implements WebMvcConfigurer {
 		return factoryBean;
 
 	}
+	
+	
 
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {

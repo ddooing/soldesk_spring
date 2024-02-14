@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +13,7 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>ARTMEE</title>
-<link rel="icon" type="image/x-icon" href="assets/ARTMEE_PAGELOGO.png" />
+<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 
 <!-- Font Awesome icons (free version)-->
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -113,171 +115,249 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 	font-weight: 300;
 	color: #757575;
 	border: 2px solid transparent; /* 기본 테두리 */
-	 transition: background-color 0.3s ease-in-out; /* 부드러운 효과를 위한 트랜지션 추가 */
-    border-radius: 5px; /* 둥근 테두리 적용 */
+	transition: background-color 0.3s ease-in-out;
+	/* 부드러운 효과를 위한 트랜지션 추가 */
+	border-radius: 5px; /* 둥근 테두리 적용 */
 }
-.age_btn.on {
-	background-color:#E7E7E7;
 
-    border-radius: 5px; /* 둥근 테두리 적용 */
-    /* 클릭된 버튼에 대한 추가 스타일 */
-} 
-	#readg{
-transform: scale(1.3);
-transform-origin: top;
+.age_btn.on {
+	background-color: #E7E7E7;
+	border-radius: 5px; /* 둥근 테두리 적용 */
+	/* 클릭된 버튼에 대한 추가 스타일 */
+}
+
+#readg {
+	transform-origin: top;
+}
+
+
+.asdf tr {
+	height: 50px;
 }
 </style>
-<script type="text/javascript">
-      $(document).ready(function () {
 
-         $("#headers").load("component/header.html");
-         $("#footer").load("component/footer.html");
-      });
-   </script>
 </head>
+<script>
+	function checkIdExist() {
+		var id = $("#id").val();
+
+		if (id.length == 0) {
+			alert('아이디를 입력해주세요');
+			return;
+		}
+
+		$.ajax({
+			url : '${root}/user/checkIdExist/' + id,
+			type : 'get',
+			dataType : 'text',
+			success : function(result) {
+				if (result.trim() == 'true') {
+					alert('사용할 수 있는 아이디입니다.');
+					$("#IdExist").val('true');
+					console.log('IdExist: true'); // 디버그 메시지
+				} else if (result.trim() == 'false') {
+					alert('사용할 수 없는 아이디입니다.');
+					$("#IdExist").val('false');
+					console.log('IdExist: false'); // 디버그 메시지
+				}
+			}
+		});
+	}
+
+	function resetIdExist() {
+		$("#IdExist").val('false');
+		console.log('IdExist reset: false'); // 디버그 메시지
+	}
+
+	function checkNickExist() {
+		var nickname = $("#nickname").val();
+
+		if (nickname.length == 0) {
+			alert('닉네임을 입력해주세요');
+			return;
+		}
+
+		$.ajax({
+			url : '${root}/user/checkNickExist/' + nickname,
+			type : 'get',
+			dataType : 'text',
+			success : function(result) {
+				if (result.trim() == 'true') {
+					alert('사용할 수 있는 닉네임입니다.');
+					$("#NickExist").val('true');
+					console.log('NickExist: true'); // 디버그 메시지
+				} else if (result.trim() == 'false') {
+					alert('사용할 수 없는 닉네임입니다.');
+					$("#NickExist").val('false');
+					console.log('NickExist: false'); // 디버그 메시지
+				}
+			}
+		});
+	}
+
+	function resetNickExist() {
+		$("#NickExist").val('false');
+		console.log('NickExist reset: false'); // 디버그 메시지
+	}
+</script>
 
 <body id="page-top">
 	<!-- 메뉴바 -->
-	
-<c:import url="/WEB-INF/views/include/header.jsp"/>
+
+	<c:import url="/WEB-INF/views/include/header.jsp" />
 
 	<!--로그인 부분-->
-	<section id="readg"class="text-center" style="margin-top: 100px;">
-		<form action="login.html" method="post">
-			<div class="container h-100 align-items-center justify-content-center">
-				<h2>회원가입</h2>
-				
-				<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
+	<section id="readg" class="text-center" style="margin-top: 100px;">
 
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="nickname" style="font-size: 20px;">닉네임</label>
-					</div>  
-					<div style="margin-left: 20px;">
-						<input type="text" name="nickname" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;">
-						<input type="button" class="btn btn-dark" value="중복확인" />
-					</div>
-				</div>
+		<h2>회원가입</h2>
+		<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="id" style="font-size: 20px;">아이디</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="text" name="id" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;">
-						<input type="button" class="btn btn-dark" value="중복확인" />
-					</div>
-				</div>
+		<form:form action="${root}/user/Signup_pro" method="post"
+			modelAttribute="joinUserBean">
+			<form:hidden path="IdExist" />
+			<form:hidden path="NickExist" />
 
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="pw" style="font-size: 20px;">비밀번호</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="password" name="pw" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
-				</div>
+			<div
+				style="display: flex; justify-content: center; align-content: center; text-align: left;">
+				<table class="asdf" style="margin-top: 50px;">
+					<tr>
+						<th style="width: 200px;"><form:label path="name"
+								style="font-size: 20px;">성함</form:label></th>
 
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="pw1" style="font-size: 20px;">비밀번호 확인</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="password" name="pw1" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
-				</div>
+						<td><form:input path="name" class="form-control" /> <form:errors
+								path="name" style="color:red" /></td>
 
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="email" style="font-size: 20px;">이메일</label>
-					</div>
-					<div style="margin-left: 20px;">
-						<input type="email" name="email" />
-					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
-				</div>
 
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="gender" style="font-size: 20px; text-align: left; margin-left:18px;">성별</label>
-					</div>
-					<div style="margin-left: 20px; width: 218px;">
-						<input type="radio" name="gender" id="man"
-							style="margin-right: 20px;" /> <label for="man">남</label> <input
-							type="radio" name="gender" id="woman"
-							style="margin-left: 50px; margin-right: 20px;" /> <label
-							for="woman">여</label>
-					</div>
-					<div style="margin-left: 20px; width: 100px;"></div>
-				</div>
+					</tr>
 
-				<div class="d-flex align-items-center justify-content-center"
-					style="margin-top: 20px;">
-					<div style="width: 150px; text-align: left;">
-						<label for="gender" style="font-size: 20px; text-align: left; margin-left:39px;">연령대</label>
-					</div>
-					<div style="width: 400px;">
-						<table>
-							<tr>
-								<td style="border: 0px;">
-									<input type="button" id="age_10" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('10')" value="10대"/>
-			                        <input type="button" id="age_20" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('20')" value="20대"/>   
-			                        <input type="button" id="age_30" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('30')" value="30대"/>
-			                        <input type="button" id="age_40" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('40')" value="40대"/>
-			                        <input type="button" id="age_50" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('50')" value="50대"/>
-			                        <input type="button" id="age_60" class="age_btn" name="age"
-			                              onclick="javascript:age_chg('60')" value="60대"/>
+					<tr>
+						<th style="width: 200px;"><form:label path="id"
+								style="font-size: 20px;">아이디</form:label></th>
 
-								</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-				<div style="margin-top: 50px">
-					<button class="btn btn-dark"type="submit">회원가입</button>
-				</div>
+						<td><form:input path="id" onkeypress="resetIdExist()"
+								class="form-control" /> <form:errors path="id"
+								style="color:red" /></td>
+
+						<td>
+							<button type="button" class="btn btn-dark"
+								style="margin-left: 15px;" onclick="checkIdExist()">중복확인</button>
+						</td>
+					</tr>
+
+					<tr>
+						<th style="width: 200px;"><form:label path="email"
+								style="font-size: 20px;">이메일</form:label></th>
+
+						<td><form:input path="email" class="form-control" /> <form:errors
+								path="email" style="color:red" /></td>
+					</tr>
+
+
+
+					<tr>
+						<th style="width: 200px;"><form:label path="birth"
+								style="font-size: 20px;">생년월일</form:label></th>
+
+						<td><input type="date" id="birth" name="birth"
+							pattern="yyyy-MM-dd" /></td>
+					</tr>
+
+					<tr>
+						<th style="width: 200px;"><form:label path="password"
+								style="font-size: 20px;">비밀번호</form:label></th>
+
+						<td><form:password path="password" class="form-control" /> <form:errors
+								path="password" style="color:red" /></td>
+					</tr>
+
+					<tr>
+						<th style="width: 200px;"><form:label path="password2"
+								style="font-size: 20px;">비밀번호 확인</form:label></th>
+
+						<td><form:password path="password2" class="form-control" />
+							<form:errors path="password2" style="color:red" /></td>
+					</tr>
+
+					<tr>
+						<th style="width: 200px;"><form:label path="nickname"
+								style="font-size: 20px;">닉네임</form:label></th>
+
+						<td><form:input path="nickname" class="form-control"
+								onkeypress="resetNickExist()" /> <form:errors path="nickname"
+								style="color:red" /></td>
+
+						<td>
+							<button type="button" class="btn btn-dark"
+								style="margin-left: 15px;" onclick="checkNickExist()">중복확인</button>
+						</td>
+					</tr>
+
+					<tr>
+						<th style="width: 200px;"><form:label path="gender"
+								style="font-size: 20px;">성별</form:label></th>
+
+						<td>
+							<div style="display: flex; justify-content: center;">
+
+								<div style="margin-right: 80px;">
+									<form:radiobutton path="gender" value="male" />
+									남
+								</div>
+
+								<div>
+									<form:radiobutton path="gender" value="female" />
+									여
+								</div>
+							</div> <form:errors path="gender" style="color:red" />
+						</td>
+
+					</tr>
+
+					<tr>
+						<th style="width: 200px;"><form:label path="telephone"
+								style="font-size: 20px;">전화번호</form:label></th>
+
+						<td><form:input path="telephone" class="form-control" /> <form:errors
+								path="telephone" style="color:red;" /></td>
+					</tr>
+
+
+				</table>
 			</div>
-		</form>
+			<!-- 확인 버튼 -->
+			<div
+				style="display: flex; justify-content: center; align-items: center;">
+				<a href="${root}/view/index" class="btn btn-danger"
+					style="margin-top: 30px; margin-right: 15px;">취소</a>
+				<button type="submit" class="btn btn-dark" style="margin-top: 30px;">확인</button>
+			</div>
+		</form:form>
+
+
+
 	</section>
 
-<script>
-    function age_chg(age) {
-        // 모든 버튼에서 'on' 클래스 제거
-        var buttons = document.querySelectorAll('.age_btn');
-        buttons.forEach(function (button) {
-            button.classList.remove('on');
-        });
+	<script>
+		function age_chg(age) {
+			// 모든 버튼에서 'on' 클래스 제거
+			var buttons = document.querySelectorAll('.age_btn');
+			buttons.forEach(function(button) {
+				button.classList.remove('on');
+			});
 
-        // 클릭된 버튼에 'on' 클래스 추가
-        var selectedButton = document.getElementById('age_' + age);
-        selectedButton.classList.add('on');
-        
-        // 여기에 추가로 수행하고자 하는 작업을 추가할 수 있습니다.
-    }
-</script>
+			// 클릭된 버튼에 'on' 클래스 추가
+			var selectedButton = document.getElementById('age_' + age);
+			selectedButton.classList.add('on');
+
+			// 여기에 추가로 수행하고자 하는 작업을 추가할 수 있습니다.
+		}
+	</script>
 
 
 
 	<!-- 푸터-->
-	
-<c:import url="/WEB-INF/views/include/footer.jsp"/>
+
+	<c:import url="/WEB-INF/views/include/footer.jsp" />
 
 </body>
 

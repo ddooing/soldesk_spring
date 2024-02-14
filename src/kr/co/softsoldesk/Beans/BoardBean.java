@@ -3,30 +3,38 @@ package kr.co.softsoldesk.Beans;
 import java.sql.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
 public class BoardBean {
-	private Integer board_id; // 게시판번호
-    private Integer user_id; // 작성자
+   
+	private int board_id; // 게시판번호
+    private int user_id; // 작성자
+    @NotBlank
     private String title; // 제목
-    private Date regDate;	// 등록일자
+    private String create_date;   // 등록일자
+    private int views;
+    @NotBlank
     private String contents; // 내용
-    private Date updateDate;	// 수정날짜
-    private Integer state;	// 상태
+    private String update_date;   // 수정날짜
+    private int state;
     
-	public Integer getBoard_id() {
+    private String user_name;
+    
+	public int getBoard_id() {
 		return board_id;
 	}
-	public void setBoard_id(Integer board_id) {
+	public void setBoard_id(int board_id) {
 		this.board_id = board_id;
 	}
-	public Integer getUser_id() {
+	public int getUser_id() {
 		return user_id;
 	}
-	public void setUser_id(Integer user_id) {
+	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
 	public String getTitle() {
@@ -35,11 +43,17 @@ public class BoardBean {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Date getRegDate() {
-		return regDate;
+	public String getCreate_date() {
+		return create_date;
 	}
-	public void setRegDate(Date regDate) {
-		this.regDate = regDate;
+	public void setCreate_date(String create_date) {
+		this.create_date = create_date;
+	}
+	public int getViews() {
+		return views;
+	}
+	public void setViews(int views) {
+		this.views = views;
 	}
 	public String getContents() {
 		return contents;
@@ -47,18 +61,25 @@ public class BoardBean {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
-	public Date getUpdateDate() {
-		return updateDate;
+	public String getUpdate_date() {
+		return update_date;
 	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
+	public void setUpdate_date(String update_date) {
+		this.update_date = update_date;
 	}
-	public Integer getState() {
+	public int getState() {
 		return state;
 	}
-	public void setState(Integer state) {
+	public void setState(int state) {
 		this.state = state;
 	}
-	
- 
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+    
+     
 }
+   

@@ -5,20 +5,30 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import kr.co.softsoldesk.Beans.ExhibitionBean;
-import kr.co.softsoldesk.Service.ExhibitionService;
+import kr.co.softsoldesk.Service.UserService;
 
-
+@RestController
 public class RestApiController {
-
-	@Autowired
-	private ExhibitionService exhibitionService;
 	
-	@GetMapping("/exhibition/exhibition_detail/{exhibition_idx}")
-	public String exhibition_detain(@PathVariable String exhibition_idx) {
+	
+	@Autowired
+	private UserService userService;
+	
+	@GetMapping("/user/checkIdExist/{id}")
+	public String checkIdExist(@PathVariable String id) {
 		
-		return "";
+		boolean chi = userService.checkIdExist(id);
+		return chi + "";
+	}
+	
+	@GetMapping("/user/checkNickExist/{nick}")
+	public String checkNickExist(@PathVariable String nick) {
+		
+		
+		boolean chn = userService.checkNickExist(nick);
+		return chn + "";
 		
 	}
+	
 	
 }
