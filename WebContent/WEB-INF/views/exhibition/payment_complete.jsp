@@ -264,16 +264,16 @@
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
 	
-        <script>
-        Swal.fire({
-            title: "예매 완료",
-            text: "예매가 성공적으로 되었습니다",
-            icon: "success",
-            showConfirmButton: false,
-            timer: 2000
-        });
+    <script>
+      Swal.fire({
+          title: "예매 완료",
+          text: "예매가 성공적으로 되었습니다",
+          icon: "success",
+          showConfirmButton: false,
+          timer: 2000
+      });
 
-    	</script>
+  	</script>
     
 </body>
 

@@ -93,7 +93,7 @@ public class TossController {
 	
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveInfoBean.getExhibition_id());
 
-		 redirectAttributes.addFlashAttribute("exhibitionBean", exhibitionBean);
+		redirectAttributes.addFlashAttribute("exhibitionBean", exhibitionBean);
 	    redirectAttributes.addFlashAttribute("tempReserveBean", reserveInfoBean);
 	    redirectAttributes.addFlashAttribute("plusPoint", plusPoint);
 	    System.out.println("pluspoint : "+plusPoint);

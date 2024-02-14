@@ -1048,7 +1048,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
             confirmButtonColor: "#4F6F52",
             cancelButtonColor: "gray",
             confirmButtonText: "장바구니 보기",
-            cancelButtonText: '확인?'
+            cancelButtonText: '닫기'
         }).then((result) => {
             if (result.isConfirmed) {
                 // confirmButtonText를 눌렀을 때, 지정된 URL로 이동

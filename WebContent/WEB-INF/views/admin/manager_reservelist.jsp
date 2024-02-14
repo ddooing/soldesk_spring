@@ -22,11 +22,10 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
 	rel="stylesheet">
 
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-	crossorigin="anonymous"></script>
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 <!-- JQuery -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>	
 <script>
 
 $(document).ready(function(){
@@ -220,10 +219,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 					<div style="margin-top:30px;">
 						<h3>예매 관리</h3>
 					</div>
-					<div style="display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
+					<div style="display: flex; justify-content: center; height: 95px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 						
 						<div style="margin-right: 50px;">
-							
+							<div>결제일자</div>
 							<input id="datepicker" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
 								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 								value="YYYY - MM - DD" spellcheck="false">
@@ -231,7 +230,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							<input id="datepicker2" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
 								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 							value="YYYY - MM - DD" spellcheck="false">
-
+							
 							  <script>
 							    window.addEventListener('DOMContentLoaded', () => {
 							      new Pikaday({
@@ -275,31 +274,31 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							
 							
 						</div>
-						
+						<div style="display: flex; flex-direction: column;"> 결제 수단
+							<select name="usercombo" id="usercombo"
+								style="width: 150px; height: 36px; margin-right: 30px;">
+								<option value="option1" selected>전체</option>
+								<option value="option2">간편결제</option>
+								<option value="option9">포인트결제</option>
+								<option value="option3">신용·체크카드</option>
+								<option value="option4">가상계좌</option>
+								<option value="option5">휴대폰</option>
+								<option value="option6">문화상품권</option>
+								<option value="option7">게임문화상품권</option>
+								<option value="option8">도서문화상품권</option>
+								<option value="option9">계좌이체</option>
+							</select> 
+						</div>
 						<select name="usercombo" id="usercombo"
-							style="width: 150px; height: 40px; margin-right: 30px;">
-							<option value="" disabled selected>결제수단</option>
-							<option value="option1">전체</option>
-							<option value="option2">간편결제</option>
-							<option value="option3">신용 - 체크카드</option>
-							<option value="option4">가상계좌</option>
-							<option value="option5">휴대폰</option>
-							<option value="option6">문화상품권</option>
-							<option value="option7">게임문화상품권</option>
-							<option value="option8">도서문화상품권</option>
-							<option value="option9">계좌이체</option>
-						</select> 
-						
-						<select name="usercombo" id="usercombo"
-							style="width: 150px; height: 40px; margin-right: 30px;">
+							style="width: 150px; height: 36px; margin-right: 30px; margin-top: 22px;">
 							<option value="" disabled selected>검색조건선택</option>
 							<option value="option2">구매자명</option>
 							<option value="option3">구매상품</option>
 						</select> 
 						<input type="text" name="usersearch" id="usersearch"
-							style="width: 500px; height: 40px; margin-right: 30px;"
+							style="width: 250px; height: 36px; margin-right: 30px; margin-top: 20px;"
 							placeholder="검색어를 입력해주세요" />
-						<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+						<button class="btn btn-dark" style="width: 80px; height: 40px; margin-top: 22px;">검색</button>
 					</div>
 
 					<div style="background-color: white; margin-top: 30px;">
@@ -323,16 +322,32 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									<tr style="vertical-align: middle;">
 										<th scope="row">${reservelist.reserve_id}</th>
 										<td style="width: 150px;">${reservelist.requested_at}</td>
-										<td style="width: 150px;">${reservelist.approved_at}</td>
+										<td style="width: 150px;">${reservelist.approved_at != null ? reservelist.approved_at : '-'}</td>
 										<td>${reservelist.order_id}</td>
-										<td>${reservelist.state}</td>
+										
+										<c:choose>
+									        <c:when test="${reservelist.state == 1}">
+									            <td style="color: gray;">완료</td>
+									        </c:when>
+									        <c:when test="${reservelist.state == 0}">
+									            <td style="color: red;">취소</td>
+									        </c:when>
+									     
+									    </c:choose>
+									    
+									    
 										<td style="width: 150px;">${reservelist.name}</td>
 										<td style="width: 200px;">${reservelist.payment}</td>
 										<td>${reservelist.payment_method}</td>
 										<td>${reservelist.title}</td>
-										<td style="width: 150px;"><button class="btn btn-danger"
-								style="float: right; margin-right: 50px; margin-top: 20px; margin-bottom: 20px;">취소</button>
+										<td style="width: 150px;">
+											
+											<button data-reserve-id="${reservelist.reserve_id}" class="btn btn-danger"style="float: right; margin-right: 50px;
+											 margin-top: 20px; margin-bottom: 20px;" onclick="showConfrimCancle(this.getAttribute('data-reserve-id'))">취소</button>
+										
 										</td>
+										
+										
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -364,12 +379,46 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 				</div>
 			</main>
 		</div>
-	</div>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-		crossorigin="anonymous"></script>
-	<script src="js/scripts.js"></script>
 
+	<script>
+		function showConfrimCancle(reserveId) {
+
+			Swal.fire({
+	            //title: "Are you sure?",
+	            text: "취소 처리하시겠습니까?",
+	            icon: "warning",
+	            showCancelButton: true,
+	            confirmButtonColor: "#dd3344",
+	            cancelButtonColor: "gray",
+	            confirmButtonText: "취소 처리",
+	            cancelButtonText: '닫기'
+	        }).then((result) => {
+	            if (result.isConfirmed) {
+	            	 window.location.href = '${root}/admin/reserve_cancle?reserve_id='+reserveId;
+	            	console.log("클릭한 예매 reserve_id : ",reserveId);
+	            }
+	            
+	        });
+		}
+
+		document.addEventListener("DOMContentLoaded", function() {
+	        <% if (request.getAttribute("canceled") != null) { %>
+	            Swal.fire({
+	                title: "취소 처리 완료",
+	                text: "취소 처리가 성공적으로 되었습니다",
+	                icon: "success",
+	                showConfirmButton: false,
+	                timer: 2000
+	            });
+	        <% } %>
+	    });
+		
+	</script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<script src="js/scripts.js"></script>
+	
+	
 </body>
 
 </html>
