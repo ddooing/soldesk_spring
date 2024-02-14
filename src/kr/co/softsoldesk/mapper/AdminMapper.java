@@ -319,8 +319,6 @@ public interface AdminMapper {
 			+ "    e.holiday, \r\n"
 			+ "    e.address, \r\n"
 			+ "    e.place, \r\n"
-			+ "    e.latitude, \r\n"
-			+ "    e.longitude, \r\n"
 			+ "    e.site,\r\n"
 			+ "    e.main_poster_file_id,\r\n"
 			+ "    e.detail_poster_file_id,\r\n"
@@ -799,10 +797,12 @@ public interface AdminMapper {
 	
 	// 배너 수정 업데이트시 state 값 변경 확인하려고 쓰는 메소드
 	@Select("SELECT state from main_banner where main_banner_id = #{main_banner_id}")
-	Integer getMainBannerState(int main_banner_id);
+	int getMainBannerState(int main_banner_id);
 	
 	// 배너 수정 업데이트시 state 최대 값 반환 메소드
-	@Select("SELECT MAX(expose_order) FROM main_banner where state = 1")
+	@Select("SELECT COALESCE(MAX(expose_order), 0) AS max_expose_order\r\n"
+			+ "FROM main_banner\r\n"
+			+ "WHERE state = 1")
 	int getMaxExposeOrder();
 	
 	// 배너 수정 업데이트시 expose_order 값 1씩 줄이기
@@ -827,7 +827,7 @@ public interface AdminMapper {
 	
 	
 	// 배너 신청 폼 테이블에 insert
-	@Insert("insert into banner_apply_form (apply_person_id, exhibition_id, start_date, end_date, command, regdate, payment, state, banner_type, banner_file_id) values (#{apply_person_id}, #{exhibition_id}, #{start_date}, #{end_date}, #{command}, sysdate,#{payment} ,#{state}, #{banner_type}, #{banner_file_id})")
+	@Insert("insert into banner_apply_form (apply_person_id, exhibition_id, start_date, end_date, command, approved_At, payment, state, banner_type, banner_file_id) values (#{apply_person_id}, #{exhibition_id}, #{start_date}, #{end_date}, #{command}, sysdate,#{payment} ,#{state}, #{banner_type}, #{banner_file_id})")
 	void insertbanner_apply_form(BannerApplyFormBean bannerApplyFormBean);
 	
 	// 배너 신청 할때 파일테이블에 저장
@@ -968,14 +968,16 @@ public interface AdminMapper {
 	
 	// 서브 배너 수정시 state 값 확인하려고 사용하는 메소드
 	@Select("SELECT state from sub_banner where sub_banner_id = #{sub_banner_id}")
-	Integer getSubBannerState(int sub_banner_id);
+	int getSubBannerState(int sub_banner_id);
 	
 	// 서브 배너 업데이트시 파일 테이블에 파일 추가
 	@Insert("INSERT INTO file_table (file_id, name, path, file_date) values (file_id_seq.nextval, #{name}, #{path}, sysdate)")
 	void addfiletableBanner2(SubBannerBean subBannerBean);
 	
 	// 서브 배너 수정시 expose_order 값 max 찾기
-	@Select("SELECT MAX(expose_order) FROM sub_banner where state = 1")
+	@Select("SELECT COALESCE(MAX(expose_order), 0) AS max_expose_order\r\n"
+			+ "FROM sub_banner\r\n"
+			+ "WHERE state = 1")
 	int getSubMaxExposeOrder();
 	
 	// 서브 배너 수정 업데이트시 expose_order 값 1씩 줄이기
@@ -1013,4 +1015,226 @@ public interface AdminMapper {
 			+ "    mb.expose_order ASC")
 	List<SubBannerBean> IndexSubBannerBeanList();		
 	
+	
+	// 관리자 페이지 메인 배너 신청 내역 가져오기
+	@Select("SELECT\r\n"
+			+ "    baf.banner_apply_form_id,\r\n"
+			+ "    baf.exhibition_id,\r\n"
+			+ "    TO_CHAR(baf.start_date, 'yyyy-mm-dd') AS start_date,\r\n"
+			+ "    TO_CHAR(baf.end_date, 'yyyy-mm-dd') AS end_date,\r\n"
+			+ "    TO_CHAR(baf.approved_At , 'yyyy-mm-dd') AS approved_At ,\r\n"
+			+ "    baf.payment,\r\n"
+			+ "    baf.state,\r\n"
+			+ "    baf.banner_type,\r\n"
+			+ "    ft.name AS banner_name,\r\n"
+			+ "    ft.path AS banner_path,\r\n"
+			+ "    e.title AS exhibition_title,\r\n"
+			+ "    u.name AS user_name\r\n"
+			+ "FROM\r\n"
+			+ "    banner_apply_form baf\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "WHERE\r\n"
+			+ "    baf.banner_type = 1\r\n"
+			+ "ORDER BY\r\n"
+			+ "    baf.banner_apply_form_id DESC")
+	List<BannerApplyFormBean> getAllApplyMainbanner();
+	
+	// 관리자 페이지 서브 배너 신청 내역 가져오기
+	@Select("SELECT\r\n"
+			+ "    baf.banner_apply_form_id,\r\n"
+			+ "    baf.exhibition_id,\r\n"
+			+ "    TO_CHAR(baf.start_date, 'yyyy-mm-dd') AS start_date,\r\n"
+			+ "    TO_CHAR(baf.end_date, 'yyyy-mm-dd') AS end_date,\r\n"
+			+ "    TO_CHAR(baf.approved_At , 'yyyy-mm-dd') AS approved_At ,\r\n"
+			+ "    baf.payment,\r\n"
+			+ "    baf.state,\r\n"
+			+ "    baf.banner_type,\r\n"
+			+ "    ft.name AS banner_name,\r\n"
+			+ "    ft.path AS banner_path,\r\n"
+			+ "    e.title AS exhibition_title,\r\n"
+			+ "    u.name AS user_name\r\n"
+			+ "FROM\r\n"
+			+ "    banner_apply_form baf\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "WHERE\r\n"
+			+ "    baf.banner_type = 2\r\n"
+			+ "ORDER BY\r\n"
+			+ "    baf.banner_apply_form_id DESC")
+	List<BannerApplyFormBean> getAllApplySubbanner();
+	
+	// 관리자 페이지 메인 배너 신청 내역 뱃지 관련
+	@Select("SELECT COUNT(*) AS total_count, \r\n"
+			+ "       COUNT(CASE WHEN state = 1 THEN 1 END) AS state_1_count, \r\n"
+			+ "       COUNT(CASE WHEN state = 2 THEN 1 END) AS state_2_count\r\n"
+			+ "FROM banner_apply_form\r\n"
+			+ "where banner_type = 1")
+	BannerApplyFormBean getMainBannerBadge();
+	
+	// 관리자 페이지 서브 배너 신청 내역 뱃지 관련
+	@Select("SELECT COUNT(*) AS total_count, \r\n"
+			+ "       COUNT(CASE WHEN state = 1 THEN 1 END) AS state_1_count, \r\n"
+			+ "       COUNT(CASE WHEN state = 2 THEN 1 END) AS state_2_count\r\n"
+			+ "FROM banner_apply_form\r\n"
+			+ "where banner_type = 2")
+	BannerApplyFormBean getSubBannerBadge();	
+	
+	// 관리자 페이지 메인 배너 전시회 제목 검색 리스트
+	@Select("SELECT\r\n"
+			+ "    baf.banner_apply_form_id,\r\n"
+			+ "    baf.exhibition_id,\r\n"
+			+ "    TO_CHAR(baf.start_date, 'yyyy-mm-dd') AS start_date,\r\n"
+			+ "    TO_CHAR(baf.end_date, 'yyyy-mm-dd') AS end_date,\r\n"
+			+ "    TO_CHAR(baf.approved_At , 'yyyy-mm-dd') AS approved_At ,\r\n"
+			+ "    baf.payment,\r\n"
+			+ "    baf.state,\r\n"
+			+ "    baf.banner_type,\r\n"
+			+ "    ft.name AS banner_name,\r\n"
+			+ "    ft.path AS banner_path,\r\n"
+			+ "    e.title AS exhibition_title,\r\n"
+			+ "    u.name AS user_name\r\n"
+			+ "FROM\r\n"
+			+ "    banner_apply_form baf\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "WHERE\r\n"
+			+ "    baf.banner_type = 1\r\n"
+			+ "    AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "ORDER BY\r\n"
+			+ "    baf.banner_apply_form_id DESC")
+	List<BannerApplyFormBean> getMainBannerapplytitleSearch(String search);
+	
+	// 관리자 페이지 메인 배너 전시회 제목 검색 뱃지 관련
+	@Select("SELECT\r\n"
+			+ "    COUNT(*) AS total_count,\r\n"
+			+ "    COUNT(CASE WHEN state = 1 THEN 1 END) AS state_1_count,\r\n"
+			+ "    COUNT(CASE WHEN state = 2 THEN 1 END) AS state_2_count\r\n"
+			+ "FROM\r\n"
+			+ "    (SELECT\r\n"
+			+ "        baf.state\r\n"
+			+ "     FROM\r\n"
+			+ "        banner_apply_form baf\r\n"
+			+ "     INNER JOIN\r\n"
+			+ "        exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "     LEFT JOIN\r\n"
+			+ "        file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "     LEFT JOIN\r\n"
+			+ "        user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "     WHERE\r\n"
+			+ "        baf.banner_type = 1\r\n"
+			+ "        AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "    )")
+	BannerApplyFormBean getMainBannerapplytitlesearchBadge(String search);
+
+	// 관리자 페이지 서브 배너 전시회 제목 검색 리스트
+	@Select("SELECT\r\n"
+			+ "    baf.banner_apply_form_id,\r\n"
+			+ "    baf.exhibition_id,\r\n"
+			+ "    TO_CHAR(baf.start_date, 'yyyy-mm-dd') AS start_date,\r\n"
+			+ "    TO_CHAR(baf.end_date, 'yyyy-mm-dd') AS end_date,\r\n"
+			+ "    TO_CHAR(baf.approved_At , 'yyyy-mm-dd') AS approved_At ,\r\n"
+			+ "    baf.payment,\r\n"
+			+ "    baf.state,\r\n"
+			+ "    baf.banner_type,\r\n"
+			+ "    ft.name AS banner_name,\r\n"
+			+ "    ft.path AS banner_path,\r\n"
+			+ "    e.title AS exhibition_title,\r\n"
+			+ "    u.name AS user_name\r\n"
+			+ "FROM\r\n"
+			+ "    banner_apply_form baf\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "WHERE\r\n"
+			+ "    baf.banner_type = 2\r\n"
+			+ "    AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "ORDER BY\r\n"
+			+ "    baf.banner_apply_form_id DESC")
+	List<BannerApplyFormBean> getSubBannerapplytitleSearch(String search);
+	
+	// 관리자 페이지 서브 배너 전시회 제목 검색 뱃지 관련
+	@Select("SELECT\r\n"
+			+ "    COUNT(*) AS total_count,\r\n"
+			+ "    COUNT(CASE WHEN state = 1 THEN 1 END) AS state_1_count,\r\n"
+			+ "    COUNT(CASE WHEN state = 2 THEN 1 END) AS state_2_count\r\n"
+			+ "FROM\r\n"
+			+ "    (SELECT\r\n"
+			+ "        baf.state\r\n"
+			+ "     FROM\r\n"
+			+ "        banner_apply_form baf\r\n"
+			+ "     INNER JOIN\r\n"
+			+ "        exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "     LEFT JOIN\r\n"
+			+ "        file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "     LEFT JOIN\r\n"
+			+ "        user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "     WHERE\r\n"
+			+ "        baf.banner_type = 2\r\n"
+			+ "        AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "    )")
+	BannerApplyFormBean getSubBannerapplytitlesearchBadge(String search);			
+	
+	// 관리자 페이지 배너 취소 상태로 변경 state -> 3으로 변경
+	@Update("UPDATE banner_apply_form SET state = 3 WHERE banner_apply_form_id = #{banner_apply_form_id}")
+	void UpdateApplyBannerCancle(int banner_apply_form_id);
+	
+	// 관리자 페이지 배너 요청 추가/상세 페이지
+	@Select("SELECT\r\n"
+			+ "    baf.banner_apply_form_id,\r\n"
+			+ "    baf.apply_person_id,\r\n"
+			+ "    baf.exhibition_id,\r\n"
+			+ "    TO_CHAR(baf.start_date, 'YYYY-MM-DD') AS start_date,\r\n"
+			+ "    TO_CHAR(baf.end_date, 'YYYY-MM-DD') AS end_date,\r\n"
+			+ "    baf.command,\r\n"
+			+ "    TO_CHAR(baf.approved_At, 'YYYY-MM-DD') AS approved_At,\r\n"
+			+ "    baf.payment,\r\n"
+			+ "    baf.state,\r\n"
+			+ "    baf.banner_type,\r\n"
+			+ "    baf.banner_file_id,\r\n"
+			+ "    ft.name AS banner_name,\r\n"
+			+ "    ft.path AS banner_path,\r\n"
+			+ "    e.title AS exhibition_title,\r\n"
+			+ "    u.name AS user_name,\r\n"
+			+ "    u.telephone AS user_telephone,\r\n"
+			+ "    u.email AS user_email\r\n"
+			+ "FROM\r\n"
+			+ "    banner_apply_form baf\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "LEFT JOIN\r\n"
+			+ "    user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "WHERE\r\n"
+			+ "    baf.banner_apply_form_id = #{banner_apply_form_id}")
+	BannerApplyFormBean getBannerapplyDetail(int banner_apply_form_id);
+	
+	// 관리자 페이지 배너 신청 받은거 관리자가 확인하고 추가 (메인배너)
+	@Insert("INSERT INTO main_banner (exhibition_id, apply_person_id, start_date, end_date, expose_order, state, regdate, pay_money, banner_file_id) VALUES (#{exhibition_id}, #{apply_person_id}, #{start_date}, #{end_date}, #{expose_order}, #{state}, sysdate, #{pay_money}, #{banner_file_id})")
+	void addApplyMainBanner(MainBannerBean mainBannerBean);
+	
+	// 관리자 페이지 배너 신청 받은거 관리자가 확인하고 추가 (서브배너)
+	@Insert("INSERT INTO sub_banner (exhibition_id, apply_person_id, start_date, end_date, expose_order, state, regdate, pay_money, banner_file_id) VALUES (#{exhibition_id}, #{apply_person_id}, #{start_date}, #{end_date}, #{expose_order}, #{state}, sysdate, #{pay_money}, #{banner_file_id})")
+	void addApplySubBanner(SubBannerBean subBannerBean);
+	
+	// 관리자 페이지 배너 신청 받은거 관리자가 확인하고 추가 후 banner_apply_form 테이블 상태값 변경 (메인, 서브배너 공통)
+	@Update("UPDATE banner_apply_form SET state = 2 WHERE banner_apply_form_id = #{banner_apply_form_id}")
+	void updatebanner_apply_formState(int banner_apply_form_id);
+
 }

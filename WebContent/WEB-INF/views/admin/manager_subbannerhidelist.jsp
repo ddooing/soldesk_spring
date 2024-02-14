@@ -37,62 +37,7 @@
 <!-- 부트스트랩 아이콘 CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-<!-- 드래그앤 드롭 -->
-<!-- jQuery UI 라이브러리 추가 -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-<script>
-$(document).ready(function() {
-    // 행이 재정렬될 때마다 순서 업데이트
-    $('tbody').sortable({
-        axis: 'y',
-        update: function(event, ui) {
-            rowOrder = [];
-            $(this).find('tr').each(function() {
-                // tr 태그의 id 속성에서 배너 ID 추출
-                var bannerId = $(this).attr('id').split('-')[1];
-                if (bannerId) {
-                    rowOrder.push(bannerId);
-                }
-            });
-            console.log("Updated Row Order: ", rowOrder);
-        }
-    });
-
-    // 저장 버튼 클릭 이벤트
-    $('#saveButton').click(function() {
-        if (rowOrder.length > 0) {
-            console.log("Sending Row Order: ", rowOrder);
-            $.ajax({
-                url: '${root}/admin/saveRowOrder',
-                type: 'POST',
-                data: { order: rowOrder.join(',') },
-                success: function(response) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "순서 변경 성공",
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.reload(); // 페이지 새로고침
-                        }
-                    });
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "오류",
-                        text: "순서 변경 실패",
-                    });
-                }
-            });
-        } else {
-            console.log("No changes to save");
-        }
-    });
-});
-
-</script>
 
 
 </head>
@@ -141,7 +86,7 @@ $(document).ready(function() {
 						<table class="table table-striped" style="text-align: center; ">
 							<thead>
 								<tr style="vertical-align: middle;">
-									<th scope="col" style="width:50px;">순서</th>
+									
 									<th scope="col" style="width:50px;">No</th>
 									<th scope="col" style="width:500px;">제목</th>
 									<th scope="col" style="width:320px;">배너이미지</th>
@@ -153,7 +98,7 @@ $(document).ready(function() {
 							<tbody>
 								<c:forEach items="${AllSubBannerInfo }" var="bannerBean">
 									<tr id="banner-${bannerBean.sub_banner_id}" style="vertical-align: middle; height:150px;">
-										<th scope="row" style="width:50px;"><i class="bi bi-arrows-vertical" style="height:30px; cursor: move;"></i></th>
+										
 										<td style="width:50px;">${bannerBean.sub_banner_id }</td>
 										<td style="width:500px; text-align: left;"><a href="${root }/exhibition/exhibition_click?exhibition_id=${bannerBean.exhibition_id}" style="color:black;">${bannerBean.title }</a></td>
 										<td style="width:320px;"><img src="${bannerBean.sub_banner_path }${bannerBean.sub_banner_name }" style="width:300px; height:120px;" /></td>
@@ -178,9 +123,6 @@ $(document).ready(function() {
 						<div style="display:flex; margin-top: 20px; margin-bottom: 20px; float: right;">
 						
 							<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_subbanneradd'">추가</button>
-						<c:if test="${bannersearch == null }">
-							<button class="btn btn-dark" style="margin-left: 30px; margin-right: 30px;" id="saveButton">순서저장</button>
-						</c:if>
 						</div>
 
 					</div>

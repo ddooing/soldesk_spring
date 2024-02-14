@@ -37,6 +37,11 @@
 <!-- 부트스트랩 아이콘 CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+<!-- 드래그앤 드롭 -->
+<!-- jQuery UI 라이브러리 추가 -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 </head>
 
 <body class="sb-nav-fixed">
@@ -50,34 +55,36 @@
 						<h3>배너 신청 관리</h3>
 					</div>
 					<div style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-						<div style="position: flex; margin-right: 60px; width: 450px; float: left;">
-							<span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">등록대기 ${BadgeCnt.state_1_count }건</span> 
+					<div style="position: flex; margin-right: 60px; width: 450px; float: left;">
+						<span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">등록대기 ${BadgeCnt.state_1_count }건</span> 
 							<span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right: 10px;">등록완료 ${BadgeCnt.state_2_count }건</span> 
 							<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size: 15px;">배너신청 총${BadgeCnt.total_count}건</span>
-						</div>
+					</div>
 
-						<form action="${root }/admin/manager_mainbannerapplylist" method="get">
-							<select name="bannercombo" id="bannercombo" style="width: 150px; height: 40px; margin-right: 30px;">
-								<option value="title" selected>제목</option>
-							</select>
-							<c:choose>
-								<c:when test="${bannersearch != null }">
-									<input type="text" name="bannersearch" id="bannersearch" style="width: 500px; height: 40px; margin-right: 30px;" value="${bannersearch }" />
-								</c:when>
-								<c:otherwise>
-									<input type="text" name="bannersearch" id="bannersearch" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
-								</c:otherwise>
-							</c:choose>
-							<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
-						</form>
-					</div>
-				
-					<div style="display: flex; margin-top:30px;">
-						<h3 onclick="window.location='${root}/admin/manager_mainbannerapplylist'" style="cursor: pointer;">메인 배너</h3>
-						<h3 onclick="window.location='${root}/admin/manager_subbannerapplylist'" style=" margin-left:30px; color:#e2e2e2; cursor: pointer;">서브 배너</h3>
-					</div>
+					<form action="${root }/admin/manager_subbannerapplylist" method="get">
+								<select name="bannercombo" id="bannercombo" style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="title" selected>제목</option>
+								</select>
+								<c:choose>
+									<c:when test="${bannersearch != null }">
+										<input type="text" name="bannersearch" id="bannersearch" style="width: 500px; height: 40px; margin-right: 30px;" value="${bannersearch }" />
+									</c:when>
+									<c:otherwise>
+										<input type="text" name="bannersearch" id="bannersearch" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
+									</c:otherwise>
+								</c:choose>
+								
+								<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+					</form>
 					
-					<div style="background-color: white; margin-top:20px;" >					
+				</div>
+				
+				<div style="display: flex; margin-top:30px;">
+					<h3 onclick="window.location='${root}/admin/manager_mainbannerapplylist'" style="cursor: pointer; color:#e2e2e2;">메인 배너</h3>
+					<h3 onclick="window.location='${root}/admin/manager_subbannerapplylist'" style=" margin-left:30px; cursor: pointer;">서브 배너</h3>
+				</div>
+					<div style="background-color: white; margin-top:20px;" >
+						
 						<table class="table table-striped" style="text-align: center; ">
 							<thead>
 								<tr style="vertical-align: middle;">
@@ -113,8 +120,7 @@
 												<td>등록완료</td>
 												<td>
 													<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_bannerapplyadd?banner_apply_form_id=${bannerBean.banner_apply_form_id}'">상세</button>
-
-												</td>		
+												</td>
 											</c:when>
 											<c:when test="${bannerBean.state  == 3}">
 												<td>취소</td>
@@ -122,15 +128,18 @@
 													<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_bannerapplyadd?banner_apply_form_id=${bannerBean.banner_apply_form_id}'">상세</button>
 												</td>
 											</c:when>
-										</c:choose>	
+										</c:choose>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
-						
-					</div>					
+					</div>
+
+					
 				</div>
 			</main>
+
+			
 		</div>
 	</div>
 	
@@ -160,6 +169,7 @@
 	}
 
 	</script>
+	
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 </body>

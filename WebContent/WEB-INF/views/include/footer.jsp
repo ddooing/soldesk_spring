@@ -45,24 +45,25 @@
 
 </head>
 <body>
-	<footer class="py-5 navbar-custom" style="margin-top: 200px; background-color: navbar-color;">
-		<div class="container px-5">
-			<div class="row">
-				<div class="col-lg-3">
-					<img src="../img/ARTMEE.png" alt="Artmee Logo"
-						style="max-width: 80%; height: auto; margin-bottom: 5px;">
-				</div>
-				<div class="col-lg-6">
-					<p class="text-white small" style="margin-top: 5px;">
-						아트미 <br>
-						전화번호: 123-456-7890<br>
-						주소: 서울시 종로구 종로12길 15, 8층 801호<br>
-						이메일: info@artmee.com<br>
-						Copyright &copy; 2023 개발해드림 ALL RIGHTS RESERVED
-					</p>
-				</div>
-			</div>
-		</div>
-	</footer>
+	<footer class="py-4 navbar-custom" style="margin-top: 200px; background-color: navbar-color;">
+    <div class="container px-5">
+        <div class="row">
+            <div class="col-lg-3">
+                <img src="../img/ARTMEE.png" alt="Artmee Logo"
+                    style="max-width: 80%; height: auto; margin-bottom: 5px;">
+            </div>
+            <div class="col-lg-6">
+                <p class="text-white small" style="margin-top: 5px;">
+                    아트미 <br>
+                    전화번호: 123-456-7890<br>
+                    주소: 서울시 종로구 종로12길 15, 8층 801호<br>
+                    이메일: info@artmee.com<br>
+                    Copyright &copy; 2023 개발해드림 ALL RIGHTS RESERVED
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>

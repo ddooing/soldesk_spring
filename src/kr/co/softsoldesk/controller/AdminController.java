@@ -895,7 +895,7 @@ public class AdminController {
 	public String manager_mainbannerUpdate(@ModelAttribute("getOneMainBannerInfoBean") MainBannerBean mainBannerBean ,Model model) {
 		
 		// state 값 비교해서 expose_order 값 재정렬
-		Integer originalState = AdminService.getMainBannerState(mainBannerBean.getMain_banner_id());
+		int originalState = AdminService.getMainBannerState(mainBannerBean.getMain_banner_id());
 				
 		// 파일 변경시 파일 변경
 		if(mainBannerBean.getMain_banner_file().getSize()>0) {
@@ -1075,14 +1075,6 @@ public class AdminController {
 		return "/admin/bannerapply";
 	}
 	
-	// 관리자 페이지 배너 신청 리스트 매핑
-	@GetMapping("/manager_mainbannerapplylist")
-	public String manager_bannerapplylist() {
-		
-		return "/admin/manager_mainbannerapplylist";
-	}
-	
-	
 	// 서브배너 showlist 매핑
 	@GetMapping("/manager_subbannershowlist")
 	public String manager_subbannershowlist(@RequestParam(value="bannercombo", required=false) String bannercombo, @RequestParam(value="bannersearch", required=false) String bannersearch,Model model) {
@@ -1185,7 +1177,7 @@ public class AdminController {
 	public String manager_subbannermodify_pro(@ModelAttribute("getOneSubBannerInfoBean") SubBannerBean subBannerBean ,Model model) {
 		
 		// state 값 비교해서 expose_order 값 재정렬
-		Integer originalState = AdminService.getSubBannerState(subBannerBean.getSub_banner_id());
+		int originalState = AdminService.getSubBannerState(subBannerBean.getSub_banner_id());
 		
 		// 파일 변경시 파일 변경
 		if(subBannerBean.getSub_banner_file().getSize()>0) {
@@ -1266,5 +1258,185 @@ public class AdminController {
 		    return ResponseEntity.ok("Row order saved");
 		}
 	
+	// 관리자 페이지 메인 배너 신청 리스트 매핑
+	@GetMapping("/manager_mainbannerapplylist")
+	public String manager_bannerapplylist(@RequestParam(value="bannercombo", required=false) String bannercombo, @RequestParam(value="bannersearch", required=false) String bannersearch,Model model) {
+			
+		if (bannercombo == null || bannercombo.isEmpty() || bannersearch == null || bannersearch.isEmpty()) {
+			
+			// 메인 배너 신청내역 리스트 가져가기
+			List<BannerApplyFormBean> mainBannerApplylistBean = AdminService.getAllApplyMainbanner();
+			model.addAttribute("BannerApplylistBean", mainBannerApplylistBean);
+			
+			// 메인 배너 신청내역 뱃지 관련
+			BannerApplyFormBean BadgeBean = AdminService.getMainBannerBadge();
+			model.addAttribute("BadgeCnt", BadgeBean);		
+		}
+		
+		
+		if("title".equals(bannercombo)) {	// 제목검색
+			
+			// 메인 배너 제목 검색 모든 정보 가져가기
+			List<BannerApplyFormBean> TitleSearchapplyMainBannerInfo = AdminService.getMainBannerapplytitleSearch(bannersearch);
+			model.addAttribute("BannerApplylistBean",TitleSearchapplyMainBannerInfo);
+			
+			// 메인 배너 제목 검색 뱃지 관련
+			BannerApplyFormBean TitleSearchBadgeCnt = AdminService.getMainBannerapplytitlesearchBadge(bannersearch);
+			model.addAttribute("BadgeCnt",TitleSearchBadgeCnt);
+			
+			model.addAttribute("bannercombo",bannercombo);
+			model.addAttribute("bannersearch",bannersearch);
+		}
+		
+		
+		
+		return "/admin/manager_mainbannerapplylist";
+	}
+		
+	// 관리자 페이지 서브 배너 신청 리스트 매핑
+	@GetMapping("/manager_subbannerapplylist")
+	public String manager_subbannerapplylist(@RequestParam(value="bannercombo", required=false) String bannercombo, @RequestParam(value="bannersearch", required=false) String bannersearch,Model model) {
+		
+		if (bannercombo == null || bannercombo.isEmpty() || bannersearch == null || bannersearch.isEmpty()) {
+			
+			// 서브 배너 신청내역 리스트 가져가기
+			List<BannerApplyFormBean> subBannerApplylistBean = AdminService.getAllApplySubbanner();
+			model.addAttribute("BannerApplylistBean", subBannerApplylistBean);
+			
+			// 서브 배너 신청내역 뱃지 관련
+			BannerApplyFormBean BadgeBean = AdminService.getSubBannerBadge();
+			model.addAttribute("BadgeCnt", BadgeBean);
+		}
+		
+		if("title".equals(bannercombo)) {	// 제목검색
+			
+			// 서브 배너 제목 검색 모든 정보 가져가기
+			List<BannerApplyFormBean> TitleSearchapplySubBannerInfo = AdminService.getSubBannerapplytitleSearch(bannersearch);
+			model.addAttribute("BannerApplylistBean",TitleSearchapplySubBannerInfo);
+			
+			// 서브 배너 제목 검색 뱃지 관련
+			BannerApplyFormBean TitleSearchBadgeCnt = AdminService.getSubBannerapplytitlesearchBadge(bannersearch);
+			model.addAttribute("BadgeCnt",TitleSearchBadgeCnt);
+			
+			model.addAttribute("bannercombo",bannercombo);
+			model.addAttribute("bannersearch",bannersearch);
+		}
+		
+		return "/admin/manager_subbannerapplylist";
+	}
 	
+	// 배너 신청 취소 처리
+	@GetMapping("/BannerApplyCancel")
+	public String UpdateApplyBannerCancel(@RequestParam("banner_apply_form_id") int banner_apply_form_id, @RequestParam("banner_type") int banner_type) {
+
+		// 메인베너 취소시 메인배너로 리다이렉트
+		if(banner_type == 1) {
+			AdminService.UpdateApplyBannerCancle(banner_apply_form_id);
+			
+			return "redirect:/admin/manager_mainbannerapplylist";
+		} else { // 메인베너 취소시 서브배너로 리다이렉트
+			AdminService.UpdateApplyBannerCancle(banner_apply_form_id);
+			
+			return "redirect:/admin/manager_subbannerapplylist";
+		}
+		
+	}
+	
+	// 배너 신청 추가/상세 페이지 매핑 (신청1개 모든 정보 가져가기)
+	@GetMapping("/manager_bannerapplyadd")
+	public String manager_bannerapplyadd(@RequestParam("banner_apply_form_id") int banner_apply_form_id, Model model) {
+
+		// 배너 신청 1개 모든 정보 가져가기
+		BannerApplyFormBean applyinfo = AdminService.getBannerapplyDetail(banner_apply_form_id);
+		model.addAttribute("AllBannerApplyInfo",applyinfo);
+		
+		
+		return "/admin/manager_bannerapplyadd";
+	}
+
+	
+	// 신청된 배너 추가
+	@PostMapping("/manager_bannerapplyadd_pro")
+	public String manager_bannerapplyadd_pro(@ModelAttribute("AllBannerApplyInfo") BannerApplyFormBean AllBannerApplyInfo, Model model) {
+		
+		// 배너타입이 1일때 (메인베너 리다이렉트)
+		if(AllBannerApplyInfo.getBanner_type() == 1) {
+			
+			MainBannerBean addmainBannerBean = new MainBannerBean();
+			
+			//파일 변경시
+			if(AllBannerApplyInfo.getBanner_file().getSize()>0) {
+				// 새파일 저장 및 file_id set
+				addmainBannerBean.setMain_banner_file(AllBannerApplyInfo.getBanner_file());
+				AdminService.addfiletableBanner(addmainBannerBean);
+			} else {
+				addmainBannerBean.setBanner_file_id(AllBannerApplyInfo.getBanner_file_id());				
+			}
+			
+			addmainBannerBean.setExhibition_id(AllBannerApplyInfo.getExhibition_id());
+			addmainBannerBean.setApply_person_id(AllBannerApplyInfo.getApply_person_id());
+			addmainBannerBean.setStart_date(AllBannerApplyInfo.getStart_date());
+			addmainBannerBean.setEnd_date(AllBannerApplyInfo.getEnd_date());
+			
+			// 숨김 안숨김 변경
+			if(AllBannerApplyInfo.getState1() == 1) {
+				addmainBannerBean.setState(1);
+			} else {
+				addmainBannerBean.setState(2);
+			}
+			addmainBannerBean.setPay_money(AllBannerApplyInfo.getPayment());
+			// expose_order max값 가져와서 +1
+			addmainBannerBean.setExpose_order(AdminService.getMaxExposeOrder() + 1);
+			
+			// sub_banner 테이블에 insert
+			AdminService.addApplyMainBanner(addmainBannerBean);
+			
+			// banner_apply_form 에서 state 값 2로(등록완료) 변경
+			AdminService.updatebanner_apply_formState(AllBannerApplyInfo.getBanner_apply_form_id());
+			
+			return "redirect:/admin/manager_mainbannershowlist";
+			
+		} else if(AllBannerApplyInfo.getBanner_type() == 2) {	// 2일때 (서브배너 리다이렉트)
+			
+			SubBannerBean addsubBannerBean = new SubBannerBean();
+			
+			//파일 변경시
+			if(AllBannerApplyInfo.getBanner_file().getSize()>0) {
+				// 새파일 저장 및 file_id set
+				addsubBannerBean.setSub_banner_file(AllBannerApplyInfo.getBanner_file());
+				AdminService.addfiletableBanner2(addsubBannerBean);
+				
+			} else {
+				addsubBannerBean.setBanner_file_id(AllBannerApplyInfo.getBanner_file_id());				
+			}
+			
+			addsubBannerBean.setExhibition_id(AllBannerApplyInfo.getExhibition_id());
+			addsubBannerBean.setApply_person_id(AllBannerApplyInfo.getApply_person_id());
+			addsubBannerBean.setStart_date(AllBannerApplyInfo.getStart_date());
+			addsubBannerBean.setEnd_date(AllBannerApplyInfo.getEnd_date());
+			
+			// 숨김 안숨김 변경
+			if(AllBannerApplyInfo.getState1() == 1) {
+				addsubBannerBean.setState(1);
+			} else {
+				addsubBannerBean.setState(2);
+			}
+			
+			addsubBannerBean.setPay_money(AllBannerApplyInfo.getPayment());
+			// expose_order max값 가져와서 +1
+			addsubBannerBean.setExpose_order(AdminService.getSubMaxExposeOrder() + 1);
+			
+			// sub_banner 테이블에 insert
+			AdminService.addApplySubBanner(addsubBannerBean);
+			
+			// banner_apply_form 에서 state 값 2로(등록완료) 변경
+			AdminService.updatebanner_apply_formState(AllBannerApplyInfo.getBanner_apply_form_id());
+			
+			return "redirect:/admin/manager_subbannershowlist";
+		}
+		
+		return "redirect:/admin/manager_subbannershowlist";
+
+	}
+		
 }

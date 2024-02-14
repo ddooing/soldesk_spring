@@ -667,7 +667,7 @@ public class AdminService {
 	}
 	
 	// 메인 배너 수정 시 state 값 변경 확인 메소드
-	public Integer getMainBannerState(int main_banner_id) {
+	public int getMainBannerState(int main_banner_id) {
 		return adminDao.getMainBannerState(main_banner_id);
 	}
 	
@@ -780,7 +780,7 @@ public class AdminService {
 	}
 	
 	// 서브 배너 수정시 state 값 변경 확인 메소드'
-	public Integer getSubBannerState(int sub_banner_id) {
+	public int getSubBannerState(int sub_banner_id) {
 		return adminDao.getSubBannerState(sub_banner_id);
 	}
 	
@@ -835,5 +835,71 @@ public class AdminService {
 	public List<SubBannerBean> IndexSubBannerBeanList() {
 		return adminDao.IndexSubBannerBeanList();
 	}
+	
+	// 관리자 페이지 메인 배너 신청 내역 가져오기
+	public List<BannerApplyFormBean> getAllApplyMainbanner() {
+		return adminDao.getAllApplyMainbanner();
+	}
+		
+	// 관리자 페이지 서브 배너 신청 내역 가져오기
+	public List<BannerApplyFormBean> getAllApplySubbanner() {
+		return adminDao.getAllApplySubbanner();
+	}
+	
+	// 관리자 페이지 메인 배너 신청 내역 뱃지 관련
+	public BannerApplyFormBean getMainBannerBadge() {
+		return adminDao.getMainBannerBadge();
+	}
+
+	// 관리자 페이지 서브 배너 신청 내역 뱃지 관련
+	public BannerApplyFormBean getSubBannerBadge() {
+		return adminDao.getSubBannerBadge();
+	}		
+	
+	// 관리자 페이지 메인 배너 신청 내역 전시회 제목 검색
+	public List<BannerApplyFormBean> getMainBannerapplytitleSearch(String search) {
+		return adminDao.getMainBannerapplytitleSearch(search);
+	}
+	
+	// 관리자 페이지 메인 배너 전시회 제목 검색 뱃지 관련
+	public BannerApplyFormBean getMainBannerapplytitlesearchBadge(String search) {
+		return adminDao.getMainBannerapplytitlesearchBadge(search);
+	}
+	
+	// 관리자 페이지 서브 배너 신청 내역 전시회 제목 검색
+	public List<BannerApplyFormBean> getSubBannerapplytitleSearch(String search) {
+		return adminDao.getSubBannerapplytitleSearch(search);
+	}
+		
+	// 관리자 페이지 서브 배너 전시회 제목 검색 뱃지 관련
+	public BannerApplyFormBean getSubBannerapplytitlesearchBadge(String search) {
+		return adminDao.getSubBannerapplytitlesearchBadge(search);
+	}	
+	
+	// 관리자 페이지 배너 취소 상태로 변경 state -> 3으로 변경
+	public void UpdateApplyBannerCancle(int banner_apply_form_id) {
+		adminDao.UpdateApplyBannerCancle(banner_apply_form_id);
+	}
+	
+	// 관리자 페이지 배너 추가/상세 페이지
+	public BannerApplyFormBean getBannerapplyDetail(int banner_apply_form_id) {
+		return adminDao.getBannerapplyDetail(banner_apply_form_id);
+	}
+	
+	// 관리자 페이지 배너 신청 받은거 관리자가 확인하고 추가 (메인배너)
+	public void addApplyMainBanner(MainBannerBean mainBannerBean) {
+		adminDao.addApplyMainBanner(mainBannerBean);
+	}
+		
+	// 관리자 페이지 배너 신청 받은거 관리자가 확인하고 추가 (서브배너)
+	public void addApplySubBanner(SubBannerBean subBannerBean) {
+		adminDao.addApplySubBanner(subBannerBean);
+	}	
+	
+	// 관리자 페이지 배너 신청 받은거 관리자가 확인하고 추가 후 banner_apply_form 테이블 상태값 변경(메인, 서브배너 공통)
+	public void updatebanner_apply_formState(int banner_apply_form_id) {
+		adminDao.updatebanner_apply_formState(banner_apply_form_id);
+	}
+	
 }
 

@@ -329,7 +329,7 @@ public class AdminDao {
 	}
 	
 	// 메인 배너 수정시 state 값 비교 메소드
-	public Integer getMainBannerState(int main_banner_id) {
+	public int getMainBannerState(int main_banner_id) {
 		return adminMapper.getMainBannerState(main_banner_id);
 	}
 	
@@ -404,7 +404,7 @@ public class AdminDao {
 	}
 	
 	// 서브 배너 수정시 state 값 확인하려고 사용하는 메소드
-	public Integer getSubBannerState(int sub_banner_id) {
+	public int getSubBannerState(int sub_banner_id) {
 		return adminMapper.getSubBannerState(sub_banner_id);
 	}
 	
@@ -441,5 +441,70 @@ public class AdminDao {
 	// index 서브 배너 정보 가져가기
 	public List<SubBannerBean> IndexSubBannerBeanList() {
 		return adminMapper.IndexSubBannerBeanList();
+	}
+	
+	// 관리자 페이지 메인 배너 신청 내역 가져오기
+	public List<BannerApplyFormBean> getAllApplyMainbanner() {
+		return adminMapper.getAllApplyMainbanner();
+	}
+	
+	// 관리자 페이지 서브 배너 신청 내역 가져오기
+	public List<BannerApplyFormBean> getAllApplySubbanner() {
+		return adminMapper.getAllApplySubbanner();
+	}
+	
+	// 관리자 페이지 메인 배너 신청 내역 뱃지 관련
+	public BannerApplyFormBean getMainBannerBadge() {
+		return adminMapper.getMainBannerBadge();
+	}
+
+	// 관리자 페이지 서브 배너 신청 내역 뱃지 관련
+	public BannerApplyFormBean getSubBannerBadge() {
+		return adminMapper.getSubBannerBadge();
+	}	
+	
+	// 관리자 페이지 메인 배너 신청 내역 전시회 제목 검색
+	public List<BannerApplyFormBean> getMainBannerapplytitleSearch(String search) {
+		return adminMapper.getMainBannerapplytitleSearch(search);
+	}
+	
+	// 관리자 페이지 메인 배너 전시회 제목 검색 뱃지 관련
+	public BannerApplyFormBean getMainBannerapplytitlesearchBadge(String search) {
+		return adminMapper.getMainBannerapplytitlesearchBadge(search);
+	}
+	
+	// 관리자 페이지 서브 배너 신청 내역 전시회 제목 검색
+	public List<BannerApplyFormBean> getSubBannerapplytitleSearch(String search) {
+		return adminMapper.getSubBannerapplytitleSearch(search);
+	}
+		
+	// 관리자 페이지 서브 배너 전시회 제목 검색 뱃지 관련
+	public BannerApplyFormBean getSubBannerapplytitlesearchBadge(String search) {
+		return adminMapper.getSubBannerapplytitlesearchBadge(search);
+	}	
+	
+	// 관리자 페이지 배너 취소 상태로 변경 state -> 3으로 변경
+	public void UpdateApplyBannerCancle(int banner_apply_form_id) {
+		adminMapper.UpdateApplyBannerCancle(banner_apply_form_id);
+	}
+	
+	// 관리자 페이지 배너 요청 추가/상세 페에지
+	public BannerApplyFormBean getBannerapplyDetail(int banner_apply_form_id) {
+		return adminMapper.getBannerapplyDetail(banner_apply_form_id);
+	}
+	
+	// 관리자 페이지 배너 신청 받은거 관리자가 확인하고 추가 (메인배너)
+	public void addApplyMainBanner(MainBannerBean mainBannerBean) {
+		adminMapper.addApplyMainBanner(mainBannerBean);
+	}
+	
+	// 관리자 페이지 배너 신청 받은거 관리자가 확인하고 추가 (서브배너)
+	public void addApplySubBanner(SubBannerBean subBannerBean) {
+		adminMapper.addApplySubBanner(subBannerBean);
+	}	
+	
+	// 관리자 페이지 배너 신청 받은거 관리자가 확인하고 추가 후 banner_apply_form 테이블 상태값 변경 (메인,서브배너 공통)
+	public void updatebanner_apply_formState(int banner_apply_form_id) {
+		adminMapper.updatebanner_apply_formState(banner_apply_form_id);
 	}
 }

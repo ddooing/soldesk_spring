@@ -15,9 +15,10 @@ public class BannerApplyFormBean {
 	private String start_date;
 	private String end_date;
 	private String command;
-	private String regdate;
+	private String approved_At;
 	private int payment;
-	private int state;
+	private int state;		// banner_apply_form 테이블의 state
+	private int state1;		// main,sub_banner 테이블의 노출,숨김 상태값
 	private int banner_type;
 	private int banner_file_id;
 
@@ -29,6 +30,17 @@ public class BannerApplyFormBean {
 	private String name;
 	private String path;
 	
+	// 신청내역때 사용
+	private String exhibition_title;
+	private String user_name;
+	private String user_telephone;
+	private String user_email;
+	
 	// 파일 업로드
 	private MultipartFile banner_file;
+	
+	// 뱃지 관련
+	private int total_count;
+	private int state_1_count;
+	private int state_2_count;
 }
