@@ -437,10 +437,5 @@ public class AdminDao {
 		adminMapper.updateSubExposeOrder(subBannerId, exposeOrder);
 	}
 	
-	// 승연 ```````````````````````````````````````````````
 	
-	public void insertbanner_apply(BannerApplyFormBean bannerApplyFormBean)
-	{
-		adminMapper.insertbanner_apply(bannerApplyFormBean);
-	}
 }

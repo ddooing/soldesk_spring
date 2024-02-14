@@ -9,14 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
-import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.UserBean;
-import kr.co.softsoldesk.Service.AdminService;
+import kr.co.softsoldesk.Service.BannerService;
 import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.UserService;
 
@@ -25,7 +23,7 @@ import kr.co.softsoldesk.Service.UserService;
 public class BannerApplyController {
 
 	@Autowired
-	private AdminService AdminService;
+	private BannerService bannerService;
 	
 	@Autowired
 	private UserService UserService;
@@ -40,7 +38,7 @@ public class BannerApplyController {
 	// 인덱스 -> 배너 등록 페이지 매핑
 	@GetMapping("/bannerapply")
 	public String bannerapply() {
-		return "/admin/bannerapply";
+		return "/banner/bannerapply";
 	}
 	
 	
@@ -53,7 +51,7 @@ public class BannerApplyController {
 		model.addAttribute("userinfoBean",userinfoBean);
 		
 		// 해당 유저가 신청한 전시회 목록 가져가기
-		List<ExhibitionBean> apply_personexhibitionlist = AdminService.getApply_personExhibitionlist(loginUserBean.getUser_id());
+		List<ExhibitionBean> apply_personexhibitionlist = bannerService.getApply_personExhibitionlist(loginUserBean.getUser_id());
 		model.addAttribute("apply_personexhibitionlist",apply_personexhibitionlist);
 		
 		return "/banner/mainbannerapplyform";
@@ -68,20 +66,20 @@ public class BannerApplyController {
 		model.addAttribute("userinfoBean",userinfoBean);
 		
 		// 해당 유저가 신청한 전시회 목록 가져가기
-		List<ExhibitionBean> apply_personexhibitionlist = AdminService.getApply_personExhibitionlist(loginUserBean.getUser_id());
+		List<ExhibitionBean> apply_personexhibitionlist = bannerService.getApply_personExhibitionlist(loginUserBean.getUser_id());
 		model.addAttribute("apply_personexhibitionlist",apply_personexhibitionlist);
 		
-		return "/admin/subbannerapplyform";
+		return "/banner/subbannerapplyform";
 	}
 	
-	
+	/*
 		// 메인 배너 신청 폼 제출
 	@PostMapping("/mainbannerapplyform_pro")
 	public String mainbannerapplyform_pro(@ModelAttribute("applybannerBean") BannerApplyFormBean applybannerBean ,Model model) {
 		
 		// 파일저장 및 banner_file_id set
 		if(applybannerBean.getBanner_file().getSize()>0) {
-			AdminService.addfiletableBannerBannerApplyFormBean(applybannerBean);
+			bannerService.addfiletableBannerBannerApplyFormBean(applybannerBean);
 		} 
 		
 		// 상태 1 로 등록대기 상태 set
@@ -90,12 +88,12 @@ public class BannerApplyController {
 		applybannerBean.setBanner_type(1);
 		
 		// 배너신청폼 테이블 insert
-		AdminService.insertbanner_apply_form(applybannerBean);
+		bannerService.insertbanner_apply_form(applybannerBean);
 		
 		
 		// index 필요한 것들
 		// 메인 캐러셀
-		List<MainBannerBean> AllMainBannerInfo = AdminService.IndexMainBannerBeanList();
+		List<MainBannerBean> AllMainBannerInfo = bannerService.IndexMainBannerBeanList();
 		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
 				
 		// 인기 전시 캐러셀
@@ -117,7 +115,7 @@ public class BannerApplyController {
 				
 		// 파일저장 및 banner_file_id set
 		if(applybannerBean.getBanner_file().getSize()>0) {
-			AdminService.addfiletableBannerSubBannerApplyFormBean(applybannerBean);
+			bannerService.addfiletableBannerSubBannerApplyFormBean(applybannerBean);
 		} 
 				
 		// 상태 1 로 등록대기 상태 set
@@ -126,11 +124,11 @@ public class BannerApplyController {
 		applybannerBean.setBanner_type(2);
 				
 		// 배너신청폼 테이블 insert
-		AdminService.insertbanner_apply_form(applybannerBean);
+		bannerService.insertbanner_apply_form(applybannerBean);
 				
 		// index 필요한 것들
 		// 메인 캐러셀
-		List<MainBannerBean> AllMainBannerInfo = AdminService.IndexMainBannerBeanList();
+		List<MainBannerBean> AllMainBannerInfo = bannerService.IndexMainBannerBeanList();
 		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
 						
 		// 인기 전시 캐러셀
@@ -143,5 +141,6 @@ public class BannerApplyController {
 				
 		return "/view/index";
 	}
+	*/
 		
 }

@@ -31,7 +31,7 @@ import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.UserBean;
-import kr.co.softsoldesk.Service.AdminService;
+import kr.co.softsoldesk.Service.BannerService;
 import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.PointDetailService;
 import kr.co.softsoldesk.Service.ReserveService;
@@ -39,7 +39,7 @@ import kr.co.softsoldesk.Service.ReviewService;
 import kr.co.softsoldesk.Service.UserService;
 
 @Controller
-@RequestMapping("/bannertoss")
+@RequestMapping("/banner")
 public class BannerApplyTossController {
 	@Resource(name="loginUserBean") // 로그인한 유저 알기위함
 	private UserBean loginUserBean;
@@ -48,10 +48,9 @@ public class BannerApplyTossController {
 	private UserService userService;
 	
 	@Autowired
-	private AdminService adminService;
+	private BannerService bannerSerivce;
 	
-	
-	
+
 	@Autowired
 	private ReserveService reserveService;
 	@Autowired
@@ -81,7 +80,7 @@ public class BannerApplyTossController {
 		String title="";
 		// 파일저장 및 banner_file_id set
 		if(applybannerBean.getBanner_file().getSize()>0) {
-			adminService.addfiletableBannerBannerApplyFormBean(applybannerBean);
+			bannerSerivce.addfiletableBannerBannerApplyFormBean(applybannerBean);
 		} 
 				
 		//신청하려는 상품
@@ -95,7 +94,7 @@ public class BannerApplyTossController {
 		
 		//결제 요청 전에 예매정보 데이터 저장
 		
-		adminService.insertbanner_apply(applybannerBean);
+		bannerSerivce.insertbanner_apply(applybannerBean);
 		
 		
 		//확인
@@ -110,8 +109,12 @@ public class BannerApplyTossController {
 	    model.addAttribute("title",title);
 	    
 	    
-		return "bannertoss/checkout";
+		return "banner/checkout";
 	}
+	
+	
+	
+	
 	
 	//[결제 요청 성공이였을 때]
 	//@RequestParam String paymentType, 

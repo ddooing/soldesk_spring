@@ -695,24 +695,7 @@ public class AdminService {
 		adminDao.insertbanner_apply_form(bannerApplyFormBean);
 	}
 	
-	// 메인 배너 신청시 배너 파일 저장
-	public void addfiletableBannerBannerApplyFormBean(BannerApplyFormBean bannerApplyFormBean) {
-		MultipartFile main_banner_upload_file  = bannerApplyFormBean.getBanner_file();
-			
-		if(main_banner_upload_file.getSize()>0) {
-			String main_banner_file_name = saveMainBannerUploadFile(main_banner_upload_file);
-			
-			// file_table name, path set
-			bannerApplyFormBean.setName(main_banner_file_name);
-			bannerApplyFormBean.setPath("/Spring_Project_Dream/img/main_banner/");
-				
-			// file_table 에 저장
-			adminDao.addfiletableBanner1(bannerApplyFormBean);
-				
-			// 저장된 파일 file_id bannerApplyFormBean에 set 해줌
-			bannerApplyFormBean.setBanner_file_id(adminDao.getFileId(main_banner_file_name));
-		}
-	}
+	
 	
 	// 서브 배너 신청시 배너 파일 저장
 		public void addfiletableBannerSubBannerApplyFormBean(BannerApplyFormBean bannerApplyFormBean) {
@@ -830,11 +813,6 @@ public class AdminService {
         }
 	}
 	
-	// 승연 ```````````````````````````````````````````````
 	
-	public void insertbanner_apply(BannerApplyFormBean bannerApplyFormBean)
-	{
-		adminDao.insertbanner_apply(bannerApplyFormBean);
-	}
 }
 

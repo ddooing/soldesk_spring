@@ -997,11 +997,6 @@ public interface AdminMapper {
 	
 	
 	
-	// 승연 ```````````````````````````````````````````````
-	@Insert("insert into banner_apply_form "
-			+ "(apply_person_id, exhibition_id, start_date, end_date, command, payment, state, banner_type, banner_file_id) "
-			+ "values "	//#{banner_file_id} 임시 지정 
-			+ "(#{apply_person_id}, #{exhibition_id}, #{start_date}, #{end_date}, #{command},#{payment} ,1, #{banner_type},1)")
-	void insertbanner_apply(BannerApplyFormBean bannerApplyFormBean);
+	
 	
 }

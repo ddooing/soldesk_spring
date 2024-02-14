@@ -75,8 +75,8 @@
 	  
 	  <div style="display: flex; justify-content: center; align-items: center; width: 500px; height: 300px; margin:auto; border: 1px solid lightgray; border-radius: 5%;">
 	    <div style="display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; height: 100%;">
-	      <button onclick="window.location.href='${root}/admin/mainbannerapplyform'" class="btn btn-light" style="width:250px; border: 0.5px solid lightgray; font-size: 20px;">메인배너 신청</button>
-	      <button onclick="window.location.href='${root}/admin/subbannerapplyform'" class="btn btn-light" style="width:250px; border: 0.5px solid lightgray; font-size: 20px;">서브배너 신청</button>
+	      <button onclick="window.location.href='${root}/banner/mainbannerapplyform'" class="btn btn-light" style="width:250px; border: 0.5px solid lightgray; font-size: 20px;">메인배너 신청</button>
+	      <button onclick="window.location.href='${root}/banner/subbannerapplyform'" class="btn btn-light" style="width:250px; border: 0.5px solid lightgray; font-size: 20px;">서브배너 신청</button>
 	    </div>
 	  </div>
 	</section>
