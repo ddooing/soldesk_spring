@@ -238,61 +238,8 @@ public class AdminController {
 			AdminService.updateQnAReply(qnaBean);
 		}
 		
-		// 리다이렉트 필요한것들
-			if (usercombo == null || usercombo.isEmpty() || usersearch == null || usersearch.isEmpty()) {
-				// QnA 모든 정보 가져가기
-				List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
-				model.addAttribute("qnaAllBean", qnaAllBean);
-						
-				// QnA 총 개수, 답변전, 답변완료 개수 가져가기
-				QnABean qnaCountBean = AdminService.getQnACount();
-				model.addAttribute("qnaCountBean",qnaCountBean);
-						
-				// QnA 관리자 페이지 페이징 처리
-				PageBean pageBean = AdminService.getTotalQnACnt(page);
-				model.addAttribute("pageBean", pageBean);
-						
-				return "admin/manager_QnAlist";
-	    }
-		
-		
-		if("nickname".equals(usercombo)) {
-			// 닉네임 검색
-			List<QnABean> nicknameSearchBean = AdminService.getnicknameSearchQnAInfo(usersearch, page);
-			model.addAttribute("qnaAllBean", nicknameSearchBean);
-			
-			// 닉네임 검색 개수 반환 메소드
-			QnABean QnAnicknamesearchCount = AdminService.getnicknameSearchQnACount(usersearch);
-			model.addAttribute("qnaCountBean",QnAnicknamesearchCount);
-			
-			// 페이징 처리
-			PageBean pageBean1 = AdminService.getnicknameSearchQnACnt(usersearch, page);
-			model.addAttribute("pageBean1", pageBean1);
-	
-			// 페이징 처리로 인한 검색조건 검색어 가져가기
-			model.addAttribute("usercombo",usercombo);
-			model.addAttribute("usersearch",usersearch);
-			
-		} else if ("title".equals(usercombo)) {
-			// 제목 검색
-			List<QnABean> titleSearchBean = AdminService.gettitleSearchQnAInfo(usersearch, page);
-			model.addAttribute("qnaAllBean", titleSearchBean);
-			
-			// 제목 검색 개수 반환 메소드
-			QnABean QnAtitlesearchCount = AdminService.gettitleSearchQnACount(usersearch);
-			model.addAttribute("qnaCountBean",QnAtitlesearchCount);
-			
-			// 페이징 처리
-			PageBean pageBean2 = AdminService.gettitleSearchQnACnt(usersearch, page);
-			model.addAttribute("pageBean2", pageBean2);
-			
-			// 페이징 처리로 인한 검색조건 검색어 가져가기
-			model.addAttribute("usercombo",usercombo);
-			model.addAttribute("usersearch",usersearch);
-		} 
-			
-	
-			return "admin/manager_QnAlist";
+
+			return "redirect:admin/manager_QnAlist";
 	}
 	
 	@GetMapping("/manager_QnAdelete")
@@ -300,61 +247,8 @@ public class AdminController {
 		
 		// QnA 삭제 처리
 		AdminService.deleteQnA(qna_id);
-		
-		// QnAlist 가져가야 되는 것들
-		if (usercombo == null || usercombo.isEmpty() || usersearch == null || usersearch.isEmpty()) {
-			// QnA 모든 정보 가져가기
-			List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
-			model.addAttribute("qnaAllBean", qnaAllBean);
-					
-			// QnA 총 개수, 답변전, 답변완료 개수 가져가기
-			QnABean qnaCountBean = AdminService.getQnACount();
-			model.addAttribute("qnaCountBean",qnaCountBean);
-					
-			// QnA 관리자 페이지 페이징 처리
-			PageBean pageBean = AdminService.getTotalQnACnt(page);
-			model.addAttribute("pageBean", pageBean);
-					
-			return "admin/manager_QnAlist";
-    }
-	
-	
-	if("nickname".equals(usercombo)) {
-		// 닉네임 검색
-		List<QnABean> nicknameSearchBean = AdminService.getnicknameSearchQnAInfo(usersearch, page);
-		model.addAttribute("qnaAllBean", nicknameSearchBean);
-		
-		// 닉네임 검색 개수 반환 메소드
-		QnABean QnAnicknamesearchCount = AdminService.getnicknameSearchQnACount(usersearch);
-		model.addAttribute("qnaCountBean",QnAnicknamesearchCount);
-		
-		// 페이징 처리
-		PageBean pageBean1 = AdminService.getnicknameSearchQnACnt(usersearch, page);
-		model.addAttribute("pageBean1", pageBean1);
 
-		// 페이징 처리로 인한 검색조건 검색어 가져가기
-		model.addAttribute("usercombo",usercombo);
-		model.addAttribute("usersearch",usersearch);
-		
-	} else if ("title".equals(usercombo)) {
-		// 제목 검색
-		List<QnABean> titleSearchBean = AdminService.gettitleSearchQnAInfo(usersearch, page);
-		model.addAttribute("qnaAllBean", titleSearchBean);
-		
-		// 제목 검색 개수 반환 메소드
-		QnABean QnAtitlesearchCount = AdminService.gettitleSearchQnACount(usersearch);
-		model.addAttribute("qnaCountBean",QnAtitlesearchCount);
-		
-		// 페이징 처리
-		PageBean pageBean2 = AdminService.gettitleSearchQnACnt(usersearch, page);
-		model.addAttribute("pageBean2", pageBean2);
-		
-		// 페이징 처리로 인한 검색조건 검색어 가져가기
-		model.addAttribute("usercombo",usercombo);
-		model.addAttribute("usersearch",usersearch);
-	} 
-		
-		return "admin/manager_QnAlist";
+		return "redirect:admin/manager_QnAlist";
 	}
 	
 	@GetMapping("/QnA_recovery")
@@ -369,61 +263,7 @@ public class AdminController {
 			AdminService.recoveryQnA(state, qna_id);
 		}
 		
-		
-		// QnAlist 가져가야 되는 것들
-				if (usercombo == null || usercombo.isEmpty() || usersearch == null || usersearch.isEmpty()) {
-					// QnA 모든 정보 가져가기
-					List<QnABean> qnaAllBean = AdminService.getAllQnAInfo(page);
-					model.addAttribute("qnaAllBean", qnaAllBean);
-							
-					// QnA 총 개수, 답변전, 답변완료 개수 가져가기
-					QnABean qnaCountBean = AdminService.getQnACount();
-					model.addAttribute("qnaCountBean",qnaCountBean);
-							
-					// QnA 관리자 페이지 페이징 처리
-					PageBean pageBean = AdminService.getTotalQnACnt(page);
-					model.addAttribute("pageBean", pageBean);
-							
-					return "admin/manager_QnAlist";
-		    }
-			
-			
-			if("nickname".equals(usercombo)) {
-				// 닉네임 검색
-				List<QnABean> nicknameSearchBean = AdminService.getnicknameSearchQnAInfo(usersearch, page);
-				model.addAttribute("qnaAllBean", nicknameSearchBean);
-				
-				// 닉네임 검색 개수 반환 메소드
-				QnABean QnAnicknamesearchCount = AdminService.getnicknameSearchQnACount(usersearch);
-				model.addAttribute("qnaCountBean",QnAnicknamesearchCount);
-				
-				// 페이징 처리
-				PageBean pageBean1 = AdminService.getnicknameSearchQnACnt(usersearch, page);
-				model.addAttribute("pageBean1", pageBean1);
-
-				// 페이징 처리로 인한 검색조건 검색어 가져가기
-				model.addAttribute("usercombo",usercombo);
-				model.addAttribute("usersearch",usersearch);
-				
-			} else if ("title".equals(usercombo)) {
-				// 제목 검색
-				List<QnABean> titleSearchBean = AdminService.gettitleSearchQnAInfo(usersearch, page);
-				model.addAttribute("qnaAllBean", titleSearchBean);
-				
-				// 제목 검색 개수 반환 메소드
-				QnABean QnAtitlesearchCount = AdminService.gettitleSearchQnACount(usersearch);
-				model.addAttribute("qnaCountBean",QnAtitlesearchCount);
-				
-				// 페이징 처리
-				PageBean pageBean2 = AdminService.gettitleSearchQnACnt(usersearch, page);
-				model.addAttribute("pageBean2", pageBean2);
-				
-				// 페이징 처리로 인한 검색조건 검색어 가져가기
-				model.addAttribute("usercombo",usercombo);
-				model.addAttribute("usersearch",usersearch);
-			} 
-
-		return "admin/manager_QnAlist";
+		return "redirect:admin/manager_QnAlist";
 	}
 	
 	// 선택 삭제 메소드
@@ -518,21 +358,8 @@ public class AdminController {
 		
 		// 파일 저장하고 전시회 관련 업데이트
 		AdminService.UpdateExhibitionInfo2(DetailExhibitionBean);
-		
-		// 넘어가는 페이지 가져갈 것들
-		// 전시회 목록 가져가기
-		List<ExhibitionBean> AdminExhibitionInfoBean = AdminService.getAdminexhibitionmange(page);
-		model.addAttribute("AdminExhibitionInfoBean", AdminExhibitionInfoBean);
-				
-		// 전시회 총개수, 전시예정, 종료, 진행중 전시 개수 반환
-		ExhibitionBean ExhibitionCountBean = AdminService.getExhibitionCount();
-		model.addAttribute("ExhibitionCountBean",ExhibitionCountBean);
-			 	
-		// 전시회 페이징 처리
-		PageBean pageBean = AdminService.getExhibitionCnt(page);
-		model.addAttribute("pageBean", pageBean);
-				
-		return "/admin/manager_exhibitionlist";
+			
+		return "redirect:/admin/manager_exhibitionlist";
 	}
 	
 	
@@ -553,20 +380,7 @@ public class AdminController {
 		// 전시회 테이블 추가
 		AdminService.addexhibitiontableExhibition(AddDetailExhibitionBean);
 		
-		// 넘어가는 페이지 가져갈 것들
-		// 전시회 목록 가져가기
-	 	List<ExhibitionBean> AdminExhibitionInfoBean = AdminService.getAdminexhibitionmange(page);
-		model.addAttribute("AdminExhibitionInfoBean", AdminExhibitionInfoBean);
-		
-		// 전시회 총개수, 전시예정, 종료, 진행중 전시 개수 반환
-		ExhibitionBean ExhibitionCountBean = AdminService.getExhibitionCount();
-		model.addAttribute("ExhibitionCountBean",ExhibitionCountBean);
-	 	
-		// 전시회 페이징 처리
-		PageBean pageBean = AdminService.getExhibitionCnt(page);
-		model.addAttribute("pageBean", pageBean);
-		
-		return "/admin/manager_exhibitionlist";
+		return "redirect:/admin/manager_exhibitionlist";
 	}
 	
 	
@@ -748,21 +562,7 @@ public class AdminController {
 		// 전시회 등록 신청 완료 후 상태값 2로 변경
 		AdminService.UpdateExhibitionEnrollState(2, AddDetailEnrollExhibitionBean.getExhibition_enroll_id());
 		
-		// 넘어가는 페이지 가져갈 것들
-		// 전시회 목록 가져가기
-		List<ExhibitionBean> AdminExhibitionInfoBean = AdminService.getAdminexhibitionmange(page);
-		model.addAttribute("AdminExhibitionInfoBean", AdminExhibitionInfoBean);
-				
-		// 전시회 총개수, 전시예정, 종료, 진행중 전시 개수 반환
-		ExhibitionBean ExhibitionCountBean = AdminService.getExhibitionCount();
-		model.addAttribute("ExhibitionCountBean",ExhibitionCountBean);
-			 	
-		// 전시회 페이징 처리
-		PageBean pageBean = AdminService.getExhibitionCnt(page);
-		model.addAttribute("pageBean", pageBean);
-		
-				
-		return "/admin/manager_exhibitionlist";
+		return "redirect:/admin/manager_exhibitionlist";
 	}
 	
 	@GetMapping("/manager_enroll_reject")
@@ -916,16 +716,8 @@ public class AdminController {
 	    
 	    // 업데이트
         AdminService.UpdateMainBanner(mainBannerBean);
-
-		// 메인 배너 모든 정보 가져가기
-		List<MainBannerBean> AllMainBannerInfo = AdminService.getAllShowMainbannerInfo();
-		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
-					
-		// 메인 배너 뱃지 관련
-		MainBannerBean BadgeCnt = AdminService.getMainBannerBadgeCnt();
-		model.addAttribute("BadgeCnt", BadgeCnt);
 		
-		return "/admin/manager_mainbannershowlist";
+		return "redirect:/admin/manager_mainbannershowlist";
 	}
 	
 	// 메인 배너 추가
@@ -955,16 +747,7 @@ public class AdminController {
 		// 메인 배너 main_banner 테이블 추가
 		AdminService.AddmanagerMainBanner(AddBannerBean);
 		
-		// 리다이렉트 필요한 것들
-		// 메인 배너 모든 정보 가져가기
-		List<MainBannerBean> AllMainBannerInfo = AdminService.getAllShowMainbannerInfo();
-		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
-							
-		// 메인 배너 뱃지 관련
-		MainBannerBean BadgeCnt = AdminService.getMainBannerBadgeCnt();
-		model.addAttribute("BadgeCnt", BadgeCnt);
-		
-		return "/admin/manager_mainbannershowlist";
+		return "redirect:/admin/manager_mainbannershowlist";
 	}
 	
 	
@@ -999,26 +782,9 @@ public class AdminController {
 		
 		// 배너신청폼 테이블 insert
 		AdminService.insertbanner_apply_form(applybannerBean);
+	
 		
-		
-		// index 필요한 것들
-		// 메인 캐러셀
-		List<MainBannerBean> AllMainBannerInfo = AdminService.IndexMainBannerBeanList();
-		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
-		
-		// 서브 캐러셀
-		List<SubBannerBean> AllSubBannerInfo = AdminService.IndexSubBannerBeanList();
-		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
-				
-		// 인기 전시 캐러셀
-		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
-		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
-				
-		// 곧전시 캐러셀
-		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
-		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
-		
-		return "/view/index";
+		return "redirect:/view/index";
 	}
 	
 	// 서브 배너 매핑
@@ -1052,21 +818,8 @@ public class AdminController {
 				
 		// 배너신청폼 테이블 insert
 		AdminService.insertbanner_apply_form(applybannerBean);
-				
-		// index 필요한 것들
-		// 메인 캐러셀
-		List<MainBannerBean> AllMainBannerInfo = AdminService.IndexMainBannerBeanList();
-		model.addAttribute("AllMainBannerInfo", AllMainBannerInfo);
-						
-		// 인기 전시 캐러셀
-		List<ExhibitionBean> popularExhibitionInfo = ExhibitionService.getIndexPagePopularExhibitionInfo();
-		model.addAttribute("popularExhibitionInfo", popularExhibitionInfo);
-						
-		// 곧전시 캐러셀
-		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
-		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
-				
-		return "/view/index";
+		
+		return "redirect:/view/index";
 	}
 	
 	// 인덱스 -> 배너 등록 페이지 매핑
@@ -1143,17 +896,8 @@ public class AdminController {
 		if(state == 1) {
 			AdminService.UpdateDeleteAndExpose_orderSub(expose_order);			
 		}
-
-
-		// 서브 배너 모든 정보 가져가기
-		List<SubBannerBean> AllSubBannerInfo = AdminService.getAllShowSubbannerInfo();
-		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
 					
-		// 서브 배너 뱃지 관련
-		SubBannerBean BadgeCnt = AdminService.getSubBannerBadgeCnt();
-		model.addAttribute("BadgeCnt", BadgeCnt);
-					
-		return "/admin/manager_subbannershowlist";
+		return "redirect:/admin/manager_subbannershowlist";
 	}		
 	
 	
@@ -1184,7 +928,6 @@ public class AdminController {
 				AdminService.addfiletableBanner2(subBannerBean);
 		}
 		
-		
 		// expose_order 값 재정렬
 	    if (originalState != subBannerBean.getState()) {
 	        if (subBannerBean.getState() == 1) { // 숨김에서 노출로 변경
@@ -1198,17 +941,8 @@ public class AdminController {
 	    
 	    // 업데이트
         AdminService.UpdateSubBanner(subBannerBean);
-		
-		// 리다이렉트 가져갈 것들
-		// 서브 배너 모든 정보 가져가기
-		List<SubBannerBean> AllSubBannerInfo = AdminService.getAllShowSubbannerInfo();
-		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
-							
-		// 서브 배너 뱃지 관련
-		SubBannerBean BadgeCnt = AdminService.getSubBannerBadgeCnt();
-		model.addAttribute("BadgeCnt", BadgeCnt);
-							
-		return "/admin/manager_subbannershowlist";
+				
+		return "redirect:/admin/manager_subbannershowlist";
 	}
 	
 	// 메인 배너 추가
@@ -1237,16 +971,7 @@ public class AdminController {
 		// 메인 배너 main_banner 테이블 추가
 		AdminService.AddmanagerSubBanner(AddBannerBean);
 		
-		// 리다이렉트 가져갈 것들
-		// 서브 배너 모든 정보 가져가기
-		List<SubBannerBean> AllSubBannerInfo = AdminService.getAllShowSubbannerInfo();
-		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
-									
-		// 서브 배너 뱃지 관련
-		SubBannerBean BadgeCnt = AdminService.getSubBannerBadgeCnt();
-		model.addAttribute("BadgeCnt", BadgeCnt);
-		
-		return "/admin/manager_subbannershowlist";
+		return "redirect:/admin/manager_subbannershowlist";
 	}
 	
 	
