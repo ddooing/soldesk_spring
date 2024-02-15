@@ -44,7 +44,7 @@
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 	<script src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
@@ -508,6 +508,19 @@
 			}
 		});
 	</script>
+	<!-- 결제 실패 -->
+    <c:if test="${not empty failmsg}">
+        <script>
+        Swal.fire({
+            title: "결제 실패",
+            html: "${failmsg} <br><br> 결제를 다시 진행해주세요.",
+            icon: "error",
+            confirmButtonColor: "#4F6F52",
+            confirmButtonText: "확인"
+        });
+
+    </script>
+    </c:if>
 
 </body>
 

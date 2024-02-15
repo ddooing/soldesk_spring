@@ -14,9 +14,9 @@ public interface BannerMapper {
 
 	// 승연 ```````````````````````````````````````````````
 	@Insert("insert into banner_apply_form "
-			+ "(apply_person_id, exhibition_id, start_date, end_date, command, payment, state, banner_type, banner_file_id,order_id,pay_state,pay_approval_state) "
+			+ "(apply_person_id, exhibition_id, start_date, end_date, command, payment, banner_type, banner_file_id,order_id,pay_state,pay_approval_state) "
 			+ "values "	//#{banner_file_id} 임시 지정 
-			+ "(#{apply_person_id}, #{exhibition_id}, #{start_date}, #{end_date}, #{command},#{payment} ,1, #{banner_type},#{banner_file_id},#{order_id},0,0)")
+			+ "(#{apply_person_id}, #{exhibition_id}, #{start_date}, #{end_date}, #{command},#{payment} , #{banner_type},#{banner_file_id},#{order_id},0,0)")
 	void insertbanner_apply(BannerApplyFormBean bannerApplyFormBean);
 	
 	// 배너 신청 할때 파일테이블에 저장

@@ -504,6 +504,19 @@ function updateAllAmount(totalPrice) {
 }
 
 </script>
+	<!-- 결제 실패 -->
+    <c:if test="${not empty failmsg}">
+        <script>
+        Swal.fire({
+            title: "결제 실패",
+            html: "${failmsg} <br><br> 신청을 다시 진행해주세요.",
+            icon: "error",
+            confirmButtonColor: "#4F6F52",
+            confirmButtonText: "확인"
+        });
+
+    </script>
+    </c:if>
 	
 	      	      
       </body>
