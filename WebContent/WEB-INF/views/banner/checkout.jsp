@@ -29,8 +29,8 @@
 	            orderId: '${orderid}', // 주문 ID
 	            orderName: '${title}', // 주문명 
 	            customerName: '${loginUserDetailBean.name}', // 구매자 이름
-	            successUrl: 'http://localhost:8080/Spring_Project_Dream/bannertoss/success',
-	            failUrl: 'http://localhost:8080/Spring_Project_Dream/exhibition/exhibition_click?exhibition_id=${cartlist.exhibition_id}'
+	            successUrl: 'http://localhost:8080/Spring_Project_Dream/banner/success',
+	            failUrl: 'http://localhost:8080/Spring_Project_Dream/banner/bannerapply'
 	        }).catch(function (error) {
 	            handlePaymentError(error);    
 	        });

@@ -29,7 +29,8 @@ public interface ReserveMapper {
 			+ " FROM reserve where order_id=#{orderId}")
 	public ReserveBean validcheckOrderId(String orderId);
 	
-	///success - 2
+	
+///success - 2
 	@Update("update reserve set paymentkey=#{paymentKey} ,pay_approval_state=1 "
 			+ "where order_id= #{orderId}")
 	void approvalBefore(@Param("orderId") String orderId, @Param("paymentKey") String paymentKey);
@@ -45,7 +46,6 @@ public interface ReserveMapper {
 	                      @Param("requested_at") String requested_at, 
 	                      @Param("approved_at") String approved_at,
 	                      @Param("method") String method);
-
 	
 	// 결제 금액이 0 일 경우에 저장하는 
 	@Insert("INSERT INTO reserve (reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction,"

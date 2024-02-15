@@ -17,7 +17,6 @@ public class BannerApplyFormBean {
 	private String start_date;
 	private String end_date;
 	private String command;
-	private String regdate;
 	private int payment;
 	private int state;
 	private int banner_type;

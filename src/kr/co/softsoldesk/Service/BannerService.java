@@ -122,4 +122,30 @@ public class BannerService {
 	public List<ExhibitionBean> getApply_personExhibitionlist(int user_id) {
 		return bannerDao.getApply_personExhibitionlist(user_id);
 	}
+	
+	// 1.success 검증 1- orderid 를 통해 체크하기
+	public BannerApplyFormBean validcheckOrderId(String orderId) {
+		return bannerDao.validcheckOrderId(orderId);
+	}
+	
+	
+	
+	// 2. 승인 성공 후, 모두 저장 
+ 	// tosscontroller 의 approvalBefore 와 realReserveState 를 한번에 처리함
+
+
+	// 정말로 결제되었음 - pay_state 결제 상태 :true 로 update &  state(0:예매,1: 예매 취소) 예매가 되었음을 0으로 저장
+	//pay_approval_state : 승인 상태 true로 update &  paymentKey 저장 
+	public void realPaymentState(String orderId, String requestedAt,String approvedAt,String method,String paymentKey )
+	{
+		bannerDao.realPaymentState(orderId,requestedAt,approvedAt,method,paymentKey);
+	}
+	
+	
+	
+	//배너 결제 정보 가져오기 
+	public BannerApplyFormBean getBannerPaymentInfo(String orderId)
+	{
+		return bannerDao.getBannerPaymentInfo(orderId);
+	}
 }
