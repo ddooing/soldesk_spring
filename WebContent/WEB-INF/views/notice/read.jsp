@@ -567,15 +567,46 @@ ul, ol {
 			</ul>
 		</div>
 
-			<section style="margin-top: -8spx;">
-						<div class="container px-1">
-							<div class="d-flex justify-content-center">
-								<img src="../img/banner1.png" class="banner1" alt="banner1">
-							</div>
-						</div>
-			</section>
+			
 		</div>
 	</div>
+	
+	<!-- 배너 캐러셀 -->
+					<section style="margin-top: 100px;">
+					    <div class="container px-1" style="width:1100px;">
+					        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+					            <!-- 캐러셀 인디케이터 -->
+					            <div class="carousel-indicators">
+					                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+					                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
+					                            class="${status.index == 0 ? 'active' : ''}" aria-label="Slide ${status.index + 1}">
+					                    </button>
+					                </c:forEach>
+					            </div>
+					
+					            <!-- 캐러셀 슬라이드 -->
+					            <div class="carousel-inner">
+					                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+					                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+					                        <a href='${root}/exhibition/exhibition_click?exhibition_id=${subBanner.exhibition_id}'>
+					                            <img src="${subBanner.sub_banner_path}${subBanner.sub_banner_name}" class="d-block w-100" alt="Banner ${status.index + 1}" style="height:150px;">
+					                        </a>
+					                    </div>
+					                </c:forEach>
+					            </div>
+					
+					            <!-- 캐러셀 컨트롤 -->
+					            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+					                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					                <span class="visually-hidden">Previous</span>
+					            </button>
+					            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+					                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					                <span class="visually-hidden">Next</span>
+					            </button>
+					        </div>
+					    </div>
+					</section>
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
 </body>

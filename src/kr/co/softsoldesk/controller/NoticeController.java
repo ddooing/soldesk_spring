@@ -97,6 +97,10 @@ public class NoticeController {
 		NoticeBean RN = AdminContentsService.getNoticeInfo(notice_id);
 		model.addAttribute("RN", RN);
 		
+		// 서브 캐러셀
+		List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+		
 		return "notice/read";
 	}
 
