@@ -197,6 +197,39 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 .pikaday-white table td.is-selected button:hover {
     color: var(--selectedDateTextColor);
 }
+.button-39 {
+  background-color: #FFFFFF;
+  border: 1px solid rgb(209,213,219);
+  border-radius: .5rem;
+  box-sizing: border-box;
+  color: #111827;
+  font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: .875rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  padding: .75rem 1rem;
+  text-align: center;
+  text-decoration: none #D1D5DB solid;
+  text-decoration-thickness: auto;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-39:hover {
+  background-color: rgb(249,250,251);
+}
+
+.button-39:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.button-39:focus-visible {
+  box-shadow: none;
+}
 /*----------------*/
 
 </style>
@@ -250,9 +283,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									var localToday = new Date(today.getTime() - offset);
 									var formattedToday = localToday.toISOString().substring(0, 10); // yyyy-mm-dd 형식으로 변환
 							      
-									$('#datepicker2').val(formattedToday);
-									$('#datepicker').val(formattedFirstRequestedAt);
-									 
+									
 									 var datepickerValue = document.getElementById('datepicker').value;
 									 var datepicker2Value = document.getElementById('datepicker2').value;
 								    // 콘솔에 출력합니다.
@@ -277,8 +308,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							            urlParams.set('endDate', endDate);
 							            // 페이지를 업데이트된 URL로 리디렉션합니다.
 							            window.location.href = window.location.pathname + '?' + urlParams.toString();
-									    
-								     
 								    }
 									
 									
@@ -345,8 +374,29 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						
 							      });
 							      
+							      
+							      
+							   // 현재 URL에서 startDate와 endDate 값을 가져옵니다.
+								    var urlParams = new URLSearchParams(window.location.search);
+								    var existingStartDate = urlParams.get('startDate');
+								    
+								    var existingEndDate = urlParams.get('endDate');
+
+								    // 만약 존재한다면, 해당 값을 datepicker에 설정합니다.
+								    if (existingStartDate) {
+								      $('#datepicker').val(existingStartDate);
+								    } else {
+								      $('#datepicker').val(formattedFirstRequestedAt);
+								    }
+
+								    if (existingEndDate) {
+								      $('#datepicker2').val(existingEndDate);
+								    } else {
+								      $('#datepicker2').val(formattedToday);
+								    }
+									 
+							      
 							    })
-							    console.log(window.location.href);
 
 							  </script>
 							
@@ -419,6 +469,21 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						    });
 						</script>
 						
+						
+						<button class="button-39" id="resetButton" role="button" style="width: 80px; height: 44px; margin-top: 22px; margin-left: 30px;">초기화</button>
+						
+						<script>
+						    document.addEventListener('DOMContentLoaded', function() {
+						        // 검색 조건 콤보박스와 검색어 입력 필드, 검색 버튼 요소를 가져옵니다.
+						        var resetButton = document.getElementById('resetButton');
+
+						        // 검색 버튼 클릭 이벤트 리스너를 추가합니다.
+						        resetButton.addEventListener('click', function() {
+						            window.location.href = '${root}/adminPayment/manager_reservelist';
+						        });
+						    });
+						</script>
+					
 					</div>
 					
 

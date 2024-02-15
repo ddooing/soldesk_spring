@@ -169,7 +169,7 @@ public class BannerApplyTossController {
 
 		
 			// (1 결과 : false): 다를 경우, 배너 신청폼 페이지로 이동 
-		if(isOrderIdValid!=null) {// pay_approval_state : 승인 거부 0 인 상태 isOrderIdValid==null
+		if(isOrderIdValid==null) {// pay_approval_state : 승인 거부 0 인 상태 isOrderIdValid==null
 			failmsg="주문번호 오류가 발생했습니다.";
             redirectAttributes.addFlashAttribute("failmsg", failmsg);    
             return "redirect:/banner/"+formUrl;
@@ -182,7 +182,7 @@ public class BannerApplyTossController {
 		int reqBeforePayment = validBannerBean.getPayment();
 
 			//(2 결과 : false): 실패 페이지로 이동
-		if(reqBeforePayment==amount)//pay_approval_state : 승인 거부 0 인 상태
+		if(reqBeforePayment!=amount)//pay_approval_state : 승인 거부 0 인 상태
 		{
 			failmsg="결제금액 오류가 발생했습니다.";
             redirectAttributes.addFlashAttribute("failmsg", failmsg);    
