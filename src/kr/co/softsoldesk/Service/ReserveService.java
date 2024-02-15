@@ -64,7 +64,10 @@ public class ReserveService {
 		return reserveDao.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name);
 	}
 	
-	
-	
+	//0216 
+	//관리자 취소
+	public ReserveBean getCancleList(int reserve_id ) {
+		return reserveDao.getCancleList(reserve_id);
+	}
     
 }

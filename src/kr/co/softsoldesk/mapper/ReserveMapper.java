@@ -14,9 +14,9 @@ public interface ReserveMapper {
 
 	// /checkout 예매 정보 저장 
 	@Insert("INSERT INTO reserve (reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction,"
-			+ "payment, ticket_count, order_id,pay_state,pay_approval_state) "
+			+ "payment, ticket_count, order_id,pay_state,pay_approval_state,point_plus) "
 			+ "VALUES (reserve_id_seq.NEXTVAL, #{user_id}, #{exhibition_id},#{reserve_date, jdbcType=DATE},"
-			+ "#{total_price},#{point_deduction},#{payment},#{ticket_count},#{order_id},0,0)")
+			+ "#{total_price},#{point_deduction},#{payment},#{ticket_count},#{order_id},0,0,#{point_plus})")
 	void checkoutReserveInfo(ReserveBean checkoutReserveBean);
 	
 	///success - 1
@@ -25,7 +25,7 @@ public interface ReserveMapper {
 			+ "pay_state,pay_approval_state,"
 			+ " TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI:SS') as requested_at,"
 			+ " TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI:SS') as approved_at, "
-			+ "paymentkey"
+			+ "paymentkey,point_plus"
 			+ " FROM reserve where order_id=#{orderId}")
 	public ReserveBean validcheckOrderId(String orderId);
 	
@@ -49,10 +49,10 @@ public interface ReserveMapper {
 	
 	// 결제 금액이 0 일 경우에 저장하는 
 	@Insert("INSERT INTO reserve (reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction,"
-			+ "payment, ticket_count, order_id,pay_state,pay_approval_state,requested_at,state,payment_method) "
+			+ "payment, ticket_count, order_id,pay_state,pay_approval_state,requested_at,state,payment_method,plus_point) "
 			+ "VALUES (reserve_id_seq.NEXTVAL, #{user_id}, #{exhibition_id},#{reserve_date, jdbcType=DATE},"
 			+ "#{total_price},#{point_deduction},#{payment},#{ticket_count},#{order_id},0,0,"
-			+ " TO_TIMESTAMP(TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH24:MI:SS.FF9'), 'YY/MM/DD HH24:MI:SS.FF9'), 1,'포인트결제')")
+			+ " TO_TIMESTAMP(TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH24:MI:SS.FF9'), 'YY/MM/DD HH24:MI:SS.FF9'), 1,'포인트결제',#{plus_point})")
 	public void paymentZeroReserveInfo(ReserveBean reserveInfo );
 	
 	
@@ -110,7 +110,12 @@ public interface ReserveMapper {
 	public List<ReserveBean> getReserveList(@Param("startDate") String startDate, 
 	                                        @Param("endDate") String endDate, 
 	                                        @Param("payment_method") String payment_method, 
-	                                        @Param("exhibition_title") String exhibition_title, 
+	                                       @Param("exhibition_title") String exhibition_title, 
 	                                        @Param("user_name") String user_name);
+	
+	///0216
+	@Select("select user_id,point_deduction,point_plus")
+	public ReserveBean getCancleList(int reserve_id );
+	
 
 }

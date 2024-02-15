@@ -90,6 +90,10 @@ public class UserDao {
 	public void deleteUserInfo(UserBean deleteUserBean) {
 		userMapper.deleteUserInfo(deleteUserBean);
 	}
-	
+	//0216
+	public void getPointMinus(int pointMinus,int user_id)
+	{
+		userMapper.getPointMinus(pointMinus,user_id);
+	}
 
 }

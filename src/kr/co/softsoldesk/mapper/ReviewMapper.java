@@ -1,5 +1,6 @@
 package kr.co.softsoldesk.mapper;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -16,4 +17,9 @@ public interface ReviewMapper {
 	@Select("select review_id, reserve_id, contents, rating, expose, regdate, modify_date, create_date from review")
 	ReviewBean getAllReviewInfo();
 	
+	
+	//0216
+	@Delete("DELETE FROM review WHERE reserve_id = #{reserve_id}")
+	public void getReviewDelete(int reserve_id);
+		
 }

@@ -189,14 +189,14 @@ public class ExhibitionController {
 		int totalprice = tempReserveBean.getTicket_count()*exhibitionBean.getPrice();
 		tempReserveBean.setTotal_price(totalprice);
 		
-		int plusPoint = getPlusePoint(loginUserBean.getUser_id(),tempReserveBean.getTotal_price()); 
-		tempReserveBean.setPlusPoint(plusPoint);
+		int plus_point = getPlusePoint(loginUserBean.getUser_id(),tempReserveBean.getTotal_price()); 
+		tempReserveBean.setPoint_plus(plus_point);
 		
 		// 확인용 
 		System.out.println("exhibition_id : "+exhibitionBean.getExhibition_id());
 		System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getTicket_count());
 		System.out.println("tempReserveBean 티켓 날짜 처리 휴: "+tempReserveBean.getReserve_date());
-		System.out.println("tempReserveBean 포인트 : "+tempReserveBean.getPlusPoint());
+		System.out.println("tempReserveBean 포인트 : "+tempReserveBean.getPoint_plus());
 		System.out.println("LoginAllInfoBean : "+LoginAllInfoBean.getName());
 		return "exhibition/payment";
 	}
@@ -205,7 +205,7 @@ public class ExhibitionController {
 	@GetMapping("/payment_complete")
 	public String showPaymentComplete(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
 	                                  @ModelAttribute("exhibitionBean") ExhibitionBean exhibitionBean, 
-	                                  @ModelAttribute("plusPoint") Integer plusPoint,
+	                                  @ModelAttribute("plus_point") Integer plus_point,
 	                                  Model model) {
 	    // 데이터 출력
 	    System.out.println("ReserveBean: " + tempReserveBean);
@@ -214,7 +214,7 @@ public class ExhibitionController {
 	    // 뷰에 데이터 추가
 	    model.addAttribute("tempReserveBean", tempReserveBean);
 	    model.addAttribute("exhibitionBean", exhibitionBean);
-	    model.addAttribute("plusPoint", plusPoint);
+	    model.addAttribute("plus_point", plus_point);
 	    return "exhibition/payment_complete";
 	}
 	// 장바구니 ~ 예매 reserve_date 쉼표 이슈  처리

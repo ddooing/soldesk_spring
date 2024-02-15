@@ -61,6 +61,10 @@ public class ReserveDao {
 	{
 		return reserveMapper.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name);
 	}
-	
+	//0216 
+	//관리자 취소
+	public ReserveBean getCancleList(int reserve_id ) {
+		return reserveMapper.getCancleList(reserve_id);
+	}
 	
 }

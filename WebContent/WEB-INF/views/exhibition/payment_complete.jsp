@@ -133,7 +133,7 @@
 			<div style="margin-top: 50px; margin-left: 300px; display: flex;">
 				<a style="font-size: 20px; color: gray; margin-right: 5px;">예매 적립  
 				
-					<a style="font-size: 20px; color: gray;" id="ownpoint">${plusPoint} p</a>
+					<a style="font-size: 20px; color: gray;" id="ownpoint">${tempReserveBean.point_plus} p</a>
 				</a>
 			</div>
 			

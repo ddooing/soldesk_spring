@@ -130,7 +130,10 @@ public class UserService {
 		deleteUserBean.setUser_id(loginUserBean.getUser_id());
 		userDao.deleteUserInfo(deleteUserBean);
 	}
-
 	
-
+	//0216
+	public void getPointMinus(int pointMinus,int user_id)
+	{
+		userDao.getPointMinus(pointMinus,user_id);
+	}
 }

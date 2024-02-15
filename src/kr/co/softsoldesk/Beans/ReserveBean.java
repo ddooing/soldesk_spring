@@ -15,8 +15,11 @@ public class ReserveBean {
 	private String reserve_date;
 	private int total_price;
 	private int point_deduction;
-	private int payment;
 	private int ticket_count;
+	private int point_plus; // 예매 시, 등급에 따른 포인트 
+	
+	// 결제 관련
+	private int payment;
 	private String requested_at; // 주문 날짜 +시간
 	private String approved_at; // 결제 날짜 +시간 
 	private int state;// 
@@ -30,7 +33,7 @@ public class ReserveBean {
 	
 	private String name;
 	
-	private int plusPoint; // 예매 시, 등급에 따른 포인트 
+	
 	
 	public ReserveBean(){
 		this.order_id= UUID.randomUUID().toString();
@@ -189,14 +192,32 @@ public class ReserveBean {
 
 
 
-	public int getPlusPoint() {
-		return plusPoint;
+	public String getPayment_method() {
+		return payment_method;
 	}
 
-	public void setPlusPoint(int plusPoint) {
-		this.plusPoint = plusPoint;
+	public void setPayment_method(String payment_method) {
+		this.payment_method = payment_method;
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getPoint_plus() {
+		return point_plus;
+	}
+
+	public void setPoint_plus(int point_plus) {
+		this.point_plus = point_plus;
+	}
+
+
+
 	
 	
 	

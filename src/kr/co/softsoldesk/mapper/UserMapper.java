@@ -70,7 +70,9 @@ public interface UserMapper {
 		@Update("update user_table set state = 2 where id = #{id} and password = #{password}")
 		void deleteUserInfo(UserBean deleteUserBean);
 		
-		
+		//0216
+		@Update("update user_table set point = point + #{pointMinus} where #{user_id}")
+		public void getPointMinus(@Param("pointMinus")int pointMinus,@Param("user_id") int user_id);
 	
 	
 }

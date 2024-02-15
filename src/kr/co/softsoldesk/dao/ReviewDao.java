@@ -22,5 +22,9 @@ public class ReviewDao {
 	public ReviewBean getAllReviewInfo() {
 		return reviewMapper.getAllReviewInfo();
 	}
-
+	//0216
+	public void getReviewDelete(int reserve_id)
+	{
+		reviewMapper.getReviewDelete(reserve_id);
+	}
 }

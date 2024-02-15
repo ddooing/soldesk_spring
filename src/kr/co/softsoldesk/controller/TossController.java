@@ -63,7 +63,7 @@ public class TossController {
 	
 	String failmsg="";
 	
-	private int plusPoint=0; // 적립되는 포인트 
+
 	private int exhibitionId=0;// fail 시 다시 전시회 정보 페이지 가기 위함
 	//에러 코드 재현할때 사용함
 	String testCode = "INVALID_REQUEST"; // 에러 테스트용 코드
@@ -95,8 +95,7 @@ public class TossController {
 
 		redirectAttributes.addFlashAttribute("exhibitionBean", exhibitionBean);
 	    redirectAttributes.addFlashAttribute("tempReserveBean", reserveInfoBean);
-	    redirectAttributes.addFlashAttribute("plusPoint", plusPoint);
-	    System.out.println("pluspoint : "+plusPoint);
+	    
 	    
 		return "redirect:/exhibition/payment_complete";
 		}
@@ -120,7 +119,7 @@ public class TossController {
 		
 		//예매하려는 전시회 제목=> orderName 찾기
 		String title = exhibitionService.getExhibitionTitle(tempReserveBean.getExhibition_id());
-		
+		System.out.println(" /checkout - tempReserveBean pluspoint  : "+tempReserveBean.getPoint_plus());
 		
 		//결제 요청 전에 예매정보 데이터 저장
 		//checkout 지점 db 저장                                  *후에 임시 저장하는 방식으로 바꾸기 
@@ -262,11 +261,11 @@ public class TossController {
         System.out.println("validReserveBean.getRequested_at() : "+reserveInfoBean.getRequested_at());
         System.out.println("validReserveBean.getReserve_date() : "+reserveInfoBean.getReserve_date());
         System.out.println("결제가 성공적으로 처리되었습니다.");
-        System.out.println("pluspoint : "+plusPoint);
+       
         
         model.addAttribute("exhibitionBean", exhibitionBean);
         model.addAttribute("tempReserveBean",reserveInfoBean);
-        model.addAttribute("plusPoint", plusPoint);
+       
         
         return "toss/success";
    
@@ -283,7 +282,9 @@ public class TossController {
 	    		// 2-1.무조건 포인트 적립
 			    // 포인트 적립 : 유저 등급의 적립율에 따른 포인트 지급 
         //!! payment의 포인트 부분 겹침 -- 후에 처리하기 
+        /*
         String level = userService.getLevel(userid);
+        
         int reservePulsPoint=0;// 예매 시 적립되는 포인트
         
         
@@ -301,9 +302,9 @@ public class TossController {
         }
         
         plusPoint= reservePulsPoint; 
-        
+        */
         PointDetailBean pointDetailBean =new PointDetailBean(); 
-        pointDetailBean.setPoint(reservePulsPoint);
+        pointDetailBean.setPoint(reserveBean.getPoint_plus());
         pointDetailBean.setUser_id(userid);
         pointDetailBean.setPoint_state_code(1);	// 포인트 1:+
         pointDetailBean.setPoint_type_code(1);	// 예매에서 적립
@@ -330,7 +331,7 @@ public class TossController {
 	        // 3. 사용자 포인트와 경험치 exp 적립 update 
 			// 경험치 ) 예매 시 + 50
         	// 포인트 )최종적으로 사용자의 현재 포인트에 추가 혹은 감소 할 포인트 금액 = 예매 시 받는 포인트 - 포인트 사용 금액
-		int point = reservePulsPoint - reserveBean.getPoint_deduction();
+		int point = reserveBean.getPoint_plus() - reserveBean.getPoint_deduction();
         
         userService.point_expIncrease(userid,point);
         

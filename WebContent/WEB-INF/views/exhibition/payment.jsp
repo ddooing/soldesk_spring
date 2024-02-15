@@ -186,7 +186,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				<form:hidden path="payment" id="payment-field" /> <!--  최종 결제 금액  -->
 				<form:hidden path="total_price" value="${tempReserveBean.total_price}"/>
 				<form:hidden path="exhibition_id" value="${exhibitionBean.exhibition_id }" />
-				<form:hidden path="plusPoint" value="${tempReserveBean.plusPoint }" />
+				<form:hidden path="point_plus" value="${tempReserveBean.point_plus}" />
 				
 				<!--주문자 정보 부분-->
 				<div>
@@ -295,7 +295,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 						<path
 							d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
 					</svg>
-					<a style="font-size: 20px; margin-left: auto;">${tempReserveBean.plusPoint} p</a>
+					<a style="font-size: 20px; margin-left: auto;">${tempReserveBean.point_plus} p</a>
 				</div>
 
 			</div>
