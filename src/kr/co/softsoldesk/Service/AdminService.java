@@ -837,13 +837,39 @@ public class AdminService {
 	}
 	
 	// 관리자 페이지 메인 배너 신청 내역 가져오기
-	public List<BannerApplyFormBean> getAllApplyMainbanner() {
-		return adminDao.getAllApplyMainbanner();
+	public List<BannerApplyFormBean> getAllApplyMainbanner(int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getAllApplyMainbanner(rowBounds);
+	}
+	
+	// 관리자 페이지 메인 배너 신청 내역 페이징 처리를 위한 총 개수 반환
+	public PageBean getAllApplyMainbannerCnt(int currentPage) {
+		
+		int mainbannerapply_Cnt = adminDao.getAllApplyMainbannerCnt();
+		PageBean pageBean = new PageBean(mainbannerapply_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
 	}
 		
 	// 관리자 페이지 서브 배너 신청 내역 가져오기
-	public List<BannerApplyFormBean> getAllApplySubbanner() {
-		return adminDao.getAllApplySubbanner();
+	public List<BannerApplyFormBean> getAllApplySubbanner(int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getAllApplySubbanner(rowBounds);
+	}
+	
+	// 관리자 페이지 서브 배너 신청 내역 페이징 처리를 위한 총 개수 반환
+	public PageBean getAllApplySubbannerCnt(int currentPage) {
+		
+		int subbannerapply_Cnt = adminDao.getAllApplySubbannerCnt();
+		PageBean pageBean = new PageBean(subbannerapply_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
 	}
 	
 	// 관리자 페이지 메인 배너 신청 내역 뱃지 관련
@@ -857,8 +883,21 @@ public class AdminService {
 	}		
 	
 	// 관리자 페이지 메인 배너 신청 내역 전시회 제목 검색
-	public List<BannerApplyFormBean> getMainBannerapplytitleSearch(String search) {
-		return adminDao.getMainBannerapplytitleSearch(search);
+	public List<BannerApplyFormBean> getMainBannerapplytitleSearch(String search, int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getMainBannerapplytitleSearch(search, rowBounds);
+	}
+	
+	// 관리자 페이지 메인 배너 신청 내역 전시회 제목 검색 페이징 처리를 위한 개수 반환
+	public PageBean getMainBannerapplytitleSearchCnt(String search, int currentPage) {
+		
+		int maintitlesearch_Cnt = adminDao.getMainBannerapplytitleSearchCnt(search);
+		PageBean pageBean = new PageBean(maintitlesearch_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
 	}
 	
 	// 관리자 페이지 메인 배너 전시회 제목 검색 뱃지 관련
@@ -867,9 +906,22 @@ public class AdminService {
 	}
 	
 	// 관리자 페이지 서브 배너 신청 내역 전시회 제목 검색
-	public List<BannerApplyFormBean> getSubBannerapplytitleSearch(String search) {
-		return adminDao.getSubBannerapplytitleSearch(search);
+	public List<BannerApplyFormBean> getSubBannerapplytitleSearch(String search, int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminDao.getSubBannerapplytitleSearch(search, rowBounds);
 	}
+	
+	// 관리자 페이지 서브 배너 신청 내역 전시회 제목 검색 페이징 처리를 위한 개수 반환
+	public PageBean getSubBannerapplytitleSearchCnt(String search, int currentPage) {
+		
+		int subtitlesearch_Cnt = adminDao.getSubBannerapplytitleSearchCnt(search);
+		PageBean pageBean = new PageBean(subtitlesearch_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}		
 		
 	// 관리자 페이지 서브 배너 전시회 제목 검색 뱃지 관련
 	public BannerApplyFormBean getSubBannerapplytitlesearchBadge(String search) {

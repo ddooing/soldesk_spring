@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
@@ -149,7 +150,9 @@
 											<td style="width: 100px;">무료</td>
 										</c:when>
 										<c:otherwise>
-											<td style="width: 100px;">${exhibitionlist.price } 원</td>
+											<td style="width:100px;">
+										    	<fmt:formatNumber value="${exhibitionlist.price}" groupingUsed="true" type="number"/> 원
+											</td>
 										</c:otherwise>
 									</c:choose>
 

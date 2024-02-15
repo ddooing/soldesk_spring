@@ -959,26 +959,29 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 	<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			var today = new Date();
-			var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
-			var localToday = new Date(today.getTime() - offset);
-			var formattedToday = localToday.toISOString().substring(0, 10); // yyyy-mm-dd 형식으로 변환
+	document.addEventListener('DOMContentLoaded', function() {
+		var today = new Date();
+		var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
+		var localToday = new Date(today.getTime() - offset);
+		var formattedToday = localToday.toISOString().substring(0, 10); 
 
-			$('#datepicker11').datepicker({
-				inline : true,
-				minDate : new Date(),
-				dateFormat : 'yy-mm-dd',
-				startDate : formattedToday,
-				onSelect : function(dateText) {
-					// 숨겨진 폼 필드의 값을 설정
-					$('#hiddenDateField').val(dateText);
-				}
-			}).datepicker('setDate', formattedToday); // 초기 날짜 설정
+		var exhibitionEndDate = new Date('${exhibitionBean.exhibition_end.substring(0, 10)}');
 
-			$('#hiddenDateField').val(formattedToday);
-		});
-	</script>
+		$('#datepicker11').datepicker({
+			inline: true,
+			minDate: new Date(), 
+			maxDate: exhibitionEndDate, 
+			dateFormat: 'yy-mm-dd',
+			startDate: formattedToday,
+			onSelect: function(dateText) {
+				$('#hiddenDateField').val(dateText);
+			}
+		}).datepicker('setDate', formattedToday); // 초기 날짜 설정
+
+		$('#hiddenDateField').val(formattedToday);
+	});
+</script>
+
 	
 	<script>
     function bookmarkAlert() {

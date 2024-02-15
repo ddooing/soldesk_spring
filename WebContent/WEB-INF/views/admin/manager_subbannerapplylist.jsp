@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="root" value="${pageContext.request.contextPath }" />	
 <!DOCTYPE html>
 <html lang="en">
@@ -107,7 +108,10 @@
 										<td stly=e"width:320px;>${bannerBean.start_date } ~ ${bannerBean.end_date }</td>
 										<td style="width:150px;">${bannerBean.approved_At  }</td>
 										<td style="width:100px;">${bannerBean.user_name }</td>
-										<td style="width:150px;">${bannerBean.payment } 원</td>
+										<td style="width:150px;">
+										    <fmt:formatNumber value="${bannerBean.payment}" groupingUsed="true" type="number"/> 원
+										</td>
+
 										<c:choose>
 											<c:when test="${bannerBean.state  == 1}">
 												<td>등록대기</td>		
@@ -134,7 +138,121 @@
 							</tbody>
 						</table>
 					</div>
+					
+				<c:choose>
+						<c:when test="${!empty pageBean }">
+							<div class="d-none d-md-block" style="margin-top: 50px;">
+								<ul class="pagination justify-content-center">
+									<c:choose>
+										<c:when test="${pageBean.prevPage <= 0 }">
+											<li class="page-item disabled"><a href="#"
+												class="page-link">이전</a></li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root}/admin/manager_subbannerapplylist?page=${pageBean.prevPage}"
+												class="page-link">이전</a></li>
+										</c:otherwise>
+									</c:choose>
 
+									<c:forEach var="idx" begin="${pageBean.min}"
+										end="${pageBean.max}">
+										<c:choose>
+											<c:when test="${idx == pageBean.currentPage}">
+												<li class="page-item active"><a
+													href="${root}/admin/manager_subbannerapplylist?page=${idx}"
+													class="page-link">${idx}</a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root}/admin/manager_subbannerapplylist?page=${idx}"
+													class="page-link">${idx}</a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+									<c:choose>
+										<c:when test="${pageBean.max >= pageBean.pageCnt}">
+											<li class="page-item disabled"><a href="#"
+												class="page-link">다음</a></li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root}/admin/manager_subbannerapplylist?page=${pageBean.nextPage}"
+												class="page-link">다음</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+
+							<div class="d-block d-md-none">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a href="#" class="page-link">이전</a></li>
+									<li class="page-item"><a href="#" class="page-link">다음</a></li>
+								</ul>
+							</div>
+						</c:when>
+						
+						<c:when test="${!empty pageBean1 }">
+							<div class="d-none d-md-block" style="margin-top: 50px;">
+								<ul class="pagination justify-content-center">
+									<c:choose>
+										<c:when test="${pageBean1.prevPage <= 0 }">
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/admin/manager_subbannerapplylist?bannercombo=${bannercombo}&bannersearch=${bannersearch}&page=${pageBean1.prevPage}"
+												class="page-link">이전</a></li>
+										</c:otherwise>
+									</c:choose>
+
+									<c:forEach var="idx" begin="${pageBean1.min}"
+										end="${pageBean1.max}">
+										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+										<c:choose>
+											<c:when test="${idx == pageBean1.currentPage }">
+												<li class="page-item active"><a
+													href="${root }/admin/manager_subbannerapplylist?bannercombo=${bannercombo}&bannersearch=${bannersearch}&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/admin/manager_subbannerapplylist?bannercombo=${bannercombo}&bannersearch=${bannersearch}&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+
+									<c:choose>
+										<c:when test="${pageBean1.max >= pageBean1.pageCnt  }">
+											<!-- max페이지 > 전체페이지개수 일때  -->
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/admin/manager_subbannerapplylist?bannercombo=${bannercombo}&bannersearch=${bannersearch}&page=${pageBean1.nextPage}"
+												class="page-link">다음</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+
+							<div class="d-block d-md-none">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a href="#" class="page-link">이전</a>
+									</li>
+									<li class="page-item"><a href="#" class="page-link">다음</a>
+									</li>
+								</ul>
+							</div>
+						</c:when>
+					</c:choose>
 					
 				</div>
 			</main>

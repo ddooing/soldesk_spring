@@ -1042,7 +1042,16 @@ public interface AdminMapper {
 			+ "    baf.banner_type = 1\r\n"
 			+ "ORDER BY\r\n"
 			+ "    baf.banner_apply_form_id DESC")
-	List<BannerApplyFormBean> getAllApplyMainbanner();
+	List<BannerApplyFormBean> getAllApplyMainbanner(RowBounds rowBounds);
+	
+	//관리자 페이지 메인 배너 신청 내역 페이징 처리 위한 개수 반환
+	@Select("SELECT COUNT(*) \r\n"
+			+ "FROM banner_apply_form baf\r\n"
+			+ "LEFT JOIN file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "LEFT JOIN exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "LEFT JOIN user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "WHERE baf.banner_type = 1")
+	int getAllApplyMainbannerCnt();
 	
 	// 관리자 페이지 서브 배너 신청 내역 가져오기
 	@Select("SELECT\r\n"
@@ -1070,7 +1079,16 @@ public interface AdminMapper {
 			+ "    baf.banner_type = 2\r\n"
 			+ "ORDER BY\r\n"
 			+ "    baf.banner_apply_form_id DESC")
-	List<BannerApplyFormBean> getAllApplySubbanner();
+	List<BannerApplyFormBean> getAllApplySubbanner(RowBounds rowBounds);
+	
+	//관리자 페이지 메인 배너 신청 내역 페이징 처리 위한 개수 반환
+	@Select("SELECT COUNT(*) \r\n"
+			+ "FROM banner_apply_form baf\r\n"
+			+ "LEFT JOIN file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "LEFT JOIN exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "LEFT JOIN user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "WHERE baf.banner_type = 2")
+	int getAllApplySubbannerCnt();		
 	
 	// 관리자 페이지 메인 배너 신청 내역 뱃지 관련
 	@Select("SELECT COUNT(*) AS total_count, \r\n"
@@ -1115,7 +1133,18 @@ public interface AdminMapper {
 			+ "    AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
 			+ "ORDER BY\r\n"
 			+ "    baf.banner_apply_form_id DESC")
-	List<BannerApplyFormBean> getMainBannerapplytitleSearch(String search);
+	List<BannerApplyFormBean> getMainBannerapplytitleSearch(String search, RowBounds rowBounds);
+	
+	// 관리자 페이지 메인 배너 전시회 제목 검색 페이징 처리를 위한 개수 반환
+	@Select("SELECT COUNT(*) \r\n"
+			+ "FROM banner_apply_form baf\r\n"
+			+ "LEFT JOIN file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "LEFT JOIN exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "LEFT JOIN user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "WHERE baf.banner_type = 1\r\n"
+			+ "    AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "ORDER BY baf.banner_apply_form_id DESC")
+	int getMainBannerapplytitleSearchCnt(String search);
 	
 	// 관리자 페이지 메인 배너 전시회 제목 검색 뱃지 관련
 	@Select("SELECT\r\n"
@@ -1166,7 +1195,18 @@ public interface AdminMapper {
 			+ "    AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
 			+ "ORDER BY\r\n"
 			+ "    baf.banner_apply_form_id DESC")
-	List<BannerApplyFormBean> getSubBannerapplytitleSearch(String search);
+	List<BannerApplyFormBean> getSubBannerapplytitleSearch(String search, RowBounds rowBounds);
+	
+	// 관리자 페이지 서브 배너 전시회 제목 검색 페이징 처리를 위한 개수 반환
+	@Select("SELECT COUNT(*) \r\n"
+			+ "FROM banner_apply_form baf\r\n"
+			+ "LEFT JOIN file_table ft ON baf.banner_file_id = ft.file_id\r\n"
+			+ "LEFT JOIN exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
+			+ "LEFT JOIN user_table u ON baf.apply_person_id = u.user_id\r\n"
+			+ "WHERE baf.banner_type = 2\r\n"
+			+ "    AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "ORDER BY baf.banner_apply_form_id DESC")
+	int getSubBannerapplytitleSearchCnt(String search);
 	
 	// 관리자 페이지 서브 배너 전시회 제목 검색 뱃지 관련
 	@Select("SELECT\r\n"

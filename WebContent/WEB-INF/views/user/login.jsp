@@ -115,15 +115,15 @@
 
 	<!--로그인 부분-->
 	<section>
-		<div class="container py-5 h-100">
-			<div class="row d-flex align-items-center justify-content-center h-100">
-				<div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1" style="margin-top: 100px;">
+	    <div class="container py-5 h-100" style="margin-top:100px;">
+	        <div class="row d-flex align-items-center justify-content-center h-100">
+	            <div class="col-md-12 col-lg-5 col-xl-5">
 					<div class="text-center mb-4">
 						<img src="../img/ARTMEE.png" style="width: 250px; height: 100px;">
 					</div>
 					
 					<form:form action="${root }/user/login_pro" method="post" modelAttribute="tempLoginUserBean">
-						<div class="form-outline mb-4">
+						<div class="form-outline mb-4" style="margin-top:50px;">
 							<form:input path="id" class="form-control form-control-lg" />
 						</div>
 						
@@ -145,8 +145,8 @@
 
 					<!--밑부분 배너-->
 					<!-- 배너 캐러셀 -->
-					<section style="margin-top: 150px;">
-					    <div class="container px-1" style="width:1100px; border:1px solid black;">
+					<section style="margin-top: 100px;">
+					    <div class="container px-1" style="width:1100px;">
 					        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
 					            <!-- 캐러셀 인디케이터 -->
 					            <div class="carousel-indicators">

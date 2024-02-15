@@ -444,13 +444,23 @@ public class AdminDao {
 	}
 	
 	// 관리자 페이지 메인 배너 신청 내역 가져오기
-	public List<BannerApplyFormBean> getAllApplyMainbanner() {
-		return adminMapper.getAllApplyMainbanner();
+	public List<BannerApplyFormBean> getAllApplyMainbanner(RowBounds rowBounds) {
+		return adminMapper.getAllApplyMainbanner(rowBounds);
+	}
+	
+	// 관리자 페이지 메인 배너 신청 내역 페이징 처리 위한 개수 반환
+	public int getAllApplyMainbannerCnt() {
+		return adminMapper.getAllApplyMainbannerCnt();
 	}
 	
 	// 관리자 페이지 서브 배너 신청 내역 가져오기
-	public List<BannerApplyFormBean> getAllApplySubbanner() {
-		return adminMapper.getAllApplySubbanner();
+	public List<BannerApplyFormBean> getAllApplySubbanner(RowBounds rowBounds) {
+		return adminMapper.getAllApplySubbanner(rowBounds);
+	}
+	
+	// 관리자 페이지 서브 배너 신청 페이징 처리 위한 개수 반환
+	public int getAllApplySubbannerCnt() {
+		return adminMapper.getAllApplySubbannerCnt();
 	}
 	
 	// 관리자 페이지 메인 배너 신청 내역 뱃지 관련
@@ -464,8 +474,13 @@ public class AdminDao {
 	}	
 	
 	// 관리자 페이지 메인 배너 신청 내역 전시회 제목 검색
-	public List<BannerApplyFormBean> getMainBannerapplytitleSearch(String search) {
-		return adminMapper.getMainBannerapplytitleSearch(search);
+	public List<BannerApplyFormBean> getMainBannerapplytitleSearch(String search, RowBounds rowBounds) {
+		return adminMapper.getMainBannerapplytitleSearch(search, rowBounds);
+	}
+	
+	// 관리자 페이지 메인 배너 신청 내역 전시회 제목 검색 페이징 처리를 위한 개수 반환
+	public int getMainBannerapplytitleSearchCnt(String search) {
+		return adminMapper.getMainBannerapplytitleSearchCnt(search);
 	}
 	
 	// 관리자 페이지 메인 배너 전시회 제목 검색 뱃지 관련
@@ -474,8 +489,13 @@ public class AdminDao {
 	}
 	
 	// 관리자 페이지 서브 배너 신청 내역 전시회 제목 검색
-	public List<BannerApplyFormBean> getSubBannerapplytitleSearch(String search) {
-		return adminMapper.getSubBannerapplytitleSearch(search);
+	public List<BannerApplyFormBean> getSubBannerapplytitleSearch(String search, RowBounds rowBounds) {
+		return adminMapper.getSubBannerapplytitleSearch(search, rowBounds);
+	}
+	
+	// 관리자 페이지 서브 배너 신청 내역 전시회 제목 검색 페이징처리를 위한 개수 반환'
+	public int getSubBannerapplytitleSearchCnt(String search) {
+		return adminMapper.getSubBannerapplytitleSearchCnt(search);
 	}
 		
 	// 관리자 페이지 서브 배너 전시회 제목 검색 뱃지 관련
