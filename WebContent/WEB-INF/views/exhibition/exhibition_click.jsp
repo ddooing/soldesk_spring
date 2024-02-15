@@ -399,7 +399,12 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 														if (currentValue > 1) {
 															ticketCountInput.value = currentValue - 1;
 														} else {
-															alert("최소 수량은 1입니다.");
+															Swal.fire({
+															    title: '알림',
+															    text: '최소 수량은 1입니다.',
+															    icon: 'warning',
+															    confirmButtonText: '확인'
+															});
 														}
 													});
 
