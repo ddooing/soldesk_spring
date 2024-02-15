@@ -217,12 +217,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top:30px;">
-						<h3>예매 관리</h3>
+						<h3>예매 결제 관리</h3>
 					</div>
-					<form:form action="payment?exhibition_id=${exhibitionBean.exhibition_id}"
-						method="post" modelAttribute="tempReserveBean" id="reservationForm">
-						<form:hidden path="start_date" id="startDate" value="" />
-						<form:hidden path="end_date" id="endDate" value="" />
+					
 					<div style="display: flex; justify-content: center; height: 95px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 						
 						<div style="margin-right: 50px;">
@@ -234,16 +231,91 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							<input id="datepicker2" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
 								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 							value="YYYY - MM - DD" spellcheck="false">
-							
+							<%@ page import="java.util.List" %>
+							<%@ page import="kr.co.softsoldesk.Beans.ReserveBean" %>
+							<%
+								List<ReserveBean> reserveBeans = (List<ReserveBean>) request.getAttribute("reserveBean");
+								String firstRequestedAt = "";
+								if (reserveBeans != null && !reserveBeans.isEmpty()) {
+								    firstRequestedAt = reserveBeans.get(reserveBeans.size() - 1).getRequested_at();// getRequestedAt() 메소드 이름은 실제 메소드에 맞게 변경해야 합니다.
+								}
+							%>
 							  <script>
 							  
 							    window.addEventListener('DOMContentLoaded', () => {
-							    
-							    	 var today = new Date();
-							      new Pikaday({
+							    	var firstRequestedAt = "<%= firstRequestedAt %>"; // 서버에서 받은 날짜와 시간 문자열
+							        var dateParts = firstRequestedAt.split(/[- :]/); // '2024-02-13 19:34:21'를 ['2024', '02', '13', '19', '34', '21']로 분리
+
+							        // UTC 기반 Date 객체 생성
+							        var date = new Date(Date.UTC(dateParts[0], dateParts[1] - 1, dateParts[2], dateParts[3], dateParts[4], dateParts[5]));
+
+							        // ISO 문자열로 변환 후 날짜 부분만 추출
+							        var formattedFirstRequestedAt = date.toISOString().substring(0, 10);
+
+
+							    	var today = new Date();
+									var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
+									var localToday = new Date(today.getTime() - offset);
+									var formattedToday = localToday.toISOString().substring(0, 10); // yyyy-mm-dd 형식으로 변환
+							      
+									$('#datepicker2').val(formattedToday);
+									$('#datepicker').val(formattedFirstRequestedAt);
+									 
+									 var datepickerValue = document.getElementById('datepicker').value;
+									 var datepicker2Value = document.getElementById('datepicker2').value;
+								    // 콘솔에 출력합니다.
+								    console.log("datepicker value:", datepickerValue);
+								    console.log("datepicker2Value  value:", datepicker2Value);
+								    
+								    
+									function redirectToAdminList() {
+										 var datepickerValue = document.getElementById('datepicker').value;
+										 var datepicker2Value = document.getElementById('datepicker2').value;
+										console.log("datepicker value:", datepickerValue);
+									    console.log("datepicker2Value  value:", datepicker2Value);
+									    /*
+									    var startDate = new Date(datepickerValue);
+									    var endDate = new Date(datepicker2Value);
+
+									    if (startDate > endDate) {
+									        Swal.fire({
+									            icon: "error",
+									            title: "오류",
+									            text: "선택한 검색 시작 일자보다 이전입니다"
+									            ,timer:2000,
+									            showConfirmButton: false,
+									        });
+									        $('#datepicker2').val(formattedToday); 
+									        
+									    }else if(startDate < endDate){
+									    	Swal.fire({
+									            icon: "error",
+									            title: "오류",
+									            text: "선택한 검색 종료 일자보다 이후입니다"
+									            ,timer:2000,
+									            showConfirmButton: false,
+									        });
+									    	$('#datepicker').val(formattedFirstRequestedAt);
+									    }
+									    */
+								      //window.location.href = '${root}/admin/manager_reservelist?startDate=' + startDate + '&endDate=' + endDate;
+								    }
+									
+									function fomatting(dateText){
+										var year = dateText.getFullYear();
+							    	    var month = dateText.getMonth() + 1; // getMonth()는 0부터 시작하므로 1을 더해줍니다.
+							    	    var day = dateText.getDate();
+							    	    var formattedDate = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2); // 'YYYY-MM-DD' 형식으로 변경
+										return formattedDate;
+									}
+									new Pikaday({
 							        field: document.getElementById('datepicker'),
 							        theme: "pikaday-white",
 							        firstDay: 1,
+							       	defaultDate: new Date(formattedFirstRequestedAt), // 변환된 날짜를 기본값으로 설정
+							        setDefaultDate: true,
+							        minDate: new Date(formattedFirstRequestedAt),
+							        maxDate: new Date(formattedToday),
 							        i18n: {
 							          previousMonth: 'Prev',
 							          nextMonth: 'Next',
@@ -254,17 +326,22 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 								      weekdays: [
 								       	  '일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'
 								       	],
-								      weekdaysShort: ['일', '월', '화', '수', '목', '금', '토']
-							
-							        }
+								      weekdaysShort: ['일', '월', '화', '수', '목', '금', '토']},
+								      onSelect: function(dateText) {
+								    	  var fomattingDate = fomatting(dateText);
+
+								    	  $('#datepicker').val(fomattingDate);
+								    	  redirectToAdminList();
+								      }
 							      });
 							      
 							      new Pikaday({
 							        field: document.getElementById('datepicker2'),
 							        theme: "pikaday-white",
 							        firstDay: 1,
-							        maxDate: today,
-							        defaultDate: today, // 오늘 날짜를 기본값으로 설정
+							        minDate: new Date(formattedFirstRequestedAt),
+							        maxDate: new Date(formattedToday),//today,
+							        //defaultDate: formattedToday,//today, // 오늘 날짜를 기본값으로 설정
 							        setDefaultDate: true, // 기본 날짜를 입력 필드에 표시
 							        i18n: {
 							        	previousMonth: 'Prev',
@@ -276,9 +353,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							  	      weekdays: [
 							  	       	  '일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'
 							  	       	],
-							  	      weekdaysShort: ['일', '월', '화', '수', '목', '금', '토']
-							        }
+							  	      weekdaysShort: ['일', '월', '화', '수', '목', '금', '토']},
+							  	      onSelect: function(dateText) {
+							  	    	 var fomattingDate = fomatting(dateText);
+							  	    	 $('#datepicker2').val(fomattingDate);
+							  	    	redirectToAdminList();
+							          }
+						
 							      });
+							      
 							    })
 							  </script>
 							
@@ -310,7 +393,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							placeholder="검색어를 입력해주세요" />
 						<button class="btn btn-dark" style="width: 80px; height: 40px; margin-top: 22px;">검색</button>
 					</div>
-					</form:form>
+					
 
 					<div style="background-color: white; margin-top: 30px;">
 						<table class="table table-striped" style="text-align: center;">

@@ -3,6 +3,7 @@ package kr.co.softsoldesk.controller;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -27,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
+import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.BannerService;
 import kr.co.softsoldesk.Service.UserService;
@@ -34,14 +36,15 @@ import kr.co.softsoldesk.Service.UserService;
 @Controller
 @RequestMapping("/banner")
 public class BannerApplyTossController {
-	@Resource(name="loginUserBean") // 로그인한 유저 알기위함
-	private UserBean loginUserBean;
 
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
 	private BannerService bannerSerivce;
+	
+	@Resource(name = "loginUserBean")
+	private UserBean loginUserBean;
 
 	String confirmUrl ="https://api.tosspayments.com/v1/payments/confirm";
 	
@@ -51,6 +54,42 @@ public class BannerApplyTossController {
 	//에러 코드 재현할때 사용함
 	String testCode = "PROVIDER_ERROR"; // 에러 테스트용 코드
 	
+	// 인덱스 -> 배너 등록 페이지 매핑
+	@GetMapping("/bannerapply")
+	public String bannerapply() {
+		return "/banner/bannerapply";
+	}
+	
+	
+	// 배너 견적 신청
+	@GetMapping("/mainbannerapplyform")
+	public String mainbannerapplyform(@ModelAttribute("applybannerBean") BannerApplyFormBean applybannerBean ,Model model) {
+		
+		// user 모든 정보 가져가기
+		UserBean userinfoBean = userService.getLoginUserAllInfo(loginUserBean.getUser_id());
+		model.addAttribute("userinfoBean",userinfoBean);
+		
+		// 해당 유저가 신청한 전시회 목록 가져가기
+		List<ExhibitionBean> apply_personexhibitionlist = bannerSerivce.getApply_personExhibitionlist(loginUserBean.getUser_id());
+		model.addAttribute("apply_personexhibitionlist",apply_personexhibitionlist);
+		
+		return "/banner/mainbannerapplyform";
+	}
+	
+	// 서브 배너 매핑
+	@GetMapping("/subbannerapplyform")
+	public String estimate2(@ModelAttribute("applybannerBean") BannerApplyFormBean applybannerBean ,Model model) {
+		
+		// user 모든 정보 가져가기
+		UserBean userinfoBean = userService.getLoginUserAllInfo(loginUserBean.getUser_id());
+		model.addAttribute("userinfoBean",userinfoBean);
+		
+		// 해당 유저가 신청한 전시회 목록 가져가기
+		List<ExhibitionBean> apply_personexhibitionlist = bannerSerivce.getApply_personExhibitionlist(loginUserBean.getUser_id());
+		model.addAttribute("apply_personexhibitionlist",apply_personexhibitionlist);
+		
+		return "/banner/subbannerapplyform";
+	}
 	
 	@PostMapping("/checkout")
 	public String checkout(@ModelAttribute("applybannerBean") BannerApplyFormBean applybannerBean,

@@ -14,7 +14,7 @@ import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Service.ReserveService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/adminPayment")
 public class AdminReserveController {
 	
 	
@@ -23,11 +23,15 @@ public class AdminReserveController {
 	
 	
 	@GetMapping("/manager_reservelist")
-	public String exhibition(Model model) {
-
+	public String exhibition(Model model,
+			@RequestParam(value = "startDate", required = false) String startDate,
+		    @RequestParam(value = "endDate", required = false) String endDate) {
+		
+		System.out.println("endDate : "+endDate);
+		System.out.println("startDate : "+startDate);
 		List<ReserveBean> reserveBean = reserveService.getReserveList();
 		model.addAttribute("reserveBean", reserveBean);
-		return "admin/manager_reservelist";
+		return "adminPayment/manager_reservelist";
 	}
 	
 	@GetMapping("/reserve_cancle")
@@ -36,6 +40,6 @@ public class AdminReserveController {
 		//취소 처리하기
 		
 		redirectAttributes.addFlashAttribute("canceled", true);
-		return "redirect:/admin/manager_reservelist";
+		return "redirect:/adminPayment/manager_reservelist";
 	}
 }

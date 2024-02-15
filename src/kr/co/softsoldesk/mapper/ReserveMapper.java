@@ -63,7 +63,9 @@ public interface ReserveMapper {
 	        "r.state, r.pay_state, r.pay_approval_state, r.order_id, r.payment_method, r.paymentkey, u.name, e.title " +
 	        "FROM reserve r " +
 	        "INNER JOIN user_table u ON r.user_id = u.user_id " +
-	        "INNER JOIN exhibition e ON r.exhibition_id = e.exhibition_id order by r.reserve_id desc")
+	        "INNER JOIN exhibition e ON r.exhibition_id = e.exhibition_id "
+	        +" WHERE r.state IS NOT NULL "
+	        + " order by r.reserve_id desc")
 	public List<ReserveBean> getReserveList();
 	
 	
