@@ -164,18 +164,7 @@
 											<td>관리자</td>
 										</c:if>
 										<td>
-											<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-												<li class="nav-item dropdown"><a id="navbarDropdown"
-													href="#" style="color: black;" role="button"
-													data-bs-toggle="dropdown" aria-expanded="false"> <i
-														class="bi bi-three-dots-vertical"></i>
-												</a>
-													<ul class="dropdown-menu dropdown-menu-end"
-														aria-labelledby="navbarDropdown">
-														<li><a class="dropdown-item"
-															href="${root }/admin/manager_accountdetail?user_id=${obj.user_id}">수정</a></li>
-													</ul></li>
-											</ul>
+											<a class="btn btn-dark" href="${root }/admin/manager_accountdetail?user_id=${obj.user_id}">수정</a>
 										</td>
 									</tr>
 								</c:forEach>

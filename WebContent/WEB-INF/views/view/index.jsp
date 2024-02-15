@@ -208,16 +208,6 @@
 			
 			<hr style="margin:auto; width: 80px; color: black;" />
 
-			<div id="sidebar_menu"
-				style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
-				<div style=" justify-content: center;">
-					<a href="#" style="color: black; text-decoration: none;">
-						<p1>FAQ</p1>
-					</a>
-				</div>
-			</div>
-			<hr style="margin:auto; width: 80px; color: black;" />
-
 			<c:choose>
 			    <c:when test="${loginUserBean.userLogin == false}">
 				    <div id="sidebar_menu" onclick="nologin();" style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">

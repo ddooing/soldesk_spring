@@ -139,7 +139,15 @@
 									<th scope="row" style="width: 50px;"><input
 										type="checkbox" /></th>
 									<td style="width: 50px;">${exhibitionlist.exhibition_id }</td>
-									<td style="width: 150px;">${exhibitionlist.author }</td>
+									<c:choose>
+										<c:when test="${exhibitionlist.author == null }">
+											<td style="width: 150px;">없음</td>
+										</c:when>
+										<c:otherwise>
+											<td style="width: 150px;">${exhibitionlist.author }</td>	
+										</c:otherwise>
+									</c:choose>
+									
 									<td style="width: 550px; text-align: left;"><a
 										href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionlist.exhibition_id}&user_id=${loginUserBean.user_id}"
 										style="color: black; text-align: left;">${exhibitionlist.title }</a></td>
