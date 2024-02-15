@@ -22,6 +22,7 @@ import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Service.AdminExhibitionService;
 import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.BookMarkService;
 import kr.co.softsoldesk.Service.ExhibitionService;
@@ -45,7 +46,7 @@ public class ExhibitionController {
 	private BookMarkService bookMarkService;
 	
 	@Autowired
-	private AdminService adminService;
+	private AdminExhibitionService adminExhibitionService;
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
@@ -210,7 +211,7 @@ public class ExhibitionController {
 	public String Exhibition_Enroll_pro(@ModelAttribute("addExhibitionDetailBean") ExhibitionDetailBean exhibitionDetailBean, Model model) {
 		
 		// 파일 테이블에 추가 및 파일 저장 (관리자 전시회 직접추가때 사용한 메소드 재사용)
-		adminService.addfiletableExhibition(exhibitionDetailBean);
+		adminExhibitionService.addfiletableExhibition(exhibitionDetailBean);
 		
 		// exhibition_enroll 테이블에 저장
 		exhibitionService.AddExhibition_Enroll(exhibitionDetailBean);

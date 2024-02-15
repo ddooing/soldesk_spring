@@ -81,53 +81,6 @@ public class UserDao {
 	public void deleteUserInfo(UserBean deleteUserBean) {
 		userMapper.deleteUserInfo(deleteUserBean);
 	}
-	// -------------------------
-
-	public List<UserBean> getUserList(RowBounds rowBounds) {
-		return userMapper.getUserList(rowBounds);
-	}
-
-	// 사용자 관리 페이징처리
-	public int getAccountCnt() {
-		return userMapper.getAccountCnt();
-	}
-
-	public List<UserBean> getNickSearchList(UserBean searchUserBean, RowBounds rowBounds) {
-		return userMapper.getNickSearchList(searchUserBean, rowBounds);
-	}
-
-	// 사용자 관리 닉네임 검색 페이징처리
-	public int getNickSearchCnt(String keyword) {
-		return userMapper.getNickSearchCnt(keyword);
-	}
-
-	public List<UserBean> getIdSearchList(UserBean searchUserBean, RowBounds rowBounds) {
-		return userMapper.getIdSearchList(searchUserBean, rowBounds);
-	}
-
-	// 사용자관리 아이디 검색 페이징 처리
-	public int getIdSearchCnt(String keyword) {
-		return userMapper.getIdSearchCnt(keyword);
-	}
-
-	public List<UserBean> getEmailSearchList(UserBean searchUserBean, RowBounds rowBounds) {
-		return userMapper.getEmailSearchList(searchUserBean, rowBounds);
-	}
-
-	public int getEmailSearchCnt(String keyword) {
-		return userMapper.getEmailSearchCnt(keyword);
-	}
-
-	public int deleteAdminUserInfo(int user_id) {
-		return userMapper.deleteAdminUserInfo(user_id);
-	}
-
-	public UserBean getAdminModifyInfo(int user_id) {
-		return userMapper.getAdminModifyInfo(user_id);
-	}
-
-	public void AdminModifyInfo(UserBean acModifyBean) {
-		userMapper.AdminModifyInfo(acModifyBean);
-	}
+	
 
 }

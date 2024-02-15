@@ -25,7 +25,9 @@ import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
 import kr.co.softsoldesk.mapper.AdminContentsMapper;
+import kr.co.softsoldesk.mapper.AdminExhibitionMapper;
 import kr.co.softsoldesk.mapper.AdminMapper;
+import kr.co.softsoldesk.mapper.AdminUserMapper;
 import kr.co.softsoldesk.mapper.BoardMapper;
 import kr.co.softsoldesk.mapper.BookMarkMapper;
 import kr.co.softsoldesk.mapper.ExhibitionMapper;
@@ -141,6 +143,28 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 		MapperFactoryBean<ExhibitionMapper> factoryBean = new MapperFactoryBean<ExhibitionMapper>(
 				ExhibitionMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
+	
+	@Bean // 어드민 전시회 매퍼
+	public MapperFactoryBean<AdminExhibitionMapper> getAdminExhibitionMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<AdminExhibitionMapper> factoryBean = new MapperFactoryBean<AdminExhibitionMapper>(
+				AdminExhibitionMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
+	
+	@Bean // 어드민 유저 매퍼
+	public MapperFactoryBean<AdminUserMapper> getAdminUserMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<AdminUserMapper> factoryBean = new MapperFactoryBean<AdminUserMapper>(
+				AdminUserMapper.class);
 
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;

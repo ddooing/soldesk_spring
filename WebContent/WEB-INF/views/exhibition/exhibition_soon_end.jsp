@@ -62,7 +62,7 @@
 
 	<section id="곧종료">
 		<div class="text-center mb-4"
-		    style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1500px;">
+		    style="margin:auto; margin-top: 30px; border: 0.3px rgb(199, 200, 201) solid; width: 1200px; height: 1600px;">
 		
 		    <div style="margin-top: 50px; display: flex; margin-left:35px; flex-wrap: wrap; justify-content: start;">
 		        <c:forEach items="${getSoonEndExhibitionInfo}" var="soonendexhibition">
@@ -71,7 +71,7 @@
 		                    <img style="width:255px; height:375px;" src="${soonendexhibition.main_poster_path}${soonendexhibition.main_poster_name}" alt="포스터"
 		                        style="width: 100%; height: auto; margin-bottom: 30px;" />
 		                </a>
-		                <p style="font-size: 20px; text-align: center; margin-top:30px;">${soonendexhibition.title }</p>
+		                <p style="font-size: 20px; width:255px; text-align: center; margin-top:30px; word-wrap: break-word;">${soonendexhibition.title }</p>
 		            </div>
 		        </c:forEach>
 		    </div>
