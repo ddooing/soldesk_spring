@@ -231,20 +231,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							<input id="datepicker2" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
 								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 							value="YYYY - MM - DD" spellcheck="false">
-							<%@ page import="java.util.List" %>
-							<%@ page import="kr.co.softsoldesk.Beans.ReserveBean" %>
-							<%
-								List<ReserveBean> reserveBeans = (List<ReserveBean>) request.getAttribute("reserveBean");
-								String firstRequestedAt = "";
-								if (reserveBeans != null && !reserveBeans.isEmpty()) {
-								    firstRequestedAt = reserveBeans.get(reserveBeans.size() - 1).getRequested_at();// getRequestedAt() 메소드 이름은 실제 메소드에 맞게 변경해야 합니다.
-								}
-							%>
+							
 							  <script>
 							  
 							    window.addEventListener('DOMContentLoaded', () => {
-							    	var firstRequestedAt = "<%= firstRequestedAt %>"; // 서버에서 받은 날짜와 시간 문자열
-							        var dateParts = firstRequestedAt.split(/[- :]/); // '2024-02-13 19:34:21'를 ['2024', '02', '13', '19', '34', '21']로 분리
+							    	var firstPayDate = "${firstPayDate}"; // 서버에서 받은 날짜와 시간 문자열
+							        var dateParts = firstPayDate.split(/[- :]/); // '2024-02-13 19:34:21'를 ['2024', '02', '13', '19', '34', '21']로 분리
 
 							        // UTC 기반 Date 객체 생성
 							        var date = new Date(Date.UTC(dateParts[0], dateParts[1] - 1, dateParts[2], dateParts[3], dateParts[4], dateParts[5]));
@@ -268,38 +260,27 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 								    console.log("datepicker2Value  value:", datepicker2Value);
 								    
 								    
+								    
 									function redirectToAdminList() {
 										 var datepickerValue = document.getElementById('datepicker').value;
 										 var datepicker2Value = document.getElementById('datepicker2').value;
 										console.log("datepicker value:", datepickerValue);
 									    console.log("datepicker2Value  value:", datepicker2Value);
-									    /*
-									    var startDate = new Date(datepickerValue);
-									    var endDate = new Date(datepicker2Value);
+									    
+									    var startDate = datepickerValue;
+									    var endDate = datepicker2Value;
 
-									    if (startDate > endDate) {
-									        Swal.fire({
-									            icon: "error",
-									            title: "오류",
-									            text: "선택한 검색 시작 일자보다 이전입니다"
-									            ,timer:2000,
-									            showConfirmButton: false,
-									        });
-									        $('#datepicker2').val(formattedToday); 
-									        
-									    }else if(startDate < endDate){
-									    	Swal.fire({
-									            icon: "error",
-									            title: "오류",
-									            text: "선택한 검색 종료 일자보다 이후입니다"
-									            ,timer:2000,
-									            showConfirmButton: false,
-									        });
-									    	$('#datepicker').val(formattedFirstRequestedAt);
-									    }
-									    */
-								      //window.location.href = '${root}/admin/manager_reservelist?startDate=' + startDate + '&endDate=' + endDate;
+							            var urlParams = new URLSearchParams(window.location.search);
+
+							           
+							            urlParams.set('startDate', startDate);
+							            urlParams.set('endDate', endDate);
+							            // 페이지를 업데이트된 URL로 리디렉션합니다.
+							            window.location.href = window.location.pathname + '?' + urlParams.toString();
+									    
+								     
 								    }
+									
 									
 									function fomatting(dateText){
 										var year = dateText.getFullYear();
@@ -308,6 +289,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							    	    var formattedDate = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2); // 'YYYY-MM-DD' 형식으로 변경
 										return formattedDate;
 									}
+									
+									
 									new Pikaday({
 							        field: document.getElementById('datepicker'),
 							        theme: "pikaday-white",
@@ -363,35 +346,79 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							      });
 							      
 							    })
+							    console.log(window.location.href);
+
 							  </script>
 							
 							
 						</div>
 						<div style="display: flex; flex-direction: column;"> 결제 수단
-							<select name="usercombo" id="usercombo"
+							<select name="usercombo" id="payment_method_combo"
 								style="width: 150px; height: 36px; margin-right: 30px;">
-								<option value="option1" selected>전체</option>
-								<option value="option2">간편결제</option>
-								<option value="option9">포인트결제</option>
-								<option value="option3">신용·체크카드</option>
-								<option value="option4">가상계좌</option>
-								<option value="option5">휴대폰</option>
-								<option value="option6">문화상품권</option>
-								<option value="option7">게임문화상품권</option>
-								<option value="option8">도서문화상품권</option>
-								<option value="option9">계좌이체</option>
+								<option value="" selected>전체</option>
+								<option value="간편결제">간편결제</option>
+								<option value="포인트결제">포인트결제</option>
+								<option value="신용·체크카드">신용·체크카드</option>
+								<option value="가상계좌">가상계좌</option>
+								<option value="휴대폰">휴대폰</option>
+								<option value="문화상품권">문화상품권</option>
+								<option value="게임문화상품권">게임문화상품권</option>
+								<option value="도서문화상품권">도서문화상품권</option>
+								<option value="계좌이체">계좌이체</option>
 							</select> 
 						</div>
-						<select name="usercombo" id="usercombo"
+						<script>
+							document.addEventListener('DOMContentLoaded', function() {
+							    // 결제 수단 콤보박스 요소를 가져옵니다.
+							    var paymentMethodCombo = document.getElementById('payment_method_combo');
+							
+							    // 결제 수단 콤보박스의 변경 사항을 감지합니다.
+							    paymentMethodCombo.addEventListener('change', function() {
+							    	var selectedPaymentMethod = paymentMethodCombo.value;
+						            var urlParams = new URLSearchParams(window.location.search);
+
+						            // 'payment_method' 매개변수를 업데이트합니다.
+						            urlParams.set('payment_method', selectedPaymentMethod);
+
+						            // 페이지를 업데이트된 URL로 리디렉션합니다.
+						            window.location.href = window.location.pathname + '?' + urlParams.toString();
+							    });
+							});
+						</script>
+						
+						<select name="usercombo" id="searchcombo"
 							style="width: 150px; height: 36px; margin-right: 30px; margin-top: 22px;">
 							<option value="" disabled selected>검색조건선택</option>
-							<option value="option2">구매자명</option>
-							<option value="option3">구매상품</option>
+							<option value="user_name">구매자명</option>
+							<option value="exhibition_title">구매상품</option>
 						</select> 
 						<input type="text" name="usersearch" id="usersearch"
 							style="width: 250px; height: 36px; margin-right: 30px; margin-top: 20px;"
 							placeholder="검색어를 입력해주세요" />
 						<button class="btn btn-dark" style="width: 80px; height: 40px; margin-top: 22px;">검색</button>
+					
+						<script>
+						    document.addEventListener('DOMContentLoaded', function() {
+						        // 검색 조건 콤보박스와 검색어 입력 필드, 검색 버튼 요소를 가져옵니다.
+						        var searchCombo = document.getElementById('searchcombo');
+						        var searchInput = document.getElementById('usersearch');
+						        var searchButton = document.querySelector('.btn-dark'); // 클래스 이름으로 검색 버튼을 선택합니다.
+						
+						        // 검색 버튼 클릭 이벤트 리스너를 추가합니다.
+						        searchButton.addEventListener('click', function() {
+						        	var selectedOption = searchCombo.value;
+						            var searchText = searchInput.value;
+						            var urlParams = new URLSearchParams(window.location.search);
+
+						            // 선택된 검색 조건과 검색어를 URL 매개변수로 추가 또는 업데이트합니다.
+						            urlParams.set(selectedOption, searchText);
+
+						            // 페이지를 업데이트된 URL로 리디렉션합니다.
+						            window.location.href = window.location.pathname + '?' + urlParams.toString();
+						        });
+						    });
+						</script>
+						
 					</div>
 					
 

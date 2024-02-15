@@ -46,11 +46,23 @@ public class ReserveService {
 		reserveDao.paymentZeroReserveInfo(reserveInfo);
 	}
 
+	/*
 	public List<ReserveBean> getReserveList()
 	{
 		return reserveDao.getReserveList();
 	}
-
+	*/
+	
+	//첫 결제 내역 날짜 받기
+	public String getFirstPayDate()
+	{
+		return reserveDao.getFirstPayDate();
+	}
+	
+	public List<ReserveBean> getReserveList(String startDate,String endDate,String payment_method,String exhibition_title,String user_name)
+	{
+		return reserveDao.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name);
+	}
 	
 	
 	
