@@ -130,6 +130,7 @@
 				<c:otherwise>
 					<c:forEach items="${UserReserveListBean}" var="reservelist">
 						<div style="background:#d3d3d32e;height:290px; display: flex; flex-direction: row;  padding: 30px; width:830px;" >
+							
 							<div>
 								<img src="${reservelist.main_poster_path}${reservelist.main_poster_name}" style="width:160px; height:220px;"/>
 							</div>
@@ -146,11 +147,11 @@
 													<span>
 														결제완료
 													</span>
-													<button class="reserCancel" >예매취소</button>
+													<button class="reserCancel" >예매 상세</button>
 												</p>
 												
 											</c:when>
-											<c:when test="${reservelist.state == 2 }">
+											<c:when test="${reservelist.state == 0 }">
 												<p style=" color:gray;">예매 상태 : 
 													<span>
 														결제취소

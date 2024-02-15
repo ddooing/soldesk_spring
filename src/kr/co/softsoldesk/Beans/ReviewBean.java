@@ -12,7 +12,7 @@ public class ReviewBean {
 	private String contents;
 	private int rating;
 	private int expose;
-	private String regdate;
+
 	private String modify_date;
 	private String create_date;
 		

@@ -345,9 +345,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				</c:when>
 				<c:otherwise>
 					<form:form
-						action="payment?exhibition_id=${exhibitionBean.exhibition_id}"
+						action="payment?exhibition_id=${exhibitionBean.exhibition_id}" id="reservationForm"
 						method="post" modelAttribute="tempReserveBean">
 						<form:hidden path="user_id" value="${loginUserBean.user_id }" />
+						<form:hidden path="exhibition_id" value="${exhibitionBean.exhibition_id}"/>
 						<div id="right-side-menu">
 							<div
 								style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">
@@ -426,18 +427,17 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 										<c:choose>
 											<c:when test="${loginUserBean.userLogin == false}">
 												<!-- 로그인 안했을때 -->
-												<a href="${root}/user/not_login"
+												<a href="${root}/user/login"
 													style="width: 120px; margin-right: 30px;"
 													class="btn btn-dark">예매하기</a>
-												<a href="${root}/user/not_login" style="width: 120px;"
+												<a href="${root}/user/login" style="width: 120px;"
 													class="btn btn-dark">장바구니</a>
 											</c:when>
 											<c:otherwise>
 												<form:button type="submit"
 													style="width:120px; margin-right:30px;"
 													class="btn btn-dark">예매하기</form:button>
-												<form:button type="submit" style="width:120px;"
-													class="btn btn-dark">장바구니</form:button>
+												<button type="button" id="cartButton"  style="width:120px;"class="btn btn-dark">장바구니</button>
 											</c:otherwise>
 										</c:choose>
 									</div>
@@ -448,7 +448,17 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 							</div>
 						</div>
 
+						<!--    보내기  -->
+						<script>
+							document.getElementById("cartButton").addEventListener("click", function() {
+							    var form = document.getElementById("reservationForm");
+							    form.action = "${root}/user/cart_insert"; // action 변경
+							    form.method = "post"; // POST 메소드 설정
+							    form.submit(); // 폼 제출
+							});
 
+						</script>
+						
 						<script>
 							window.addEventListener('scroll', function() {
 								var scrollPosition = window.pageYOffset
@@ -966,6 +976,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 	<script>
 	document.addEventListener('DOMContentLoaded', function() {
 		var today = new Date();
+		today.setDate(today.getDate() + 1); 
 		var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
 		var localToday = new Date(today.getTime() - offset);
 		var formattedToday = localToday.toISOString().substring(0, 10); 
@@ -974,7 +985,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 		$('#datepicker11').datepicker({
 			inline: true,
-			minDate: new Date(), 
+			minDate: today, 
 			maxDate: exhibitionEndDate, 
 			dateFormat: 'yy-mm-dd',
 			startDate: formattedToday,
@@ -1035,6 +1046,44 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
         });
     }
 </script>
+
+<!--  장바구니 추가 관련  -->
+	
+	<c:if test="${not empty cartMessage}">
+        <script>
+        Swal.fire({
+            //title: "Are you sure?",
+            text: "${cartMessage}",
+            icon: "${icon}",
+            showCancelButton: true,
+            confirmButtonColor: "#4F6F52",
+            cancelButtonColor: "gray",
+            confirmButtonText: "장바구니 보기",
+            cancelButtonText: '닫기'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // confirmButtonText를 눌렀을 때, 지정된 URL로 이동
+                window.location.href = "${root}/user/cart_list";
+            }
+            // cancelButtonText를 눌렀을 때, 대화 상자가 자동으로 닫힘 (아무 작업도 필요 없음)
+        });
+
+    </script>
+    </c:if>
+    
+	<!-- 결제 실패 -->
+    <c:if test="${not empty failmsg}">
+        <script>
+        Swal.fire({
+            title: "결제 실패",
+            html: "${failmsg} <br><br> 예매를 다시 진행해주세요.",
+            icon: "error",
+            confirmButtonColor: "#4F6F52",
+            confirmButtonText: "확인"
+        });
+
+    </script>
+    </c:if>
 	
 
 

@@ -199,7 +199,12 @@ public interface ExhibitionMapper {
 			+ "    r.expose = 1\r\n"
 			+ "    AND rv.exhibition_id = #{exhibition_id}")
 	int getExhibitionReviewCnt(int exhibition_id);
+	//전시회 exhibition_id 로 제목 조회 
+	@Select("select title from exhibition where exhibition_id=#{exhibition_id}")
+	String getExhibitionTitle(int exhibition_id);
 	
+	@Update("update exhibition set ticket_cnt= ticket_cnt + #{ticket_cnt}  where exhibition_id=#{exhibition_id}")
+	void increase_exhibitionTotalTicket(@Param("exhibition_id")int exhibition_id,@Param("ticket_cnt")int ticket_cnt);
 	
 	// =================================== 전시회 등록 신청 ==================================
 	

@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.config;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.annotation.Resource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.CacheControl;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
@@ -21,13 +24,13 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
 import kr.co.softsoldesk.mapper.AdminContentsMapper;
 import kr.co.softsoldesk.mapper.AdminExhibitionMapper;
 import kr.co.softsoldesk.mapper.AdminMapper;
 import kr.co.softsoldesk.mapper.AdminUserMapper;
+import kr.co.softsoldesk.mapper.BannerMapper;
 import kr.co.softsoldesk.mapper.BoardMapper;
 import kr.co.softsoldesk.mapper.BookMarkMapper;
 import kr.co.softsoldesk.mapper.ExhibitionMapper;
@@ -66,8 +69,8 @@ public class ServletAppContext implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// ���� ���� ��� ����
 		WebMvcConfigurer.super.addResourceHandlers(registry);
-		registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/");
-		// registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/assets/");
+		registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/")
+		.setCacheControl(CacheControl.maxAge(10, TimeUnit.MINUTES));
 	}
 
 	@Override
@@ -223,6 +226,16 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	}
 
+	@Bean // 배너  매퍼
+	public MapperFactoryBean<BannerMapper> getBannerMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<BannerMapper> factoryBean = new MapperFactoryBean<BannerMapper>(
+				BannerMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
 

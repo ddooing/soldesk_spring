@@ -159,7 +159,14 @@ public class ExhibitionService {
 		
 		return pageBean;
 	}
-	
+	//전시회 제목 
+	public String getExhibitionTitle(int exhibition_id) {
+		return exhibitionDao.getExhibitionTitle(exhibition_id);
+	}
+	//예매된 티켓 수를 전시회 정보 update
+	public void increase_exhibitionTotalTicket(int exhibition_id,int ticket_cnt) {
+		exhibitionDao.increase_exhibitionTotalTicket(exhibition_id,ticket_cnt);
+	}
 	// ========================== 전시회 등록 신청 ==================
 	
 	// exhibition_enroll 테이블에 추가

@@ -65,7 +65,7 @@ public interface MyPageMapper {
 				+ "INNER JOIN \r\n"
 				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
 				+ "WHERE \r\n"
-				+ "    r.user_id = #{user_id}"
+				+ "    r.user_id = #{user_id} AND r.state = 1"
 				+ "order by r.reserve_id desc")
 		List<ReserveBean> getMyPageReserveList(int user_id, RowBounds rowBounds);
 		
@@ -92,7 +92,6 @@ public interface MyPageMapper {
 				+ "    r.contents,\r\n"
 				+ "    r.rating,\r\n"
 				+ "    r.expose,\r\n"
-				+ "    r.regdate,\r\n"
 				+ "    r.create_date,\r\n"
 				+ "    r.modify_date,\r\n"
 				+ "    TO_CHAR(rv.reserve_date, 'yyyy-mm-dd') AS reserve_date,\r\n"
@@ -122,7 +121,6 @@ public interface MyPageMapper {
 				+ "    r.contents,\r\n"
 				+ "    r.rating,\r\n"
 				+ "    r.expose,\r\n"
-				+ "    r.regdate,\r\n"
 				+ "    TO_CHAR(r.create_date, 'yyyy-mm-dd') AS create_date,\r\n"
 				+ "    r.modify_date,\r\n"
 				+ "    TO_CHAR(rv.reserve_date, 'yyyy-mm-dd') AS reserve_date,\r\n"

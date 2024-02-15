@@ -1,8 +1,5 @@
 package kr.co.softsoldesk.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -45,7 +42,19 @@ public class UserDao {
 	public void UpdatepointMinus(int point, int user_id) {
 		userMapper.UpdatepointMinus(point, user_id);
 	}
-
+	
+	//등급 가져오기
+	public String getLevel(int user_id)
+	{
+		return userMapper.getLevel(user_id);
+	}
+	//포인트와 경험치 증가 
+	public void point_expIncrease(int user_id,int point)
+	{
+		userMapper.point_expIncrease(user_id,point);
+	}
+	
+	
 	// 경험치 증가
 	public void IncreaseExp(int exp, int user_id) {
 		userMapper.IncreaseExp(exp, user_id);

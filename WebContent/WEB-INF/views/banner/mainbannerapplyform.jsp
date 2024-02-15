@@ -260,8 +260,9 @@
 			<div class="info__ttl">B.주문자 정보</div>
 			<div class="info__form">
 				<div class="content__wrap">
-				<form:form action="${root }/admin/mainbannerapplyform_pro" method="post" modelAttribute="applybannerBean" enctype="multipart/form-data" id="application-form">
+				<form:form action="${root }/banner/checkout" method="post" modelAttribute="applybannerBean" enctype="multipart/form-data" id="application-form">
 				<form:hidden path="apply_person_id" value="${userinfoBean.user_id }"/>
+				<form:hidden path="banner_type" value="1"/> 
 				<form:hidden path="payment" id="payment" value=""/>	
 						<div id="canvas-target-1">
 							<div class="row">
@@ -363,7 +364,7 @@
 		    }).then((result) => {
 		        if (result.isConfirmed) {
 		            document.getElementById('application-form').submit();
-		            Swal.fire('신청되었습니다!', '', 'success');
+		           // Swal.fire('신청되었습니다!', '', 'success');
 		        }
 		    });
 		}
@@ -506,7 +507,19 @@ function updateAllAmount(totalPrice) {
 
 </script>
 	
-	      	      
+	   <!-- 결제 실패 -->
+    <c:if test="${not empty failmsg}">
+        <script>
+        Swal.fire({
+            title: "결제 실패",
+            html: "${failmsg} <br><br> 신청을 다시 진행해주세요.",
+            icon: "error",
+            confirmButtonColor: "#4F6F52",
+            confirmButtonText: "확인"
+        });
+
+    </script>
+    </c:if>   	      
       </body>
 
 </html>

@@ -5,9 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
-import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.mapper.ReserveMapper;
 
 @Repository
@@ -15,28 +13,53 @@ public class ReserveDao {
 
 	@Autowired
 	private ReserveMapper reserveMapper;
+	
 
+	
+	public void checkoutReserveInfo(ReserveBean checkoutReserveBean ) {
+		reserveMapper.checkoutReserveInfo(checkoutReserveBean);
+	}
+	
+
+	
+	public ReserveBean validcheckOrderId(String orderId){
+		
+		return reserveMapper.validcheckOrderId(orderId);
+	}
+
+	public void approvalBefore(String orderId,String paymentKey)
+	{
+		 reserveMapper.approvalBefore(orderId,paymentKey);
+	}
+	
+	public void realReserveState(String orderId,String requestedAt,String approvedAt,String method)
+	{
+		reserveMapper.realReserveState(orderId,requestedAt,approvedAt,method);
+	}
+	
+	//-------------
+	//payment가 0원 일 경우, 예매 정보 저장 
+	public void paymentZeroReserveInfo(ReserveBean reserveInfo )
+	{
+		reserveMapper.paymentZeroReserveInfo(reserveInfo);
+	}
+	
 	/*
-	 * public ReserveBean reserveTicket(ReserveBean tempReserveBean, UserBean
-	 * loginUserBean, ExhibitionBean exhibitioninfoBean) {
-	 * 
-	 * return reserveMapper.reserveTicket(tempReserveBean, loginUserBean,
-	 * exhibitioninfoBean);
-	 * 
-	 * }
-	 */
-
-	public void reserve_ing(ReserveBean ReserveBean) {
-		reserveMapper.reserve_ing(ReserveBean);
+	public List<ReserveBean> getReserveList()
+	{
+		return reserveMapper.getReserveList();
 	}
-
-	public void reserveAfterExhibitionCntIncrease(int ticket_count, int exhibition_id) {
-		reserveMapper.reserveAfterExhibitionCntIncrease(ticket_count, exhibition_id);
+	*/
+	
+	//첫 결제 내역 날짜 받기
+	public String getFirstPayDate()
+	{
+		return reserveMapper.getFirstPayDate();
 	}
-
-	// reserveBean반환
-	public ReserveBean getReserve_idForMakeReview(String order_id) {
-		return reserveMapper.getReserve_idForMakeReview(order_id);
+	
+	public List<ReserveBean> getReserveList(String startDate,String endDate,String payment_method,String exhibition_title,String user_name)
+	{
+		return reserveMapper.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name);
 	}
 	
 	

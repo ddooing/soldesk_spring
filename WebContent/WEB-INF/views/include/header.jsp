@@ -76,7 +76,7 @@
 				<ul class="navbar-nav ms-auto">
 
 					<li class="nav-item mr-5">
-						<a class="nav-link" href="${root }/user/basket"><img src="../img/cart.png"
+						<a class="nav-link" href="${root }/user/cart_list"><img src="../img/cart.png"
 								style="width: 30px; height: 30px; margin-right: 30px;" /></a>
 					</li>
 					<c:choose>

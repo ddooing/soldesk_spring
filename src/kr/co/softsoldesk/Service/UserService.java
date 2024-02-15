@@ -1,15 +1,11 @@
 package kr.co.softsoldesk.Service;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
-import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.dao.UserDao;
 
@@ -47,20 +43,34 @@ public class UserService {
 
 		return userDao.getLoginUserAllInfo(user_id);
 	}
+	
+	
 
 	// 유저의 등급 가져오기
 	public UserBean getUserGrade(int user_id) {
 		return userDao.getUserGrade(user_id);
 	}
-
+	//포인트와 경험치 증가 
+	public void point_expIncrease(int user_id,int point)
+	{
+		userDao.point_expIncrease(user_id,point);
+	}
+	
+	
 	// 유저테이블 포인트 적립
 	public void UpdatepointPlus(int point, int user_id) {
 		userDao.UpdatepointPlus(point, user_id);
 	}
+	
 
 	// 유저테이블 포인트 사용
 	public void UpdatepointMinus(int point, int user_id) {
 		userDao.UpdatepointMinus(point, user_id);
+	}
+	//레벨 가져오기
+	public String getLevel(int user_id)
+	{
+		return userDao.getLevel(user_id);
 	}
 
 	// 경험치 증가

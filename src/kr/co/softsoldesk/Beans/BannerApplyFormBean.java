@@ -1,5 +1,7 @@
 package kr.co.softsoldesk.Beans;
 
+import java.util.UUID;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
@@ -43,4 +45,18 @@ public class BannerApplyFormBean {
 	private int total_count;
 	private int state_1_count;
 	private int state_2_count;
+	
+	
+	//추가
+	private String requested_at; // 주문 날짜 +시간
+	private String approved_at; // 결제 날짜 +시간 
+	private int pay_state;
+	private int pay_approval_state;
+	private String order_id;
+	private String paymentkey;
+	private String payment_method;	
+    	
+	public BannerApplyFormBean(){
+		this.order_id= UUID.randomUUID().toString();
+	}
 }

@@ -33,7 +33,8 @@
 
 	<!-- JQuery 자바스크립트-->
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+	<!-- sweetalert2 알림 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<!-- CSS -->
 	<link href="../css/styles.css" rel="stylesheet" />
@@ -494,6 +495,18 @@
 			}
 		});
 	</script>
+	<c:if test="${not empty failmsg}">
+        <script>
+        Swal.fire({
+            title: "결제 실패",
+            html: "${failmsg} <br><br> 결제를 다시 진행해주세요.",
+            icon: "error",
+            confirmButtonColor: "#4F6F52",
+            confirmButtonText: "확인"
+        });
+
+    </script>
+    </c:if>
 
 </body>
 

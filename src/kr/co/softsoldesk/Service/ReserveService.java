@@ -2,44 +2,69 @@ package kr.co.softsoldesk.Service;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
-import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.dao.ReserveDao;
 
 @Service
 public class ReserveService {
-
+	
 	@Autowired
 	private ReserveDao reserveDao;
-
-	@Resource(name = "loginUserBean")
-	private UserBean loginUserBean;
-
-	// 전시회 상세 페이지에서 예약하기 버튼 클릭
-	public ReserveBean reservebtn_click(ReserveBean tempReserveBean) {
-		return tempReserveBean;
-	}
-
-	public void reserve_ing(ReserveBean ReserveBean) {
-
-		reserveDao.reserve_ing(ReserveBean);
-	}
-
-	public void reserveAfterExhibitionCntIncrease(int ticket_count, int exhibition_id) {
-		reserveDao.reserveAfterExhibitionCntIncrease(ticket_count, exhibition_id);
-	}
-
 	
-	public ReserveBean getReserve_idForMakeReview(String order_id) {
-		return reserveDao.getReserve_idForMakeReview(order_id);
+
+	// /checkout 에 대한 예매 정보 저장
+	public void checkoutReserveInfo(ReserveBean checkoutReserveBean)
+	{
+		reserveDao.checkoutReserveInfo(checkoutReserveBean);
 	}
 	
+
+	public ReserveBean validcheckOrderId(String orderId){
+		
+		return reserveDao.validcheckOrderId(orderId);
+	}
 	
+	//pay_approval_state : 승인 상태 true로 update &  paymentKey 저장 
+	public void approvalBefore(String orderId,String paymentKey)
+	{
+		 reserveDao.approvalBefore(orderId,paymentKey);
+	}
+	
+	// 정말로 결제되었음 - pay_state 결제 상태 :true 로 update &  state(0:예매,1: 예매 취소) 예매가 되었음을 0으로 저장
+	public void realReserveState(String orderId, String requestedAt,String approvedAt,String method )
+	{
+		reserveDao.realReserveState(orderId,requestedAt,approvedAt,method);
+	}
+	
+
+	//payment가 0원 일 경우, 예매 정보 저장 
+	public void paymentZeroReserveInfo(ReserveBean reserveInfo )
+	{
+		reserveDao.paymentZeroReserveInfo(reserveInfo);
+	}
+
+	/*
+	public List<ReserveBean> getReserveList()
+	{
+		return reserveDao.getReserveList();
+	}
+	*/
+	
+	//첫 결제 내역 날짜 받기
+	public String getFirstPayDate()
+	{
+		return reserveDao.getFirstPayDate();
+	}
+	
+	public List<ReserveBean> getReserveList(String startDate,String endDate,String payment_method,String exhibition_title,String user_name)
+	{
+		return reserveDao.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name);
+	}
+	
+	
+	
+    
 }
