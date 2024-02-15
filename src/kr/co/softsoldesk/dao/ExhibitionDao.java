@@ -80,6 +80,11 @@ public class ExhibitionDao {
 		return exhibitionMapper.getIndexPageSoonExhibitionInfo();
 	}
 	
+	// 메인 인덱스 현재 전시 캐러셀
+	public List<ExhibitionBean> getIndexPagecurrentExhibitionInfo() {
+		return exhibitionMapper.getIndexPagecurrentExhibitionInfo();
+	}
+	
 	// 전시회 클릭시 리뷰 정보 가져가기
 	public List<ReviewBean> getExhibition_clickReviewAllInfo(int exhibition_id, RowBounds rowBounds) {
 		return exhibitionMapper.getExhibition_clickReviewAllInfo(exhibition_id, rowBounds);

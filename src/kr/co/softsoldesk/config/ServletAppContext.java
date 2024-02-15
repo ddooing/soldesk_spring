@@ -24,6 +24,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
+import kr.co.softsoldesk.mapper.AdminContentsMapper;
 import kr.co.softsoldesk.mapper.AdminMapper;
 import kr.co.softsoldesk.mapper.BoardMapper;
 import kr.co.softsoldesk.mapper.BookMarkMapper;
@@ -95,7 +96,7 @@ public class ServletAppContext implements WebMvcConfigurer {
 		return factory;
 	}
 
-	@Bean	// 유저 매퍼
+	@Bean // 유저 매퍼
 	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) throws Exception {
 
 		MapperFactoryBean<UserMapper> factoryBean = new MapperFactoryBean<UserMapper>(UserMapper.class);
@@ -104,8 +105,8 @@ public class ServletAppContext implements WebMvcConfigurer {
 		return factoryBean;
 
 	}
-	
-	@Bean	// 유저 매퍼
+
+	@Bean // 유저 매퍼
 	public MapperFactoryBean<AdminMapper> getAdminMapper(SqlSessionFactory factory) throws Exception {
 
 		MapperFactoryBean<AdminMapper> factoryBean = new MapperFactoryBean<AdminMapper>(AdminMapper.class);
@@ -114,8 +115,8 @@ public class ServletAppContext implements WebMvcConfigurer {
 		return factoryBean;
 
 	}
-	
-	@Bean	// 보드 매퍼
+
+	@Bean // 보드 매퍼
 	public MapperFactoryBean<BoardMapper> getBoardMapper(SqlSessionFactory factory) throws Exception {
 
 		MapperFactoryBean<BoardMapper> factoryBean = new MapperFactoryBean<BoardMapper>(BoardMapper.class);
@@ -124,8 +125,8 @@ public class ServletAppContext implements WebMvcConfigurer {
 		return factoryBean;
 
 	}
-	
-	@Bean	// 소감문 매퍼
+
+	@Bean // 소감문 매퍼
 	public MapperFactoryBean<ReviewMapper> getReviewMapper(SqlSessionFactory factory) throws Exception {
 
 		MapperFactoryBean<ReviewMapper> factoryBean = new MapperFactoryBean<ReviewMapper>(ReviewMapper.class);
@@ -145,12 +146,11 @@ public class ServletAppContext implements WebMvcConfigurer {
 		return factoryBean;
 
 	}
-	
+
 	@Bean // 전시회 매퍼
 	public MapperFactoryBean<MyPageMapper> getMypageMapper(SqlSessionFactory factory) throws Exception {
 
-		MapperFactoryBean<MyPageMapper> factoryBean = new MapperFactoryBean<MyPageMapper>(
-				MyPageMapper.class);
+		MapperFactoryBean<MyPageMapper> factoryBean = new MapperFactoryBean<MyPageMapper>(MyPageMapper.class);
 
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;
@@ -160,26 +160,34 @@ public class ServletAppContext implements WebMvcConfigurer {
 	@Bean // 북마크 매퍼
 	public MapperFactoryBean<BookMarkMapper> getBookmarkMapper(SqlSessionFactory factory) throws Exception {
 
-		MapperFactoryBean<BookMarkMapper> factoryBean = new MapperFactoryBean<BookMarkMapper>(
-				BookMarkMapper.class);
+		MapperFactoryBean<BookMarkMapper> factoryBean = new MapperFactoryBean<BookMarkMapper>(BookMarkMapper.class);
 
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;
 
 	}
-	
-	
+
 	@Bean // 예약 매퍼
 	public MapperFactoryBean<ReserveMapper> getReserveMapper(SqlSessionFactory factory) throws Exception {
 
-		MapperFactoryBean<ReserveMapper> factoryBean = new MapperFactoryBean<ReserveMapper>(
-				ReserveMapper.class);
+		MapperFactoryBean<ReserveMapper> factoryBean = new MapperFactoryBean<ReserveMapper>(ReserveMapper.class);
 
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;
 
 	}
-	
+
+	@Bean // 어드민 콘텐츠 매퍼
+	public MapperFactoryBean<AdminContentsMapper> getAdminContentsMapper(SqlSessionFactory factory) throws Exception {
+
+		MapperFactoryBean<AdminContentsMapper> factoryBean = new MapperFactoryBean<AdminContentsMapper>(
+				AdminContentsMapper.class);
+
+		factoryBean.setSqlSessionFactory(factory);
+		return factoryBean;
+
+	}
+
 	@Bean // 포인트디테일 매퍼
 	public MapperFactoryBean<PointDetailMapper> getpointDetailMapper(SqlSessionFactory factory) throws Exception {
 
@@ -214,7 +222,7 @@ public class ServletAppContext implements WebMvcConfigurer {
 		reg1.addPathPatterns("/**");
 
 	}
-	
+
 	@Bean // �뒪�봽留곸뿉�꽌 �뙆�씪 泥섎━ �븷 �닔 �엳�뒗 硫붿냼�뱶
 	public StandardServletMultipartResolver multipartResolver() {
 

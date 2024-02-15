@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.FAQBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.MyPageService;
 import kr.co.softsoldesk.Service.PointDetailService;
 import kr.co.softsoldesk.Service.ReserveService;
@@ -41,6 +43,9 @@ public class MyPageController {
 	
 	@Autowired
 	private MyPageService MyPageService;
+	
+	@Autowired
+	private AdminService adminService;
 	
 	@GetMapping("/archive")	// 아카이브 매핑
 	public String archive(@ModelAttribute("reviewBean") ReviewBean reviewBean, @RequestParam("user_id") int user_id, @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
@@ -170,6 +175,10 @@ public class MyPageController {
 		UserBean UserTopInfoBean = MyPageService.getMyPageTopInfo(user_id);
 		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
 		
+		// FaQ 목록
+		List<FAQBean> FAQ1 = adminService.getmpFAQList();
+	    model.addAttribute("FAQ1", FAQ1);
+
 		return "/mypage/FAQ";
 	}
 	

@@ -47,6 +47,10 @@ public class MainController {
 		List<ExhibitionBean> SoonExhibitionInfo = exhibitionService.getIndexPageSoonExhibitionInfo();
 		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
 		
+		// 현재전시 캐러셀
+		List<ExhibitionBean> currentExhibitionInfo = exhibitionService.getIndexPagecurrentExhibitionInfo();
+		model.addAttribute("currentExhibitionInfo", currentExhibitionInfo);
+		
 		return "view/index";
 	}
 	

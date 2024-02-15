@@ -130,6 +130,11 @@ public class ExhibitionService {
 		return exhibitionDao.getIndexPageSoonExhibitionInfo();
 	}
 	
+	// 메인 인덱스 현재 전시 캐러셀
+	public List<ExhibitionBean> getIndexPagecurrentExhibitionInfo() {
+		return exhibitionDao.getIndexPagecurrentExhibitionInfo();
+	}
+	
 	// 전시회 클릭시 리뷰정보 가져가기
 	public List<ReviewBean> getExhibition_clickReviewAllInfo(int exhibition_id, int page) {
 		

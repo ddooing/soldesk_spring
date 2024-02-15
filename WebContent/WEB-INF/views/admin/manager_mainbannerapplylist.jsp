@@ -16,28 +16,22 @@
 <meta name="author" content="" />
 <link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 <title>관리자 페이지</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-	rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
 <link href="../css/styles_manager.css" rel="stylesheet" />
 <!--부트스트랩 아이콘 사용-->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
-	rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
 
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
-	crossorigin="anonymous"></script>
+<!-- fontawesome -->
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
 <!-- sweetalert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>	
 	
 <!-- JQuery -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	
 <!-- 부트스트랩 아이콘 CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
 </head>
 
 <body class="sb-nav-fixed">
@@ -192,7 +186,7 @@
 									<c:choose>
 										<c:when test="${pageBean1.prevPage <= 0 }">
 											<li class="page-item disabled">
-												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+												<a href="#" class="page-link">이전</a>
 											</li>
 										</c:when>
 										<c:otherwise>
@@ -202,9 +196,7 @@
 										</c:otherwise>
 									</c:choose>
 
-									<c:forEach var="idx" begin="${pageBean1.min}"
-										end="${pageBean1.max}">
-										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+									<c:forEach var="idx" begin="${pageBean1.min}" end="${pageBean1.max}">
 										<c:choose>
 											<c:when test="${idx == pageBean1.currentPage }">
 												<li class="page-item active"><a
@@ -222,9 +214,8 @@
 
 									<c:choose>
 										<c:when test="${pageBean1.max >= pageBean1.pageCnt  }">
-											<!-- max페이지 > 전체페이지개수 일때  -->
 											<li class="page-item disabled">
-												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+												<a href="#" class="page-link">다음</a>
 											</li>
 										</c:when>
 										<c:otherwise>

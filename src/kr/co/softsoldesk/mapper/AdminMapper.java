@@ -12,12 +12,65 @@ import org.apache.ibatis.session.RowBounds;
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
+import kr.co.softsoldesk.Beans.FAQBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.SubBannerBean;
 
 public interface AdminMapper {
 
+	// ===============================================FAQ 관리========================================
+	
+	//=========================================================================QnA변형 FAQ(state = 3)
+	   
+	   @Select("select faq_id, title, contents, regdate, state\r\n"
+	         + "from faq\r\n"
+	         + "where state = 1 or state = 2\r\n"
+	         + "order by state asc")
+	   List<FAQBean> getFAQList(RowBounds rowBounds);
+	   
+	   @Select("SELECT title, contents, faq_id, TO_CHAR(regdate, 'YYYY-MM-DD') AS regdate, ROWNUM as rnum\r\n"
+	         + "FROM faq\r\n"
+	         + "WHERE state = 1 AND ROWNUM <= 5")
+	   List<FAQBean> getmpFAQList();
+	   
+	   
+	   @Insert("INSERT INTO FAQ (faq_id, title, regdate, contents, state)\r\n"
+	         + "VALUES (faq_id_seq.NEXTVAL, #{title}, SYSDATE, #{contents}, 1)")
+	   void regFAQ(FAQBean FAQBean);
+	   
+	   @Select("select count(*)\r\n"
+	         + "from faq\r\n"
+	         + "where state = 1 or state = 2")
+	   int getTotalFAQCnt();
+	   
+	   @Update("update faq\r\n"
+	         + "set title = #{title}, contents = #{contents}, regdate = sysdate, state = #{state}\r\n"
+	         + "where faq_id = #{faq_id}")
+	   void FAQmodifyBean(FAQBean FAQmodifyBean);
+	   
+	   
+	   @Select("select faq_id, title, contents, regdate, state\r\n"
+	         + "from faq\r\n"
+	         + "where upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"
+	         + "order by faq_id desc")
+	   List<FAQBean> getFAQSerchList(RowBounds rowBounds, @Param("title")String title);
+	   
+	   @Select("select count(*)\r\n"
+	         + "from faq\r\n"
+	         + "where upper(title) LIKE '%' || UPPER(#{keyword}) || '%'\r\n"
+	         + "order by faq_id desc")
+	   int getFAQSerchListCnt(String keyword);
+	   
+	   //faq 1개 로드
+	   @Select("select faq_id, title, contents, regdate, state\r\n"
+	         + "from faq\r\n"
+	         + "where faq_id = #{faq_id}")
+	   FAQBean getOneFAQInfo(int faq_id);
+	   
+	   @Update("UPDATE faq set state = 2 where faq_id = #{faq_id}")
+	   void deleteSelectedFAQ(@Param("faq_id") int faq_id);
+	
 	
 	// ===============================================QnA 관리========================================
 	
@@ -178,6 +231,7 @@ public interface AdminMapper {
 	// QnA 페이징 처리를 위한 총 qna 개수 반환 메소드
 	@Select("SELECT count(*) from qna")
 	int getTotalQnACnt();
+	
 	
 	
 	
@@ -996,7 +1050,7 @@ public interface AdminMapper {
 	@Update("UPDATE sub_banner SET expose_order = #{exposeOrder} WHERE sub_banner_id = #{subBannerId}")
 	void updateSubExposeOrder(@Param("subBannerId") int subBannerId, @Param("exposeOrder") int exposeOrder);
 	
-	// index 페이지 메인 캐러셀 가져가기
+	// index 페이지 서브 캐러셀 가져가기
 	@Select("SELECT\r\n"
 			+ "    mb.sub_banner_id,\r\n"
 			+ "    mb.exhibition_id,\r\n"

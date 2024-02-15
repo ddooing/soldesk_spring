@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
+import kr.co.softsoldesk.Beans.FAQBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
@@ -154,10 +155,96 @@ public class AdminController {
 	}
 	
 	
+	//======================================= FAQ관리 ================================
+	//=========================================================================FAQ
+	   
+	   @GetMapping("/manager_FAQlist")
+	   public String manager_FAQlist(Model model, @RequestParam(value="page", defaultValue = "1")int page,
+	                            @RequestParam(value="type", required=false) String type,
+	                           @RequestParam(value="keyword", required=false) String keyword) {
+	      
+	       if ("title".equals(type) && keyword != null) {
+	          List<FAQBean> titleList = adminService.getFAQSerchList(page, keyword);
+	          model.addAttribute("FAQList", titleList);
+	          
+	          
+	          PageBean pageBean2 = adminService.getFAQSerchListCnt(page, keyword);
+	          model.addAttribute("pageBean1", pageBean2);
+	          
+	          model.addAttribute("type",type);
+	         model.addAttribute("keyword",keyword);
+	      }else {
+	         List<FAQBean> FAQList = adminService.getFAQList(page);
+	          model.addAttribute("FAQList", FAQList);
+	          
+	          
+	          PageBean pageBean1 = adminService.getTotalFAQCnt(page);
+	          model.addAttribute("pageBean", pageBean1);
+	          
+	          model.addAttribute("type",type);
+	         model.addAttribute("keyword",keyword);
+	         
+	      }
+	      
+	      return "admin/manager_FAQlist";
+	   }
+	   
+	   @GetMapping("/FAQreg")
+	   public String FAQreg(@ModelAttribute("FAQBean")FAQBean FAQBean) {
+	      
+
+	      
+	      return "admin/FAQreg";
+	   }
+	   
+	   @PostMapping("FAQreg_pro")
+	   public String FAQreg_pro(@ModelAttribute("FAQBean")FAQBean FAQBean, Model model, @RequestParam(value="page", defaultValue = "1")int page) {
+	      
+		   adminService.regFAQ(FAQBean);
+	      List<FAQBean> FAQList = adminService.getFAQList(page);
+	       model.addAttribute("FAQList", FAQList);
+	       
+	       PageBean pageBean1 = adminService.getTotalFAQCnt(page);
+	       model.addAttribute("pageBean1", pageBean1);
+	      
+	      return "admin/manager_FAQlist";
+	   }
+	   
+	   @GetMapping("manager_FAQdetail")
+	   public String FAQdetail(@RequestParam("qna_id") int faq_id, Model model,
+	                     @ModelAttribute("FAQmodifyBean")FAQBean FAQmodifyBean) {
+	      
+	      System.out.println(faq_id);
+	      
+	      FAQBean oneQnaInfo = adminService.getOneFAQInfo(faq_id);
+	      
+	      FAQmodifyBean.setContents(oneQnaInfo.getContents());
+	      FAQmodifyBean.setTitle(oneQnaInfo.getTitle());
+	      FAQmodifyBean.setState(oneQnaInfo.getState());
+	      model.addAttribute("oneQnaInfo", oneQnaInfo);
+	      System.out.println(FAQmodifyBean.getState());
+	      
+	      return "admin/manager_FAQdetail";
+	   }
+	   
+	   @PostMapping("manager_FAQdetail_pro")
+	   public String FAQdetail_pro(@ModelAttribute("FAQmodifyBean")FAQBean FAQmodifyBean, Model model) {
+	      
+		  adminService.FAQmodifyBean(FAQmodifyBean);
+	      
+	      return "redirect:/admin/manager_FAQlist";
+	   }
+	   
+	   @PostMapping("/deleteSelectedFAQ")
+	   public ResponseEntity<?> deleteSelectedFAQ(@RequestParam("faqIds") List<Integer> faqIds) {
+	      
+		   adminService.deleteSelectedFAQ(faqIds);
+	      
+	       return ResponseEntity.ok().build();
+	   }
 	
 	
 	// ======================================= QnA관리 ================================
-	// ======================================= 승찬 부분 ===============================
 	@GetMapping("/manager_QnAlist")
 	public String manager_QnAlist(@RequestParam(value="usercombo", required=false) String usercombo, @RequestParam(value="usersearch", required=false) String usersearch,@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 		
@@ -240,7 +327,7 @@ public class AdminController {
 		}
 		
 
-			return "redirect:admin/manager_QnAlist";
+			return "redirect:/admin/manager_QnAlist";
 	}
 	
 	@GetMapping("/manager_QnAdelete")
@@ -249,7 +336,7 @@ public class AdminController {
 		// QnA 삭제 처리
 		adminService.deleteQnA(qna_id);
 
-		return "redirect:admin/manager_QnAlist";
+		return "redirect:/admin/manager_QnAlist";
 	}
 	
 	@GetMapping("/QnA_recovery")
@@ -264,7 +351,7 @@ public class AdminController {
 			adminService.recoveryQnA(state, qna_id);
 		}
 		
-		return "redirect:admin/manager_QnAlist";
+		return "redirect:/admin/manager_QnAlist";
 	}
 	
 	// 선택 삭제 메소드

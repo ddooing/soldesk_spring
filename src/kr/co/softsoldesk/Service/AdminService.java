@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
+import kr.co.softsoldesk.Beans.FAQBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
@@ -111,6 +112,65 @@ public class AdminService {
 			
 			return file_name;
 		}
+
+	// ===================================FAQ===================================
+	
+	   public List<FAQBean>getFAQList(int page){
+	      int start = (page - 1) * admin_listcnt;
+	      RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+	      
+	      
+	      return adminDao.getFAQList(rowBounds);
+	   }
+	   
+	   public List<FAQBean>getmpFAQList(){
+	      return adminDao.getmpFAQList();
+	   }
+	   
+	   public void regFAQ(FAQBean FAQBean) {
+	      
+	      adminDao.regFAQ(FAQBean);
+	   }
+	   
+	   public void FAQmodifyBean(FAQBean FAQmodifyBean) {
+	      adminDao.FAQmodifyBean(FAQmodifyBean);
+	   }
+	   
+	   public PageBean getTotalFAQCnt(int currentPage) {
+	      
+	      int faq_Cnt = adminDao.getTotalFAQCnt();
+	      PageBean pageBean1 = new PageBean(faq_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+	      
+	      
+	      return pageBean1;
+	   }
+	   
+	   public List<FAQBean>getFAQSerchList(int page, String title){
+	      
+	      int start = (page - 1) * admin_listcnt;
+	      RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+	      
+	      return adminDao.getFAQSerchList(rowBounds, title);
+	   }
+	   
+	   public PageBean getFAQSerchListCnt(int currentPage, String keyword) {
+	      
+	      int faq_cnt = adminDao.getFAQSerchListCnt(keyword);
+	      PageBean pageBean = new PageBean(faq_cnt, currentPage, admin_listcnt, admin_paginationcnt);
+	      
+	      return pageBean;
+	      
+	   }
+	   
+	   public FAQBean getOneFAQInfo(int faq_id) {
+	      return adminDao.getOneFAQInfo(faq_id);
+	   }
+	   
+	   public void deleteSelectedFAQ(List<Integer> faqIds) {
+	      for (Integer faqId : faqIds) {
+	         adminDao.deleteSelectedFAQ(faqId);
+	       }
+	   }	
 	
 	// ===================================QnA===================================
 	

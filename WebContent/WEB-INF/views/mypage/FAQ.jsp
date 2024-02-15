@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-    <c:set var="root" value="${pageContext.request.contextPath }"/>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="root" value="${pageContext.request.contextPath }"/>    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,125 +128,27 @@
 									</div>
 								</div>
 								<!--내용-->
-								<div id="FAQ_1"
+								<c:forEach items="${FAQ1 }" var="obj">
+								<div id="FAQ_${obj.faq_id }"
 									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
-									<div style="width: 100px; padding: 14px 0px;">
-										<p1>1</p1>
-									</div>
 									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
-										<a href="#" style="color: black;text-decoration: none">
-											<p1>게시글 1 입니다.</p1>
+									<p1>${obj.rnum }</p1>
+										<a href="#" style="color: black;text-decoration: none; margin-left: 80px;">
+											${obj.title }
 										</a>
 									</div>
 									<div style="width: 200px; padding: 14px 0px;">
-										<p1>2023.12.28</p1>
+										<p1>${obj.regdate }</p1>
 									</div>
 								</div>
 		
 								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
-									id="FAQ_1_click">
-									<p1>
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									</p1>
+									id="FAQ_${obj.faq_id }_click">
+									
+										${obj.contents }
+									
 								</div>
-		
-								<div id="FAQ_2"
-									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
-									<div style="width: 100px; padding: 14px 0px;">
-										<p1>2</p1>
-									</div>
-									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
-										<a href="#" style="color: black;text-decoration: none">
-											<p1>게시글 2 입니다.</p1>
-										</a>
-									</div>
-									<div style="width: 200px; padding: 14px 0px;">
-										<p1>2023.12.28</p1>
-									</div>
-								</div>
-		
-								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
-									id="FAQ_2_click">
-									<p1>
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									</p1>
-								</div>
-		
-								<div id="FAQ_3"
-									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
-									<div style="width: 100px; padding: 14px 0px;">
-										<p1>3</p1>
-									</div>
-									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
-										<a href="#" style="color: black;text-decoration: none">
-											<p1>게시글 3 입니다.</p1>
-										</a>
-									</div>
-									<div style="width: 200px; padding: 14px 0px;">
-										<p1>2023.12.28</p1>
-									</div>
-								</div>
-		
-								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
-									id="FAQ_3_click">
-									<p1>
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									</p1>
-								</div>
-		
-								<div id="FAQ_4"
-									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
-									<div style="width: 100px; padding: 14px 0px;">
-										<p1>4</p1>
-									</div>
-									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
-										<a href="#" style="color: black;text-decoration: none">
-											<p1>게시글 4 입니다.</p1>
-										</a>
-									</div>
-									<div style="width: 200px; padding: 14px 0px;">
-										<p1>2023.12.28</p1>
-									</div>
-								</div>
-		
-								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
-									id="FAQ_4_click">
-									<p1>
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									</p1>
-								</div>
-		
-								<div id="FAQ_5"
-									style="display: flex; justify-content: center;  align-items: center; text-align: center; border-top: 1px solid #e7e7e7">
-									<div style="width: 100px; padding: 14px 0px;">
-										<p1>5</p1>
-									</div>
-									<div style="width: 700px; text-align: left; padding: 14px 14px 14px 28px;">
-										<a href="#" style="color: black; text-decoration: none">
-											<p1>게시글 5 입니다.</p1>
-										</a>
-									</div>
-									<div style="width: 200px; padding: 14px 0px;">
-										<p1>2023.12.28</p1>
-									</div>
-								</div>
-		
-								<div style="display: none; width: 835px; justify-content: center; margin-top: 20px; margin-bottom: 20px; padding-left: 110px; padding-right: 50px;"
-									id="FAQ_5_click">
-									<p1>
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.아트미 FAQ입니다.
-									</p1>
-								</div>
+								</c:forEach>
 		
 							</div>
 						</div>
@@ -279,7 +182,7 @@
 							<!-- 입력 필드 및 버튼 -->
 
 
-							<form:form action="${root }/user/delete_pro?user_id=${loginUserBean.user_id }" method="post" modelAttribute="deleteUserBean" id="delete_user">
+							<form:form action="${root }/user/delete_pro?user_id=${loginUserBean.user_id }" method="post" modelAttribute="deleteUserBean">
 							<div class="mb-3 text-center">
 								<div class="form-label-group">
 									<input type="text" class="form-control" placeholder="아이디"
@@ -302,7 +205,7 @@
 										<form:errors path="password2" style="color:red" />
 								</div>
 							</div>
-							<button type="button" onclick="confirmDelete()" class="btn btn-danger" style="margin-left:177px;">회원 탈퇴</button>
+							<button type="submit" class="btn btn-danger" style="margin-left:177px;">회원 탈퇴</button>
 						</form:form>
 						</div>
 					</div>
@@ -341,26 +244,32 @@
 </script>
 
 <script>
-	<!-- FAQ내용 -->
-				for (var i = 1; i <= 5; i++) {
-					(function (index) {
-						document.querySelector('#FAQ_' + index + ' a').addEventListener('click', function (event) {
-							event.preventDefault(); // 기본 링크 동작 방지
+    // 페이지 로드가 완료되면 실행
+    window.onload = function() {
+        // 모든 FAQ 링크를 찾습니다
+        var faqLinks = document.querySelectorAll('div[id^="FAQ_"] a');
 
-							// 다른 모든 FAQ의 내용을 숨깁니다.
-							for (var j = 1; j <= 5; j++) {
-								if (j !== index) {
-									document.getElementById('FAQ_' + j + '_click').style.display = 'none';
-								}
-							}
+        faqLinks.forEach(function(link) {
+            // 링크의 부모 div의 id를 가져옵니다 (예: FAQ_123)
+            var parentId = link.closest('div[id^="FAQ_"]').id;
 
-							// 클릭된 FAQ의 내용을 토글합니다.
-							var content = document.getElementById('FAQ_' + index + '_click');
-							content.style.display = content.style.display === 'block' ? 'none' : 'block';
-						});
-					})(i);
-				}
-			</script>
+            // 링크에 클릭 이벤트 리스너를 추가합니다
+            link.addEventListener('click', function(event) {
+                event.preventDefault(); // 기본 링크 동작 방지
+
+                // 모든 FAQ 내용을 숨깁니다
+                document.querySelectorAll('div[id^="FAQ_"][id$="_click"]').forEach(function(content) {
+                    content.style.display = 'none';
+                });
+
+                // 클릭된 FAQ의 내용을 토글합니다
+                var contentId = parentId + '_click';
+                var content = document.getElementById(contentId);
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    };
+</script>
 			
 			
 			<script>
@@ -389,26 +298,6 @@
         }
     });
 </script>
-
-<script>
-    function confirmDelete() {
-        Swal.fire({
-            title: '정말 회원탈퇴하시겠습니까?',
-            text: "이 작업은 되돌릴 수 없습니다!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: '회원 탈퇴',
-            cancelButtonText: '취소'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById("delete_user").submit();
-            }
-        });
-    }
-</script>
-
 			
 
 </body>

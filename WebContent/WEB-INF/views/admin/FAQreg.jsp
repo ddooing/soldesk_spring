@@ -2,7 +2,8 @@
 	pageEncoding="UTF-8"%>
 	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-	<c:set var="root" value="${pageContext.request.contextPath }" />
+	
+<c:set var="root" value="${pageContext.request.contextPath }"/>  
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +19,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
 	rel="stylesheet" />
-<link href="css/styles_manager.css" rel="stylesheet" />
+<link href="../css/styles_manager.css" rel="stylesheet" />
 <!--부트스트랩 아이콘 사용-->
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
@@ -29,6 +30,11 @@
 <script
 	src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"
 	referrerpolicy="origin"></script>
+	<!-- SweetAlert2 CSS 파일 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+  <!-- SweetAlert2 JS 파일 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- JQuery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -44,6 +50,7 @@ $(document).ready(function(){
 });
 
 </script>
+
 
 <style>
 .filebox .upload-name {
@@ -80,72 +87,75 @@ $(document).ready(function(){
 </head>
 
 <body class="sb-nav-fixed">
-		<c:import url="/WEB-INF/views/include/admin_header.jsp"/>
+	<c:import url="/WEB-INF/views/include/admin_header.jsp"/>
 
 		<!--실제 내용(대시보드) 부분-->
 		<div id="layoutSidenav_content">
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top: 30px; margin-left:20px;">
-						<h3>공지사항 글보기</h3>
+						<h3>FAQ 작성</h3>
 					</div>
 					<div style="position: relative; margin:20px; display: flex; justify-content: start; height: 80px; align-items: center; background-color: #E8E8E8; margin-top: 20px;">
-						<a href="${root }/admin/manager_noticemodify?notice_id=${RN.notice_id}" class="btn btn-dark">공지사항 관리</a>
-						<a href="${root }/admin/manager_noticemanage" class="btn btn-dark" style="margin-left: 20px;">공지사항 목록</a>
+						<button class="btn btn-dark" style="margin-left: 20px;" onclick="location.href='${root}/admin/manager_FAQlist'">FAQ 목록</button>
 					</div>
-
 					<div style="background-color: white; margin-top: 30px; margin: 20px;">
 						
-						<table class="table table-bordered">
-						    <tr style="align-items: center; height: 100px;">
-						        <th style="width: 200px; vertical-align: middle; font-size:20px;">제목</th>
-						        <td colspan="5" style="vertical-align: middle;">
-						            ${RN.title }
-						        </td>
-						    </tr>
-						
-						    <tr style="align-items: center; height: 100px;">
-						        <th style="vertical-align: middle; font-size:20px;">작성자</th>
-						        <td style="vertical-align: middle;">
-						            이이름
-						        </td>
-						        <th style="vertical-align: middle; font-size:20px; width: 250px;">등록일</th>
-						        <td style="vertical-align: middle;">
-						            ${RN.create_date }
-						        </td>
-						        <th style="vertical-align: middle; font-size:20px; width: 150px;">상태</th>
-						        <c:choose>
-							        <c:when test="${RN.state == 0 }">
-								        <td style="vertical-align: middle;">
-								            비공개
-								        </td>
-							        </c:when>
-							        <c:when test="${RN.state == 1 }">
-								        <td style="vertical-align: middle;">
-								            게시중
-								        </td>
-							        </c:when>
-							        <c:when test="${RN.state == 2 }">
-								        <td style="vertical-align: middle;">
-								            중요 게시
-								        </td>
-							        </c:when>
-						        </c:choose>
-						    </tr>
-						
-						    <tr style="align-items: center; height: 600px;">
-						        <th style="vertical-align: middle; font-size:20px;">내용</th>
-						        <td colspan="5">
-						            ${RN.contents }
-						        </td>
-						    </tr>
-						</table>
+						<form:form action="${root }/admin/FAQreg_pro" method="post" modelAttribute="FAQBean">
+					    <table class="table table-bordered">
+					        <!-- 제목 행 -->
+					        <tr style="vertical-align: middle; height: 20px;">
+					            <th style="font-size:20px; width: 200px; text-align:center; margin-right: 30px;">제목</th>
+					            <td style="text-align:center;">
+					                <form:input path="title" style="width: 100%;" required="required"/>
 
-	
-							
-							<div style="float:right; margin-bottom:50px;">
-								<a href="${root }/admin/manager_noticemanage" class="btn btn-dark" style="margin-right: 15px;">목록보기</a>
+	   						 		
+					            </td>
+					        </tr>
+					        <!-- 내용 행 -->
+					        <tr>
+					            <th style="font-size:20px; text-align:center; vertical-align:middle; align-items: center; ">내용</th>
+					            <td>
+                				<form:textarea path="contents" rows="15" style="resize:none; width: 100%;" required="required"/>
+            </td>
+        </tr>
+    </table>    
+    <!-- 나머지 폼 내용 -->
+    <div style="float:right; margin-bottom:50px;">
+										<a href="${root}/admin/manager_FAQlist" class="btn btn-danger" style="margin-right: 15px;">돌아가기</a>
+										<form:button class="btn btn-dark" id="submitButton" style="margin-right: 30px;" >등록하기</form:button>
 							</div>
+</form:form>
+						<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('submitButton').addEventListener('click', function(event) {
+    event.preventDefault(); // 폼 자동 제출 방지
+
+    // 수정 확인 요청
+    Swal.fire({
+      title: '제출하시겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '확인',
+      cancelButtonText: '취소'
+    }).then((result) => {
+      if (result.value) {
+        // 성공 메시지 표시
+        Swal.fire(
+          '제출 완료!',
+          '등록이 완료되었습니다.',
+          'success'
+        ).then(() => {
+          // 폼 제출
+          document.querySelector('form').submit();
+        });
+      }
+    });
+  });
+});
+</script>
 					</div>
 				</div>
 			</main>

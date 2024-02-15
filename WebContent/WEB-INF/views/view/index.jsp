@@ -301,17 +301,9 @@
 							</button>
 							<div class="carousel">
 								<ul>
-									<li><img src="../img/poster4.png"></li>
-									<li><img src="../img/poster3.png"></li>
-									<li><img src="../img/poster2.png"></li>
-									<li><img src="../img/poster1.png"></li>
-									<li><img src="../img/poster4.png"></li>
-									<li><img src="../img/poster3.png"></li>
-									<li><img src="../img/poster2.png"></li>
-									<li><img src="../img/poster1.png"></li>
-									<li><img src="../img/poster1.png"></li>
-									<li><img src="../img/poster2.png"></li>
-									<li><img src="../img/poster3.png"></li>
+									<c:forEach items="${currentExhibitionInfo }" var="currentExhibition">
+										<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${currentExhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${currentExhibition.main_poster_path}${currentExhibition.main_poster_name}" style="width:255px; height:375px;"></a></li>
+									</c:forEach>
 								</ul>
 							</div>
 							<div class="clear"></div>

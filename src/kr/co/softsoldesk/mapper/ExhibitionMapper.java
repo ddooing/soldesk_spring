@@ -148,6 +148,15 @@ public interface ExhibitionMapper {
 			+ "FETCH FIRST 8 ROWS ONLY")
 	List<ExhibitionBean> getIndexPageSoonExhibitionInfo();
 	
+	// 메인 페이지 인덱스 현재 전시 캐러셀
+	@Select("SELECT e.exhibition_id, e.title, e.ticket_cnt, f.path AS main_poster_path, f.name AS main_poster_name\r\n"
+			+ "FROM exhibition e\r\n"
+			+ "JOIN file_table f ON e.main_poster_file_id = f.file_id\r\n"
+			+ "WHERE e.exhibition_start <= CURRENT_DATE AND e.exhibition_end >= CURRENT_DATE\r\n"
+			+ "ORDER BY DBMS_RANDOM.VALUE\r\n"
+			+ "FETCH FIRST 8 ROWS ONLY")
+	List<ExhibitionBean> getIndexPagecurrentExhibitionInfo();
+	
 	// 리뷰 가져오기
 	@Select("SELECT\r\n"
 			+ "    r.contents,\r\n"

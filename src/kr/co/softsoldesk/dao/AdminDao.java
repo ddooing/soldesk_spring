@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
+import kr.co.softsoldesk.Beans.FAQBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.SubBannerBean;
@@ -20,6 +21,46 @@ public class AdminDao {
 
 	@Autowired
 	private AdminMapper adminMapper;
+	
+	// ============================FAQ==============================
+	
+	   public List<FAQBean>getFAQList(RowBounds rowBounds){
+	      return adminMapper.getFAQList(rowBounds);
+	   }
+	   
+	   public List<FAQBean>getmpFAQList(){
+	      return adminMapper.getmpFAQList();
+	   }
+	   
+	   public void regFAQ(FAQBean FAQBean) {
+	      
+	      adminMapper.regFAQ(FAQBean);
+	   }
+	   
+	   public void FAQmodifyBean(FAQBean FAQmodifyBean) {
+	      adminMapper.FAQmodifyBean(FAQmodifyBean);
+	   }
+	   
+	   public int getTotalFAQCnt() {
+	      return adminMapper.getTotalFAQCnt();
+	   }
+	   
+	   public List<FAQBean>getFAQSerchList(RowBounds rowBounds, String title){
+	      return adminMapper.getFAQSerchList(rowBounds, title);
+	   }
+	   
+	   public int getFAQSerchListCnt(String keyword) {
+	      return adminMapper.getFAQSerchListCnt(keyword);
+	   }
+	   
+	   public FAQBean getOneFAQInfo(int faq_id) {
+	      return adminMapper.getOneFAQInfo(faq_id);
+	   }
+	   
+	   // FaQ 선택 삭제 메소드
+	   public void deleteSelectedFAQ(int faq_id) {
+	      adminMapper.deleteSelectedFAQ(faq_id);
+	   }
 	
 	// ============================QnA==============================
 	
