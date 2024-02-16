@@ -367,7 +367,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					Swal.fire({
 						  icon: "error",
 						  title: "날짜 선택 오류",
-						  text: "종료 날짜는 시작 날짜보다 이후일 수 없습니다!",
+						  text: "종료 날짜는 시작 날짜보다 이전일 수 없습니다!",
 						});
 					end.value = start.value;
 				}
@@ -382,7 +382,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					Swal.fire({
 						  icon: "error",
 						  title: "시간 선택 오류",
-						  text: "종료 시간은 시작 시간보다 이후일 수 없습니다!",
+						  text: "종료 시간은 시작 시간보다 이전일 수 없습니다!",
 						});
 					close_time.value = start_time.value;
 				}
@@ -562,8 +562,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					1. 개인정보 취급 내용 <br /> 2. 개인정보 취급 내용 <br /> 3. 개인정보 취급 내용 <br />
-					4. 개인정보 취급 내용 <br /> 5. 개인정보 취급 내용
+					<h6>	1. 개인정보의 처리 목적</h6>
+    				<br><br>
+					<p>고객은 사이트 회원 가입시 회원 약관, 개인정보 수집 및 이용 내용에 대해 「동의함」 버튼을 클릭할 수 있는 절차를 마련하여, 「동의함」 버튼을 클릭하면 개인정보 수집 및 이용에 대해 동의한 것으로 봅니다.</p><br/>
+					<p>아트미는 다음의 목적을 위하여 개인정보를 처리하고 있으며, 다음의 목적 이외의 용도로는 이용하지 않습니다. - 고객 가입의사 확인, 고객에 대한 서비스 제공에 따른 본인 식별.인증, 회원자격 유지.관리, 서비스 이용 및 상담, 공지사항 전달, 서비스 공급에 따른 금액 결제, 서비스의 공급, 제작상품 연계서비스 제공 등</p>
 				</div>
 			</div>
 		</div>

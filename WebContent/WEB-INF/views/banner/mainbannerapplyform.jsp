@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<link rel="icon" type="image/x-icon" href="assets/ARTMEE_PAGELOGO.png" />
+<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 
 <!-- Font Awesome icons (free version)-->
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -287,7 +287,7 @@
 							<div class="row">
 								<div class="input__title">전시회</div>
 								<div class="input__wrap">
-									<form:select path="exhibition_id" style="width:90%;">
+									<form:select path="exhibition_id"  style="height:35px; float:left; width:330px; margin-top:3px;">
 										<c:choose>
 											<c:when test="${empty apply_personexhibitionlist }">
 												<form:option value="0" disabled="true" required="required">신청한 전시회가 없습니다</form:option>
@@ -302,7 +302,7 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="input__title">노출일자</div>
+								<div class="input__title">노출일자*</div>
 								<div class="input__wrap">
 									<div style="display: flex;">
 										<form:input type="date" path="start_date" id="start_date" onchange="updateEndDateMinimum()" required="required" style="width:43%; margin-right:10px; font-size:15px;"/> ~
@@ -312,16 +312,16 @@
 							</div>
 							
 							<div class="row">
-								<div class="input__title">문의내용</div>
+								<div class="input__title">문의내용*</div>
 								<div class="input__wrap">
 									<form:textarea path="command" id="info" placeholder="요청사항을 입력해주세요" required="required"/>
 								</div>
 							</div>
 							<div class="row file-row" style="margin-bottom: 5px;">
-								<div class="input__title">파일첨부</div>
+								<div class="input__title">파일첨부*</div>
 								<div class="input__wrap" style="overflow: hidden;">
 									<label class="file-label" for="file">
-										<form:input path="banner_file" type="file" id="file" accept="image/*"  onchange="updateFileName()"/>
+										<form:input path="banner_file" type="file" id="file" accept="image/*"  onchange="updateFileName()" required="required"/>
 										<div class="button">파일 선택</div> 
 										<span id="file-name">선택된 파일 없음</span>
 									</label>
@@ -332,10 +332,9 @@
 								<div class="input__wrap">
 									<span class="sub__txt" style="white-space: nowrap; text-align: left;">
 										*전시회 텍스트, 포스터, 전시 전경 및 작품 이미지 등 첨부바랍니다.<br />
-										*이미지명 : "작품명_노출기간.확장자"로 기재바랍니다.<br /> 
+										*이미지명 : "작품명_노출기간"로 기재바랍니다.<br /> 
 										<br /> 
 										<br />자료 미전달 시 답변이 어려우며, 아직 확정된 자료가 없다면 문의란에 꼭 기재 부탁드립니다.
-										<br />50MB 이상일 시biz@art-map.co.kr로 전송 부탁드립니다
 									</span>
 								</div>
 							</div>
@@ -345,35 +344,59 @@
 							<button style="position: relative;" type="button" id="submit-button">
 								결제하기
 								<div style="position: absolute; font-size: 14px; letter-spacing: -0.5px; color: #9f9f9f; font-weight: normal; white-space: nowrap; bottom: -8px; transform: translateY(100%); left: 0px;">답변은
-									영업일 기준 1-3일 이내, 이메일로 완료됩니다.</div>
+									영업일 기준 1-3일 이내, 이메일로 안내됩니다.</div>
 							</button>
 						</div>
 					</form:form>
 				</div>
 			</div>
 		</div>
+		</div>
 		
-		<script>
-		function submitApplication() {
-		    Swal.fire({
-		        title: '견적을 신청하시겠습니까?',
-		        showCancelButton: true,
-		        confirmButtonText: '신청',
-		        cancelButtonText: '취소',
-		        icon: 'question'
-		    }).then((result) => {
-		        if (result.isConfirmed) {
-		            document.getElementById('application-form').submit();
-		           // Swal.fire('신청되었습니다!', '', 'success');
-		        }
-		    });
-		}
-
 		
-		document.getElementById('submit-button').addEventListener('click', submitApplication);
-			
-		</script>
 		
+			<script>
+					function submitApplication() {
+					    var requiredInputs = document.querySelectorAll('#application-form [required]');
+					    var exhibitionSelect = document.getElementById('exhibition_id');
+	
+					    if (exhibitionSelect.options.length === 0 || exhibitionSelect.options[0].value === "0") {
+					        Swal.fire({
+					            title: '알림',
+					            text: '신청할 수 있는 전시회가 없습니다!',
+					            icon: 'warning',
+					            confirmButtonText: '확인'
+					        });
+					        return;
+					    }
+	
+					    for (var i = 0; i < requiredInputs.length; i++) {
+					        if (!requiredInputs[i].value.trim()) {
+					            Swal.fire({
+					                title: '경고!',
+					                text: '필수 부분을 모두 입력해주세요.',
+					                icon: 'warning',
+					                confirmButtonText: '확인'
+					            });
+					            return;
+					        }
+					    }
+	
+					    Swal.fire({
+					        title: '견적을 신청하시겠습니까?',
+					        showCancelButton: true,
+					        confirmButtonText: '신청',
+					        cancelButtonText: '취소',
+					        icon: 'question'
+					    }).then((result) => {
+					        if (result.isConfirmed) {
+					            document.getElementById('application-form').submit();
+					        }
+					    });
+					}
+	
+					document.getElementById('submit-button').addEventListener('click', submitApplication);		
+			</script>		
 		
 			<script>
 			function updateFileName() {
@@ -381,145 +404,71 @@
 			    var fileNameSpan = document.getElementById('file-name');
 			
 			    if (input.files && input.files.length > 0) {
-			        // 첫 번째 파일의 이름을 가져옵니다.
 			        var fileName = input.files[0].name;
 			        fileNameSpan.textContent = fileName;
 			    } else {
-			        // 파일이 선택되지 않았을 경우 초기 텍스트로 설정합니다.
 			        fileNameSpan.textContent = '선택된 파일 없음';
 			    }
 			}
 			</script>
 
-		<div class="info"
-			style="display: none; border-right: 2px solid #c7c7c7; box-sizing: border-box;">
-			<div class="info__ttl" style='margin-bottom: 10px;'>C.바로 결제 하기</div>
-			<div class="order__form">
-				<div class="order__wrap">
-					<div class="row" style="margin-bottom: 50px;">
-						<div class="text__center sub">바로 결제는 선택 사항 입니다.</div>
-					</div>
-					<div class="row">
-						<div class="pay__wrap"></div>
-					
-						<div class="amount__wrap">
-							<span style="font-size: 16px;">바로결제 가능 견적</span> <span
-								id="orderAmount2" class="amount" style="font-size: 26px;">0원</span>
-						</div>
-					</div>
-					<div class="row" style="margin-top: 30px;">
-						<div class="pay__submit">
-							<button type="button" onclick="on_order();">결제하기</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="layer">
-			<div class="bg"></div>
-			<div id="layer" class="pop" style="overflow: auto;">
-				<div class="pop-container">
-					<div class="pop-conts">
-						<table style='width: 100%; margin: 0;' cellspacing=0 cellpadding=0>
-							<thead>
-								<tr>
-									<th>저장시간</th>
-									<th width=100></th>
-									<th width=100></th>
-								</tr>
-							</thead>
-							<tbody id="load_list_target" style="text-align: center;">
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-	</div>
-
-	<div id="estimate-layer" class="layer-transition">
-		<div class="layer-container">
-			<div class="layer-logo-area">
-				<img src="/img/estimateLogo.png" />
-			</div>
-			<div class="layer-content-area">
-				<p style="color: #ff6521;">*</p>
-				<p>프로모션 진행 문의를 보내시면 전담팀에서 확인 후,</p>
-				<p>진행 가능한 상품과 일정을 논의하여 답변드립니다.</p>
-			</div>
-			<div class="layer-check-area">
-				<div class="custom-check-container">
-					<label onClick="estimateLayerOnClick()"><div
-							class="checkMask"></div> 네, 확인했습니다.</label>
-				</div>
-			</div>
-		</div>
-	</div>
+			<script>
+			
+			document.addEventListener('DOMContentLoaded', function() {
+			    setStartDateToToday();
+			    updateEndDateMinimum();
+			});
+			
+			function setStartDateToToday() {
+			    var today = new Date().toISOString().split('T')[0];
+			    document.getElementById('start_date').setAttribute('min', today);
+			    document.getElementById('start_date').value = today;
+			}
+			
+			function updateEndDateMinimum() {
+			    var startDate = document.getElementById('start_date').value;
+			    document.getElementById('end_date').setAttribute('min', startDate);
+			}
+			
+			function calculateDaysAndUpdate() {
+			    var startDate = document.getElementById('start_date').value;
+			    var endDate = document.getElementById('end_date').value;
+			    var unitPrice = 80000; // 단가
+			
+			    if (startDate && endDate) {
+			        var start = new Date(startDate);
+			        var end = new Date(endDate);
+			        var timeDiff = end - start;
+			        var daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+			
+			        var totalPrice = daysDiff * unitPrice;
+			        document.getElementById('days_count').value = daysDiff; 
+			        updateAllAmount(totalPrice); // 총액 업데이트
+			    }
+			}
+			
+			function updateAllAmount(totalPrice) {
+			    var allAmountElement = document.getElementById("allAmount");
+			    allAmountElement.textContent = totalPrice.toLocaleString() + "원";
+			
+			    document.getElementById("payment").value = totalPrice;
+			}
+			
+			</script>
 	
-	
-
-<script>
-
-document.addEventListener('DOMContentLoaded', function() {
-    setStartDateToToday();
-    updateEndDateMinimum();
-});
-
-function setStartDateToToday() {
-    var today = new Date().toISOString().split('T')[0];
-    document.getElementById('start_date').setAttribute('min', today);
-    document.getElementById('start_date').value = today;
-}
-
-function updateEndDateMinimum() {
-    var startDate = document.getElementById('start_date').value;
-    document.getElementById('end_date').setAttribute('min', startDate);
-}
-
-function calculateDaysAndUpdate() {
-    var startDate = document.getElementById('start_date').value;
-    var endDate = document.getElementById('end_date').value;
-    var unitPrice = 80000; // 단가
-
-    if (startDate && endDate) {
-        var start = new Date(startDate);
-        var end = new Date(endDate);
-        var timeDiff = end - start;
-        var daysDiff = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)); // 일 단위 변환, 소수점 올림
-
-        var totalPrice = daysDiff * unitPrice;
-        document.getElementById('days_count').value = daysDiff; // 날짜 차이 설정
-        updateAllAmount(totalPrice); // 총액 업데이트
-    }
-}
-
-function updateAllAmount(totalPrice) {
-    // 새로운 총액으로 allAmount 업데이트
-    var allAmountElement = document.getElementById("allAmount");
-    allAmountElement.textContent = totalPrice.toLocaleString() + "원";
-
-    // form:hidden의 payment 필드도 업데이트
-    document.getElementById("payment").value = totalPrice;
-}
-
-</script>
-	
-	   <!-- 결제 실패 -->
-    <c:if test="${not empty failmsg}">
-        <script>
-        Swal.fire({
-            title: "결제 실패",
-            html: "${failmsg} <br><br> 신청을 다시 진행해주세요.",
-            icon: "error",
-            confirmButtonColor: "#4F6F52",
-            confirmButtonText: "확인"
-        });
-
-    </script>
-    </c:if>   	      
+			   <!-- 결제 실패 -->
+		    <c:if test="${not empty failmsg}">
+		        <script>
+		        Swal.fire({
+		            title: "결제 실패",
+		            html: "${failmsg} <br><br> 신청을 다시 진행해주세요.",
+		            icon: "error",
+		            confirmButtonColor: "#4F6F52",
+		            confirmButtonText: "확인"
+		        });
+		
+		    </script>
+		    </c:if>   	      
       </body>
 
 </html>

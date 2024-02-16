@@ -97,7 +97,7 @@ public class BannerApplyTossController {
 		
 		//신청하려는 유저 아이디 찾기
 		UserBean loginUserDetailBean = userService.getLoginUserAllInfo(applybannerBean.getApply_person_id());
-		
+		System.out.println("신청 하는거거거거거거거 : " + applybannerBean.getCommand());
 		String title="";
 		// 파일저장 및 banner_file_id set
 		//신청하려는 상품
@@ -119,7 +119,6 @@ public class BannerApplyTossController {
 		//결제 요청 전에 예매정보 데이터 저장
 		
 		bannerSerivce.insertbanner_apply(applybannerBean);
-		
 		
 		//확인
 		System.out.println(" /checkout - tempReserveBean oderid : "+ applybannerBean.getOrder_id());
@@ -169,7 +168,7 @@ public class BannerApplyTossController {
 
 		
 			// (1 결과 : false): 다를 경우, 배너 신청폼 페이지로 이동 
-		if(isOrderIdValid!=null) {// pay_approval_state : 승인 거부 0 인 상태 isOrderIdValid==null
+		if(isOrderIdValid==null) {// pay_approval_state : 승인 거부 0 인 상태 isOrderIdValid==null
 			failmsg="주문번호 오류가 발생했습니다.";
             redirectAttributes.addFlashAttribute("failmsg", failmsg);    
             return "redirect:/banner/"+formUrl;
@@ -182,7 +181,7 @@ public class BannerApplyTossController {
 		int reqBeforePayment = validBannerBean.getPayment();
 
 			//(2 결과 : false): 실패 페이지로 이동
-		if(reqBeforePayment==amount)//pay_approval_state : 승인 거부 0 인 상태
+		if(reqBeforePayment!=amount)//pay_approval_state : 승인 거부 0 인 상태
 		{
 			failmsg="결제금액 오류가 발생했습니다.";
             redirectAttributes.addFlashAttribute("failmsg", failmsg);    

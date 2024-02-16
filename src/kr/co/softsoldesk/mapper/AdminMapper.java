@@ -18,13 +18,6 @@ import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.SubBannerBean;
 
 public interface AdminMapper {
-
-	
-	
-	
-	
-	
-	
 	
 	// ================================== 메인 배너 관리 ==============================
 	
@@ -409,6 +402,7 @@ public interface AdminMapper {
 			+ "    mb.expose_order ASC")
 	List<SubBannerBean> IndexSubBannerBeanList();		
 	
+	// ================================= 배너 신청 페이지 ==================================
 	
 	// 관리자 페이지 메인 배너 신청 내역 가져오기
 	@Select("SELECT\r\n"
@@ -433,7 +427,9 @@ public interface AdminMapper {
 			+ "LEFT JOIN\r\n"
 			+ "    user_table u ON baf.apply_person_id = u.user_id\r\n"
 			+ "WHERE\r\n"
-			+ "    baf.banner_type = 1\r\n"
+			+ "    baf.banner_type = 1 AND\r\n"
+			+ "    baf.pay_state = 1\r\n"
+			+ "    AND (baf.state = 1 OR baf.state = 2)\r\n"
 			+ "ORDER BY\r\n"
 			+ "    baf.banner_apply_form_id DESC")
 	List<BannerApplyFormBean> getAllApplyMainbanner(RowBounds rowBounds);
@@ -444,7 +440,9 @@ public interface AdminMapper {
 			+ "LEFT JOIN file_table ft ON baf.banner_file_id = ft.file_id\r\n"
 			+ "LEFT JOIN exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
 			+ "LEFT JOIN user_table u ON baf.apply_person_id = u.user_id\r\n"
-			+ "WHERE baf.banner_type = 1")
+			+ "WHERE baf.banner_type = 1"
+			+ "AND (baf.state = 1 OR baf.state = 2)\r\n"
+			+ "AND baf.pay_state = 1")
 	int getAllApplyMainbannerCnt();
 	
 	// 관리자 페이지 서브 배너 신청 내역 가져오기
@@ -453,7 +451,7 @@ public interface AdminMapper {
 			+ "    baf.exhibition_id,\r\n"
 			+ "    TO_CHAR(baf.start_date, 'yyyy-mm-dd') AS start_date,\r\n"
 			+ "    TO_CHAR(baf.end_date, 'yyyy-mm-dd') AS end_date,\r\n"
-			+ "    TO_CHAR(baf.approved_At , 'yyyy-mm-dd') AS approved_At ,\r\n"
+			+ "    TO_CHAR(baf.approved_At , 'yyyy-mm-dd') AS approved_At,\r\n"
 			+ "    baf.payment,\r\n"
 			+ "    baf.state,\r\n"
 			+ "    baf.banner_type,\r\n"
@@ -470,7 +468,9 @@ public interface AdminMapper {
 			+ "LEFT JOIN\r\n"
 			+ "    user_table u ON baf.apply_person_id = u.user_id\r\n"
 			+ "WHERE\r\n"
-			+ "    baf.banner_type = 2\r\n"
+			+ "    baf.banner_type = 2 AND\r\n"
+			+ "    baf.pay_state = 1\r\n"
+			+ "    AND (baf.state = 1 OR baf.state = 2)\r\n"
 			+ "ORDER BY\r\n"
 			+ "    baf.banner_apply_form_id DESC")
 	List<BannerApplyFormBean> getAllApplySubbanner(RowBounds rowBounds);
@@ -481,7 +481,9 @@ public interface AdminMapper {
 			+ "LEFT JOIN file_table ft ON baf.banner_file_id = ft.file_id\r\n"
 			+ "LEFT JOIN exhibition e ON baf.exhibition_id = e.exhibition_id\r\n"
 			+ "LEFT JOIN user_table u ON baf.apply_person_id = u.user_id\r\n"
-			+ "WHERE baf.banner_type = 2")
+			+ "WHERE baf.banner_type = 2"
+			+ "AND (baf.state = 1 OR baf.state = 2)\r\n"
+			+ "AND baf.pay_state = 1")
 	int getAllApplySubbannerCnt();		
 	
 	// 관리자 페이지 메인 배너 신청 내역 뱃지 관련
@@ -489,7 +491,9 @@ public interface AdminMapper {
 			+ "       COUNT(CASE WHEN state = 1 THEN 1 END) AS state_1_count, \r\n"
 			+ "       COUNT(CASE WHEN state = 2 THEN 1 END) AS state_2_count\r\n"
 			+ "FROM banner_apply_form\r\n"
-			+ "where banner_type = 1")
+			+ "where banner_type = 1"
+			+ "AND (state = 1 OR state = 2)\r\n"
+			+ "AND pay_state = 1")
 	BannerApplyFormBean getMainBannerBadge();
 	
 	// 관리자 페이지 서브 배너 신청 내역 뱃지 관련
@@ -497,8 +501,10 @@ public interface AdminMapper {
 			+ "       COUNT(CASE WHEN state = 1 THEN 1 END) AS state_1_count, \r\n"
 			+ "       COUNT(CASE WHEN state = 2 THEN 1 END) AS state_2_count\r\n"
 			+ "FROM banner_apply_form\r\n"
-			+ "where banner_type = 2")
-	BannerApplyFormBean getSubBannerBadge();	
+			+ "where banner_type = 2"
+			+ "AND (state = 1 OR state = 2)\r\n"
+			+ "AND pay_state = 1")
+	BannerApplyFormBean getSubBannerBadge();
 	
 	// 관리자 페이지 메인 배너 전시회 제목 검색 리스트
 	@Select("SELECT\r\n"
@@ -525,6 +531,8 @@ public interface AdminMapper {
 			+ "WHERE\r\n"
 			+ "    baf.banner_type = 1\r\n"
 			+ "    AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "    AND (baf.state = 1 OR baf.state = 2)\r\n"
+			+ "    AND baf.pay_state = 1\r\n"
 			+ "ORDER BY\r\n"
 			+ "    baf.banner_apply_form_id DESC")
 	List<BannerApplyFormBean> getMainBannerapplytitleSearch(String search, RowBounds rowBounds);
@@ -537,6 +545,8 @@ public interface AdminMapper {
 			+ "LEFT JOIN user_table u ON baf.apply_person_id = u.user_id\r\n"
 			+ "WHERE baf.banner_type = 1\r\n"
 			+ "    AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "    AND (baf.state = 1 OR baf.state = 2)\r\n"
+			+ "    AND baf.pay_state = 1\r\n"
 			+ "ORDER BY baf.banner_apply_form_id DESC")
 	int getMainBannerapplytitleSearchCnt(String search);
 	
@@ -559,6 +569,8 @@ public interface AdminMapper {
 			+ "     WHERE\r\n"
 			+ "        baf.banner_type = 1\r\n"
 			+ "        AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "    	   AND (baf.state = 1 OR baf.state = 2)\r\n"
+			+ "    	   AND baf.pay_state = 1\r\n"
 			+ "    )")
 	BannerApplyFormBean getMainBannerapplytitlesearchBadge(String search);
 
@@ -587,6 +599,8 @@ public interface AdminMapper {
 			+ "WHERE\r\n"
 			+ "    baf.banner_type = 2\r\n"
 			+ "    AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "    AND (baf.state = 1 OR baf.state = 2)\r\n"
+			+ "    AND baf.pay_state = 1\r\n"
 			+ "ORDER BY\r\n"
 			+ "    baf.banner_apply_form_id DESC")
 	List<BannerApplyFormBean> getSubBannerapplytitleSearch(String search, RowBounds rowBounds);
@@ -599,6 +613,8 @@ public interface AdminMapper {
 			+ "LEFT JOIN user_table u ON baf.apply_person_id = u.user_id\r\n"
 			+ "WHERE baf.banner_type = 2\r\n"
 			+ "    AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "    AND (baf.state = 1 OR baf.state = 2)\r\n"
+			+ "    AND baf.pay_state = 1\r\n"
 			+ "ORDER BY baf.banner_apply_form_id DESC")
 	int getSubBannerapplytitleSearchCnt(String search);
 	
@@ -621,6 +637,8 @@ public interface AdminMapper {
 			+ "     WHERE\r\n"
 			+ "        baf.banner_type = 2\r\n"
 			+ "        AND UPPER(e.title) LIKE UPPER('%' || #{search} || '%')\r\n"
+			+ "    	   AND (baf.state = 1 OR baf.state = 2)\r\n"
+			+ "    	   AND baf.pay_state = 1\r\n"
 			+ "    )")
 	BannerApplyFormBean getSubBannerapplytitlesearchBadge(String search);			
 	
@@ -670,5 +688,4 @@ public interface AdminMapper {
 	// 관리자 페이지 배너 신청 받은거 관리자가 확인하고 추가 후 banner_apply_form 테이블 상태값 변경 (메인, 서브배너 공통)
 	@Update("UPDATE banner_apply_form SET state = 2 WHERE banner_apply_form_id = #{banner_apply_form_id}")
 	void updatebanner_apply_formState(int banner_apply_form_id);
-
 }

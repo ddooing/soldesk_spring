@@ -111,37 +111,25 @@
 				<div style="margin-top: 30px;">
 					<h3>신청 배너 추가</h3>
 				</div>
-				<div
-					style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-					<div style="position: flex; margin-right: 60px; width: 450px; float: left;">
-							
-						</div>
+				<div style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
+					<div style="position: flex; margin-right: 60px; width: 450px; float: left;"></div>
 					
-					<form action="${root }/admin/manager_mainbannershowlist"
-						method="get">
-						<select name="bannercombo" id="bannercombo"
-							style="width: 150px; height: 40px; margin-right: 30px;">
+					<form action="${root }/admin/manager_mainbannerapplylist" method="get">
+						<select name="bannercombo" id="bannercombo" style="width: 150px; height: 40px; margin-right: 30px;">
 							<option value="title" selected>제목</option>
 						</select>
 						<c:choose>
 							<c:when test="${bannersearch != null }">
-								<input type="text" name="bannersearch" id="bannersearch"
-									style="width: 500px; height: 40px; margin-right: 30px;"
-									value="${bannersearch }" />
+								<input type="text" name="bannersearch" id="bannersearch" style="width: 500px; height: 40px; margin-right: 30px;" value="${bannersearch }" />
 							</c:when>
 							<c:otherwise>
-								<input type="text" name="bannersearch" id="bannersearch"
-									style="width: 500px; height: 40px; margin-right: 30px;"
-									placeholder="검색어를 입력해주세요" />
+								<input type="text" name="bannersearch" id="bannersearch" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
 							</c:otherwise>
 						</c:choose>
-
 						<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
 					</form>
-
 				</div>
 
-				
 					<form:form action="${root }/admin/manager_bannerapplyadd_pro" method="post" modelAttribute="AllBannerApplyInfo" enctype="multipart/form-data" id="myForm">
 					<form:hidden path="banner_apply_form_id"/>
 					<form:hidden path="apply_person_id"/>
@@ -209,7 +197,8 @@
 								<tr style="height: 80px;">
 									<th style="width: 200px; text-align: center; font-size: 20px;">등록일자</th>
 									<td style="width: 400px;">
-										<form:input path="approved_At" style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;" readonly="true" disabled="true" /></td>
+										<form:input path="approved_At" style="border:none; border-bottom: 1px solid black; width:100%; text-align: right; font-size: 20px;" readonly="true" disabled="true" />
+									</td>
 								</tr>
 								
 								<tr style="height: 80px;">
@@ -241,6 +230,12 @@
 										</div>
 									</td>
 								</tr>
+								<tr style="height: 200px;">
+									<th style="width: 200px; text-align: center; font-size: 20px;">요청사항</th>
+									<td style="width: 400px;">
+										<form:textarea path="command" style="border:none; border-bottom: 1px solid black; resize: none; width:100%; height:150px; text-align: left; font-size: 20px;" readonly="true" disabled="true"/>
+									</td>
+								</tr>
 							</table>
 
 						</div>
@@ -264,39 +259,28 @@
 						</c:choose>
 					</div>
 				</form:form>
-
-
-
-
 			</div>
-
-
 		</main>
 	</div>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-		crossorigin="anonymous"></script>
-
+	
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 	<script>
 	function validateDate() {
 	    var startDate = document.getElementById('exhibition_start').value;
 	    var endDate = document.getElementById('exhibition_end').value;
 	    
-	    // 날짜가 모두 입력된 경우에만 검증
 	    if(startDate && endDate) {
-	        // 날짜 객체로 변환하여 비교합니다.
 	        var start = new Date(startDate);
 	        var end = new Date(endDate);
 	        
-	        // 종료 날짜가 시작 날짜보다 이를 경우
 	        if(end < start) {
 	            Swal.fire({
 	                icon: "error",
 	                title: "오류",
 	                text: "종료 날짜는 시작 날짜보다 빠를 수 없습니다.",
 	            });
-	            document.getElementById('exhibition_end').value = startDate; // 종료 날짜 초기화
+	            document.getElementById('exhibition_end').value = startDate;
 	        }
 	    }
 	}
@@ -330,16 +314,14 @@
 	                    'success'
 	                ).then((result) => {
 	                    if (result.isConfirmed) {
-	                        document.getElementById('myForm').submit(); // 폼 제출
+	                        document.getElementById('myForm').submit(); 
 	                    }
 	                });
 	            }
 	        });
 	    }
 	}
-
-
 	</script>
+	
 </body>
-
 </html>

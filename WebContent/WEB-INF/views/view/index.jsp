@@ -196,7 +196,7 @@
 						</div>
 					</c:when>
 					<c:otherwise>
-					<div id="sidebar_menu" onclick="window.location.href='${root}/admin/bannerapply'" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+					<div id="sidebar_menu" onclick="window.location.href='${root}/banner/bannerapply'" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
 						<div style=" justify-content: center;">
 							<a href="#" style="color: black; text-decoration: none;">
 								<p1>배너 신청</p1>

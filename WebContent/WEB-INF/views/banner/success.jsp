@@ -23,7 +23,7 @@
 	<div>payment_method : ${bannerPaymentInfoBean.payment_method }</div>
 	<div>pay_state : ${bannerPaymentInfoBean.pay_state }</div>
 	<div>pay_approval_state : ${bannerPaymentInfoBean.pay_approval_state }</div>
-	
+	<a href="${root }/view/index">홈으로 ㄱㄱ</a>
 	<script>
       Swal.fire({
           title: "결제 완료",
