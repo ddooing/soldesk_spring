@@ -205,7 +205,6 @@ public class ExhibitionController {
 	@GetMapping("/payment_complete")
 	public String showPaymentComplete(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
 	                                  @ModelAttribute("exhibitionBean") ExhibitionBean exhibitionBean, 
-	                                  @ModelAttribute("plus_point") Integer plus_point,
 	                                  Model model) {
 	    // 데이터 출력
 	    System.out.println("ReserveBean: " + tempReserveBean);
@@ -214,7 +213,6 @@ public class ExhibitionController {
 	    // 뷰에 데이터 추가
 	    model.addAttribute("tempReserveBean", tempReserveBean);
 	    model.addAttribute("exhibitionBean", exhibitionBean);
-	    model.addAttribute("plus_point", plus_point);
 	    return "exhibition/payment_complete";
 	}
 	// 장바구니 ~ 예매 reserve_date 쉼표 이슈  처리

@@ -50,10 +50,10 @@ public interface ReserveMapper {
 	
 	// 결제 금액이 0 일 경우에 저장하는 
 	@Insert("INSERT INTO reserve (reserve_id, user_id, exhibition_id, reserve_date, total_price, point_deduction,"
-			+ "payment, ticket_count, order_id,pay_state,pay_approval_state,requested_at,state,payment_method,plus_point) "
+			+ "payment, ticket_count, order_id,pay_state,pay_approval_state,requested_at,state,payment_method,point_plus) "
 			+ "VALUES (reserve_id_seq.NEXTVAL, #{user_id}, #{exhibition_id},#{reserve_date, jdbcType=DATE},"
 			+ "#{total_price},#{point_deduction},#{payment},#{ticket_count},#{order_id},0,0,"
-			+ " TO_TIMESTAMP(TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH24:MI:SS.FF9'), 'YY/MM/DD HH24:MI:SS.FF9'), 1,'포인트결제',#{plus_point})")
+			+ " TO_TIMESTAMP(TO_CHAR(SYSTIMESTAMP, 'YY/MM/DD HH24:MI:SS.FF9'), 'YY/MM/DD HH24:MI:SS.FF9'), 1,'포인트결제',#{point_plus})")
 	public void paymentZeroReserveInfo(ReserveBean reserveInfo );
 	
 	

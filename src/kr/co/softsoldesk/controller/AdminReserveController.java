@@ -83,7 +83,7 @@ public class AdminReserveController {
 		PointDetailBean pointDetailBean =new PointDetailBean(); 
         pointDetailBean.setPoint(pointMinus);
         pointDetailBean.setUser_id(reserveBean.getUser_id());
-        pointDetailBean.setPoint_state_code(0);	// 포인트 0:-
+        pointDetailBean.setPoint_state_code(2);	// 포인트 2:-
         pointDetailBean.setPoint_type_code(4);	// 예매 취소
         
         

@@ -278,7 +278,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							        // ISO 문자열로 변환 후 날짜 부분만 추출
 							        var formattedFirstRequestedAt = date.toISOString().substring(0, 10);
 
-
+									console.log("formattedFirstRequestedAt : ",formattedFirstRequestedAt);
 							    	var today = new Date();
 									var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
 									var localToday = new Date(today.getTime() - offset);

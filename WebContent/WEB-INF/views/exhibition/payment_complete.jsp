@@ -64,7 +64,7 @@
 		<div class="container mb-1">
 			<h1 style="margin-left: 180px;">예매 정보</h1>
 			<div style="color: gray; margin-left: 180px; margin-top: 20px;">
-			    ${tempReserveBean.request_at}
+			    ${tempReserveBean.requested_at}
 			</div>
 
 			<hr style="margin:auto; margin-top: 10px; width: 1000px;" />

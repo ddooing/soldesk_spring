@@ -51,21 +51,22 @@ public interface MyPageMapper {
 				+ "    r.user_id, \r\n"
 				+ "    r.exhibition_id, \r\n"
 				+ "    TO_CHAR(r.reserve_date, 'yyyy-mm-dd') AS reserve_date, \r\n"
-				+ "    r.total_price, \r\n"
-				+ "    r.ticket_count, \r\n"
+				+ "    r.total_price, r.point_plus,r.payment, "+
+				"TO_CHAR(requested_at, 'YYYY-MM-DD HH24:MI:SS') as requested_at, " +
+		        "TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI:SS') as approved_at, " +
+				 "    r.ticket_count, \r\n"
 				+ "    r.state,\r\n"
 				+ "    r.reserve_id,\r\n"
-				+ "    e.title, \r\n"
+				+ "    e.title, r.point_deduction,"
 				+ "    f.name AS main_poster_name,\r\n"
-				+ "    f.path AS main_poster_path\r\n"
-				+ "FROM \r\n"
-				+ "    reserve r\r\n"
+				+ "    f.path AS main_poster_path "
+				+ " FROM reserve r\r\n"
 				+ "INNER JOIN \r\n"
 				+ "    exhibition e ON r.exhibition_id = e.exhibition_id\r\n"
 				+ "INNER JOIN \r\n"
 				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
 				+ "WHERE \r\n"
-				+ "    r.user_id = #{user_id} AND r.pay_state = 1"// 0216
+				+ "    r.user_id = #{user_id} AND payment_method is not null "// 0216
 				+ "order by r.reserve_id desc")
 		List<ReserveBean> getMyPageReserveList(int user_id, RowBounds rowBounds);
 		

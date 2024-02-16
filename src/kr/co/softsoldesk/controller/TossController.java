@@ -321,7 +321,7 @@ public class TossController {
 		     
 			 pointUseDetailBean.setPoint(reserveBean.getPoint_deduction());
 			 pointUseDetailBean.setUser_id(userid);
-			 pointUseDetailBean.setPoint_state_code(0);	// 포인트 1:+
+			 pointUseDetailBean.setPoint_state_code(2);	// 포인트 1:+
 			 pointUseDetailBean.setPoint_type_code(1);	// 예매에서 적립
 			 
 			// 포인트 이용 내역 추가

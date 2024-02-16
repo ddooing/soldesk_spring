@@ -149,7 +149,7 @@
 							<tr>
 					        	<td >${pointlist.regdate}</td>
 					        	   
-					        	<c:if test="${pointlist.point_state_code == 1}">
+					        	<c:if test="${pointlist.point_state_code == 1}"><!-- 적립 -->
 					        		<c:if test="${pointlist.point_type_code == 1}">
 					        			<td>예매 포인트 적립</td>
 					        		</c:if>
@@ -160,7 +160,8 @@
 					        			<td>소감문 공개 포인트 적립</td>
 					        		</c:if>
 					        	</c:if>
-					        	<c:if test="${pointlist.point_state_code == 0}">
+					        	
+					        	<c:if test="${pointlist.point_state_code == 2}"><!-- 사용 -->
 					        		<c:if test="${pointlist.point_type_code == 1}">
 					        			<td>예매 포인트 사용</td>
 					        		</c:if>
@@ -169,12 +170,18 @@
 					        		</c:if>
 					        	</c:if>
 					        		
+					        		
+					        		
 					        	<c:if test="${pointlist.point_state_code == 1}">
 					        		<td style="color:green;">+${pointlist.point}P</td>
 					        	</c:if>
-					        	<c:if test="${pointlist.point_state_code == 0}">
+					        	
+					        	<c:if test="${pointlist.point_state_code == 2}">
 					        		<td style="color:#ff6a00;">-${pointlist.point}P</td>
 					        	</c:if>
+					        	
+					        	
+					        	
 					    	</tr>
 						</c:forEach>
 					
