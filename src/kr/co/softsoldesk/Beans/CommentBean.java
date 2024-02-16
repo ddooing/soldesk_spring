@@ -10,9 +10,8 @@ public class CommentBean {
     private String regdate_date; // 등록 날짜
     private String modify_date; // 수정 날짜
     private int state; // 상태값 (0:삭제, 1:정상)
-    private String user_name; // 수정 날짜
-    
-    
+    private String nickname;
+     
 	public int getComment_id() {
 		return comment_id;
 	}
@@ -55,14 +54,10 @@ public class CommentBean {
 	public void setState(int state) {
 		this.state = state;
 	}
-	public String getUser_name() {
-		return user_name;
+	public String getNickname() {
+		return nickname;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
-	
-    
-    
-    
 }

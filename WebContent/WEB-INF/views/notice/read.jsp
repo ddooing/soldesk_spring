@@ -529,7 +529,7 @@ ul, ol {
 	<div id="contents" class="contents_customer area_movingvar litype5">
 
 		<div class="board_title" style="margin-top :110px; margin-bottom:15px;">
-		    <h2><a href="BoardNoticeList.html" style="font-size: 42px;">공지사항</a></h2>
+		    <h2><a href="${root }/notice/main" style="font-size: 42px;">공지사항</a></h2>
 		</div>
 		
 		<br>
@@ -541,38 +541,21 @@ ul, ol {
 						<table class="tbl_dtal" summary="공지사항 상세내용에 대한 표입니다">
 							<thead>
 								<tr>
-									<th scope="col" style="padding:6px;" >아트미 개인정보 방침</th>
+									<th scope="col" style="padding:6px;" >${RN.title }</th>
 								</tr>
 							</thead>
 							<tbody style = "border:1px solid black;">
 								<tr class="tb_info">
 									<td style="background-color: rgb(200,200,200); border:1px solid rgb(200,200,200);">
-										<span class="tit" >전체</span> 
-										<span class="cont unvisible">전체</span>
 										<span class="tit">등록일</span>
-										<span class="cont">2020-09-14</span>
-										<span class="tit">조회수</span><span class="cont">1471</span>
+										<span class="cont">${RN.create_date }</span>
+										<span class="tit">조회수</span><span class="cont">${RN.views }</span>
 									</td>
 								</tr>
 								<tr class="tb_content" style="height: 350px;">
 									<td><div id="divNoticeContents">
-											<p>	안녕하세요. <br>공지사항 게시글 내용입니다.</p>
-											<p>공지사항 내용입니다.</p>
-											<p>공지사항 게시글 내용입니다.</p>
-											<p>공지사항 게시글 내용입니다.</p>
-											<p>공지사항 게시글 내용입니다.<br>공지사항 게시글 내용입니다.</p>
+										${RN.contents }
 										</div></td>
-								</tr>
-								<tr class="tb_link">
-									
-									<td><a href="#" class="" id="2197">
-									<span class="tb_next">다음글</span>
-									<span>다음 공지사항 게시글</span></a></td>
-								</tr>
-								<tr class="tb_link">
-									<td><a href="#" class="" id="2193">
-									<span class="tb_prev">이전글</span>
-									<span>이전 공지사항 게시글</span><a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -584,15 +567,46 @@ ul, ol {
 			</ul>
 		</div>
 
-			<section style="margin-top: -8spx;">
-						<div class="container px-1">
-							<div class="d-flex justify-content-center">
-								<img src="../img/banner1.png" class="banner1" alt="banner1">
-							</div>
-						</div>
-			</section>
+			
 		</div>
 	</div>
+	
+	<!-- 배너 캐러셀 -->
+					<section style="margin-top: 100px;">
+					    <div class="container px-1" style="width:1100px;">
+					        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+					            <!-- 캐러셀 인디케이터 -->
+					            <div class="carousel-indicators">
+					                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+					                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
+					                            class="${status.index == 0 ? 'active' : ''}" aria-label="Slide ${status.index + 1}">
+					                    </button>
+					                </c:forEach>
+					            </div>
+					
+					            <!-- 캐러셀 슬라이드 -->
+					            <div class="carousel-inner">
+					                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+					                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+					                        <a href='${root}/exhibition/exhibition_click?exhibition_id=${subBanner.exhibition_id}'>
+					                            <img src="${subBanner.sub_banner_path}${subBanner.sub_banner_name}" class="d-block w-100" alt="Banner ${status.index + 1}" style="height:150px;">
+					                        </a>
+					                    </div>
+					                </c:forEach>
+					            </div>
+					
+					            <!-- 캐러셀 컨트롤 -->
+					            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+					                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					                <span class="visually-hidden">Previous</span>
+					            </button>
+					            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+					                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					                <span class="visually-hidden">Next</span>
+					            </button>
+					        </div>
+					    </div>
+					</section>
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
 </body>

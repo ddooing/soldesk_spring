@@ -12,10 +12,13 @@
 	<meta name="author" content="" />
 	<title>ARTMEE</title>
 
-	<link rel="icon" type="image/x-icon" href="img/ARTMEE_PAGELOGO.png" />
+	<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 
 	<!-- Font Awesome icons (free version)-->
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+	<!-- sweetalert2 알림 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<!-- Google fonts-->
 	<link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900"
@@ -41,7 +44,7 @@
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 	<script src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
@@ -113,63 +116,98 @@
 
 <body id="page-top">
 	<!-- 메뉴바 -->
-
-	 <c:import url="/WEB-INF/views/include/header.jsp"/> 
-
+	<div class="boardwritebtn" style="position: absolute; margin-left: 835px; margin-top:500px;">
+		<a href="${root}/admin/manager_boardlist" class="btn btn-primary">게시판 관리자페이지</a>
+	</div>
+	<c:import url="/WEB-INF/views/include/header.jsp"/> 
+	
 	<!-- 상단 케러셀-->
 	<header class="masthead">
 		<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 			<div class="carousel-indicators">
-				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-					aria-current="true" aria-label="Slide 1"></button>
-				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-					aria-label="Slide 2"></button>
-				<button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
-					aria-label="Slide 3"></button>
+			    <c:forEach items="${AllMainBannerInfo}" var="mainBanner" varStatus="status">
+			        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="${status.index}" 
+			                class="${status.index == 0 ? 'active' : ''}" aria-label="Slide ${status.index + 1}">
+			        </button>
+			    </c:forEach>
 			</div>
 			<div class="carousel-inner">
-				<div class="carousel-item active">
-					<a href='${root }/exhibition/exhibition_click'>
-						<img src="../img/carousel1.jpg" class="d-block w-80 mx-auto img-fluid"
-							style="max-height: 400px;" alt="img1">
-					</a>
-				</div>
-				<div class="carousel-item">
-					<a href="#2">
-						<img src="../img/carousel2.jpg" class="d-block w-80 mx-auto img-fluid"
-							style="max-height: 400px;" alt="img2">
-					</a>
-				</div>
-				<div class="carousel-item">
-					<a href="#3">
-						<img src="../img/carousel3.jpg" class="d-block w-80 mx-auto img-fluid"
-							style="max-height: 400px;" alt="img3">
-					</a>
-				</div>
+				<c:forEach items="${AllMainBannerInfo}" var="mainBanner" varStatus="status">
+				    <c:choose>
+				        <c:when test="${status.index == 0}">
+				            <div class="carousel-item active">
+				                <a href='${root}/exhibition/exhibition_click?exhibition_id=${mainBanner.exhibition_id}'>
+				                    <img src="${mainBanner.main_banner_path}${mainBanner.main_banner_name}" class="d-block w-80 mx-auto img-fluid" style="height: 400px; width:1200px;" alt="img1">
+				                </a>
+				            </div>
+				        </c:when>
+				        <c:otherwise>
+				            <div class="carousel-item">
+				                <a href='${root}/exhibition/exhibition_click?exhibition_id=${mainBanner.exhibition_id}'>
+				                    <img src="${mainBanner.main_banner_path}${mainBanner.main_banner_name}" class="d-block w-80 mx-auto img-fluid" style="height: 400px; width:1200px;" alt="img1">
+				                </a>
+				            </div>
+				        </c:otherwise>
+				    </c:choose>
+				</c:forEach>
+
+				
 			</div>
 		</div>
 	</header>
 
-	<%-- <div id="right-side-menu">
+	<div id="right-side-menu">
 		<div style="display: inline-block; box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.22); border-top: 10px solid black; border-top-left-radius: 5%; border-top-right-radius: 5%; border-bottom: 10px solid black; border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-color: white;">
-			<div id="sidebar_menu"
-				style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
-				<div style=" justify-content: center;">
-					<a href="Exhibition_Enroll.html" style="color: black; text-decoration: none;">
-						<p1>전시회 등록</p1>
-					</a>
-				</div>
-			</div>
+			
+				<c:choose>
+					<c:when test="${loginUserBean.userLogin == false}">
+					<div id="sidebar_menu" onclick="nologin();"
+						style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style=" justify-content: center;" >
+							<a href="#" style="color: black; text-decoration: none;">
+								<p1>전시회 등록</p1>
+							</a>
+						</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+					<div id="sidebar_menu" onclick="window.location.href='${root}/exhibition/Exhibition_Enroll'" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style=" justify-content: center;">
+							<a href="#" style="color: black; text-decoration: none;">
+								<p1>전시회 등록</p1>
+							</a>
+						</div>
+					</div>
+					</c:otherwise>
+				</c:choose>
+				
+				
+			
 			<hr style="margin:auto; width: 80px; color: black;" />
-
-			<div id="sidebar_menu"
-				style="border: 1px solid #e7e7e7;  border-top: none; border-bottom: none; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
-				<div style=" justify-content: center; ">
-					<a href="" style="color: black; text-decoration: none;">
-						<p1>배너 신청</p1>
-					</a>
-				</div>
-			</div>
+			
+				<c:choose>
+					<c:when test="${loginUserBean.userLogin == false}">
+					<div id="sidebar_menu" onclick="nologin();"
+						style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style=" justify-content: center;" >
+							<a href="#" style="color: black; text-decoration: none;">
+								<p1>배너 신청</p1>
+							</a>
+						</div>
+						</div>
+					</c:when>
+					<c:otherwise>
+					<div id="sidebar_menu" onclick="window.location.href='${root}/admin/bannerapply'" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+						<div style=" justify-content: center;">
+							<a href="#" style="color: black; text-decoration: none;">
+								<p1>배너 신청</p1>
+							</a>
+						</div>
+					</div>
+					</c:otherwise>
+				</c:choose>
+			
+			
 			<hr style="margin:auto; width: 80px; color: black;" />
 
 			<div id="sidebar_menu"
@@ -184,7 +222,7 @@
 
 			<c:choose>
 			    <c:when test="${loginUserBean.userLogin == false}">
-				    <div id="sidebar_menu" onclick="location.href='${root}/user/not_login'" style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+				    <div id="sidebar_menu" onclick="nologin();" style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
 								<div style="justify-content: center;">
 									<p1>Q&A</p1>
 								</div>
@@ -192,7 +230,7 @@
 				</c:when>
 			
 			<c:otherwise>
-				<div id="sidebar_menu" data-bs-toggle="modal" data-bs-target="#qnaModal"
+				<div id="sidebar_menu" onclick="window.location.href='${root}/mypage/QnA?user_id=${loginUserBean.user_id}'"
 						style="cursor: pointer; border: 1px solid #e7e7e7; border-radius: 5%; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
 							<div style="justify-content: center;">
 								<p1>Q&A</p1>
@@ -201,99 +239,21 @@
 			</c:otherwise>
 			</c:choose>
 		</div>
-	</div> --%>
-
-	<!--Q&A 모달 창-->
-	<div class="modal fade" id="qnaModal" tabindex="-1" aria-labelledby="qnaModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content" style="width: 950px;">
-				<div class="modal-header">
-					<h5 class="modal-title" id="qnaModalLabel">Q&A</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<form action="#"><!--폼열기-->
-						<div class="container h-100 align-items-center justify-content-center">
-							<div class="d-flex align-items-center" style="margin-top: 20px;">
-								<div style="width: 150px; text-align: left;">
-									<label for="gender" style="font-size: 20px; text-align: left;">회원
-										여부</label>
-								</div>
-								<div style="margin-left: 20px; width: 218px;">
-									<input type="radio" name="gender" id="man" style="margin-right: 20px;" /> <label
-										for="man">회원</label> <input type="radio" name="gender" id="woman"
-										style="margin-left: 50px; margin-right: 20px;" /> <label for="woman">비회원</label>
-								</div>
-								<div style="margin-left: 20px; width: 100px;"></div>
-							</div>
-
-							<div class="d-flex align-items-center " style="margin-top: 50px;">
-								<div style="width: 150px; text-align: left;">
-									<label for="nickname" style="font-size: 18px;">ARTMEE
-										아이디</label>
-								</div>
-								<div style="margin-left: 20px;">
-									<input type="text" name="id" placeholder="회원일 경우만 작성" />
-								</div>
-							</div>
-
-							<div class="d-flex align-items-center" style="margin-top: 50px;">
-								<div style="width: 150px; text-align: left;">
-									<label for="name" style="font-size: 18px;">성함</label>
-								</div>
-								<div style="margin-left: 20px;">
-									<input type="text" name="id" placeholder="" />
-								</div>
-
-								<div style="width: 150px; text-align: left; margin-left: 80px;">
-									<label for="email" style="font-size: 18px;">이메일</label>
-								</div>
-								<div style="margin-left: 15px;">
-									<input type="text" name="email" placeholder="@ 포함" />
-								</div>
-							</div>
-
-							<div class="d-flex align-items-center " style="margin-top: 50px;">
-								<div style="width: 150px; text-align: left;">
-									<label for="QnAtitle" style="font-size: 18px;">제목</label>
-								</div>
-								<div style="margin-left: 20px;">
-									<input type="text" name="QnAtitle" placeholder="" style="width: 700px;" />
-								</div>
-							</div>
-
-							<div class="d-flex align-items-center" style="margin-top: 50px;">
-								<div style="width: 150px; text-align: left;">
-									<label for="QnAcontent" style="font-size: 18px;">문의 내용</label>
-								</div>
-								<div style="margin-left: 20px;">
-									<textarea name="QnAcontent" placeholder="정확한 상담을 위해 문의 내용을 자세히 작성해 주세요."
-										style="width: 700px; height: 400px; resize: none;"></textarea>
-								</div>
-							</div>
-							<hr style="margin: auto; margin-top: 50px; width: 900px;" />
-
-							<div class="d-flex align-items-center" style="margin-top: 50px;">
-								<div class="gain">
-									<h3>개인정보 수집 및 이용안내</h3>
-									아트맵은 문의사항 답변을 희망하는 회원을 대상으로 아래와 같이 개인정보를 수집하고 있습니다.<br> 1.
-									수집 개인정보 항목 : [필수] 회원 성함, 전화번호 이메일주소<br> 2. 개인정보의 수집 및
-									이용목적:문의 신청에 따른 본인확인 및 원활한 의사소통 경로 확보<br> <b>3. 개인정보의 보유
-										및 이용기간: 문의 사항 처리종료 시점으로부터 6개월간 보관 후 파기합니다.</b><br> 4. 동의 거부권리
-									안내 추가 : 위와 같은 개인정보 수입동의를 거부할 수있습니다.<br> 다만 동의를 거부하는 경우 문의
-									신청이 제한 됩니다.
-								</div>
-							</div>
-						</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-dark">Submit</button>
-				</div>
-			</div>
-			</form>
-		</div>
 	</div>
+	
+	<script>
+		function nologin() {
+			Swal.fire({
+				  icon: "error",
+				  title: "로그인 오류",
+				  text: "로그인이 필요한 서비스입니다",
+				  showConfirmButton: true
+				}).then(function() {
+				  window.location.href = "${root}/user/login";
+				});			
+		}
+	</script>
+
 	</div>
 
 	<script>
@@ -325,9 +285,8 @@
 							style="cursor: pointer; font-size: 30px;">인기 전시</label>
 					</div>
 				</div>
-				<label id="morelook" class="form-check-label" for="morelook" style="cursor: pointer; font-size: 20px; text-decoration: none; color: black;">
-				    <a href="${root}/exhibition/exhibition" style="text-decoration: none; color: black;">더보기</a>
-				</label>
+				<label id="morelook" class="form-check-label" for="morelook"
+					style="cursor: pointer; font-size: 20px;" onclick="window.location.href='${root}/exhibition/exhibition_popular'">더보기</label>
 			</div>
 			<br /><br />
 
@@ -344,14 +303,14 @@
 							</button>
 							<div class="carousel">
 								<ul>
-									<li><img src="../img/poster1.png"></li>
-									<li><img src="../img/poster2.png"></li>
-									<li><img src="../img/poster3.png"></li>
 									<li><img src="../img/poster4.png"></li>
-									<li><img src="../img/poster1.png"></li>
-									<li><img src="../img/poster2.png"></li>
 									<li><img src="../img/poster3.png"></li>
+									<li><img src="../img/poster2.png"></li>
+									<li><img src="../img/poster1.png"></li>
 									<li><img src="../img/poster4.png"></li>
+									<li><img src="../img/poster3.png"></li>
+									<li><img src="../img/poster2.png"></li>
+									<li><img src="../img/poster1.png"></li>
 									<li><img src="../img/poster1.png"></li>
 									<li><img src="../img/poster2.png"></li>
 									<li><img src="../img/poster3.png"></li>
@@ -380,17 +339,9 @@
 						</button>
 						<div class="carousel">
 							<ul>
-								<li><img src="../img/poster4.png"></li>
-								<li><img src="../img/poster3.png"></li>
-								<li><img src="../img/poster2.png"></li>
-								<li><img src="../img/poster1.png"></li>
-								<li><img src="../img/poster4.png"></li>
-								<li><img src="../img/poster3.png"></li>
-								<li><img src="../img/poster2.png"></li>
-								<li><img src="../img/poster1.png"></li>
-								<li><img src="../img/poster1.png"></li>
-								<li><img src="../img/poster2.png"></li>
-								<li><img src="../img/poster3.png"></li>
+								<c:forEach items="${popularExhibitionInfo }" var="popularexhibition">
+									<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${popularexhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${popularexhibition.main_poster_path}${popularexhibition.main_poster_name}" style="width:255px; height:375px;"></a></li>
+								</c:forEach>
 							</ul>
 						</div>
 						<div class="clear"></div>
@@ -429,15 +380,41 @@
 		</script>
 	</section>
 
-	<!-- 배너부분 -->
+	
+	<!-- 배너 캐러셀 -->
 	<section style="margin-top: 150px;">
-		<div class="container px-1">
-			<div class="d-flex justify-content-center">
-				<img src="../img/banner1.png" alt="banner1" style="border: 1px solid black;">
-			</div>
-		</div>
-		</div>
+	    <div class="container px-1" style="width:1100px;">
+	        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+	            <!-- 캐러셀 인디케이터 -->
+	            <div class="carousel-indicators">
+	                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+	                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+	                <!-- 추가 슬라이드에 대한 버튼을 여기에 추가 -->
+	            </div>
+	
+	            <!-- 캐러셀 슬라이드 -->
+	            <div class="carousel-inner">
+	                <div class="carousel-item active">
+	                    <img src="../img/banner1.png" class="d-block w-100" alt="Banner 1" style="height:150px;">
+	                </div>
+	                <div class="carousel-item">
+	                    <img src="../img/banner1.png" class="d-block w-100" alt="Banner 2" style="height:150px;">
+	                </div>
+	            </div>
+	
+	            <!-- 캐러셀 컨트롤 -->
+	            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+	                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	                <span class="visually-hidden">Previous</span>
+	            </button>
+	            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+	                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	                <span class="visually-hidden">Next</span>
+	            </button>
+	        </div>
+	    </div>
 	</section>
+
 
 	<!-- 곧 전시 캐러셀 -->
 	<section style="margin-top: 150px;">
@@ -453,7 +430,7 @@
 					</div>
 				</div>
 				<label id="morelook1" class="form-check-label" for="morelook1"
-					style="cursor: pointer; font-size: 20px;">더보기</label>
+					style="cursor: pointer; font-size: 20px;" onclick="window.location.href='${root}/exhibition/exhibition_popular'">더보기</label>
 			</div>
 			<br /><br />
 			<div id="jcl-demo" class="entry-content">
@@ -465,17 +442,9 @@
 					</button>
 					<div class="carousel">
 						<ul>
-							<li><img src="../img/poster2.png"></li>
-							<li><img src="../img/poster4.png"></li>
-							<li><img src="../img/poster1.png"></li>
-							<li><img src="../img/poster3.png"></li>
-							<li><img src="../img/poster2.png"></li>
-							<li><img src="../img/poster4.png"></li>
-							<li><img src="../img/poster1.png"></li>
-							<li><img src="../img/poster3.png"></li>
-							<li><img src="../img/poster2.png"></li>
-							<li><img src="../img/poster4.png"></li>
-							<li><img src="../img/poster1.png"></li>
+							<c:forEach items="${SoonExhibitionInfo }" var="soonexhibition">
+								<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${soonexhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${soonexhibition.main_poster_path}${soonexhibition.main_poster_name}" style="width:255px; height:375px;"></a></li>
+							</c:forEach>
 						</ul>
 					</div>
 					<div class="clear"></div>
@@ -541,6 +510,20 @@
 			}
 		});
 	</script>
+	<!-- 결제 실패 -->
+    <c:if test="${not empty failmsg}">
+        <script>
+        Swal.fire({
+            title: "결제 실패",
+            html: "${failmsg} <br><br> 결제를 다시 진행해주세요.",
+            icon: "error",
+            confirmButtonColor: "#4F6F52",
+            confirmButtonText: "확인"
+        });
+
+    </script>
+    </c:if>
 
 </body>
+
 </html>

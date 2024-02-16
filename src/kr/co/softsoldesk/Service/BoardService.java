@@ -47,12 +47,11 @@ public class BoardService {
 	@Value("${comment.paginationcnt}")
 	private int comment_paginationCnt;
 	
-	
+	// 게시글 추가
 	public void addBoardContent(BoardBean boardBean) {
 		boardBean.setUser_id(loginUserBean.getUser_id());
 		System.out.println(loginUserBean.getUser_id());
-		boardDao.addBoardContent(boardBean);
-		
+		boardDao.addBoardContent(boardBean);	
 	}
 	
 	// 게시글 상세 조회
@@ -60,6 +59,7 @@ public class BoardService {
 		return boardDao.getReadInfo(board_id);
 	}
 	
+	// 게시글 목록
     public List<BoardBean> getBoardList(int page) {
     	int start = (page -1) * page_listcnt;
     	
@@ -72,6 +72,7 @@ public class BoardService {
     public void increaseViewCount(int board_id) {
         boardDao.increaseViewCount(board_id);
     }
+    
     // 게시글 이전글
     public BoardBean getPreviousBoardInfo(int board_id) {
         System.out.println("Requesting Previous Board for board_id: " + board_id);
@@ -99,6 +100,11 @@ public class BoardService {
     	return boardDao.getBoardInfo(board_id);
     }
     
+    // 게시글 수정(이름 가져오기)
+    public BoardBean getmodifyContentInfo(int board_id) {
+    	return boardDao.getmodifyContentInfo(board_id);
+	}
+    
     // 게시글 수정
     public void modifyContentInfo(BoardBean modifyContentBean) {
 		/*
@@ -108,6 +114,7 @@ public class BoardService {
 			String file_name = saveUploadFile(upload_file);
 			modifyContentBean.setContent_file(file_name);
 		}*/
+    
     	boardDao.modifyContentInfo(modifyContentBean);
 	}
     // 게시글 삭제
@@ -136,8 +143,6 @@ public class BoardService {
 		return pageBean;
     }
     
-    
-    
 	// 댓글 수정
 	public void updateComment(CommentBean updateComment) {
 		boardDao.updateComment(updateComment);
@@ -148,9 +153,17 @@ public class BoardService {
 		boardDao.deleteComment(comment_id);
 	}
     
+	// 댓글 총 수량
     public int getReplyCnt(int board_id) {
         return boardDao.getCommentPage(board_id);
     }
+    
+    // 댓글 일치
+    /*
+    public CommentBean getCommentInfo(int comment_id) {
+    	return boardDao.getCommentInfo(comment_id);
+    }
+    */
     
     // 검색 조건에 맞는 게시글 목록 가져오기
     public List<BoardBean> getSearchBoards(String searchType, String searchText, int page) {

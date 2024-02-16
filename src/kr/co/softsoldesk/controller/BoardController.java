@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +26,7 @@ import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.BoardService;
 import kr.co.softsoldesk.Service.UserService;
 import kr.co.softsoldesk.dao.BoardDao;
+import kr.co.softsoldesk.validator.UserValidator;
 
 @Controller
 @RequestMapping("/board")
@@ -68,7 +71,7 @@ public class BoardController {
     @GetMapping("/read")
     public String read(@RequestParam(value = "board_id", required = false, defaultValue = "0") int board_id, Model model) {
     	boardService.increaseViewCount(board_id); 
-    	BoardBean readContentBean = boardService.getReadInfo(board_id);
+    	BoardBean readContentBean = boardService.getReadInfo(board_id); // 일치하는 지 확인 중요
     	model.addAttribute("readContentBean", readContentBean);   //read.jsp로 보냄
     	
     	model.addAttribute("board_id", board_id);
@@ -96,11 +99,11 @@ public class BoardController {
     						Model model, BindingResult result) {
        
     	if(result.hasErrors()) {
-			return "board/write";
+			return "board/write_not";
 		}
 
     	boardService.addBoardContent(boardBean);
-    	// board/write_success로 아예 안들어감 -> 오류나타남
+    	 
     	return "board/write_success";
     }
 
@@ -113,15 +116,24 @@ public class BoardController {
 		
 		//정보 가져옴 => 수정할 하나의 게시글 정보 가져옴
 		// 사용자 확인
-		BoardBean tempContentBean = boardService.getBoardInfo(board_id);
-		
-		modifyContentBean.setUser_id(tempContentBean.getUser_id());
+    	modifyContentBean = boardService.getmodifyContentInfo(board_id);
+    	
+    	System.out.println(modifyContentBean.getNickname());
+    	
+    	
+    	model.addAttribute("modifyContentBean", modifyContentBean);
+
+		//BoardBean tempContentBean = boardService.getBoardInfo(board_id);
+	
+    	/*
 		modifyContentBean.setCreate_date(tempContentBean.getUpdate_date());
 		modifyContentBean.setTitle(tempContentBean.getTitle());
 		modifyContentBean.setContents(tempContentBean.getContents());
 		
 		modifyContentBean.setBoard_id(board_id);
 		
+		model.addAttribute("modifyContentBean", modifyContentBean);
+		*/
         return "board/modify";
     }
 
@@ -130,8 +142,10 @@ public class BoardController {
     public String modify_pro(@Valid @ModelAttribute("modifyContentBean") BoardBean modifyContentBean,
     		                 BindingResult result) {
     	if(result.hasErrors()) {
-			return "board/modify";
+			return "board/modify_not";
 		}
+    	System.out.println(modifyContentBean.getTitle());
+    	System.out.println(modifyContentBean.getBoard_id());
     	boardService.modifyContentInfo(modifyContentBean); //service, dao, mappper 껴서 db 수정
          return "board/modify_success";
     }
@@ -153,23 +167,7 @@ public class BoardController {
     @PostMapping("/delete_pro")
     public String delete_pro(@RequestParam("board_id") int board_id, Model model) {
     	boardService.deleteBoardInfo(board_id);
-    	
     	return "board/delete";   
     }
-  
-    // 게시글 검색
-    @GetMapping("/board/search")
-    public String search(@RequestParam(value="searchType") String searchType,
-                         @RequestParam(value="searchText") String searchText,
-                         @RequestParam(value = "page", defaultValue = "1") int page,
-                         Model model) {
-        // 검색 결과를 가져오는 서비스 메서드 호출
-        List<BoardBean> searchResult = boardService.getSearchBoards(searchType, searchText, page);
-        model.addAttribute("boardList", searchResult);
-        
-    	PageBean pageBean = boardService.getSearchBoardPage(searchType, searchText, page);
-        model.addAttribute("pageBean", pageBean);
-        
-        return "board/main"; // 검색 결과를 보여줄 뷰로 이동
-    }
+    
 }

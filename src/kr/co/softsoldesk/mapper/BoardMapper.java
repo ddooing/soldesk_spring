@@ -25,24 +25,25 @@ public interface BoardMapper {
 	void addBoardContent(BoardBean boardBean);
 	
 	// 내용 상세조회
-	@Select("SELECT a2.*, TO_CHAR(a2.create_date, 'YYYY') AS create_date, a1.name AS user_name "
+	@Select("SELECT a2.board_id, a2.user_id,a1.nickname AS nickname, TO_CHAR(a2.update_date, 'YYYY-MM-DD') AS update_date, a2.title, a2.contents, a2.views, a2.state "
 			+ "FROM user_table a1, board a2 "
-			+ "WHERE a1.user_id = a2.user_id AND a2.board_id = #{board_id}")
+			+ "WHERE a1.user_id = a2.user_id AND a2.board_id = #{board_id} and a2.state = 1")
 	//@Select("SELECT * FROM board WHERE board_id = #{board_id}")
 	BoardBean getReadInfo(int board_id);
 
 	// 게시글 목록(사용자 명과 같은) 조회(내림차순)
-	@Select("SELECT a1.board_id, a1.title, a2.name AS user_name, to_char(a1.create_date, 'yyyy-mm-dd') as create_date, a2.user_id as user_id, a1.state "
-			+ "FROM board a1 JOIN user_table a2 ON a1.user_id = a2.user_id and a1.state = 1 "
+	@Select("SELECT a1.board_id, a1.title, a2.nickname AS nickname, TO_CHAR(a1.update_date, 'YYYY-MM-DD') AS update_date, a2.user_id AS user_id, a1.state "
+			+ "FROM board a1 "
+			+ "JOIN user_table a2 ON a1.user_id = a2.user_id AND a1.state != 0 "
 			+ "ORDER BY a1.board_id DESC")
 	List<BoardBean> getBoardList(RowBounds rowBounds);
 
 	// 해당 게시글 번호에 해당하는 게시글 정보와 게시글 테이블에서 FK로 설정한 회원 번호를 찾아 회원 이름을 찾아온다.
-	@Select("select a1.name AS user_name, to_char(a2.create_date, 'yyyy-mm-dd') as create_date, "
-			+ "a2.title, a2.contents "
+	@Select("select a1.nickname AS nickname, to_char(a2.update_date, 'yyyy-mm-dd') as update_date, a2.board_id as board_id, "
+			+ "a2.title, a2.contents, a2.user_id "
 			+ "from user_table a1, board a2 "
 			+ "where a1.user_id = a2.user_id "
-			+ "and board_id = #{board_id} and a2.state = 1")
+			+ "and board_id = #{board_id} and a2.state != 0")
 	BoardBean getBoardInfo(int board_id);
 
 	// 게시글 조회수 증가
@@ -50,33 +51,45 @@ public interface BoardMapper {
 	void increaseViewCount(int board_id);
 	
 	// 이전글 이동
-	@Select("SELECT board_id, title  FROM (SELECT board_id, title FROM board "
-			+ "WHERE board_id < #{board_id} "
+	@Select("SELECT board_id, title FROM (SELECT board_id, title FROM board "
+			+ "WHERE board_id < #{board_id} AND state != 0 "
 			+ "ORDER BY board_id DESC) "
 			+ "WHERE ROWNUM <= 1")
 	BoardBean getPreviousBoard(int board_id);
-	
+
 	// 다음글 이동
 	@Select("SELECT board_id, title FROM (SELECT board_id, title FROM board "
-			+ "WHERE board_id > #{board_id} "
+			+ "WHERE board_id > #{board_id} AND state != 0 "
 			+ "ORDER BY board_id ASC) "
 			+ "WHERE ROWNUM <= 1")
 	BoardBean getNextBoard(int board_id);
-	
-	// 게시글 수정
+
+	// 게시글 수정할 때 이름 조회
+	@Select("SELECT a1.nickname as nickname, a2.board_id as board_id, a2.title as title, a2.contents as contents, TO_CHAR(TRUNC(SYSDATE), 'YYYY-MM-DD') as update_date "
+	        + "FROM user_table a1, board a2 "
+	        + "WHERE a1.user_id = a2.user_id "
+	        + "AND a2.board_id = #{board_id} "
+	        + "AND a1.state != 0")
+	BoardBean getmodifyContentInfo(int board_id);
+
+	// 게시글 수정 (날짜는 수정불가)
 	@Update("UPDATE board "
-			+ "SET title = #{title}, contents = #{contents}, update_date = TRUNC(TO_DATE(#{update_date}, 'YYYY-MM-DD')) "
-			+ "WHERE board_id = #{board_id}")
+			+ "SET title = #{title}, contents = #{contents}, update_date = TRUNC(SYSDATE) "
+			+ "WHERE board_id = #{board_id} AND (user_id = #{user_id} "
+			+ "OR (SELECT state FROM user_table WHERE user_id = #{user_id}) = 3)")
 	void modifyContentInfo(BoardBean modifyContentBean);
 
 	// 게시글 삭제
-	@Update("UPDATE board SET state = 0 WHERE board_id = #{board_id}")
+	@Update("UPDATE board SET state = 0 "
+			+ "WHERE board_id = #{board_id} "
+			+ "AND (user_id = #{user_id} "
+			+ "OR (SELECT state FROM user_table WHERE user_id = #{user_id}) = 3)")
 	void deleteBoardInfo(int board_id);
 
 	// 해당 게시판의 전체 글 수 가져오기
 	@Select("select count(*) " 
 			+ "from board "
-			+ "where state = 1")
+			+ "where state != 0")
 	int getContentCnt();
 	
 	// 댓글 추가
@@ -85,15 +98,17 @@ public interface BoardMapper {
 	void addComment(CommentBean commentBean);
 	
 	// 댓글 조회
-	@Select("SELECT  b.comment_id AS comment_id, a.name AS user_name, b.regdate, b.modify_date, b.board_id, "
+	@Select("SELECT b.comment_id AS comment_id, a.nickname AS nickname, b.regdate, b.modify_date, b.board_id, "
 			+ "b.contents AS contents, b.board_id AS board_id "
-			+ "FROM user_table a JOIN comment_table b ON a.user_id = b.user_id "
-			+ "WHERE b.board_id = #{board_id} AND b.state = 1 "
+			+ "FROM user_table a "
+			+ "JOIN comment_table b ON a.user_id = b.user_id "
+			+ "WHERE b.board_id = 64 AND b.state != 0 "
 			+ "ORDER BY b.comment_id DESC")
 	List<CommentBean> getComment_s(int board_id, RowBounds rowBounds);
+
 	
 	// 댓글 페이징처리
-	@Select("SELECT COUNT(*) FROM comment_table WHERE board_id = #{board_id} AND state = 1")
+	@Select("SELECT COUNT(*) FROM comment_table WHERE board_id = #{board_id} AND state != 0")
 	int countCommentsByBoardId(int board_id);
 
 	// 댓글 수정
@@ -111,33 +126,34 @@ public interface BoardMapper {
 	void deleteComment(int comment_id);
 	
 	/*
-	@Select("SELECT * FROM board "
-		       + "WHERE UPPER(title) LIKE '%' || UPPER(#{keyword}) || '%' "
-		       + "OR UPPER(contents) LIKE '%' || UPPER(#{keyword}) || '%' "
-		       + "ORDER BY board_id DESC")
-	List<BoardBean> searchAll(@Param("keyword") String keyword);
+	// 댓글 일치
+	@Select("select a1.nickname AS nickname, to_char(a3.regdate, 'yyyy-mm-dd') as regdate, a3.comment_id as comment_id, "
+			+ "a3.contents, a3.user_id "
+			+ "from user_table a1, board a2, comment_table a3 "
+			+ "where a1.user_id = a3.user_id "
+			+ "and a2.board_id = a3.board_id "
+			+ "and a2.board_id = 64 and a3.state != 0")
+	CommentBean getCommentInfo(int comment_id);
 	*/
-	
-	@Select("SELECT b.board_id, b.user_id, b.title, b.create_date, b.views, COUNT(c.comment_id) AS commentCnt "
+	// 검색
+	@Select("SELECT b.board_id, u.nickname, b.title, b.update_date, b.views "
 	        + "FROM board b "
-	        + "LEFT JOIN comment_table c ON b.board_id = c.board_id "
-	        + "WHERE b.state = 1 AND ("
+	        + "INNER JOIN user_table u ON b.user_id = u.user_id "
+	        + "WHERE b.state != 0 AND ("
 	        + "    #{searchType} IS NULL OR "
 	        + "    (#{searchType} = 'total' AND (b.title LIKE '%' || #{searchText} || '%' OR b.contents LIKE '%' || #{searchText} || '%')) OR "
 	        + "    (#{searchType} = 'title' AND b.title LIKE '%' || #{searchText} || '%') OR "
 	        + "    (#{searchType} = 'contents' AND b.contents LIKE '%' || #{searchText} || '%')) "
-	        + "GROUP BY b.board_id, b.user_id, b.title, b.create_date, b.views "
 	        + "ORDER BY b.board_id DESC")
 	List<BoardBean> getSearchBoards(@Param("searchType") String searchType, @Param("searchText") String searchText, RowBounds rowBounds);
 
-	@Select("SELECT COUNT(*) AS commnet_cnt "
+	// 검색 수
+	@Select("SELECT COUNT(*) AS count "
 	        + "FROM board b "
-	        + "LEFT JOIN comment_table c ON b.board_id = c.board_id "
-	        + "WHERE b.state = 1 AND ("
+	        + "WHERE b.state != 0 AND ("
 	        + "    #{searchType} IS NULL OR "
 	        + "    (#{searchType} = 'total' AND (b.title LIKE '%' || #{searchText} || '%' OR b.contents LIKE '%' || #{searchText} || '%')) OR "
 	        + "    (#{searchType} = 'title' AND b.title LIKE '%' || #{searchText} || '%') OR "
 	        + "    (#{searchType} = 'contents' AND b.contents LIKE '%' || #{searchText} || '%'))")
 	int getSearchBoardsCnt(@Param("searchType") String searchType, @Param("searchText") String searchText);
-
 }

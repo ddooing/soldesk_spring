@@ -72,15 +72,14 @@
 					<div class="form-group" style="margin-top: 10px;">
 						<form:hidden path="board_id"/>
 						<div class="form-group">
-							<form:label path="user_id">작성자</form:label>
-							<form:input path="user_id" class="form-control" readonly="true" />
+							<form:label path="nickname">작성자</form:label>
+							<form:input path="nickname" class="form-control" readonly="true" />
 						</div>
 						<div class="form-group">
 							<form:label path="update_date">작성날짜</form:label>
 							<form:input path="update_date" class="form-control" readonly="true" />
 						</div>
-						<form:label path="title" class="font-weight-bold"
-							style="font-size:20px;">제목</form:label>
+						<form:label path="title" class="font-weight-bold" style="font-size:20px;">제목</form:label>
 						<form:input path="title" id="title" placeholder="제목을 입력하세요."
 							class="form-control form-control-sm"
 							style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cccccc; border-radius: 5px;" />

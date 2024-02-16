@@ -37,17 +37,18 @@ public class CommentController {
 		
 		return commentBean;	
 	}
-		
+	
 	// 조회
 	@GetMapping("/comment_s")
 	public Map<String, Object> getComment_s(@RequestParam("board_id") int board_id,
+										
 										  @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
-		
+	
 	    List<CommentBean> comment_s = boardService.getComment_s(board_id, page);
-	    //model.addAttribute("comment_s",comment_s);
+	    model.addAttribute("comment_s",comment_s);
 	    
 	    PageBean pageBean = boardService.getCommentPage(board_id, page);
-	    //model.addAttribute("pageBean", pageBean);
+	    model.addAttribute("pageBean", pageBean);
 	    
 	    Map<String, Object> result = new HashMap<>();
 	    result.put("comment_s", comment_s);

@@ -455,75 +455,239 @@ a:hover {
 		</div>
 
 
-		<div style="justify-content: center; display: flex; margin: auto;">
-			<ul id="subMenu" class="submenu visible"
-				style="display: flex; align-items: right; list-style-type: none; padding: 0; margin: 0; margin-right: 570px;">
-				<li id="totallistbtn" class="sel" style="">전체</li>
-				<li id="exhibitionbtn">전시회</li>
-			</ul>
-		</div>
-		<br>
-		<li class="active contentshow" id="totalListContent">
-			<div>
-				<ul class="tap_wrap inner">
-					<fieldset class="search_wrap" id="search_wrap1"
-						style="width: 900px;">
-						<select class="ty3" title="검색조건 제목 선택" id="selectCondition1">
-							<option value="1" selected>제목</option>
-							<option value="2">내용</option>
-							<option value="3">제목+내용</option>
-						</select> <input type="text" placeholder="검색어를 입력해주세요." title="검색어를 입력해주세요"
-							id="searchKeyword1" style="width: 600px;">
-						<button type="button" class="btn_col2" id="btnSearch1">검색</button>
-					</fieldset>
-				</ul>
 				<div>
-					<p />
-					<table class="tbl_list text_c" summary="공지사항에 대한 표입니다">
-						<caption>전체 공지사항 내용</caption>
-						<colgroup>
-							<col style="width: 10%;">
-							<col style="width: 15%;">
-							<col style="width: auto;">
-							<col style="width: 15%;">
-						</colgroup>
-						<thead>
-							<tr>
-								<th scope="col">번호</th>
-								<th scope="col">구분</th>
-								<th scope="col">제목</th>
-								<th scope="col">등록일</th>
-							</tr>
-						</thead>
-						<tbody>
-						
-							<c:forEach var="notices" items="${notices }">
-								<tr>
-									<td>${notices.notice_id}</td>
-									<td class="text_l"><a
-										href="${root }/notice/post?notice_id=${notice_id}">
-											${notices.title } </a></td>
-									<td>${notices.title}</td>
-									<td>${notices.create_date}</td>
-								</tr>
-							</c:forEach>
-							
-						</tbody>
-					</table>
 
-				</div>
+					<div style="width:900px; display: flex; justify-content: center;">
+					<form action="${root }/notice/main" method="get">
+							<select name="type" style="width: 150px; height: 40px; margin-right: 30px;">
+								<option value="" disabled selected>검색조건선택</option>
+								<option value="title">제목</option>
+								<option value="titlecontents">제목+내용</option>
+							</select> <input type="text" name="keyword"
+								style="width: 500px; height: 40px; margin-right: 30px;"
+								placeholder="검색어를 입력해주세요" />
+							<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+						</form>
+					</div>
+					
+					<div style="display: flex; justify-content: center; align-content: center; align-items: center;">
+						<table class="tbl_list text_c" style="margin-left: auto; margin-right: auto;">
+							<caption>전체 공지사항 내용</caption>
+							<colgroup>
+								<col style="width: 10%;">
+								<col style="width: 15%;">
+								<col style="width: auto;">
+								<col style="width: 15%;">
+							</colgroup>
+							<thead>
+								<tr>
+									<th scope="col">번호</th>
+									<th scope="col">제목</th>
+									<th scope="col">등록일</th>
+								</tr>
+							</thead>
+							<tbody>
+							
+								<c:forEach var="noticeList" items="${noticeList }">
+									<tr>
+										<td>${noticeList.notice_id}</td>
+										<td><a href="${root }/notice/read?notice_id=${noticeList.notice_id}">${noticeList.title}</a></td>
+										<td>${noticeList.create_date}</td>
+									</tr>
+								</c:forEach>
+								
+							</tbody>
+						</table>
+					</div>
 				<br>
 
 				<!-- 페이징처리 구현 -->
 				<div
 					style="display: flex; justify-content: center; margin-bottom: 30px;">
-					<div id="pagination-container">
-						<div class="pagination">
-							<a href="#">&laquo;</a> <a href="#">&lt;</a> <a class="active"
-								href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a>
-							<a href="#">5</a> <a href="#">&gt;</a> <a href="#">&raquo;</a>
-						</div>
-					</div>
+					<c:choose>
+						<c:when test="${!empty pageBean }">
+							<div class="d-none d-md-block" style="margin-top: 50px;">
+								<ul class="pagination justify-content-center">
+									<c:choose>
+										<c:when test="${pageBean.prevPage <= 0 }">
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/notice/main?page=${pageBean.prevPage}"
+												class="page-link">이전</a></li>
+										</c:otherwise>
+									</c:choose>
+
+									<c:forEach var="idx" begin="${pageBean.min}"
+										end="${pageBean.max}">
+										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+										<c:choose>
+											<c:when test="${idx == pageBean.currentPage }">
+												<li class="page-item active"><a
+													href="${root }/notice/main?page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/notice/main?page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+
+									<c:choose>
+										<c:when test="${pageBean.max >= pageBean.pageCnt  }">
+											<!-- max페이지 > 전체페이지개수 일때  -->
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/notice/main?page=${pageBean.nextPage}"
+												class="page-link">다음</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+
+							<div class="d-block d-md-none">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a href="#" class="page-link">이전</a>
+									</li>
+									<li class="page-item"><a href="#" class="page-link">다음</a>
+									</li>
+								</ul>
+							</div>
+						</c:when>
+
+						<c:when test="${!empty pageBean1}">
+							<div class="d-none d-md-block" style="margin-top: 50px;">
+								<ul class="pagination justify-content-center">
+									<c:choose>
+										<c:when test="${pageBean1.prevPage <= 0 }">
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/notice/main?type=${type}&keyword=${keyword}&page=${pageBean1.prevPage}"
+												class="page-link">이전</a></li>
+										</c:otherwise>
+									</c:choose>
+
+									<c:forEach var="idx" begin="${pageBean1.min}"
+										end="${pageBean1.max}">
+										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+										<c:choose>
+											<c:when test="${idx == pageBean1.currentPage }">
+												<li class="page-item active"><a
+													href="${root }/notice/main?type=${type}&keyword=${keyword}&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/notice/main?type=${type}&keyword=${keyword}&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+
+									<c:choose>
+										<c:when test="${pageBean1.max >= pageBean1.pageCnt  }">
+											<!-- max페이지 > 전체페이지개수 일때  -->
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/notice/main?type=${type}&keyword=${keyword}&page=${pageBean1.nextPage}"
+												class="page-link">다음</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+
+							<div class="d-block d-md-none">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a href="#" class="page-link">이전</a>
+									</li>
+									<li class="page-item"><a href="#" class="page-link">다음</a>
+									</li>
+								</ul>
+							</div>
+						</c:when>
+
+						<c:when test="${!empty pageBean2 }">
+							<div class="d-none d-md-block" style="margin-top: 50px;">
+								<ul class="pagination justify-content-center">
+									<c:choose>
+										<c:when test="${pageBean2.prevPage <= 0 }">
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/notice/main?type=${type}&keyword=${keyword}&page=${pageBean2.prevPage}"
+												class="page-link">이전</a></li>
+										</c:otherwise>
+									</c:choose>
+
+									<c:forEach var="idx" begin="${pageBean2.min}"
+										end="${pageBean2.max}">
+										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+										<c:choose>
+											<c:when test="${idx == pageBean2.currentPage }">
+												<li class="page-item active"><a
+													href="${root }/notice/main?type=${type}&keyword=${keyword}&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/notice/main?type=${type}&keyword=${keyword}&page=${idx}"
+													class="page-link"> ${idx } </a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+
+									<c:choose>
+										<c:when test="${pageBean2.max >= pageBean2.pageCnt  }">
+											<!-- max페이지 > 전체페이지개수 일때  -->
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/notice/main?type=${type}&keyword=${keyword}&page=${pageBean2.nextPage}"
+												class="page-link">다음</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+
+							<div class="d-block d-md-none">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a href="#" class="page-link">이전</a>
+									</li>
+									<li class="page-item"><a href="#" class="page-link">다음</a>
+									</li>
+								</ul>
+							</div>
+						</c:when>
+						<c:otherwise>
+						<p>asdf</p>
+						</c:otherwise>
+					</c:choose>
 					<!--  
 				<div class="boardwritebtn"  style="position: absolute;">
 					<a href="BoardWriteForm.jsp" style="text-decoration: none">글쓰기</a>
@@ -532,199 +696,49 @@ a:hover {
 				</div>
 
 
-				<!-- 배너부분 -->
-				<section style="margin-top: -8spx;">
-					<div class="container px-1">
-						<div class="d-flex justify-content-center">
-							<img src="../img/banner1.png" class="banner1" alt="banner1">
-						</div>
-					</div>
-				</section>
-		</li>
+				
 
-		<!-- 전시회 -->
-		<li class="active contentshow" id="exhibitionContent"
-			style="display: none;">
-			<div>
-				<ul class="tap_wrap inner">
-					<fieldset class="search_wrap" id="search_wrap1"
-						style="width: 900px;">
-						<select id="selectArea1" title="지역 선택" style="display: none;"></select>
-						<select id="selectCinema1" title="영화관 선택" style="display: none;"></select>
-						<select class="ty3" title="검색조건 제목 선택" id="selectCondition1">
-							<option value="1" selected>제목</option>
-							<option value="2">내용</option>
-							<option value="3">제목+내용</option>
-						</select> <input type="text" placeholder="검색어를 입력해주세요." title="검색어를 입력해주세요"
-							id="searchKeyword1" style="width: 600px;">
-						<button type="button" class="btn_col2" id="btnSearch1">검색</button>
-					</fieldset>
-				</ul>
-				<div>
-					<p />
-					<table class="tbl_list text_c" summary="전시회 공지사항에 대한 표입니다">
-						<caption>전시회 공지사항 내용</caption>
-						<colgroup>
-							<col style="width: 10%;">
-							<col style="width: 15%;">
-							<col style="width: auto;">
-							<col style="width: 15%;">
-						</colgroup>
-						<thead>
-							<tr>
-								<th scope="col">번호</th>
-								<th scope="col">구분</th>
-								<th scope="col">제목</th>
-								<th scope="col">등록일</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><strong class="ico_imp"><span>중요</span></strong></td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2578"
-									class="txt_color01">공지사항 전시회 중요 게시글입니다.</a></td>
-								<td>2023-09-13</td>
-							</tr>
-							<tr>
-								<td><strong class="ico_imp"><span>중요</span></strong></td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2541"
-									class="txt_color01">공지사항 전시회 중요 게시글입니다.</a></td>
-								<td>2023-06-08</td>
-							</tr>
-							<tr>
-								<td>18</td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2606"
-									class="">공지사항 전시회 게시글입니다.</a></td>
-								<td>2023-12-07</td>
-							</tr>
-							<tr>
-								<td>17</td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2605"
-									class="">공지사항 전시회 게시글입니다.</a></td>
-								<td>2023-12-01</td>
-							</tr>
-							<tr>
-								<td>16</td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2602"
-									class="">공지사항 전시회 게시글입니다.</a></td>
-								<td>2023-12-01</td>
-							</tr>
-							<tr>
-								<td>15</td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2596"
-									class="">공지사항 전시회 게시글입니다.</a></td>
-								<td>2023-11-16</td>
-							</tr>
-							<tr>
-								<td>14</td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2594"
-									class="">공지사항 전시회 게시글입니다.</td>
-							</tr>
-							<tr>
-								<td>13</td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2591"
-									class="">공지사항 전시회 게시글입니다.</a></td>
-								<td>2023-10-13</td>
-							</tr>
-							<tr>
-								<td>12</td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2590"
-									class="">공지사항 전시회 게시글입니다.</td>
-							</tr>
-							<tr>
-								<td>11</td>
-								<td>전시회</td>
-								<td class="text_l"><a href="${root }/notice/post" id="2587"
-									class="">공지사항 전시회 게시글입니다.</td>
-							</tr>
-						</tbody>
-					</table>
-
-				</div>
-				<br>
-				<!-- 페이징처리 구현 -->
-				<div
-					style="display: flex; justify-content: center; margin-bottom: 30px;">
-					<div id="pagination-container">
-						<div class="pagination">
-							<a href="#">&laquo;</a> <a href="#">&lt;</a> <a class="active"
-								href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a>
-							<a href="#">5</a> <a href="#">&gt;</a> <a href="#">&raquo;</a>
-						</div>
-					</div>
-					<!-- 
-				<div class="boardwritebtn"  style="position: absolute;">
-					<a href="BoardWriteForm.jsp" style="text-decoration: none">글쓰기</a>
-				</div>  
-				-->
-				</div>
-				<!--밑부분 배너-->
-				<section style="margin-top: 100px;">
-					<div class="container px-1">
-						<div class="d-flex justify-content-center">
-							<img src="../img/banner1.png" alt="banner1"
-								style="border: 1px solid black;">
-						</div>
-					</div>
-				</section>
-		</li>
 	</div>
+	</div>
+	
+	<!-- 배너부분 -->
+				<section style="margin-top: 100px;">
+					    <div class="container px-1" style="width:1100px;">
+					        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+					            <!-- 캐러셀 인디케이터 -->
+					            <div class="carousel-indicators">
+					                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+					                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
+					                            class="${status.index == 0 ? 'active' : ''}" aria-label="Slide ${status.index + 1}">
+					                    </button>
+					                </c:forEach>
+					            </div>
+					
+					            <!-- 캐러셀 슬라이드 -->
+					            <div class="carousel-inner">
+					                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+					                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+					                        <a href='${root}/exhibition/exhibition_click?exhibition_id=${subBanner.exhibition_id}'>
+					                            <img src="${subBanner.sub_banner_path}${subBanner.sub_banner_name}" class="d-block w-100" alt="Banner ${status.index + 1}" style="height:150px;">
+					                        </a>
+					                    </div>
+					                </c:forEach>
+					            </div>
+					
+					            <!-- 캐러셀 컨트롤 -->
+					            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+					                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					                <span class="visually-hidden">Previous</span>
+					            </button>
+					            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+					                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					                <span class="visually-hidden">Next</span>
+					            </button>
+					        </div>
+					    </div>
+					</section>
 
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
-	
-	<script>
-	document.addEventListener('DOMContentLoaded', function () {
-	    // 각 탭 버튼에 클릭 이벤트 리스너 추가
-	    var tabButtons = document.querySelectorAll('.submenu li');
-	    var tabContents = document.querySelectorAll('.contentshow');
-	
-	    // 초기에 totallistbtn를 선택된 상태로 만듭니다.
-	    tabButtons[0].classList.add('sel');
-	    tabContents[0].style.display = 'block';
-	
-	    tabButtons.forEach(function (button, index) {
-	        button.addEventListener('click', function () {
-	            // 모든 탭 버튼의 클래스 제거
-	            tabButtons.forEach(function (btn) {
-	                btn.classList.remove('sel');
-	            });
-	
-	            // 클릭된 탭 버튼에 클래스 추가
-	            button.classList.add('sel');
-	
-	            // 모든 컨텐츠를 숨김
-	            tabContents.forEach(function (content) {
-	                content.style.display = 'none';
-	            });
-	
-	            // 클릭된 탭에 해당하는 컨텐츠를 표시
-	            tabContents[index].style.display = 'block';
-	
-	            // 해당하는 ID에 따라 전시/전체 리스트 컨텐츠 표시 설정
-	            var exhibitionContent = document.getElementById('exhibitionContent');
-	            var totalListContent = document.getElementById('totalListContent');
-	
-	            if (tabContents[index].id === 'exhibitionContent') {
-	                exhibitionContent.style.display = 'block';
-	                totalListContent.style.display = 'none';
-	            } else if (tabContents[index].id === 'totalListContent') {
-	                exhibitionContent.style.display = 'none';
-	                totalListContent.style.display = 'block';
-	            }
-	        });
-	    });
-	});	
-	</script>
-
 </body>
 </html>

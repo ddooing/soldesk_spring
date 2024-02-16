@@ -9,7 +9,6 @@ import kr.co.softsoldesk.Beans.UserBean;
 
 public class UserValidator implements Validator {
 	
-
 	private UserBean loginUserBean;
 
     public UserValidator(UserBean loginUserBean) {

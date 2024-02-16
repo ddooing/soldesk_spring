@@ -21,18 +21,11 @@ public class CheckLoginInterceptor implements HandlerInterceptor{
 			throws Exception {
 		
 		if(loginUserBean.isUserLogin() == false) {
-		
-		String contextPath = request.getContextPath();
-		response.sendRedirect(contextPath + "/user/not_login"); 
-		
-		return false;
+			String contextPath = request.getContextPath();
+			response.sendRedirect(contextPath + "/user/not_login"); 
+			
+			return false;
 		}
-		
-		
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
-	
-	
-	
-
 }

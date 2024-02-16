@@ -23,8 +23,4 @@ public class TopMenuInterceptor implements HandlerInterceptor{
 		return true;
 		
 	}
-	
-	
-	
-
 }

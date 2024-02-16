@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +9,7 @@
 	<meta name="author" content="" />
 	<title>ARTMEE</title>
 
-	<link rel="icon" type="image/x-icon" href="img/ARTMEE_PAGELOGO.png" />
+	<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 
 	<!-- Font Awesome icons (free version)-->
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -25,14 +25,14 @@
 	<!-- Core theme JS-->
 	<script src="../js/scripts.js"></script>
 
-	<!-- JQuery 자바스크립트-->
+	<!-- JQuery �ڹٽ�ũ��Ʈ-->
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 
 	<!-- CSS -->
 	<link href="../css/styles.css" rel="stylesheet" />
 
-	<!-- Carousel 자바스크립트-->
+	<!-- Carousel �ڹٽ�ũ��Ʈ-->
 	<script src='https://www.gmarwaha.com/script/lib/jquery-1.11.1.js'></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing-1.3.js"></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
@@ -54,11 +54,11 @@
 				</div>
 				<div class="col-lg-6">
 					<p class="text-white small" style="margin-top: 5px;">
-						아트미 <br>
-						전화번호: 123-456-7890<br>
-						주소: 서울시 종로구 종로12길 15, 8층 801호<br>
-						이메일: info@artmee.com<br>
-						Copyright &copy; 2023 개발해드림 ALL RIGHTS RESERVED
+						��Ʈ�� <br>
+						��ȭ��ȣ: 123-456-7890<br>
+						�ּ�: ����� ���α� ����12�� 15, 8�� 801ȣ<br>
+						�̸���: info@artmee.com<br>
+						Copyright &copy; 2023 �����ص帲 ALL RIGHTS RESERVED
 					</p>
 				</div>
 			</div>

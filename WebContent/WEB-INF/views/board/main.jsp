@@ -31,7 +31,6 @@
 <!-- CSS -->
 <link href="../css/board/main.css" rel="stylesheet" />
 
-
 <!-- JQuery 자바스크립트-->
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
@@ -42,16 +41,11 @@
 <script src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 <script src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
 
-
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-<style>
-
-</style>
-
 </head>
 <body>
 <body id="page-top">
@@ -107,8 +101,8 @@
 									<td class="text_l" style="text-align:left">
 										<a href="${root}/board/read?board_id=${board.board_id}" style="text-align:left">${board.title}</a>
 									</td>
-									<td>${board.user_name}</td>
-									<td>${board.create_date}</td>
+									<td>${board.nickname}</td>
+									<td>${board.update_date}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

@@ -70,10 +70,8 @@
 				<form:form action="${root}/board/write_pro" method="post"
 					modelAttribute="boardBean">
 					<div class="form-group" style="margin-top: 10px;">
-						<form:label path="title" class="font-weight-bold"
-							style="font-size:20px;">제목</form:label>
-						<form:input path="title" id="title" placeholder="제목을 입력하세요."
-							class="form-control form-control-sm"
+						<form:label path="title" class="font-weight-bold" style="font-size:20px;">제목</form:label>
+						<form:input path="title" id="title" placeholder="제목을 입력하세요." class="form-control form-control-sm"
 							style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cccccc; border-radius: 5px;" />
 
 					</div>

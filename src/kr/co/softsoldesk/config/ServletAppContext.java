@@ -6,6 +6,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.mapper.MapperFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,7 +23,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Service.BoardService;
+import kr.co.softsoldesk.intercepter.CheckLoginInterceptor;
+import kr.co.softsoldesk.intercepter.CheckWriterInterceptor;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
+import kr.co.softsoldesk.mapper.AdminContentsMapper;
 import kr.co.softsoldesk.mapper.BoardMapper;
 import kr.co.softsoldesk.mapper.ExhibitionMapper;
 import kr.co.softsoldesk.mapper.NoticeMapper;
@@ -52,6 +57,9 @@ public class ServletAppContext implements WebMvcConfigurer {
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
 
+	@Autowired
+	private BoardService boardService;
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		//정적 파일 경로 매핑
@@ -110,6 +118,15 @@ public class ServletAppContext implements WebMvcConfigurer {
 	}
 	
 	@Bean
+	public MapperFactoryBean<AdminContentsMapper> getAdminContentsMapper(SqlSessionFactory factory) throws Exception {
+	    // MapperFactoryBean 객체를 생성합니다. 이 객체는 MyBatis의 SQL 매핑을 담당합니다.
+	    // BoardMapper 클래스를 이용하여 객체를 생성하고, SqlSessionFactory를 설정합니다.
+	    MapperFactoryBean<AdminContentsMapper> factoryBean = new MapperFactoryBean<AdminContentsMapper>(AdminContentsMapper.class);
+	    factoryBean.setSqlSessionFactory(factory);
+	    return factoryBean; // 생성한 MapperFactoryBean 객체를 반환합니다.
+	}
+	
+	@Bean
 	public MapperFactoryBean<NoticeMapper> getNoticeMapper(SqlSessionFactory factory) throws Exception {
 	    // MapperFactoryBean 객체를 생성합니다. 이 객체는 MyBatis의 SQL 매핑을 담당합니다.
 	    // NoticeMapper 클래스를 이용하여 객체를 생성하고, SqlSessionFactory를 설정합니다.
@@ -120,19 +137,15 @@ public class ServletAppContext implements WebMvcConfigurer {
 	
 	@Bean		// 전시회 조회 
 	public MapperFactoryBean<ExhibitionMapper> getExhibitionMapper(SqlSessionFactory factory) throws Exception {
-
 		MapperFactoryBean<ExhibitionMapper> factoryBean = new MapperFactoryBean<ExhibitionMapper>(ExhibitionMapper.class);
-
 		factoryBean.setSqlSessionFactory(factory);
 		return factoryBean;
-
 	}
 	
 	
 
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
-
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
@@ -146,11 +159,22 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(loginUserBean);
-
-		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
-		reg1.addPathPatterns("/**");
-
+	    TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(loginUserBean);
+	    CheckWriterInterceptor checkWriterInterceptor = new CheckWriterInterceptor(loginUserBean, boardService);
+	    CheckLoginInterceptor checkLoginInterceptor = new CheckLoginInterceptor(loginUserBean);
+	    
+	    InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
+	    reg1.addPathPatterns("/**");
+	    
+	    InterceptorRegistration reg2 = registry.addInterceptor(checkWriterInterceptor);
+	    reg2.addPathPatterns("/board/modify", "/board/delete");
+	    
+	    InterceptorRegistration reg3 = registry.addInterceptor(checkLoginInterceptor);
+	    reg3.addPathPatterns("/board/write");
+	    /*
+	    InterceptorRegistration reg4 = registry.addInterceptor(checkWriterInterceptor);
+	    reg2.addPathPatterns("/comment_s");
+	     */
 	}
-
+	
 }

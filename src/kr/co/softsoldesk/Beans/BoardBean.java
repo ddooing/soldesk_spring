@@ -23,7 +23,7 @@ public class BoardBean {
     private String update_date;   // 수정날짜
     private int state;
     
-    private String user_name;
+    private String nickname;
     
 	public int getBoard_id() {
 		return board_id;
@@ -73,12 +73,13 @@ public class BoardBean {
 	public void setState(int state) {
 		this.state = state;
 	}
-	public String getUser_name() {
-		return user_name;
+	public String getNickname() {
+		return nickname;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
+
     
      
 }
