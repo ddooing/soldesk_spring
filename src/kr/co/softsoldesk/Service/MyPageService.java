@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.NoticeBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.ReserveBean;
@@ -21,6 +22,13 @@ public class MyPageService {
 
 	@Autowired
 	private MyPageDao myPageDao;
+	
+	@Value("${admin.listcnt}")
+	private int admin_listcnt;
+	
+	@Value("${admin.paginationcnt}")
+	private int admin_paginationcnt;
+	
 	
 	@Value("${Mypagepoint.listcnt}")
 	private int point_listcnt;
@@ -133,4 +141,51 @@ public class MyPageService {
 		
 		return pageBean;
 	}
+	
+	public List<NoticeBean> getImportantNoticeList(int page) {
+		
+		int start = (page - 1) * admin_listcnt;
+		// 게시판 메인에서 조회되는 첫번째 게시글의 인덱스
+		// 1페이지일 때, 0번~9번까지 10개 출력 , 2페이지 10~19번까지
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return myPageDao.getImportantNoticeList(rowBounds);
+	}
+	
+	public PageBean getImportantNoticeListCnt(int currentPage) {
+		int archive_Cnt = myPageDao.getImportantNoticeListCnt();
+		PageBean pageBean = new PageBean(archive_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}
+	
+	public List<NoticeBean>getImportantNoticeSearchList(String title, int page){
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return myPageDao.getImportantNoticeSearchList(title, rowBounds);
+	}
+	
+	public PageBean getImportantNoticeSearchListCnt(String title, int currentPage) {
+		int notice_cnt = myPageDao.getImportantNoticeSearchListCnt(title);
+		PageBean pageBean = new PageBean(notice_cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}
+	
+	public List<NoticeBean>getImportantNoticeSearchAllList(String title, int page){
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return myPageDao.getImportantNoticSearchAllList(title, rowBounds);
+	}
+	
+	public PageBean getImportantNoticeSearchAllListCnt(String title, int currentPage) {
+		int notice_cnt = myPageDao.getImportantNoticeSearchAllListCnt(title);
+		PageBean pageBean = new PageBean(notice_cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		
+		return pageBean;
+	}
+	
+	
 }

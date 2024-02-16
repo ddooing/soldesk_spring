@@ -25,6 +25,7 @@ public interface AdminContentsMapper {
 				+ "from notice")
 		int AllNoticeCnt();
 		
+
 		//제목만 검색, 수량체크
 		@Select("select notice_id, title, TO_CHAR(create_date, 'YYYY-MM-DD') as create_date, views, state\r\n"
 				+ "from notice\r\n"
@@ -242,12 +243,6 @@ public interface AdminContentsMapper {
 		// QnA 페이징 처리를 위한 총 qna 개수 반환 메소드
 		@Select("SELECT count(*) from qna")
 		int getTotalQnACnt();
-		
-		
-		
-		
-		
-		
 		
 		
 		//========================4. FAQ관리

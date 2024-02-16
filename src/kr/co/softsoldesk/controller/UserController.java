@@ -254,21 +254,20 @@ public class UserController {
 	    		List<ExhibitionBean> SoonExhibitionInfo = ExhibitionService.getIndexPageSoonExhibitionInfo();
 	    		model.addAttribute("SoonExhibitionInfo", SoonExhibitionInfo);
 				
-				
 				return "view/index";
 				
 			} else {
 				return "user/delete_fail_1";		//비밀번호1, 2 불일치
 			}
-			
-			
-			
 		} else {
 			return "user/delete_fail_2";			//비밀번호 부정확
 		}
+	}
+	
+	@GetMapping("/not_login")
+	public String not_login() {
 		
-		
-		
+		return "user/not_login";
 	}
 	
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.NoticeBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
@@ -83,5 +84,29 @@ public class MyPageDao {
 	// 아카이브 페이징 처리용 전체 개수 가져오기
 	public int getarchivelistCnt(int user_id) {
 		return myPageMapper.getarchivelistCnt(user_id);
+	}
+	
+	public List<NoticeBean> getImportantNoticeList(RowBounds rowBounds){
+		return myPageMapper.getImportantNoticeList(rowBounds);
+	}
+	
+	public int getImportantNoticeListCnt() {
+		return myPageMapper.getImportantNoticeListCnt();
+	}
+	
+	public List<NoticeBean>getImportantNoticeSearchList(String title, RowBounds rowBounds){
+		return myPageMapper.getImportantNoticeSearchList(title, rowBounds);
+	}
+	
+	public int getImportantNoticeSearchListCnt(String title) {
+		return myPageMapper.getImportantNoticeSearchListCnt(title);
+	}
+	
+	public List<NoticeBean>getImportantNoticSearchAllList(String title, RowBounds rowBounds){
+		return myPageMapper.getImportantNoticeSearchAllList(title, rowBounds);
+	}
+	
+	public int getImportantNoticeSearchAllListCnt(String title) {
+		return myPageMapper.getImportantNoticeSearchAllListCnt(title);
 	}
 }

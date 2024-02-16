@@ -78,9 +78,9 @@
    
 	   .reservationList >div{ margin: 0px auto 30px;border-radius:15px;}
 	   .reserinfo p{font-size:20px;}
-	   
+
 	   .reserCancel{	
-	   	position:relative; border: none !important; left:317px; border-radius:30px;
+	   	position:relative; border: none !important; left:250px; border-radius:30px;
 	   	background:lightgray;padding: 10px 15px 10px 15px; top:-5px;
 	   }
 	   .reserCancel:hover{ background:gray; box-shadow: inset 5px 5px rgb(0, 0, 0, 0.1);}

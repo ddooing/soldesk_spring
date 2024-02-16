@@ -3,12 +3,14 @@ package kr.co.softsoldesk.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.NoticeBean;
 import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Beans.ReviewBean;
@@ -213,4 +215,48 @@ public interface MyPageMapper {
 				+ "WHERE \r\n"
 				+ "    u.user_id = #{user_id}")
 		int getarchivelistCnt(int user_id);
+		
+		
+		@Select("select notice_id, title, create_date, contents, state, views\r\n"
+				+ "from notice\r\n"
+				+ "where state != 0\r\n"
+				+ "order by notice_id desc, state desc")
+		List<NoticeBean>getImportantNoticeList(RowBounds rowBounds);
+		
+		@Select("select count(*)\r\n"
+				+ "from notice\r\n"
+				+ "where state != 0\r\n"
+				+ "order by notice_id desc, state desc")
+		int getImportantNoticeListCnt();
+		
+		@Select("select notice_id, title, create_date, contents, state, views\r\n"
+				+ "from notice\r\n"
+				+ "where state != 0\r\n"
+				+ "and upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"
+				+ "order by notice_id desc, state desc")
+		List<NoticeBean>getImportantNoticeSearchList(@Param("title")String title, RowBounds rowBounds);
+		
+		@Select("select count(*)\r\n"
+				+ "from notice\r\n"
+				+ "where state != 0\r\n"
+				+ "and upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"
+				+ "order by notice_id desc, state desc")
+		int getImportantNoticeSearchListCnt(@Param("title")String title);
+		
+		@Select("select notice_id, title, create_date, contents, state, views\r\n"
+				+ "from notice\r\n"
+				+ "where state != 0\r\n"
+				+ "and upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"
+				+ "or state != 0 and upper(contents) LIKE '%' || UPPER(#{title}) || '%'\r\n"
+				+ "order by notice_id desc, state desc")
+		List<NoticeBean>getImportantNoticeSearchAllList(@Param("title")String title, RowBounds rowBounds);
+		
+		@Select("select count(*)\r\n"
+				+ "from notice\r\n"
+				+ "where state != 0\r\n"
+				+ "and upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"
+				+ "or state != 0 and upper(contents) LIKE '%' || UPPER(#{title}) || '%'\r\n"
+				+ "order by notice_id desc, state desc")
+		int getImportantNoticeSearchAllListCnt(@Param("title")String title);
+		
 }

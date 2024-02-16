@@ -459,20 +459,43 @@ a:hover {
 
 					<div style="width:900px; display: flex; justify-content: center;">
 					<form action="${root }/notice/main" method="get">
-							<select name="type" style="width: 150px; height: 40px; margin-right: 30px;">
-								<option value="" disabled selected>검색조건선택</option>
-								<option value="title">제목</option>
-								<option value="titlecontents">제목+내용</option>
-							</select> <input type="text" name="keyword"
-								style="width: 500px; height: 40px; margin-right: 30px;"
-								placeholder="검색어를 입력해주세요" />
-							<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+						<c:choose>
+							<c:when test="${type == 'title' }">
+								<select name="type" style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled>검색조건선택</option>
+									<option value="title" selected>제목</option>
+									<option value="titlecontents">제목+내용</option>
+								</select>
+								<input type="text" name="keyword" value="${keyword }" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
+								<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+							</c:when>
+							
+							<c:when test="${type == 'titlecontents' }">
+								<select name="type" style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled>검색조건선택</option>
+									<option value="title">제목</option>
+									<option value="titlecontents" selected>제목+내용</option>
+								</select>
+								<input type="text" name="keyword" value="${keyword }" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
+								<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+							</c:when>
+							
+							<c:otherwise>
+								<select name="type" style="width: 150px; height: 40px; margin-right: 30px;">
+									<option value="" disabled selected>검색조건선택</option>
+									<option value="title">제목</option>
+									<option value="titlecontents">제목+내용</option>
+								</select>
+								<input type="text" name="keyword" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
+								<button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+							</c:otherwise>
+							
+						</c:choose>
 						</form>
 					</div>
 					
 					<div style="display: flex; justify-content: center; align-content: center; align-items: center;">
 						<table class="tbl_list text_c" style="margin-left: auto; margin-right: auto;">
-							<caption>전체 공지사항 내용</caption>
 							<colgroup>
 								<col style="width: 10%;">
 								<col style="width: 15%;">
@@ -484,6 +507,7 @@ a:hover {
 									<th scope="col">번호</th>
 									<th scope="col">제목</th>
 									<th scope="col">등록일</th>
+									<th scope="col">상태</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -493,6 +517,18 @@ a:hover {
 										<td>${noticeList.notice_id}</td>
 										<td><a href="${root }/notice/read?notice_id=${noticeList.notice_id}">${noticeList.title}</a></td>
 										<td>${noticeList.create_date}</td>
+										<%-- <td>${noticeList.state }</td> --%>
+											<c:choose>
+												<c:when test="${noticeList.state == 2 }">
+													<td style="background-color: gray;">중요!</td>
+												</c:when>
+												<c:when test="${noticeList.state == 1 }">
+													<td style="background-color: white;">일반</td>
+												</c:when>
+												<c:otherwise>
+													
+												</c:otherwise>
+											</c:choose>
 									</tr>
 								</c:forEach>
 								

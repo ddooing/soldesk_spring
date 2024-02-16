@@ -23,6 +23,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.intercepter.CheckLoginInterceptor;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
 import kr.co.softsoldesk.mapper.AdminContentsMapper;
 import kr.co.softsoldesk.mapper.AdminExhibitionMapper;
@@ -241,10 +242,15 @@ public class ServletAppContext implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(loginUserBean);
+		CheckLoginInterceptor checkLoginInterceptor = new CheckLoginInterceptor(loginUserBean);
 
 		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
+		InterceptorRegistration reg2 = registry.addInterceptor(checkLoginInterceptor);
+		
 		reg1.addPathPatterns("/**");
-
+		reg2.addPathPatterns("/user/mypage", "/board/main");
+		
+		
 	}
 
 	@Bean // �뒪�봽留곸뿉�꽌 �뙆�씪 泥섎━ �븷 �닔 �엳�뒗 硫붿냼�뱶

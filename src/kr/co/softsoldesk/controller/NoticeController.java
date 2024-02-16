@@ -14,6 +14,7 @@ import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.SubBannerBean;
 import kr.co.softsoldesk.Service.AdminContentsService;
 import kr.co.softsoldesk.Service.AdminService;
+import kr.co.softsoldesk.Service.MyPageService;
 
 @Controller
 @RequestMapping("/notice")
@@ -21,6 +22,9 @@ public class NoticeController {
 	
 	@Autowired
 	private AdminContentsService AdminContentsService;
+	
+	@Autowired
+	private MyPageService myPageService;
 	
 	@Autowired
 	private AdminService adminService;
@@ -31,14 +35,11 @@ public class NoticeController {
 			@RequestParam(value="page", defaultValue = "1")int page) {
 		
 		if ("titlecontents".equals(type) && keyword != null) {
-			 List<NoticeBean> titleList = AdminContentsService.getSearchNoticeAllTitleList(keyword, page);
+			 List<NoticeBean> titleList = myPageService.getImportantNoticeSearchAllList(keyword, page);
 			 model.addAttribute("noticeList", titleList);
 			 
-			 PageBean pageBean2 = AdminContentsService.AllSearchNoticeCnt(keyword, page);
+			 PageBean pageBean2 = myPageService.getImportantNoticeSearchAllListCnt(keyword, page);
 			 model.addAttribute("pageBean2", pageBean2);
-			 
-			 int n3 = AdminContentsService.AllSearchNoticeCnt(keyword);
-			 model.addAttribute("n3", n3);
 			 
 			// 서브 캐러셀
 			List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
@@ -49,14 +50,12 @@ public class NoticeController {
 			 model.addAttribute("keyword",keyword);
 			 
 		}else if("title".equals(type) && keyword != null) {
-			List<NoticeBean> allList = AdminContentsService.getSearchNoticeTitleList(keyword, page);
+			List<NoticeBean> allList = myPageService.getImportantNoticeSearchList(keyword, page);
 			model.addAttribute("noticeList", allList);
 			
-			PageBean pageBean1 = AdminContentsService.SearchNoticeCnt(keyword, page);
+			PageBean pageBean1 = myPageService.getImportantNoticeSearchListCnt(keyword, page);
 			model.addAttribute("pageBean1", pageBean1);
 			
-			int n2 = AdminContentsService.SearchNoticeCnt(keyword);
-			model.addAttribute("n2", n2);
 			
 			// 서브 캐러셀
 			List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
@@ -67,21 +66,17 @@ public class NoticeController {
 			
 				
 		}else {
-			List<NoticeBean> noticeList = AdminContentsService.getAllNoticeList(page);
+			List<NoticeBean> noticeList = myPageService.getImportantNoticeList(page);
 			model.addAttribute("noticeList", noticeList);
 			
-			PageBean pageBean = AdminContentsService.AllNoticeCnt(page);
+			PageBean pageBean = myPageService.getImportantNoticeListCnt(page);
 			model.addAttribute("pageBean", pageBean);
 			
-			int n1 = AdminContentsService.AllNoticeCnt1();
-			model.addAttribute("n1", n1);
 			
 			// 서브 캐러셀
 			List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
 			model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
-			
-			model.addAttribute("type",type);
-			model.addAttribute("keyword",keyword);
+
 			
 		 }
 		
