@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
+import kr.co.softsoldesk.Service.PointDetailService;
 import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.ReviewService;
 import kr.co.softsoldesk.Service.UserService;
@@ -28,6 +30,9 @@ public class AdminReserveController {
 	
 	@Autowired
 	private ReviewService reviewService;
+	
+	@Autowired
+	PointDetailService pointDetailService;
 	
 	@GetMapping("/manager_reservelist")
 	public String exhibition(Model model,
@@ -57,27 +62,36 @@ public class AdminReserveController {
 		return "adminPayment/manager_reservelist";
 	}
 	//0216
-	@GetMapping("/reserve_cancle")
-	public String reserve_cancle(Model model,@RequestParam("reserve_id") int reserve_id,RedirectAttributes redirectAttributes ) {
+	@GetMapping("/reserve_cancel")
+	public String reserve_cancel(Model model,@RequestParam("reserve_id") int reserve_id,RedirectAttributes redirectAttributes ) {
 
 		//취소 처리하기
 		// user_id , point_deduction ,point_plus  
-		ReserveBean reserveBean = reserveService.getCancleList(reserve_id);  
+		ReserveBean reserveBean = reserveService.getCancelList(reserve_id);  
 		
 		//1. 포인트 회수  관리자이기때문에 회수하기 
 		int pointMinus = reserveBean.getPoint_plus()-reserveBean.getPoint_deduction();
 		userService.getPointMinus(pointMinus,reserveBean.getUser_id());
 		
-		
-			// 뺏어갈 포인트 확인 
-		//2. 경험치 회수 ???
-		
-		
+		PointDetailBean pointDetailBean =new PointDetailBean(); 
+        pointDetailBean.setPoint(pointMinus);
+        pointDetailBean.setUser_id(reserveBean.getUser_id());
+        pointDetailBean.setPoint_state_code(0);	// 포인트 0:-
+        pointDetailBean.setPoint_type_code(4);	// 예매 취소
+        
+        
+		// 포인트 이용 내역 추가
+		pointDetailService.PointList(pointDetailBean);
 		//3. 소감문 회수 
 		reviewService.getReviewDelete(reserve_id);
 		
+		//4. pay 상태 변경 
+		reserveService.updatePaymentCancle(reserve_id);
 		
+
 		redirectAttributes.addFlashAttribute("canceled", true);
+		
+		
 		return "redirect:/adminPayment/manager_reservelist";
 	}
 }

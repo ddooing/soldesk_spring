@@ -158,7 +158,7 @@ public class TossController {
 
 		// [1].결제 요청 전에 예매정보 데이터(/checkout 에서 저장한 정보)와 인증 결과(orderId,paymentKey,amount) 검증
 		ReserveBean validReserveBean = reserveService.validcheckOrderId(orderId);
-		String  isOrderIdValid=validReserveBean.getOrder_id();
+		String isOrderIdValid=validReserveBean.getOrder_id();
 		
 		//확인
 		System.out.println("isOrderIdValid :"+isOrderIdValid);

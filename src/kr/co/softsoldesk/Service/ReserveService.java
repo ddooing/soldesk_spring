@@ -66,8 +66,13 @@ public class ReserveService {
 	
 	//0216 
 	//관리자 취소
-	public ReserveBean getCancleList(int reserve_id ) {
-		return reserveDao.getCancleList(reserve_id);
+	public ReserveBean getCancelList(int reserve_id ) {
+		return reserveDao.getCancelList(reserve_id);
 	}
     
+	//결제 상태 취소로 변경
+	public void updatePaymentCancle(int reserve_id )
+	{
+		reserveDao.updatePaymentCancle(reserve_id);
+	}
 }

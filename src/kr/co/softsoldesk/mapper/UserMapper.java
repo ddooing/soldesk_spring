@@ -71,7 +71,7 @@ public interface UserMapper {
 		void deleteUserInfo(UserBean deleteUserBean);
 		
 		//0216
-		@Update("update user_table set point = point + #{pointMinus} where #{user_id}")
+		@Update("update user_table set point = point - #{pointMinus} where user_id= #{user_id}")
 		public void getPointMinus(@Param("pointMinus")int pointMinus,@Param("user_id") int user_id);
 	
 	

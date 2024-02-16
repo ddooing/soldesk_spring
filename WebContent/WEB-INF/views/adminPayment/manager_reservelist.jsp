@@ -523,7 +523,17 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									    
 									    
 										<td style="width: 150px;">${reservelist.name}</td>
-										<td style="width: 200px;">${reservelist.payment}</td>
+										
+										
+										<c:choose>
+									        <c:when test="${reservelist.state == 1}">
+									            <td style="width: 200px;">${reservelist.payment}</td>
+									        </c:when>
+									        <c:when test="${reservelist.state == 0}">
+									            <td style="width: 200px; color: red;">- ${reservelist.payment}</td>
+									        </c:when>
+									     
+									    </c:choose>
 										<td>${reservelist.payment_method}</td>
 										<td>${reservelist.title}</td>
 										<td style="width: 150px;">
@@ -580,7 +590,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 	            cancelButtonText: '닫기'
 	        }).then((result) => {
 	            if (result.isConfirmed) {
-	            	 window.location.href = '${root}/admin/reserve_cancle?reserve_id='+reserveId;
+	            	 window.location.href = '${root}/adminPayment/reserve_cancel?reserve_id='+reserveId;
 	            	console.log("클릭한 예매 reserve_id : ",reserveId);
 	            }
 	            

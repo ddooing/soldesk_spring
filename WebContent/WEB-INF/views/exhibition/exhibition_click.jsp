@@ -781,7 +781,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 						<c:choose>
 							<c:when test="${pageBean.prevPage <= 0 }">
 								<li class="page-item disabled">
-									<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+									<a href="#" class="page-link">이전</a>
 								</li>
 							</c:when>
 							<c:otherwise>

@@ -144,7 +144,7 @@
 							<th style="text-align:center; font-size:23px;">적립/사용내역</th>
 							<th style="text-align:center; font-size:23px;">적립/사용액</th>
 						</tr>
-						
+						<!-- sy 02016 -->
 						<c:forEach items="${UserPointListBean}" var="pointlist">
 							<tr>
 					        	<td >${pointlist.regdate}</td>
@@ -160,14 +160,19 @@
 					        			<td>소감문 공개 포인트 적립</td>
 					        		</c:if>
 					        	</c:if>
-					        	<c:if test="${pointlist.point_state_code == 2}">
-					        		<td>예매 포인트 사용</td>
+					        	<c:if test="${pointlist.point_state_code == 0}">
+					        		<c:if test="${pointlist.point_type_code == 1}">
+					        			<td>예매 포인트 사용</td>
+					        		</c:if>
+					        		<c:if test="${pointlist.point_type_code == 4}">
+					        			<td>예매 취소</td>
+					        		</c:if>
 					        	</c:if>
 					        		
 					        	<c:if test="${pointlist.point_state_code == 1}">
 					        		<td style="color:green;">+${pointlist.point}P</td>
 					        	</c:if>
-					        	<c:if test="${pointlist.point_state_code == 2}">
+					        	<c:if test="${pointlist.point_state_code == 0}">
 					        		<td style="color:#ff6a00;">-${pointlist.point}P</td>
 					        	</c:if>
 					    	</tr>
