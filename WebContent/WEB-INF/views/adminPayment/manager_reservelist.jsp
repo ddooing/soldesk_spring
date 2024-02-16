@@ -39,6 +39,7 @@ $(document).ready(function(){
 
 
 <style>
+
 input[type="date"]{
 	box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 	position: relative;
@@ -46,7 +47,7 @@ input[type="date"]{
 	height: 48px;
 	padding-right: 42px;
 	border: 1px solid white;
-	border-radius: 12px;
+	
 }
 
 input[type="date"]::before{
@@ -559,28 +560,58 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							</tbody>
 						</table>
 						
+						<c:if test="${!empty pageBean}">
+							<div style="display: flex; justify-content: center; margin-top:30px;">
+								<nav aria-label="Page navigation example" class="mx-auto">
+									<ul class="pagination">
+									
+										<c:choose>
+											<c:when test="${pageBean.prevPage <= 0 }">
+												<li class="page-item disabled">
+													<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+												</li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/adminPayment/manager_reservelist?page=${pageBean.prevPage}"
+													class="page-link">이전</a></li>
+											</c:otherwise>
+										</c:choose>
 
-						<div style="display: flex; justify-content: center; margin-top:30px;">
-							<nav aria-label="Page navigation example" class="mx-auto">
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Previous"> <span
-											aria-hidden="true">&laquo;</span>
-									</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">1</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">2</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">3</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Next"> <span
-											aria-hidden="true">&raquo;</span>
-									</a></li>
-								</ul>
-							</nav>
-						</div>
+										
+										<c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
+											<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+											<c:choose>
+												<c:when test="${idx == pageBean.currentPage }">
+													<li class="page-item active"><a
+														href="${root }/adminPayment/manager_reservelist?page=${idx}"
+														class="page-link"> ${idx } </a></li>
+												</c:when>
+												<c:otherwise>
+													<li class="page-item"><a
+														href="${root }/adminPayment/manager_reservelist?page=${idx}"
+														class="page-link"> ${idx } </a></li>
+												</c:otherwise>
+											</c:choose>
+										 </c:forEach>
 
+										<c:choose>
+											<c:when test="${pageBean.max >= pageBean.pageCnt  }">
+												<!-- max페이지 > 전체페이지개수 일때  -->
+												<li class="page-item disabled">
+													<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+												</li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/adminPayment/manager_reservelist?page=${pageBean.nextPage}"
+													class="page-link">다음</a></li>
+											</c:otherwise>
+										</c:choose>
+									</ul>
+								</nav>
+							</div>
+						</c:if>
 					</div>
 				</div>
 			</main>

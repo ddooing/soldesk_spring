@@ -1,10 +1,5 @@
 package kr.co.softsoldesk.Beans;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class PageBean {
 
 	private int min;		// 최소페이지 번호
@@ -66,6 +61,54 @@ public class PageBean {
 		}	// 최대페이지 제한
 		// 현재 전체 페이지가 15페이지일때, max는 15페이지로 조정
 		// nextPage는 16페이지어야 하지만 16페이지 는 없으므로 nextPage를 15페이지로 조정
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
+	}
+
+	public int getMax() {
+		return max;
+	}
+
+	public void setMax(int max) {
+		this.max = max;
+	}
+
+	public int getPrevPage() {
+		return prevPage;
+	}
+
+	public void setPrevPage(int prevPage) {
+		this.prevPage = prevPage;
+	}
+
+	public int getNextPage() {
+		return nextPage;
+	}
+
+	public void setNextPage(int nextPage) {
+		this.nextPage = nextPage;
+	}
+
+	public int getPageCnt() {
+		return pageCnt;
+	}
+
+	public void setPageCnt(int pageCnt) {
+		this.pageCnt = pageCnt;
+	}
+
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
 	}
 	
 	

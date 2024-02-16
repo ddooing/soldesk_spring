@@ -208,8 +208,7 @@
 										</c:otherwise>
 									</c:choose>
 
-									<c:forEach var="idx" begin="${pageBean.min}"
-										end="${pageBean.max}">
+									<c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
 										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
 										<c:choose>
 											<c:when test="${idx == pageBean.currentPage }">

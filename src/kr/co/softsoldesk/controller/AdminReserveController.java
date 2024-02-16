@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.Service.PointDetailService;
@@ -40,7 +41,8 @@ public class AdminReserveController {
 		    @RequestParam(value = "endDate", required = false) String endDate,
 		    @RequestParam(value = "payment_method", required = false) String payment_method,
 		    @RequestParam(value = "exhibition_title", required = false) String exhibition_title,
-		    @RequestParam(value = "user", required = false) String user_name) {
+		    @RequestParam(value = "user", required = false) String user_name
+		    , @RequestParam(value = "page", defaultValue = "1") int page) {
 		
 		System.out.println("endDate : "+endDate);
 		System.out.println("startDate : "+startDate);
@@ -57,8 +59,14 @@ public class AdminReserveController {
 		{
 			endDate = endDate +" 23:59:59";
 		}
-		List<ReserveBean> reserveBean = reserveService.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name);
+		//리스트 가져오고 
+		List<ReserveBean> reserveBean = reserveService.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name,page);
 		model.addAttribute("reserveBean", reserveBean);
+		// 리스트 개수 가져오기
+		PageBean pageBean = reserveService.getReserveListCnt(startDate, endDate, payment_method, exhibition_title, user_name, page);
+		model.addAttribute("pageBean", pageBean);
+		
+		
 		return "adminPayment/manager_reservelist";
 	}
 	//0216

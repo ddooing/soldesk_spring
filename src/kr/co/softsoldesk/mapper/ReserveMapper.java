@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.session.RowBounds;
 
 import kr.co.softsoldesk.Beans.ReserveBean;
 
@@ -90,6 +91,27 @@ public interface ReserveMapper {
 			+ "WHERE ROWNUM = 1")
 	public String getFirstPayDate();
 	
+	//관리자 전시회 개수 
+	@Select("<script>" +
+	        "SELECT count(*) "+
+	        "FROM reserve r " +
+	        "INNER JOIN user_table u ON r.user_id = u.user_id " +
+	        "INNER JOIN exhibition e ON r.exhibition_id = e.exhibition_id " +
+	        "WHERE r.state IS NOT NULL " +
+	        "<if test='startDate != null and startDate != \"\" and endDate != null and endDate != \"\"'> "+
+	        "AND requested_at BETWEEN #{startDate} AND #{endDate} </if>" +
+	        "<if test='payment_method != null and payment_method != \"\"'> AND r.payment_method = #{payment_method} </if>" +
+	        "<if test='exhibition_title != null and exhibition_title != \"\"'> AND e.title LIKE '%' || #{exhibition_title} || '%' </if>" +
+	        "<if test='user_name != null and user_name != \"\"'> AND u.name LIKE '%' || #{user_name} || '%' </if>" +
+	        "ORDER BY r.reserve_id DESC" +
+	        "</script>")
+	public int getReserveListCnt(@Param("startDate") String startDate, 
+					            @Param("endDate") String endDate, 
+					            @Param("payment_method") String payment_method, 
+					            @Param("exhibition_title") String exhibition_title, 
+					            @Param("user_name") String user_name);
+	
+	
 	@Select("<script>" +
 	        "SELECT r.reserve_id, e.exhibition_id, TO_CHAR(r.reserve_date, 'yyyy-mm-dd') AS reserve_date, " +
 	        "r.total_price, r.point_deduction, r.payment, r.ticket_count, " +
@@ -111,7 +133,7 @@ public interface ReserveMapper {
 	                                        @Param("endDate") String endDate, 
 	                                        @Param("payment_method") String payment_method, 
 	                                       @Param("exhibition_title") String exhibition_title, 
-	                                        @Param("user_name") String user_name);
+	                                        @Param("user_name") String user_name,RowBounds rowBounds);
 	
 	///0216
 	@Select("select user_id,point_deduction,point_plus from reserve where reserve_id=#{reserve_id}")

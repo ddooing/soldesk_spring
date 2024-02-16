@@ -2,9 +2,12 @@ package kr.co.softsoldesk.Service;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
 import kr.co.softsoldesk.dao.ReserveDao;
 
@@ -15,6 +18,13 @@ public class ReserveService {
 	private ReserveDao reserveDao;
 	
 
+	@Value("${admin.listcnt}")
+	private int admin_listcnt;
+	
+	@Value("${admin.paginationcnt}")
+	private int admin_paginationcnt;
+	
+	
 	// /checkout 에 대한 예매 정보 저장
 	public void checkoutReserveInfo(ReserveBean checkoutReserveBean)
 	{
@@ -59,9 +69,22 @@ public class ReserveService {
 		return reserveDao.getFirstPayDate();
 	}
 	
-	public List<ReserveBean> getReserveList(String startDate,String endDate,String payment_method,String exhibition_title,String user_name)
+	//총 개수 반환
+	public PageBean getReserveListCnt(String startDate,String endDate,String payment_method,String exhibition_title,String user_name,int currentPage)
 	{
-		return reserveDao.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name);
+		int searchautor_Cnt=  reserveDao.getReserveListCnt(startDate,endDate,payment_method,exhibition_title,user_name);
+		System.out.println("서비스 searchautor_Cnt : "+searchautor_Cnt);
+		PageBean pageBean = new PageBean(searchautor_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		System.out.println(pageBean.getMin());
+		
+		return pageBean;
+	}
+	
+	public List<ReserveBean> getReserveList(String startDate,String endDate,String payment_method,String exhibition_title,String user_name, int page)
+	{
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		return reserveDao.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name,rowBounds);
 	}
 	
 	//0216 

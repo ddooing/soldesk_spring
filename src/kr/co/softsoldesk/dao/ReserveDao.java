@@ -2,6 +2,7 @@ package kr.co.softsoldesk.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -57,9 +58,13 @@ public class ReserveDao {
 		return reserveMapper.getFirstPayDate();
 	}
 	
-	public List<ReserveBean> getReserveList(String startDate,String endDate,String payment_method,String exhibition_title,String user_name)
+	public int getReserveListCnt(String startDate,String endDate,String payment_method,String exhibition_title,String user_name)
 	{
-		return reserveMapper.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name);
+		return reserveMapper.getReserveListCnt(startDate,endDate,payment_method,exhibition_title,user_name);
+	}
+	public List<ReserveBean> getReserveList(String startDate,String endDate,String payment_method,String exhibition_title,String user_name, RowBounds rowBounds)
+	{
+		return reserveMapper.getReserveList(startDate,endDate,payment_method,exhibition_title,user_name,rowBounds);
 	}
 	//0216 
 	//관리자 취소
