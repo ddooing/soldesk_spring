@@ -58,9 +58,14 @@
 <link  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
 <title>Insert title here</title>
 <style>
-	
+table, th, td {
+  padding: 30px;
+}
 .menu {
     list-style: none;
+}
+ td{
+	text-align: right;
 }
 
 
@@ -128,46 +133,110 @@
 				</div>	
 				</c:when>
 				<c:otherwise>
+					<c:choose>
+				<c:when test="${empty UserReserveListBean}">
+				<div style="background :#d3d3d32e;  width:860px; height:300px; margin:auto; border-radius:15px;" >
+					<div class="test-center" style="margin:auto;   display:flex;  flex-direction:column; align-items:center;">
+					    <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="currentColor" class="bi bi-x-circle" style="margin-top:80px;" viewBox="0 0 16 16">
+					        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+					        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+					    </svg>
+					    <h3 style="margin-top:50px;">예매 내역이 없습니다</h3>
+					</div>
+				</div>	
+				</c:when>
+				<c:otherwise>
 					<c:forEach items="${UserReserveListBean}" var="reservelist">
-						<div style="background:#d3d3d32e;height:290px; display: flex; flex-direction: row;  padding: 30px; width:830px;" >
+						<div style="background:#d3d3d32e; display: flex; flex-direction: row;  padding: 30px; width:830px;" >
 							<div>
-								<img src="${reservelist.main_poster_path}${reservelist.main_poster_name}" style="width:160px; height:220px;"/>
-							</div>
-							
-							<div class="reserinfo"style=" margin-left:20px;">
-								<p style="margin-bottom:10px; font-weight:bold; font-size:25px;">${reservelist.title }</p>
-								<p>${reservelist.reserve_date }</p>
-								<p>${reservelist.ticket_count } 매 </p>
-								<p>${reservelist.total_price } 원</p>
-								
+								<table style="width: 770px;">
+									<tr>
+										<th rowspan="5" style="width:300px; align-items: center; align-content: center;"><img src="${reservelist.main_poster_path}${reservelist.main_poster_name}" style="width:250px; height:350px;"/></th>
+									</tr>
+									<tr style="text-align: center;">
+										<th colspan="2"><p style="margin-bottom:10px; font-weight:bold; font-size:25px;">${reservelist.title }</p></th>
+									</tr>
+									<tr>
+										<th><p>예매 날짜</p></th>
+										<td><p>${reservelist.reserve_date }</p></td>
+									</tr>
+									<tr>
+										<th><p>티켓 수량</p></th>
+										<td><p>${reservelist.ticket_count } 매 </p></td>
+									</tr>
+									
+									<tr>
+										<th><p>총 결제 금액</p></th>
+										<td><p>${reservelist.total_price } 원</p></td>
+									</tr>
+									<tr>
+									<td>
 										<c:choose>
-											<c:when test="${reservelist.state == 1 }">
-												<p style=" color:gray;">예매 상태 : 
-													<span>
-														결제완료
-													</span>
-													<button class="reserCancel" >예매취소</button>
-												</p>
-												
-											</c:when>
-											<c:when test="${reservelist.state == 2 }">
-												<p style=" color:gray;">예매 상태 : 
-													<span>
-														결제취소
-													</span>
-												</p>
-											</c:when>
-											<c:otherwise>
-												<p style=" color:gray;">예매 상태 : 
-													<span>
-														관람완료	
-													</span>
-												</p>
-											</c:otherwise>
-										</c:choose>
+												<c:when test="${reservelist.state == 1 }">
+													<p style=" color:gray;">예매 상태 : 
+														<span>
+															결제완료
+														</span>
+													</p>
+													<td>
+														<button class="reserCancel" data-target="detailInfo${reservelist.reserve_id}">상세보기</button>
+													</td>
+												</c:when>
+												<c:when test="${reservelist.state == 2 }">
+													<p style=" color:gray;">예매 상태 : 
+														<span>
+															결제취소
+														</span>
+													</p>
+												</c:when>
+												<c:otherwise>
+													<p style=" color:gray;">예매 상태 : 
+														<span>
+															관람완료	
+														</span>
+													</p>
+														<td>
+															<button class="reserCancel" data-target="detailInfo${reservelist.reserve_id}">상세보기</button>
+														</td>
+													
+												</c:otherwise>
+											</c:choose>
+											</td>
+									</tr>
+								</table>
 							</div>
 						</div>
+						<div id="detailInfo${reservelist.reserve_id}" style="display: none;background:#d3d3d32e; width: 830px;">
+							<table>
+								<tr>
+									<th colspan="2"><hr style="margin: auto; margin-top:10px; width: 800px;" /></th>
+								</tr>
+								<tr>
+									<th style="width: 300px; text-align: center;"><p>포인트 상세</p></th>
+									<td>
+										<p style=" color: red">- 포인트 결제액 500P</p>
+										<p style=" color: green">+ 포인트 적립액 200P</p>
+									</td>
+								</tr>
+								<tr>
+									<th colspan="2"><hr style="margin: auto; width: 800px;" /></th>
+								</tr>
+								<tr>
+									<th style="width: 300px; text-align: center;"></th>
+									<td>
+										<p>티켓 금액 : <b>50000</b> 원</p>
+										<p style=" color: red">- 포인트 사용 할인금액 : <b>1000</b> 원</p>
+										<p style="font-size: 30px;">총 결제 금액 : <b>49000</b> 원</p>
+									</td>
+								</tr>
+								<tr>
+									<th colspan="2"><hr style="margin: auto; margin-bottom:10px; width: 800px;" /></th>
+								</tr>
+							</table>
+						</div>
 					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 					<div class="d-none d-md-block" style="margin-top:50px;">
 				<ul class="pagination justify-content-center">
 					<c:choose>
@@ -235,12 +304,22 @@
 			
 				
 			</div>
-			
-			
-	
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/> 
 	
+	<script>
+    document.querySelectorAll('.reserCancel').forEach(button => {
+        button.addEventListener('click', function() {
+            var targetId = this.getAttribute('data-target');
+            var targetElement = document.getElementById(targetId);
+            if (targetElement.style.display === "none") {
+                targetElement.style.display = "block";
+            } else {
+                targetElement.style.display = "none";
+            }
+        });
+    });
+</script>
 	<script>
     // 툴팁 아이콘과 모달 요소를 선택
     const toolTipIcon = document.querySelector('.bi.bi-question-circle-fill');
