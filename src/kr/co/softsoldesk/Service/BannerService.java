@@ -148,4 +148,28 @@ public class BannerService {
 	{
 		return bannerDao.getBannerPaymentInfo(orderId);
 	}
+	
+	
+	//0216
+	//배너 결제 내역 첫 날짜 받기
+	public String getFirstPayDate()
+	{
+		return bannerDao.getFirstPayDate();
+	}
+	
+	// 배너 결제 내역 
+	public List<BannerApplyFormBean> getBannerPaymentInfoList(String startDate,String endDate,String payment_method,Integer banner_type,String user_name)
+	{
+		
+		return bannerDao.getBannerPaymentInfoList(startDate, endDate, payment_method,banner_type, user_name);
+		
+		
+	}
+	
+	
+	//관리자 취소
+	public void getCancelBanner(int banner_apply_form_id ) {
+		bannerDao.getCancelBanner(banner_apply_form_id);
+	}
+	
 }

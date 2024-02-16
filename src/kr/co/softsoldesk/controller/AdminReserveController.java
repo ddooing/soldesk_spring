@@ -32,7 +32,7 @@ public class AdminReserveController {
 	private ReviewService reviewService;
 	
 	@Autowired
-	PointDetailService pointDetailService;
+	private PointDetailService pointDetailService;
 	
 	@GetMapping("/manager_reservelist")
 	public String exhibition(Model model,
@@ -72,7 +72,6 @@ public class AdminReserveController {
 		//1. 포인트 회수  관리자이기때문에 회수하기 
 		int pointMinus = reserveBean.getPoint_plus()-reserveBean.getPoint_deduction();
 		userService.getPointMinus(pointMinus,reserveBean.getUser_id());
-		
 		PointDetailBean pointDetailBean =new PointDetailBean(); 
         pointDetailBean.setPoint(pointMinus);
         pointDetailBean.setUser_id(reserveBean.getUser_id());

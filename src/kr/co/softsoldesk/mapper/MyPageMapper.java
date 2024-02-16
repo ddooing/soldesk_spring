@@ -65,7 +65,7 @@ public interface MyPageMapper {
 				+ "INNER JOIN \r\n"
 				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
 				+ "WHERE \r\n"
-				+ "    r.user_id = #{user_id} AND r.state = 1"
+				+ "    r.user_id = #{user_id} AND r.pay_state = 1"// 0216
 				+ "order by r.reserve_id desc")
 		List<ReserveBean> getMyPageReserveList(int user_id, RowBounds rowBounds);
 		

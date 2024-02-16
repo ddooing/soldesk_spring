@@ -250,13 +250,22 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top:30px;">
-						<h3>예매 결제 관리</h3>
+						<h3>배너 결제 관리</h3>
 					</div>
 					
 					<div style="display: flex; justify-content: center; height: 95px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 						
 						<div style="margin-right: 50px;">
 							<div>결제일자</div>
+							<div style="display: flex; flex-direction: column;"> 결제 수단
+							<select name="usercombo" id="banner_type_combo"
+								style="width: 150px; height: 36px; margin-right: 30px;">
+								<option value="" selected>전체</option>
+								<option value="1">메인배너</option>
+								<option value="2">서브배너</option>
+
+							</select> 
+						</div>
 							<input id="datepicker" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
 								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 								value="YYYY - MM - DD" spellcheck="false">
@@ -407,7 +416,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 								style="width: 150px; height: 36px; margin-right: 30px;">
 								<option value="" selected>전체</option>
 								<option value="간편결제">간편결제</option>
-								<option value="포인트결제">포인트결제</option>
 								<option value="신용·체크카드">신용·체크카드</option>
 								<option value="가상계좌">가상계좌</option>
 								<option value="휴대폰">휴대폰</option>
@@ -436,12 +444,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							});
 						</script>
 						
-						<select name="usercombo" id="searchcombo"
-							style="width: 150px; height: 36px; margin-right: 30px; margin-top: 22px;">
-							<option value="" disabled selected>검색조건선택</option>
-							<option value="user_name">구매자명</option>
-							<option value="exhibition_title">구매상품</option>
-						</select> 
+
+						<div id="user">구매자명</div>
 						<input type="text" name="usersearch" id="usersearch"
 							style="width: 250px; height: 36px; margin-right: 30px; margin-top: 20px;"
 							placeholder="검색어를 입력해주세요" />
@@ -450,18 +454,17 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						<script>
 						    document.addEventListener('DOMContentLoaded', function() {
 						        // 검색 조건 콤보박스와 검색어 입력 필드, 검색 버튼 요소를 가져옵니다.
-						        var searchCombo = document.getElementById('searchcombo');
+						        var apply_user_name = document.getElementById('user');
 						        var searchInput = document.getElementById('usersearch');
 						        var searchButton = document.querySelector('.btn-dark'); // 클래스 이름으로 검색 버튼을 선택합니다.
 						
 						        // 검색 버튼 클릭 이벤트 리스너를 추가합니다.
 						        searchButton.addEventListener('click', function() {
-						        	var selectedOption = searchCombo.value;
 						            var searchText = searchInput.value;
 						            var urlParams = new URLSearchParams(window.location.search);
 
 						            // 선택된 검색 조건과 검색어를 URL 매개변수로 추가 또는 업데이트합니다.
-						            urlParams.set(selectedOption, searchText);
+						            urlParams.set("user", searchText);
 
 						            // 페이지를 업데이트된 URL로 리디렉션합니다.
 						            window.location.href = window.location.pathname + '?' + urlParams.toString();
@@ -479,7 +482,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 						        // 검색 버튼 클릭 이벤트 리스너를 추가합니다.
 						        resetButton.addEventListener('click', function() {
-						            window.location.href = '${root}/adminPayment/manager_reservelist';
+						            window.location.href = '${root}/adminPayment/manager_bannerPaymentList';
 						        });
 						    });
 						</script>
@@ -504,53 +507,61 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${reserveBean}" var="reservelist">
+							
+								<c:forEach items="${bannerApplyFormBean}" var="bannerlist">
 									<tr style="vertical-align: middle;">
-										<th scope="row">${reservelist.reserve_id}</th>
-										<td style="width: 150px;">${reservelist.requested_at}</td>
-										<td style="width: 150px;">${reservelist.approved_at != null ? reservelist.approved_at : '-'}</td>
-										<td>${reservelist.order_id}</td>
+										<th scope="row">${bannerlist.banner_apply_form_id}</th>
+										<td style="width: 150px;">${bannerlist.requested_at}</td>
+										<td style="width: 150px;">${bannerlist.approved_at}</td>
+										<td>${bannerlist.order_id}</td>
 										
 										<c:choose>
-									        <c:when test="${reservelist.state == 1}">
+									        <c:when test="${bannerlist.state == 1}">
 									            <td style="color: gray;">완료</td>
 									        </c:when>
-									        <c:when test="${reservelist.state == 0}">
-									            <td style="color: #dc3545;">취소</td>
+									        <c:when test="${bannerlist.state == 2}">
+									            <td style="color: gray;">완료</td>
+									        </c:when>
+									        <c:when test="${bannerlist.state == 3}">
+									            <td style="color: red;">취소</td>
 									        </c:when>
 									     
 									    </c:choose>
 									    
 									    
-										<td style="width: 150px;">${reservelist.name}</td>
+										<td style="width: 150px;">${bannerlist.name}</td>
 										
 										
 										<c:choose>
-									        <c:when test="${reservelist.state == 1}">
-									            <td style="width: 200px;">${reservelist.payment}</td>
+									        <c:when test="${bannerlist.state == 1}">
+									            <td style="width: 200px;">${bannerlist.payment}</td>
 									        </c:when>
-									        <c:when test="${reservelist.state == 0}">
-									            <td style="width: 200px; color: #dc3545;">- ${reservelist.payment}</td>
+									         <c:when test="${bannerlist.state == 2}">
+										         <td style="width: 200px;">${bannerlist.payment}</td>
+										    </c:when>
+									        <c:when test="${bannerlist.state == 3}">
+									            <td style="width: 200px; color: #dc3545;">- ${bannerlist.payment}</td>
 									        </c:when>
+									     
+									    </c:choose>
+										<td>${bannerlist.payment_method}</td>
+										
+
+										<c:choose>
+									        <c:when test="${bannerlist.banner_type == 1}">
+									            <td >메인배너</td>
+									        </c:when>
+									        <c:when test="${bannerlist.banner_type == 2}">
+									            <td >서브배너</td>
+									        </c:when>
+									     
 									    </c:choose>
 									    
-										<td>${reservelist.payment_method}</td>
-										<td>${reservelist.title}</td>
-										
 										<td style="width: 150px;">
-											<c:choose>
-										        <c:when test="${reservelist.state == 1}">
-										            <button data-reserve-id="${reservelist.reserve_id}" class="btn btn-danger"style="float: right; margin-right: 50px;
-											 margin-top: 20px; margin-bottom: 20px;" onclick="showConfrimCancle(this.getAttribute('data-reserve-id'))">취소</button>
+											
+											<button data-form-id="${bannerlist.banner_apply_form_id}" class="btn btn-danger"style="float: right; margin-right: 50px;
+											 margin-top: 20px; margin-bottom: 20px;" onclick="showConfrimCancle(this.getAttribute('data-form-id'))">취소</button>
 										
-										        </c:when>
-										        <c:when test="${reservelist.state == 0}">
-										            <button  class="btn btn-danger"style="float: right; margin-right: 50px;
-											 margin-top: 20px; margin-bottom: 20px; cursor: not-allowed; opacity: 0.5;">취소</button>
-										        </c:when>
-										    </c:choose>
-											
-											
 										</td>
 										
 										

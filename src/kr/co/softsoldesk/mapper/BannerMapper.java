@@ -77,8 +77,79 @@ public interface BannerMapper {
 	
 	
 	
+	//0216 
+	//처음으로 결제한 날짜 받기 
+	@Select("SELECT requested_at "
+			+ "FROM (SELECT requested_at FROM banner_apply_form where state IS NOT NULL ORDER BY banner_apply_form_id asc)\r\n"
+			+ "WHERE ROWNUM = 1")
+	public String getFirstPayDate();
 	
+	/*
+	//관리자 - 배너 결제 정보 가져오기 
+	@Select("<script>" +
+	        "SELECT b.banner_apply_form_id, b.payment, " +
+	        "TO_CHAR(b.requested_at, 'YYYY-MM-DD HH24:MI:SS') as requested_at, " +
+	        "TO_CHAR(b.approved_at, 'YYYY-MM-DD HH24:MI:SS') as approved_at, " +
+	        "b.state, b.pay_state, b.pay_approval_state, b.order_id, b.payment_method, b.paymentkey, u.name, b.banner_type " +
+	        "FROM banner_apply_form b " +
+	        "INNER JOIN user_table u ON b.apply_person_id = u.user_id " +
+	        "WHERE b.state IS NOT NULL " +
+	        "<if test='startDate != null and startDate != \"\" and endDate != null and endDate != \"\"'> " +
+	        "AND b.requested_at BETWEEN #{startDate} AND #{endDate} </if> " +
+	        "<if test='payment_method != null and payment_method != \"\"'> AND b.payment_method = #{payment_method} </if> " +
+	        "<if test='user_name != null and user_name != \"\"'> AND u.name LIKE '%' || #{user_name} || '%' </if> " +
+	        "<if test='banner_type != null'> AND b.banner_type = #{banner_type} </if> " +
+	        "ORDER BY b.banner_apply_form_id DESC" +
+	        "</script>")
+	public List<BannerApplyFormBean> getBannerPaymentInfoList(@Param("startDate") String startDate, 
+	                                                         @Param("endDate") String endDate, 
+	                                                         @Param("payment_method") String payment_method,  
+	                                                         @Param("user_name") String user_name,
+	                                                         @Param("banner_type") int banner_type);
+
 	
+		*/
+	/*
+	@Select(
+	        "SELECT b.banner_apply_form_id, b.payment, " +
+	        "TO_CHAR(b.requested_at, 'YYYY-MM-DD HH24:MI:SS') as requested_at, " +
+	        "TO_CHAR(b.approved_at, 'YYYY-MM-DD HH24:MI:SS') as approved_at, " +
+	        "b.state, b.pay_state, b.pay_approval_state, b.order_id, b.payment_method, b.paymentkey, u.name, b.banner_type " +
+	        "FROM banner_apply_form b " +
+	        "INNER JOIN user_table u ON b.apply_person_id = u.user_id " +
+	        "WHERE b.state IS NOT NULL " +
+	       
+	        "ORDER BY b.banner_apply_form_id DESC" )
+	public List<BannerApplyFormBean> getBannerPaymentInfoList();
+	*/
+	@Select("<script>" +
+	        "SELECT b.banner_apply_form_id, b.payment, " +
+	        "TO_CHAR(b.requested_at, 'YYYY-MM-DD HH24:MI:SS') as requested_at, " +
+	        "TO_CHAR(b.approved_at, 'YYYY-MM-DD HH24:MI:SS') as approved_at, " +
+	        "b.state, b.pay_state, b.pay_approval_state, b.order_id, b.payment_method, b.paymentkey, u.name, b.banner_type " +
+	        "FROM banner_apply_form b " +
+	        "INNER JOIN user_table u ON b.apply_person_id = u.user_id " +
+	        "WHERE b.state IS NOT NULL " +
+	        "<if test='startDate != null and endDate != null'>" +
+	        "AND b.requested_at BETWEEN #{startDate} AND #{endDate} </if> " +
+	        "<if test='payment_method != null'>AND b.payment_method = #{payment_method}</if> " +
+	        "<if test='banner_type != null '>AND b.banner_type = 2</if> " +
+	        "<if test='user_name != null'>AND u.name = #{user_name}</if> " +
+	        "ORDER BY b.banner_apply_form_id DESC" +
+	        "</script>")
+	public List<BannerApplyFormBean> getBannerPaymentInfoList(@Param("startDate") String startDate, 
+	                                                          @Param("endDate") String endDate, 
+	                                                          @Param("payment_method") String paymentMethod, 
+	                                                          @Param("banner_type") Integer bannerType, 
+	                                                          @Param("user_name") String userName);
+
+
+	//관리자 취소
+	@Update("update banner_apply_form set state=3 where banner_apply_form_id=#{banner_apply_form_id}")
+	public void getCancelBanner(int banner_apply_form_id );
+   
+	
+
 	
 	
 }

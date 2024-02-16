@@ -119,7 +119,7 @@ public interface ReserveMapper {
 	
 	
 	//결제 상태 취소로 변경
-	@Select("update reserve set state=0 where reserve_id=#{reserve_id}")
+	@Update("update reserve set state=0 where reserve_id=#{reserve_id}")
 	public void updatePaymentCancle(int reserve_id );
 
 

@@ -17,7 +17,6 @@ public class BannerApplyFormBean {
 	private String start_date;
 	private String end_date;
 	private String command;
-	private String approved_At;
 	private int payment;
 	private int state;		// banner_apply_form 테이블의 state
 	private int state1;		// main,sub_banner 테이블의 노출,숨김 상태값
@@ -108,13 +107,7 @@ public class BannerApplyFormBean {
 		this.command = command;
 	}
 
-	public String getApproved_At() {
-		return approved_At;
-	}
 
-	public void setApproved_At(String approved_At) {
-		this.approved_At = approved_At;
-	}
 
 	public int getPayment() {
 		return payment;
