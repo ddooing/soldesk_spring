@@ -242,7 +242,7 @@
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">소감문 수정</h5>
+										<h5 class="modal-title" id="exampleModalLabel">소감문 작성</h5>
 
 									</div>
 									<div class="modal-body">
@@ -414,7 +414,7 @@
 													class="btn btn-danger btn-close-reviewmodal"
 													data-target="#modal-${archivelist.reserve_id}"
 													style="margin-left: 200px;" role="button">취소</button>
-												<button type="button" onclick="submitArchiveForm(this)" class="btn btn-dark" style="margin-left: 10px;" role="button">수정</button>
+												<button type="button" onclick="submitArchiveForm(this)" class="btn btn-dark" style="margin-left: 10px;" role="button">저장</button>
 											</div>
 
 										</form>
@@ -614,20 +614,20 @@ $(document).ready(function() {
 
 
 
-<script>	// 아카이브 수정
+<script>	// 아카이브 
 function submitArchiveForm(button) {
     var form = $(button).closest('form');
 
     Swal.fire({
-        title: '아카이브를 수정하시겠습니까?',
+        title: '아카이브를 저장하시겠습니까?',
         icon: 'question',
         showCancelButton: true,
-        confirmButtonText: '수정',
+        confirmButtonText: '저장',
         cancelButtonText: '취소',
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
-                title: '수정되었습니다!',
+                title: '저장되었습니다!',
                 icon: 'success' 
             }).then(() => {
                 form.submit();
