@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.dao.BannerDao;
 
 
@@ -158,10 +160,11 @@ public class BannerService {
 	}
 	
 	// 배너 결제 내역 
-	public List<BannerApplyFormBean> getBannerPaymentInfoList(String startDate,String endDate,String payment_method,Integer banner_type,String user_name)
+	public List<BannerApplyFormBean> getBannerPaymentInfoList(String startDate,String endDate,String payment_method,Integer banner_type,String user_name,int page)
 	{
-		
-		return bannerDao.getBannerPaymentInfoList(startDate, endDate, payment_method,banner_type, user_name);
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		return bannerDao.getBannerPaymentInfoList(startDate, endDate, payment_method,banner_type, user_name,rowBounds);
 		
 		
 	}
@@ -172,4 +175,21 @@ public class BannerService {
 		bannerDao.getCancelBanner(banner_apply_form_id);
 	}
 	
+	
+	//0217
+	//총 개수 반환   
+	public PageBean getBannerPaymentInfoListCnt(String startDate,String endDate,String payment_method,Integer banner_type,String user_name,int currentPage)
+	{
+		int searchautor_Cnt=  bannerDao.getBannerPaymentInfoListCnt(startDate, endDate, payment_method,banner_type, user_name );
+		System.out.println("서비스 searchautor_Cnt : "+searchautor_Cnt);
+		PageBean pageBean = new PageBean(searchautor_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
+		System.out.println("pageBean min : "+pageBean.getMin());
+		System.out.println("pageBean CurrentPage : "+pageBean.getCurrentPage());
+		System.out.println("pageBean max : "+pageBean.getMax());
+		System.out.println("pageBean cnt : "+pageBean.getPageCnt());
+		
+		System.out.println("pageBean prePage : "+pageBean.getPrevPage());
+		System.out.println("pageBean nextPage : "+pageBean.getNextPage());
+		return pageBean;
+	}
 }

@@ -2,6 +2,7 @@ package kr.co.softsoldesk.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -65,14 +66,15 @@ public class BannerDao {
 	
 
 	// 배너 결제 내역 
-	public List<BannerApplyFormBean> getBannerPaymentInfoList(String startDate,String endDate,String payment_method,Integer banner_type,String user_name)
+	public List<BannerApplyFormBean> getBannerPaymentInfoList(String startDate,String endDate,String payment_method,Integer banner_type,String user_name, RowBounds rowBounds)
 	{
 		
-		return bannerMapper.getBannerPaymentInfoList(startDate, endDate, payment_method,banner_type, user_name);
-		
-		
+		return bannerMapper.getBannerPaymentInfoList(startDate, endDate, payment_method,banner_type, user_name,rowBounds);
 	}
-	
+	public int getBannerPaymentInfoListCnt(String startDate,String endDate,String payment_method,Integer banner_type,String user_name)
+	{
+		return bannerMapper.getBannerPaymentInfoListCnt(startDate, endDate, payment_method,banner_type, user_name );
+	}
 	
 	//관리자 취소
 	public void getCancelBanner(int banner_apply_form_id ) {
