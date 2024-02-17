@@ -495,7 +495,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									<th scope="col">No</th>
 									<th scope="col" style="width: 150px;">주문일시</th>
 									<th scope="col" style="width: 150px;">결제일시</th>
-									<th scope="col">주문번호</th>
+									<th scope="col" style="width: 450px;">주문번호</th>
 									<th scope="col" style="width: 150px;">결제상태</th>
 									<th scope="col" style="width: 150px;">구매자명</th>
 									<th scope="col">결제액</th>
@@ -541,12 +541,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 										<td style="width: 150px;">
 											<c:choose>
 										        <c:when test="${reservelist.state == 1}">
-										            <button data-reserve-id="${reservelist.reserve_id}" class="btn btn-danger"style="float: right; margin-right: 50px;
+										            <button data-reserve-id="${reservelist.reserve_id}" class="btn btn-danger"style="float: right; margin-right: 30px;
 											 margin-top: 20px; margin-bottom: 20px;" onclick="showConfrimCancle(this.getAttribute('data-reserve-id'))">취소</button>
 										
 										        </c:when>
 										        <c:when test="${reservelist.state == 0}">
-										            <button  class="btn btn-danger"style="float: right; margin-right: 50px;
+										            <button  class="btn btn-danger"style="float: right; margin-right: 30px;
 											 margin-top: 20px; margin-bottom: 20px; cursor: not-allowed; opacity: 0.5;">취소</button>
 										        </c:when>
 										    </c:choose>
@@ -580,20 +580,35 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 										
 										<c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
-											<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
-											<c:choose>
-												<c:when test="${idx == pageBean.currentPage }">
-													<li class="page-item active"><a
-														href="${root }/adminPayment/manager_reservelist?page=${idx}"
-														class="page-link"> ${idx } </a></li>
-												</c:when>
-												<c:otherwise>
-													<li class="page-item"><a
-														href="${root }/adminPayment/manager_reservelist?page=${idx}"
-														class="page-link"> ${idx } </a></li>
-												</c:otherwise>
-											</c:choose>
-										 </c:forEach>
+										    <c:choose>
+										        <c:when test="${idx == pageBean.currentPage}">
+										            <li class="page-item active">
+										                <a href="${root}/adminPayment/manager_reservelist?page=${idx}" class="page-link">${idx}</a>
+										            </li>
+										        </c:when>
+										        <c:otherwise>
+										            <li class="page-item">
+										                <a href="#" class="page-link page-link-number" data-page="${idx}">${idx}</a>
+										            </li>
+										        </c:otherwise>
+										    </c:choose>
+										</c:forEach>
+										
+										<script>
+										    document.addEventListener('DOMContentLoaded', function () {
+										        var pageLinks = document.querySelectorAll('.page-link-number');
+										
+										        pageLinks.forEach(function(link) {
+										            link.addEventListener('click', function(event) {
+										                event.preventDefault();
+										                var pageNum = this.getAttribute('data-page');
+										                var urlParams = new URLSearchParams(window.location.search);
+										                urlParams.set('page', pageNum);
+										                window.location.href = window.location.pathname + '?' + urlParams.toString();
+										            });
+										        });
+										    });
+										</script>
 
 										<c:choose>
 											<c:when test="${pageBean.max >= pageBean.pageCnt  }">
@@ -604,7 +619,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 											</c:when>
 											<c:otherwise>
 												<li class="page-item"><a
-													href="${root }/adminPayment/manager_reservelist?page=${pageBean.nextPage}"
+													href="#"
+													
 													class="page-link">다음</a></li>
 											</c:otherwise>
 										</c:choose>

@@ -76,7 +76,8 @@ public class ReserveService {
 		System.out.println("서비스 searchautor_Cnt : "+searchautor_Cnt);
 		PageBean pageBean = new PageBean(searchautor_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
 		System.out.println(pageBean.getMin());
-		
+		System.out.println(pageBean.getCurrentPage());
+		System.out.println(pageBean.getMax());
 		return pageBean;
 	}
 	
