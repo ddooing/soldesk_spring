@@ -303,7 +303,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									    var endDate = datepicker2Value;
 
 							            var urlParams = new URLSearchParams(window.location.search);
-
+										
+							         	//'page' 매개변수가 있으면 제거합니다.
+							            if (urlParams.has('page')) {
+							                urlParams.delete('page');
+							            }
 							           
 							            urlParams.set('startDate', startDate);
 							            urlParams.set('endDate', endDate);
@@ -430,7 +434,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 						            // 'payment_method' 매개변수를 업데이트합니다.
 						            urlParams.set('payment_method', selectedPaymentMethod);
-
+						          	//'page' 매개변수가 있으면 제거합니다.
+						            if (urlParams.has('page')) {
+						                urlParams.delete('page');
+						            }
 						            // 페이지를 업데이트된 URL로 리디렉션합니다.
 						            window.location.href = window.location.pathname + '?' + urlParams.toString();
 							    });
@@ -449,25 +456,36 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						<button class="btn btn-dark" style="width: 80px; height: 40px; margin-top: 22px;">검색</button>
 					
 						<script>
-						    document.addEventListener('DOMContentLoaded', function() {
-						        // 검색 조건 콤보박스와 검색어 입력 필드, 검색 버튼 요소를 가져옵니다.
-						        var searchCombo = document.getElementById('searchcombo');
-						        var searchInput = document.getElementById('usersearch');
-						        var searchButton = document.querySelector('.btn-dark'); // 클래스 이름으로 검색 버튼을 선택합니다.
-						
-						        // 검색 버튼 클릭 이벤트 리스너를 추가합니다.
-						        searchButton.addEventListener('click', function() {
-						        	var selectedOption = searchCombo.value;
-						            var searchText = searchInput.value;
-						            var urlParams = new URLSearchParams(window.location.search);
+						document.addEventListener('DOMContentLoaded', function() {
+						    var searchCombo = document.getElementById('searchcombo');
+						    var searchInput = document.getElementById('usersearch');
+						    var searchButton = document.querySelector('.btn-dark');
 
-						            // 선택된 검색 조건과 검색어를 URL 매개변수로 추가 또는 업데이트합니다.
-						            urlParams.set(selectedOption, searchText);
+						    searchButton.addEventListener('click', function() {
+						        var selectedOption = searchCombo.value;
+						        var searchText = searchInput.value;
+						        var urlParams = new URLSearchParams(window.location.search);
 
-						            // 페이지를 업데이트된 URL로 리디렉션합니다.
-						            window.location.href = window.location.pathname + '?' + urlParams.toString();
-						        });
+						        // 선택된 옵션에 따라 다른 매개변수를 제거
+						        if (selectedOption === 'user_name') {
+						            urlParams.delete('exhibition_title');
+						        } else if (selectedOption === 'exhibition_title') {
+						            urlParams.delete('user_name');
+						        }
+
+						        // 선택된 검색 조건과 검색어를 URL 매개변수로 추가 또는 업데이트합니다.
+						        urlParams.set(selectedOption, searchText);
+
+						        //'page' 매개변수가 있으면 제거합니다.
+						        if (urlParams.has('page')) {
+						            urlParams.delete('page');
+						        }
+
+						        // 페이지를 업데이트된 URL로 리디렉션합니다.
+						        window.location.href = window.location.pathname + '?' + urlParams.toString();
 						    });
+						});
+
 						</script>
 						
 						
@@ -572,12 +590,26 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 												</li>
 											</c:when>
 											<c:otherwise>
-												<li class="page-item"><a
-													href="${root }/adminPayment/manager_reservelist?page=${pageBean.prevPage}"
+												<li class="pre-page"><a
+													href="#"
 													class="page-link">이전</a></li>
 											</c:otherwise>
 										</c:choose>
-
+										<script>
+											document.addEventListener('DOMContentLoaded', function () {
+										        var pageLinks = document.querySelectorAll('.pre-page');
+										
+										        pageLinks.forEach(function(link) {
+										            link.addEventListener('click', function(event) {
+										                event.preventDefault();
+										                var pageNum = ${pageBean.prevPage};
+										                var urlParams = new URLSearchParams(window.location.search);
+										                urlParams.set('page', pageNum);
+										                window.location.href = window.location.pathname + '?' + urlParams.toString();
+										            });
+										        });
+										    });
+										</script>
 										
 										<c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
 										    <c:choose>
@@ -614,16 +646,31 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 											<c:when test="${pageBean.max >= pageBean.pageCnt  }">
 												<!-- max페이지 > 전체페이지개수 일때  -->
 												<li class="page-item disabled">
-													<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+													<a href="#" class="page-link">다음</a>
 												</li>
 											</c:when>
 											<c:otherwise>
-												<li class="page-item"><a
-													href="#"
-													
-													class="page-link">다음</a></li>
+												<li class="next-page">
+													<a href="#"class="page-link">다음</a>
+												</li>
 											</c:otherwise>
 										</c:choose>
+										
+										<script>
+											document.addEventListener('DOMContentLoaded', function () {
+										        var pageLinks = document.querySelectorAll('.next-page');
+										
+										        pageLinks.forEach(function(link) {
+										            link.addEventListener('click', function(event) {
+										                event.preventDefault();
+										                var pageNum = ${pageBean.nextPage};
+										                var urlParams = new URLSearchParams(window.location.search);
+										                urlParams.set('page', pageNum);
+										                window.location.href = window.location.pathname + '?' + urlParams.toString();
+										            });
+										        });
+										    });
+										</script>
 									</ul>
 								</nav>
 							</div>
