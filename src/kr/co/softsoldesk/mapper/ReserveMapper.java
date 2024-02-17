@@ -124,7 +124,7 @@ public interface ReserveMapper {
 	        "WHERE r.state IS NOT NULL " +
 	        "<if test='startDate != null and startDate != \"\" and endDate != null and endDate != \"\"'> "+
 	        "AND requested_at BETWEEN #{startDate} AND #{endDate} </if>" +
-	        "<if test='payment_method != null and payment_method != \"\"'> AND r.payment_method = #{payment_method} </if>" +
+	        "<if test='payment_method != null and payment_method != \"\" and payment_method != \"전체\"'> AND r.payment_method = #{payment_method} </if>" +
 	        "<if test='exhibition_title != null and exhibition_title != \"\"'> AND e.title LIKE '%' || #{exhibition_title} || '%' </if>" +
 	        "<if test='user_name != null and user_name != \"\"'> AND u.name LIKE '%' || #{user_name} || '%' </if>" +
 	        "ORDER BY r.reserve_id DESC" +
