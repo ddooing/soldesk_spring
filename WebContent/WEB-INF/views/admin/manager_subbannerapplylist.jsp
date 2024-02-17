@@ -106,7 +106,7 @@
 										
 										<td style="width:450px; text-align: left;"><a href="${root }/exhibition/exhibition_click?exhibition_id=${bannerBean.exhibition_id}" style="color:black;">${bannerBean.exhibition_title }</a></td>
 										<td stly=e"width:320px;>${bannerBean.start_date } ~ ${bannerBean.end_date }</td>
-										<td style="width:150px;">${bannerBean.approved_At  }</td>
+										<td style="width:150px;">${bannerBean.approved_at  }</td>
 										<td style="width:100px;">${bannerBean.user_name }</td>
 										<td style="width:150px;">
 										    <fmt:formatNumber value="${bannerBean.payment}" groupingUsed="true" type="number"/> 원

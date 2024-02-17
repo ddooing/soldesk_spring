@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.dao.BannerDao;
 
 
@@ -172,4 +173,15 @@ public class BannerService {
 		bannerDao.getCancelBanner(banner_apply_form_id);
 	}
 	
+	// ======== 결제 완료 후 가져갈것들 추가 ========
+	
+	// 배너 결제 완료 후 파일 정보 가져가기
+	public ExhibitionDetailBean getfileinfo(int banner_file_id) {
+		return bannerDao.getfileinfo(banner_file_id);
+	}
+		
+	// 배너 결제 완료 후 전시회 이름 가져가기
+	public String getexhibition_title(int exhibition_id) {
+		return bannerDao.getexhibition_title(exhibition_id);
+	}	
 }

@@ -153,10 +153,10 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
       var nickname = $("#nickname").val();
 
       if (nickname.length == 0) {
-    	  Swal.fire({
-			  icon: "warning",
-			  title: "닉네임을 입력해주세요!",
-			});
+         Swal.fire({
+           icon: "warning",
+           title: "닉네임을 입력해주세요!",
+         });
          return;
       }
 
@@ -166,16 +166,16 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
          dataType : 'text',
          success : function(result) {
             if (result.trim() == 'true') {
-            	Swal.fire({
-					  icon: "success",
-					  title: "사용할 수 있는 닉네임 입니다!",
-					});
+               Swal.fire({
+                 icon: "success",
+                 title: "사용할 수 있는 닉네임 입니다!",
+               });
                $("#NickExist").val('true');
             } else if (result.trim() == 'false') {
-            	Swal.fire({
-					  icon: "error",
-					  title: "사용할 수 없는 닉네임 입니다!",
-					});
+               Swal.fire({
+                 icon: "error",
+                 title: "사용할 수 없는 닉네임 입니다!",
+               });
                $("#NickExist").val('false');
             }
          }
@@ -214,7 +214,7 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 
                   <td><form:input path="name" id="name"
                         value="${IC.name }" class="form-control"
-                        style="border: none; outline:none;" readonly="true" /></td>
+                        style="border: none; outline:none; background:#d3d3d32e;" readonly="true" /></td>
 
 
                </tr>
@@ -224,7 +224,7 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
                   </th>
 
                   <td><form:input path="id" id="id"
-                        value="${IC.id }" style="border: none; outline:none;"
+                        value="${IC.id }" style="border: none; outline:none; background:#d3d3d32e;"
                         class="form-control" readonly="true" /></td>
                </tr>
                <tr>
@@ -232,7 +232,7 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
                   </th>
 
                   <td><form:input path="birth" id="birth" value="${IC.birth }"
-                        style="border: none; outline:none;" class="form-control"
+                        style="border: none; outline:none; background:#d3d3d32e;" class="form-control"
                         readonly="true" /></td>
                </tr>
 
@@ -241,7 +241,7 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
                   </th>
 
                   <td><form:input path="telephone" value="${IC.telephone }"
-                        style="border: none; outline:none;" class="form-control"
+                        style="border: none; outline:none; background:#d3d3d32e;" class="form-control"
                         readonly="true" /></td>
                </tr>
 
@@ -249,14 +249,14 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
                   <th style="width:200px;"><form:label path="email" style="font-size: 20px;">이메일</form:label>
                   </th>
 
-                  <td><form:input path="email" class="form-control" /></td>
+                  <td><form:input path="email" value="${IC.email }" class="form-control" /></td>
                </tr>
 
                <tr>
                   <th style="width:200px;"><form:label path="nickname" style="font-size: 20px;">닉네임</form:label>
                   </th>
 
-                  <td><form:input path="nickname" id="nickname"
+                  <td><form:input path="nickname" id="nickname" value="${IC.nickname }"
                         class="form-control" onfocus="resetNickExist()" /> <form:errors path="nickname"
                         style="color:red" /></td>
                   <td>
@@ -281,17 +281,20 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
                   <th><form:label path="icpassword" style="font-size: 20px;">새 비밀번호</form:label>
                   </th>
 
-                  <td><form:password path="icpassword" class="form-control" />
+                  <td><form:password path="icpassword" class="form-control" id="pw1" oninput="pwCheck()" />
+                  
                      <form:errors path="icpassword" style="color:red" /></td>
 
                </tr>
+               
 
                <tr>
                   <th><form:label path="icpasscheck" style="font-size: 20px;">새 비밀번호 확인</form:label>
                   </th>
 
-                  <td><form:password path="icpasscheck" class="form-control" />
+                  <td><form:password path="icpasscheck" class="form-control" id="pw2" oninput="pwCheck()" />
                      <form:errors path="icpasscheck" style="color:red" /></td>
+                     <td><span id="pwConfirm2" style="margin-left: 10px;"> 비밀번호를 입력하세요 </span></td>
                </tr>
             </table>
          </div>
@@ -305,7 +308,20 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
    </section>
    <!-- 푸터-->
    <c:import url="/WEB-INF/views/include/footer.jsp" />
-
+         <script>
+         function pwCheck() {
+             if ($('#pw1').val() === '' || $('#pw2').val() === '') {
+                 $('#pwConfirm1').text('');
+                 $('#pwConfirm2').text('');
+             } else if ($('#pw1').val() === $('#pw2').val()) {
+                 $('#pwConfirm1').text( '✔').css('color', 'green');
+                 $('#pwConfirm2').text( '✔').css('color', 'green');
+             } else {
+                 $('#pwConfirm1').text('✖').css('color', 'red');
+                 $('#pwConfirm2').text('✖').css('color', 'red');
+             }
+         }
+             </script>
 <script>
     function confirmmodify() {
         Swal.fire({

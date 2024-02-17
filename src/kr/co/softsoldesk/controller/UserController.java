@@ -106,6 +106,11 @@ public class UserController {
 		return "redirect:/view/index";
 	}
 	
+	@GetMapping("/not_login")
+	public String not_login() {
+	      return "user/not_login";
+	}
+	
 	
 	@GetMapping("/paymentpage_error")
 	public String paymentpage_error() {

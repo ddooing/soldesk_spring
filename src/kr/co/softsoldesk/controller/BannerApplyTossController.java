@@ -29,6 +29,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.BannerService;
 import kr.co.softsoldesk.Service.UserService;
@@ -255,6 +256,10 @@ public class BannerApplyTossController {
         
         //결제된 예매 정보 가져오기 
         BannerApplyFormBean bannerPaymentInfoBean =bannerSerivce.getBannerPaymentInfo(orderId);
+        //결제된 전시회 이름 정보 가져오기
+        String exhibition_title = bannerSerivce.getexhibition_title(bannerPaymentInfoBean.getExhibition_id());
+        //등록한 파일 정보 가져오기
+        ExhibitionDetailBean getfileinfo = bannerSerivce.getfileinfo(bannerPaymentInfoBean.getBanner_file_id());
 		
         System.out.println("결제가 성공적으로 처리되었습니다.");
 
@@ -263,7 +268,9 @@ public class BannerApplyTossController {
         System.out.println("결제가 성공적으로 처리되었습니다.");
         
 
+        model.addAttribute("exhibition_title", exhibition_title);
         model.addAttribute("bannerPaymentInfoBean",bannerPaymentInfoBean);
+        model.addAttribute("getfileinfo",getfileinfo);
         
         return "banner/success";
    

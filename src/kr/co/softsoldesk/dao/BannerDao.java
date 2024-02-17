@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 import kr.co.softsoldesk.mapper.BannerMapper;
 
 @Repository
@@ -79,5 +80,16 @@ public class BannerDao {
 		 bannerMapper.getCancelBanner(banner_apply_form_id);
 	}
     
+	// ----- 결제 완료후 가져갈거 추가 ---------
+	
+	// 예약 완료 후 파일 정보 가져가기
+	public ExhibitionDetailBean getfileinfo(int banner_file_id) {
+		return bannerMapper.getfileinfo(banner_file_id);
+	}
+		
+	// 예약 완료 후 전시회 이름 가져가기
+	public String getexhibition_title(int exhibition_id) {
+		return bannerMapper.getexhibition_title(exhibition_id);
+	}
 
 }

@@ -182,7 +182,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					alt="포스터"
 					style="width: 280px; height: 400px; margin-left: 200px; margin-top: 40px;" />
 
-				<div style="margin-left: 50px;">
+				<div style="margin-left: 50px; width:650px;">
 					<h1>${exhibitionBean.title}</h1>
 
 					<div style="display: flex; margin-top: 40px;">
@@ -228,10 +228,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					</div>
 
 					<div style="display: flex; margin-top: 10px;">
-						<div style="margin-right: 10px;">
-							<a style="font-size: 20px;">주소</a>
+						<div style="margin-right: 10px; width:40px;">
+							<a style="font-size: 20px; ">주소</a>
 						</div>
-						<div style="">
+						<div style="width:40px; width:500px;">
 							<a style="font-size: 20px;">${exhibitionBean.address}</a>
 						</div>
 					</div>
@@ -427,10 +427,10 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 										<c:choose>
 											<c:when test="${loginUserBean.userLogin == false}">
 												<!-- 로그인 안했을때 -->
-												<a href="${root}/user/login"
+												<a href="${root}/user/not_login"
 													style="width: 120px; margin-right: 30px;"
 													class="btn btn-dark">예매하기</a>
-												<a href="${root}/user/login" style="width: 120px;"
+												<a href="${root}/user/not_login" style="width: 120px;"
 													class="btn btn-dark">장바구니</a>
 											</c:when>
 											<c:otherwise>
@@ -781,7 +781,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 						<c:choose>
 							<c:when test="${pageBean.prevPage <= 0 }">
 								<li class="page-item disabled">
-									<a href="#" class="page-link">이전</a>
+									<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
 								</li>
 							</c:when>
 							<c:otherwise>

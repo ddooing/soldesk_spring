@@ -93,7 +93,7 @@
 										
 										<td style="width:450px; text-align: left;"><a href="${root }/exhibition/exhibition_click?exhibition_id=${bannerBean.exhibition_id}" style="color:black;">${bannerBean.exhibition_title }</a></td>
 										<td stly=e"width:320px;>${bannerBean.start_date } ~ ${bannerBean.end_date }</td>
-										<td style="width:150px;">${bannerBean.approved_At  }</td>
+										<td style="width:150px;">${bannerBean.approved_at  }</td>
 										<td style="width:100px;">${bannerBean.user_name }</td>
 										<td style="width:150px;">
 										    <fmt:formatNumber value="${bannerBean.payment}" groupingUsed="true" type="number"/> 원
@@ -103,21 +103,14 @@
 												<td>등록대기</td>		
 												<td>
 													<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_bannerapplyadd?banner_apply_form_id=${bannerBean.banner_apply_form_id}'">추가</button>
-													<button class="btn btn-danger" type="button" onclick="confirmCancel('${bannerBean.banner_apply_form_id}', '${bannerBean.banner_type}')">취소</button>
+													<button class="btn btn-danger" type="button" onclick="confirmCancel('${bannerBean.banner_apply_form_id}', '${bannerBean.banner_type}')">거절</button>
 												</td>
 											</c:when>
 											<c:when test="${bannerBean.state  == 2}">
 												<td>등록완료</td>
 												<td>
 													<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_bannerapplyadd?banner_apply_form_id=${bannerBean.banner_apply_form_id}'">상세</button>
-
 												</td>		
-											</c:when>
-											<c:when test="${bannerBean.state  == 3}">
-												<td>취소</td>
-												<td>
-													<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_bannerapplyadd?banner_apply_form_id=${bannerBean.banner_apply_form_id}'">상세</button>
-												</td>
 											</c:when>
 										</c:choose>	
 									</tr>

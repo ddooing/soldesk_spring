@@ -99,27 +99,25 @@ $(document).ready(function(){
 						style="background-color: white; margin-top: 30px; margin: 20px;">
 						
 						<table class="table table-bordered">
-							<tr style="align-items: center; height: 100px;">
-								<th style="width: 200px; vertical-align: middle; text-align:center; font-size:20px;">제목</th>
-								<td style="vertical-align: middle;">
-									${oneQnaInfo.title }
-								</td>
-							</tr>
-							<tr style="align-items: center; height: 50px;">
+							<tr style="align-items: center; height: 75px;">
 								<th style="vertical-align: middle; text-align:center; font-size:20px;">작성자</th>
 								<td style="vertical-align: middle;">
 									${oneQnaInfo.nickname }
 								</td>
-							</tr>
-							<tr style="align-items: center; height: 50px;">
-								<th style="vertical-align: middle; text-align:center; width:200px; font-size:20px;">등록일</th>
+								<th style="vertical-align: middle; text-align:center; font-size:20px;">등록일</th>
 								<td style="vertical-align: middle;">
 									${oneQnaInfo.regdate }
 								</td>
 							</tr>
+							<tr style="align-items: center; height: 75px;">
+								<th style="width: 200px; vertical-align: middle; text-align:center; font-size:20px;">제목</th>
+								<td style="vertical-align: middle;" colspan="4">
+									${oneQnaInfo.title }
+								</td>
+							</tr>
 							<tr style="align-items: center; height: 300px; ">
 								<th style="vertical-align: middle; text-align:center; font-size:20px;">내용</th>
-								<td style="vertical-align: middle;">
+								<td colspan="4">
 									${oneQnaInfo.contents }
 								</td>
 							</tr>

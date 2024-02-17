@@ -229,7 +229,7 @@
 					</td>
 					<td style="display: none;" class="options"></td>
 					<td style="display: none;" class="sample_price"></td>
-					<td class="remarks">배너 사이즈 1200 x 400 (pix) </td>
+					<td class="remarks">배너 사이즈 1100 x 150 (pix) </td>
 				</tr>
 				<tr>
 					<td class="totalTD" colspan=999
@@ -285,10 +285,10 @@
 							<div class="row">
 								<div class="input__title">전시회</div>
 								<div class="input__wrap">
-									<form:select path="exhibition_id" style="width:90%;">
+									<form:select path="exhibition_id" style="height:35px; float:left; width:330px; margin-top:3px;">
 										<c:choose>
 											<c:when test="${empty apply_personexhibitionlist }">
-												<form:option value="0" disabled="true" required="required">신청한 전시회가 없습니다</form:option>
+												<form:option value="0" disabled="true">신청한 전시회가 없습니다</form:option>
 											</c:when>
 											<c:otherwise>
 												<c:forEach items="${apply_personexhibitionlist }" var="applyexhibitionlist">
@@ -300,26 +300,29 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="input__title">노출일자</div>
+								<div class="input__title">노출일자*</div>
 								<div class="input__wrap">
 									<div style="display: flex;">
 										<form:input type="date" path="start_date" id="start_date" onchange="updateEndDateMinimum()" required="required" style="width:43%; margin-right:10px; font-size:15px;"/> ~
 										<form:input type="date" path="end_date" id="end_date" onchange="calculateDaysAndUpdate()" required="required" style="width:43%; margin-left:10px; font-size:15px;"/>
 									</div>
+									<span class="sub__txt" style="white-space: nowrap; text-align: left;">
+										신청은 익일부터 최소 1일 이상 신청 가능합니다
+									</span>
 								</div>
 							</div>
 							
 							<div class="row">
-								<div class="input__title">문의내용</div>
+								<div class="input__title">문의내용*</div>
 								<div class="input__wrap">
 									<form:textarea path="command" id="info" placeholder="요청사항을 입력해주세요" required="required"/>
 								</div>
 							</div>
 							<div class="row file-row" style="margin-bottom: 5px;">
-								<div class="input__title">파일첨부</div>
+								<div class="input__title">파일첨부*</div>
 								<div class="input__wrap" style="overflow: hidden;">
 									<label class="file-label" for="file">
-										<form:input path="banner_file" type="file" id="file" accept="image/*"  onchange="updateFileName()"/>
+										<form:input path="banner_file" type="file" id="file" accept="image/*"  onchange="updateFileName()" required="required"/>
 										<div class="button">파일 선택</div> 
 										<span id="file-name">선택된 파일 없음</span>
 									</label>
@@ -351,26 +354,49 @@
 			</div>
 		</div>
 		
-		<script>
-		function submitApplication() {
-		    Swal.fire({
-		        title: '견적을 신청하시겠습니까?',
-		        showCancelButton: true,
-		        confirmButtonText: '신청',
-		        cancelButtonText: '취소',
-		        icon: 'question'
-		    }).then((result) => {
-		        if (result.isConfirmed) {
-		            document.getElementById('application-form').submit();
-		            //Swal.fire('신청되었습니다!', '', 'success');
-		        }
-		    });
-		}
+				<script>
+					function submitApplication() {
+					    var requiredInputs = document.querySelectorAll('#application-form [required]');
+					    var exhibitionSelect = document.getElementById('exhibition_id');
+	
+					    if (exhibitionSelect.options.length === 0 || exhibitionSelect.options[0].value === "0") {
+					        Swal.fire({
+					            title: '알림',
+					            text: '신청할 수 있는 전시회가 없습니다!',
+					            icon: 'warning',
+					            confirmButtonText: '확인'
+					        });
+					        return;
+					    }
+	
+					    for (var i = 0; i < requiredInputs.length; i++) {
+					        if (!requiredInputs[i].value.trim()) {
+					            Swal.fire({
+					                title: '경고!',
+					                text: '필수 부분을 모두 입력해주세요.',
+					                icon: 'warning',
+					                confirmButtonText: '확인'
+					            });
+					            return;
+					        }
+					    }
+	
+					    Swal.fire({
+					        title: '견적을 신청하시겠습니까?',
+					        showCancelButton: true,
+					        confirmButtonText: '신청',
+					        cancelButtonText: '취소',
+					        icon: 'question'
+					    }).then((result) => {
+					        if (result.isConfirmed) {
+					            document.getElementById('application-form').submit();
+					        }
+					    });
+					}
+	
+					document.getElementById('submit-button').addEventListener('click', submitApplication);		
+			</script>
 
-		
-		document.getElementById('submit-button').addEventListener('click', submitApplication);
-			
-		</script>
 		
 		
 			<script>
@@ -462,19 +488,23 @@
 <script>
 
 document.addEventListener('DOMContentLoaded', function() {
-    setStartDateToToday();
+    setStartDateToTomorrow();
     updateEndDateMinimum();
 });
 
-function setStartDateToToday() {
-    var today = new Date().toISOString().split('T')[0];
-    document.getElementById('start_date').setAttribute('min', today);
-    document.getElementById('start_date').value = today;
+function setStartDateToTomorrow() {
+    var today = new Date();
+    var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
+    var tomorrowFormatted = tomorrow.toISOString().split('T')[0];
+    document.getElementById('start_date').setAttribute('min', tomorrowFormatted);
+    document.getElementById('start_date').value = tomorrowFormatted;
 }
 
 function updateEndDateMinimum() {
     var startDate = document.getElementById('start_date').value;
-    document.getElementById('end_date').setAttribute('min', startDate);
+    var nextDay = new Date(new Date(startDate).getTime() + (24 * 60 * 60 * 1000)); 
+    var nextDayFormatted = nextDay.toISOString().split('T')[0];
+    document.getElementById('end_date').setAttribute('min', nextDayFormatted);
 }
 
 function calculateDaysAndUpdate() {

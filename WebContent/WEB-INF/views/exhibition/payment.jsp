@@ -286,108 +286,11 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 				<div
 					style="margin-left: 50px; margin-top: 30px; display: flex; width: 300px; text-align: center;">
 					<a style="font-size: 20px; margin-right: 10px;">예매 적립</a>
-					<!--회원등급 모달-->
-					<svg xmlns="http://www.w3.org/2000/svg" id="membermodal"
-						style="color: black; cursor: pointer;" width="20" height="20"
-						fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
-						<path
-							d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-						<path
-							d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-					</svg>
+					
 					<a style="font-size: 20px; margin-left: auto;">${tempReserveBean.point_plus} p</a>
 				</div>
 
 			</div>
-
-			<!-- 회원 등급 클릭 모달 -->
-			<div id="memberModal" class="modal" style="display: none;">
-				<div class="modal-content">
-					<div class="close" style="float: right;">&times;</div>
-					<h2 style="margin-left: 30px;">회원등급 혜택 안내</h2>
-					<div
-						style="display: flex; justify-content: center; margin-left: 50px; margin-right: 50px; margin-top: 50px;">
-						<div
-							style="display: inline-block; text-align: center; width: 200px; border-right: 1px solid black;">
-							<h5>LV.1</h5>
-
-							<img src="../img/level/profile_Lv1.png"
-								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 5%
-								적립</b><br /> <b style="margin-top: 10px;">exp 0 ~ 299</b>
-
-						</div>
-						<div
-							style="display: inline-block; text-align: center; width: 200px; border-right: 1px solid black;">
-							<h5>LV.2</h5>
-
-							<img src="../img/profileImg.png"
-								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 10%
-								적립</b><br /> <b style="margin-top: 10px;">exp 300 ~ 899</b>
-
-						</div>
-						<div
-							style="display: inline-block; text-align: center; width: 200px;">
-							<h5>LV.3</h5>
-
-							<img src="../img/level/profile_Lv3.png"
-								style="width: 85px; height: 85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
-							<br /> <br /> <br /> <b style="margin-top: 10px;">구매금액의 15%
-								적립</b><br /> <b style="margin-top: 10px;">exp 900 ~</b>
-
-						</div>
-					</div>
-
-					<hr
-						style="width: 550px; margin-left: auto; margin-right: auto; border-color: black; border-width: 2px 0 0 0; margin-top: 30px;" />
-
-
-					<div style="margin-top: 50px;">
-						<h3 style="margin-left: 30px;">적립 포인트 정책 안내</h3>
-						<br /> <b style="margin-left: 50px;">기간 내에 구매금액에 구매 확정 시점에 적립
-							포인트가 지급됩니다. </b> <br /> <br /> <b style="margin-left: 50px;">포인트
-							적립 내역이나 이용내역은 MyPage에서 확인할 수 있습니다.</b> <br /> <br /> <b
-							style="margin-left: 50px;">무료 전시회 관련 소감문 작성 시 경험치만 적립
-							가능합니다.</b> <br />
-						<br />
-					</div>
-				</div>
-			</div>
-
-
-			<script>
-				// 회원 등급 클릭 자바 스크립트
-				// 모달을 가져옵니다
-				var modal = document.getElementById("memberModal");
-
-				// 모달을 여는 버튼을 가져옵니다
-				var btn = document.getElementById("membermodal");
-
-				// 모달을 닫는 <span> 요소를 가져옵니다
-				var span = document.getElementsByClassName("close")[0];
-
-				// 사용자가 버튼을 클릭하면 모달을 엽니다
-				btn.onclick = function() {
-					modal.style.display = "block";
-				}
-
-				// 사용자가 <span> (x)을 클릭하면 모달을 닫습니다
-				span.onclick = function() {
-					modal.style.display = "none";
-				}
-
-				// 사용자가 모달 외부의 어디를 클릭하면 모달을 닫습니다
-				window.onclick = function(event) {
-					if (event.target == modal) {
-						modal.style.display = "none";
-					}
-				}
-			</script>
-
-			
-					
-
 			<!--결제 부분-->
 			<hr style="margin: auto; margin-top: 50px; width: 1000px;" />
 			<div

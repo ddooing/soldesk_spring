@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Update;
 
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
 
 public interface BannerMapper {
 
@@ -149,7 +150,14 @@ public interface BannerMapper {
 	public void getCancelBanner(int banner_apply_form_id );
    
 	
-
+	// ============ 결제 확인 추가 ============
+	// 배너 결제 후 배너 이미지 정보 가져가기
+	@Select("SELECT name as name, path as path from file_table where file_id = #{banner_file_id}")
+	ExhibitionDetailBean getfileinfo(@Param("banner_file_id") int banner_file_id);
+		
+	// 배너 결제 후 해당 전시회 정보 가져가기
+	@Select("SELECT title from exhibition where exhibition_id = #{exhibition_id}")
+	String getexhibition_title(int exhibition_id);	
 	
 	
 }

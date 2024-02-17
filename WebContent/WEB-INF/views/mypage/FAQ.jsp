@@ -263,35 +263,24 @@
 </script>
 
 <script>
-    // 페이지 로드가 완료되면 실행
-    window.onload = function() {
-        // 모든 FAQ 링크를 찾습니다
-        var faqLinks = document.querySelectorAll('div[id^="FAQ_"] a');
+$(document).ready(function() {
+    $('div[id^="FAQ_"] a').on('click', function(event) {
+        event.preventDefault();
 
-        faqLinks.forEach(function(link) {
-            // 링크의 부모 div의 id를 가져옵니다 (예: FAQ_123)
-            var parentId = link.closest('div[id^="FAQ_"]').id;
+        var currentId = $(this).closest('div[id^="FAQ_"]').attr('id');
+        var contentId = '#' + currentId + '_click';
 
-            // 링크에 클릭 이벤트 리스너를 추가합니다
-            link.addEventListener('click', function(event) {
-                event.preventDefault(); // 기본 링크 동작 방지
+        $('div[id^="FAQ_"][id$="_click"]').not(contentId).slideUp();
 
-                // 모든 FAQ 내용을 숨깁니다
-                document.querySelectorAll('div[id^="FAQ_"][id$="_click"]').forEach(function(content) {
-                    content.style.display = 'none';
-                });
+        $(contentId).slideToggle();
+    });
+});
 
-                // 클릭된 FAQ의 내용을 토글합니다
-                var contentId = parentId + '_click';
-                var content = document.getElementById(contentId);
-                content.style.display = content.style.display === 'block' ? 'none' : 'block';
-            });
-        });
-    };
+
 </script>
 			
 			
-			<script>
+<script>
     // 회원 탈퇴 모달과 열기, 닫기 버튼을 선택
     const deleteModal = document.querySelector('.deletemodal');
     const openDeleteModalButton = document.querySelector('#delete');
