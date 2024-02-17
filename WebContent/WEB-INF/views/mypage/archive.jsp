@@ -424,40 +424,38 @@
 							</div>
 						</div>
 						<script>
-				document.addEventListener("DOMContentLoaded", function() {
-				    let stars = document.querySelectorAll('.star-rating label');
-				    let ratingInputs = document.querySelectorAll('.star-rating input[type="radio"]');
-				
-				    // 별 클릭 이벤트: 별점 선택 시 해당 라디오 버튼을 체크합니다.
-				    stars.forEach(function(star, index) {
-				        star.addEventListener('click', function() {
-				            ratingInputs[index].checked = true;
-				            highlightStars(index + 1);
-				        });
-				    });
-				
-				    // 라디오 버튼 변경 감지 이벤트: 별점 상태 업데이트
-				    ratingInputs.forEach(function(input, index) {
-				        input.addEventListener('change', function() {
-				            if(input.checked) {
-				                highlightStars(index + 1);
-				            }
-				        });
-				    });
-				
-				    function highlightStars(count) {
-				        stars.forEach(function(star, index) {
-				            if (index < count) {
-				                star.classList.add('selected');
-				            } else {
-				                star.classList.remove('selected');
-				            }
-				        });
-				    }
-				
-				   
-				});
-				</script>
+							document.addEventListener("DOMContentLoaded", function() {
+							    let stars = document.querySelectorAll('.star-rating label');
+							    let ratingInputs = document.querySelectorAll('.star-rating input[type="radio"]');
+							
+							    // 별 클릭 이벤트: 별점 선택 시 해당 라디오 버튼을 체크합니다.
+							    stars.forEach(function(star, index) {
+							        star.addEventListener('click', function() {
+							            ratingInputs[index].checked = true;
+							            highlightStars(index + 1);
+							        });
+							    });
+							
+							    // 라디오 버튼 변경 감지 이벤트: 별점 상태 업데이트
+							    ratingInputs.forEach(function(input, index) {
+							        input.addEventListener('change', function() {
+							            if(input.checked) {
+							                highlightStars(index + 1);
+							            }
+							        });
+							    });
+							
+							    function highlightStars(count) {
+							        stars.forEach(function(star, index) {
+							            if (index < count) {
+							                star.classList.add('selected');
+							            } else {
+							                star.classList.remove('selected');
+							            }
+							        });
+							    }
+							});
+						</script>
 
 						<script>
 $(document).ready(function() {
