@@ -200,11 +200,8 @@ th {
 }
 a {   /*링크*/
    text-decoration: none;
-   color: #000000;
+   color: black;
    font-size: 20px;
-}
-a:hover {
-   text-decoration: underline;
 }
 #contents {
    line-height: 1.1;
@@ -449,14 +446,11 @@ a:hover {
 
       <div class="board_title">
          <h2>
-            <a href="BoardNoticeList.html"
-               style="font-size: 42px; text-decoration-line: none;">공지사항</a>
+            <a href="${root }/notice/main"
+               style="font-size: 42px; text-decoration-line: none; color: black;">공지사항</a>
          </h2>
       </div>
-
-
             <div>
-
                <div style="width:900px; display: flex; justify-content: center;">
                <form action="${root }/notice/main" method="get">
                   <c:choose>
@@ -481,7 +475,7 @@ a:hover {
                      </c:when>
                      
                      <c:otherwise>
-                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px;">
+                        <select name="type" style="width: 300px; height: 40px; margin-right: 30px;">
                            <option value="" disabled selected>검색조건선택</option>
                            <option value="title">제목</option>
                            <option value="titlecontents">제목+내용</option>
@@ -498,8 +492,8 @@ a:hover {
                   <table class="tbl_list text_c" style="margin-left: auto; margin-right: auto;">
                      <colgroup>
                         <col style="width: 10%;">
-                        <col style="width: 15%;">
                         <col style="width: auto;">
+                        <col style="width: 15%;">
                         <col style="width: 15%;">
                      </colgroup>
                      <thead>
@@ -515,7 +509,9 @@ a:hover {
                         <c:forEach var="noticeList" items="${noticeList }">
                            <tr>
                               <td>${noticeList.notice_id}</td>
-                              <td><a href="${root }/notice/read?notice_id=${noticeList.notice_id}">${noticeList.title}</a></td>
+                              <td style="text-align: left;">
+                              	<a href="${root }/notice/read?notice_id=${noticeList.notice_id}" style="color: black; text-decoration: none;">${noticeList.title}</a>
+                              </td>
                               <td>${noticeList.create_date}</td>
                               <%-- <td>${noticeList.state }</td> --%>
                                  <c:choose>
@@ -526,7 +522,6 @@ a:hover {
                                        <td style="background-color: white;">일반</td>
                                     </c:when>
                                     <c:otherwise>
-                                       
                                     </c:otherwise>
                                  </c:choose>
                            </tr>

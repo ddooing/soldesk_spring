@@ -8,9 +8,9 @@
 <script>
     window.onload = function() {
         Swal.fire({
-            title: '에러!',
-            text: '로그인 실패하였습니다!',
-            icon: 'error',
+            title: '성공!',
+            text: '회원가입에 성공했습니다!',
+            icon: 'success',
             confirmButtonText: '확인'
         }).then((result) => {
             if (result.isConfirmed) {

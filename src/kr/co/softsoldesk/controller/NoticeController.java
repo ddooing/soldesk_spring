@@ -76,6 +76,9 @@ public class NoticeController {
          // 서브 캐러셀
          List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
          model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+         
+         model.addAttribute("type",type);
+         model.addAttribute("keyword",keyword);
 
          
        }

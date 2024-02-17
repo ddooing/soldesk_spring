@@ -138,7 +138,7 @@ public class UserController {
 		UserService.addUserInfo(joinUserBean);
 		
     	
-    	return "redirect:/view/index";
+    	return "user/join_success";
 	}
 	//-----------------------------------------------------
 	

@@ -4,18 +4,24 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-
 <script>
+	alert('삭제할 수 없습니다. 사유 : 회원 불일치')
+	location.href = '${root}/board/main';
+</script>
+<!-- 
+<script>
+
 document.addEventListener('DOMContentLoaded', function() {
     Swal.fire({
         position: 'center', // 위치 설정
-        icon: 'success', // 아이콘 타입
-        title: '저장되었습니다.', // 메시지 제목
+        icon: 'error', // 아이콘 타입
+        title: '접근이 잘못되었습니다', // 메시지 제목
         showConfirmButton: false, // 확인 버튼 숨김
         timer: 1500 // 1.5초 후에 알림창 닫힘
     }).then((result) => {
         // 알림이 닫힌 후 리다이렉트 실행
-    	location.href = '${root}board/read?board_id=${boardBean.board_id}';
+        location.href='${root}/board/main';
     });
 });
 </script>
+ -->

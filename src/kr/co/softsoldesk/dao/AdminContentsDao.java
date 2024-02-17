@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.co.softsoldesk.Beans.BoardBean;
 import kr.co.softsoldesk.Beans.FAQBean;
 import kr.co.softsoldesk.Beans.NoticeBean;
 import kr.co.softsoldesk.Beans.QnABean;
@@ -64,6 +65,56 @@ public class AdminContentsDao {
 		public void DeleteNotice(int notice_id) {
 			adminContentsMapper.DeleteNotice(notice_id);
 		}
+		
+		
+		//2. 게시판============================================================
+		
+		// 게시글 추가테이블
+		public void addboardFromAdmin(BoardBean boardBean) {
+
+			adminContentsMapper.addboardFromAdmin(boardBean);
+		}
+		// 게시글 목록
+		public List<BoardBean> getAllBoardList(RowBounds rowBounds) {
+			return adminContentsMapper.AllBoardList(rowBounds);
+		}
+		// 게시글 총 수
+		public int AllBoardCnt() {
+			return adminContentsMapper.AllBoardCnt();
+		}
+		
+		// 검색
+		public List<BoardBean> getSearchBoardTitleList(String title, RowBounds rowBounds) {
+			return adminContentsMapper.getSearchBoardTitleList(title, rowBounds);
+		}
+
+		public int SearchBoardCnt(String title) {
+			return adminContentsMapper.SearchBoardCnt(title);
+		}
+
+		public List<BoardBean> getSearchBoardAllTitleList(String title, RowBounds rowBounds) {
+			return adminContentsMapper.getSearchBoardAllTitleList(title, rowBounds);
+		}
+		
+		public int AllSearchBoardCnt(String title) {
+			return adminContentsMapper.AllSearchBoardCnt(title);
+		}
+		// 관리자 게시글 상세보기
+		public BoardBean getBoardInfo(int board_id) {
+			return adminContentsMapper.getBoardInfo(board_id);
+		}
+		
+		// 삭제
+		public void DeleteBoard(int board_id) {
+			adminContentsMapper.DeleteBoard(board_id);
+		}
+
+		// QnA 복구 처리 (state 값 1로 변경)
+		public void recoveryBoard(int state, int board_id) {
+			adminContentsMapper.recoveryBoard(state, board_id);
+		}
+		
+		
 		
 		
 		// ============================3. QnA==============================

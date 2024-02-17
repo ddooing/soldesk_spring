@@ -43,7 +43,7 @@ public class UserBean {
       private String icpassword;
       private String icpasscheck;
       
-      
+      @Size(min = 2, max = 8)
       private String nickname;
       
       @NotNull(message = "생년월일을 선택하세요.")

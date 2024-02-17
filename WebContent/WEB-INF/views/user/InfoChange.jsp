@@ -256,9 +256,10 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
                   <th style="width:200px;"><form:label path="nickname" style="font-size: 20px;">닉네임</form:label>
                   </th>
 
-                  <td><form:input path="nickname" id="nickname" value="${IC.nickname }"
-                        class="form-control" onfocus="resetNickExist()" /> <form:errors path="nickname"
-                        style="color:red" /></td>
+                  <td>
+                  		<form:input path="nickname" id="nickname" value="${IC.nickname }" class="form-control" onfocus="resetNickExist()" />
+                        <form:errors path="nickname" style="color:red" />
+                  </td>
                   <td>
                      <button type="button" style="margin-left: 15px;"
                         class="btn btn-dark" onclick="checkNickExist()">중복확인</button>

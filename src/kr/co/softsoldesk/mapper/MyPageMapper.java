@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.session.RowBounds;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
+import kr.co.softsoldesk.Beans.BoardBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.NoticeBean;
 import kr.co.softsoldesk.Beans.QnABean;
@@ -214,7 +215,7 @@ public interface MyPageMapper {
             + "    u.user_id = #{user_id}")
       int getarchivelistCnt(int user_id);
       
-      
+      //중요표시 먼저 풀력하는 매퍼들
       @Select("select notice_id, title, create_date, contents, state, views\r\n"
             + "from notice\r\n"
             + "where state != 0\r\n"
@@ -256,5 +257,18 @@ public interface MyPageMapper {
             + "or state != 0 and upper(contents) LIKE '%' || UPPER(#{title}) || '%'\r\n"
             + "order by notice_id desc, state desc")
       int getImportantNoticeSearchAllListCnt(@Param("title")String title);
+      //여까지
+      
+      
+      //내가 쓴 글 리스트 확인
+      @Select("select board_id, title, contents, TO_CHAR(create_date, 'yyyy-mm-dd') create_date, user_id\r\n"
+      		+ "from board\r\n"
+      		+ "where user_id = #{user_id} order by board_id desc")
+      List<BoardBean> myBoardList(int user_id, RowBounds rowBounds);
+      
+      @Select("select count(*)\r\n"
+      		+ "from board\r\n"
+      		+ "where user_id = #{user_id}")
+      int getMyBoardListCnt(int user_id);
       
 }

@@ -63,6 +63,11 @@
     list-style: none;
 }
 
+td > a{
+	text-decoration: none;
+	color: black;
+}
+
 
 
 
@@ -110,7 +115,7 @@
 
 			<!-- 작성한 글 -->
 			<div class="postList" style="margin:auto;"> 
-				<div style=" width:860px;height:40vh; display: flex;  padding: 30px; margin:auto;" >
+				<div style=" width:860px; display: flex;  padding: 30px; margin:auto;" >
 					<table class="post-table" style="width:100%;">
 						<thead >
 						
@@ -121,47 +126,82 @@
 						    </tr>
 						 </thead>
 						 
-						 <tbody >
-						    <tr >
-						        <td >1</td>
-						        <td >게시글 1 입니다.</td>
-						        <td >2022-05-18</td>   
-						    </tr>
+						 <c:forEach items="${boardList }" var="list">
+						 	<tbody >
+							    <tr >
+							        <td class="atagg">${list.board_id }</td>
+							        <td class="atagg"><a href="${root }/board/read?board_id=${list.board_id}">${list.title }</a></td>
+							        <td >${list.create_date }</td>   
+							    </tr>
 						  </tbody>
-						  <tbody >
-						    <tr >
-						        <td >2</td>
-						        <td >게시글 2 입니다.</td>
-						        <td >2022-05-18</td>    
-						    </tr>
-						  </tbody>
-						  <tbody >
-						    <tr >
-						        <td >3</td>
-						        <td >게시글 3 입니다.</td>
-						        <td >2022-05-18</td>   
-						    </tr>
-						  </tbody>
-						   <tbody >
-						    <tr >
-						        <td >4</td>
-						        <td >게시글 4 입니다.</td>
-						        <td >2022-05-18</td>    
-						    </tr>
-						  </tbody>
-						   <tbody >
-						    <tr >
-						        <td >5</td>
-						        <td >게시글 5 입니다.</td>
-						        <td >2022-05-18</td>    
-						    </tr>
-						  </tbody>
+						 
+						 </c:forEach>
 					</table>
 				</div>
 			</div>
 			
 			
-			
+			<c:choose>
+						<c:when test="${!empty pageBean }">
+							<div class="d-none d-md-block" style="margin-top: 50px;">
+								<ul class="pagination justify-content-center">
+									<c:choose>
+										<c:when test="${pageBean.prevPage <= 0 }">
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/mypage/boardwritelist?page=${pageBean.prevPage}&user_id=${loginUserBean.user_id}"
+												class="page-link">이전</a></li>
+										</c:otherwise>
+									</c:choose>
+
+									<c:forEach var="idx" begin="${pageBean.min}"
+										end="${pageBean.max}">
+										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
+										<c:choose>
+											<c:when test="${idx == pageBean.currentPage }">
+												<li class="page-item active"><a
+													href="${root }/mypage/boardwritelist?page=${idx}&user_id=${loginUserBean.user_id}"
+													class="page-link"> ${idx } </a></li>
+											</c:when>
+											<c:otherwise>
+												<li class="page-item"><a
+													href="${root }/mypage/boardwritelist?page=${idx}&user_id=${loginUserBean.user_id}"
+													class="page-link"> ${idx } </a></li>
+											</c:otherwise>
+										</c:choose>
+									</c:forEach>
+
+
+									<c:choose>
+										<c:when test="${pageBean.max >= pageBean.pageCnt  }">
+											<!-- max페이지 > 전체페이지개수 일때  -->
+											<li class="page-item disabled">
+												<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+											</li>
+										</c:when>
+										<c:otherwise>
+											<li class="page-item"><a
+												href="${root }/mypage/boardwritelist?page=${pageBean.nextPage}&user_id=${loginUserBean.user_id}"
+												class="page-link">다음</a></li>
+										</c:otherwise>
+									</c:choose>
+								</ul>
+							</div>
+
+							<div class="d-block d-md-none">
+								<ul class="pagination justify-content-center">
+									<li class="page-item"><a href="#" class="page-link">이전</a>
+									</li>
+									<li class="page-item"><a href="#" class="page-link">다음</a>
+									</li>
+								</ul>
+							</div>
+						</c:when>
+						</c:choose>
 		
 	
 	

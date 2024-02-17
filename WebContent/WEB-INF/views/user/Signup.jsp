@@ -279,29 +279,34 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 						<th style="width:200px;"><form:label path="password" style="font-size: 20px;">비밀번호</form:label>
 						</th>
 
-						<td><form:password path="password" class="form-control" /> <form:errors
-								path="password" style="color:red" /></td>
+						<td>
+							<form:password path="password" class="form-control" id="pw1" oninput="pwCheck()" />
+							<form:errors path="password" style="color:red" />
+						</td>
 					</tr>
 
 					<tr>
 						<th style="width:200px;"><form:label path="password2" style="font-size: 20px;">비밀번호 확인</form:label>
 						</th>
 
-						<td><form:password path="password2" class="form-control" />
-							<form:errors path="password2" style="color:red" /></td>
+						<td>
+							<form:password path="password2" class="form-control" id="pw2" oninput="pwCheck()" />
+							<form:errors path="password2" style="color:red" />
+						</td>
+						<td><span id="pwConfirm2" style="margin-left: 10px;"> 비밀번호를 입력하세요 </span></td>
 					</tr>
 
 					<tr>
 						<th style="width:200px;"><form:label path="nickname" style="font-size: 20px;">닉네임</form:label>
 						</th>
 
-						<td><form:input path="nickname" class="form-control"
-								onkeypress="resetNickExist()" /> <form:errors path="nickname"
-								style="color:red" /></td>
+						<td>
+							<form:input path="nickname" class="form-control" onkeypress="resetNickExist()" />
+							<form:errors path="nickname" style="color:red" />
+						</td>
 
 						<td>
-							<button type="button" class="btn btn-dark" style="margin-left:15px;"
-								onclick="checkNickExist()">중복확인</button>
+							<button type="button" class="btn btn-dark" style="margin-left:15px;" onclick="checkNickExist()">중복확인</button>
 						</td>
 					</tr>
 
@@ -378,17 +383,25 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
             cancelButtonText: '취소'
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: '회원가입이 완료되었습니다!',
-                    icon: 'success',
-                    confirmButtonText: '확인'
-                }).then(() => {
-                    document.getElementById("signupForm").submit();
-                });
+                document.getElementById("signupForm").submit();
             }
         });
     }
 </script>
+<script>
+         function pwCheck() {
+             if ($('#pw1').val() === '' || $('#pw2').val() === '') {
+                 $('#pwConfirm1').text('');
+                 $('#pwConfirm2').text('');
+             } else if ($('#pw1').val() === $('#pw2').val()) {
+                 $('#pwConfirm1').text( '✔').css('color', 'green');
+                 $('#pwConfirm2').text( '✔').css('color', 'green');
+             } else {
+                 $('#pwConfirm1').text('✖').css('color', 'red');
+                 $('#pwConfirm2').text('✖').css('color', 'red');
+             }
+         }
+             </script>
 
 
 

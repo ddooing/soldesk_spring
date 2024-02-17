@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import kr.co.softsoldesk.Beans.BoardBean;
 import kr.co.softsoldesk.Beans.FAQBean;
 import kr.co.softsoldesk.Beans.NoticeBean;
 import kr.co.softsoldesk.Beans.PageBean;
@@ -109,6 +110,88 @@ public class AdminContentsService {
 			adminContentsDao.DeleteNotice(notice_id);
 		}
 		
+		//2. 게시판========================================================================
+		
+		// 게시글을 데이터베이스에 추가
+		public void addboardFromAdmin(BoardBean boardBean) {
+
+			adminContentsDao.addboardFromAdmin(boardBean);
+		}
+		
+		
+		public List<BoardBean> getAllBoardList(int page) {
+			int start = (page - 1) * admin_listcnt;
+			RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+
+			return adminContentsDao.getAllBoardList(rowBounds);
+
+		}
+		
+		public PageBean AllBoardCnt(int currentPage) {
+			int all_cnt = adminContentsDao.AllBoardCnt();
+			PageBean pageBean = new PageBean(all_cnt, currentPage, admin_listcnt, admin_paginationcnt);
+
+			return pageBean;
+		}
+		
+		public int AllBoardCnt1() {
+			return adminContentsDao.AllBoardCnt();
+		}
+		
+		public List<BoardBean> getSearchBoardTitleList(String title, int page) {
+			int start = (page - 1) * admin_listcnt;
+			RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+
+			return adminContentsDao.getSearchBoardTitleList(title, rowBounds);
+		}
+
+		public PageBean SearchBoardCnt(String title, int currentPage) {
+			int title_cnt = adminContentsDao.SearchBoardCnt(title);
+			PageBean pageBean = new PageBean(title_cnt, currentPage, admin_listcnt, admin_paginationcnt);
+
+			return pageBean;
+		}
+
+		public int SearchBoardCnt(String title) {
+			return adminContentsDao.SearchBoardCnt(title);
+		}
+
+		public List<BoardBean> getSearchBoardAllTitleList(String title, int page) {
+			int start = (page - 1) * admin_listcnt;
+			RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+
+			return adminContentsDao.getSearchBoardAllTitleList(title, rowBounds);
+		}
+
+		public PageBean AllSearchBoardCnt(String title, int currentPage) {
+			int allcon_cnt = adminContentsDao.AllSearchBoardCnt(title);
+			PageBean pageBean = new PageBean(allcon_cnt, currentPage, admin_listcnt, admin_paginationcnt);
+
+			return pageBean;
+		}
+
+		public int AllSearchBoardCnt(String title) {
+			return adminContentsDao.AllSearchBoardCnt(title);
+		}
+		public BoardBean getBoardInfo(int board_id) {
+			return adminContentsDao.getBoardInfo(board_id);
+		}
+		
+		public void DeleteBoard(List<Integer> noIds) {
+			for (Integer noId : noIds) {
+				adminContentsDao.DeleteBoard(noId);
+			}
+		}
+
+		public void DeleteBoard(int notice_id) {
+			adminContentsDao.DeleteBoard(notice_id);
+		}
+
+		
+		// QnA 복구 처리 (state 값 1로 변경)
+		public void recoveryBoard(int state, int board_id) {
+			adminContentsDao.recoveryBoard(state, board_id);
+		}
 		
 		
 		

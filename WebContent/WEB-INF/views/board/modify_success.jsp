@@ -10,12 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
     Swal.fire({
         position: 'center', // 위치 설정
         icon: 'success', // 아이콘 타입
-        title: '저장되었습니다.', // 메시지 제목
+        title: '수정이 완료되었습니다.', // 메시지 제목
         showConfirmButton: false, // 확인 버튼 숨김
         timer: 1500 // 1.5초 후에 알림창 닫힘
     }).then((result) => {
         // 알림이 닫힌 후 리다이렉트 실행
-    	location.href = '${root}board/read?board_id=${boardBean.board_id}';
+        location.href = '${root}board/read?board_id=${modifyContentBean.board_id}';
     });
 });
 </script>

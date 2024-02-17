@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
+import kr.co.softsoldesk.Beans.BoardBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.FAQBean;
 import kr.co.softsoldesk.Beans.PageBean;
@@ -133,6 +134,12 @@ public class MyPageController {
 		// 모든 유저 인포 내용
 		UserBean UserAllInfoBean = UserService.getLoginUserAllInfo(user_id);
 		model.addAttribute("UserAllInfoBean", UserAllInfoBean);
+		
+		List<BoardBean> boardList = MyPageService.myBoardList(user_id, page);
+		model.addAttribute("boardList", boardList);
+		
+		PageBean pageBean = MyPageService.getMyBoardListCnt(user_id, page);
+		model.addAttribute("pageBean", pageBean);
 				
 		// 마이페이지 상단 인포
 		UserBean UserTopInfoBean = MyPageService.getMyPageTopInfo(user_id);

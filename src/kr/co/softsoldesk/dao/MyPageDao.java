@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
+import kr.co.softsoldesk.Beans.BoardBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.NoticeBean;
 import kr.co.softsoldesk.Beans.QnABean;
@@ -108,5 +109,14 @@ public class MyPageDao {
    
    public int getImportantNoticeSearchAllListCnt(String title) {
       return myPageMapper.getImportantNoticeSearchAllListCnt(title);
+   }
+   
+   //마이페이지 내가 쓴글 목록
+   public List<BoardBean>myBoardList(int user_id, RowBounds rowBounds){
+	   return myPageMapper.myBoardList(user_id, rowBounds);
+   }
+   
+   public int getMyBoardListCnt(int user_id) {
+	   return myPageMapper.getMyBoardListCnt(user_id);
    }
 }

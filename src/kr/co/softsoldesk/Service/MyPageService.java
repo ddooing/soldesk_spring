@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import kr.co.softsoldesk.Beans.ArchiveBean;
+import kr.co.softsoldesk.Beans.BoardBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.NoticeBean;
 import kr.co.softsoldesk.Beans.PageBean;
@@ -28,7 +29,6 @@ public class MyPageService {
    
    @Value("${admin.paginationcnt}")
    private int admin_paginationcnt;
-   
    
    @Value("${Mypagepoint.listcnt}")
    private int point_listcnt;
@@ -185,6 +185,20 @@ public class MyPageService {
       PageBean pageBean = new PageBean(notice_cnt, currentPage, admin_listcnt, admin_paginationcnt);
       
       return pageBean;
+   }
+   
+   public List<BoardBean>myBoardList(int user_id, int page){
+	   int start = (page - 1) * point_listcnt;
+	   RowBounds rowBounds = new RowBounds(start, point_listcnt);
+	   
+	   return myPageDao.myBoardList(user_id, rowBounds);
+   }
+   
+   public PageBean getMyBoardListCnt(int user_id, int currentPage) {
+	   int myboard_cnt = myPageDao.getMyBoardListCnt(user_id);
+	   PageBean pageBean = new PageBean(myboard_cnt, currentPage, point_listcnt, admin_paginationcnt);
+	   
+	   return pageBean;
    }
    
    

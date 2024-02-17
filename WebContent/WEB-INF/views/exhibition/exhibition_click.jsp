@@ -238,7 +238,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 					<div style="display: flex; margin-top: 50px;">
 						<div style="margin-left: 400px;">
-							<button id="shareButton"
+							<button onclick="copyLink()"
 								style="background: none; border: none; margin-right: 20px;">
 								<img src="../img/shareicon.svg"
 									style="width: 30px; height: 30px;" alt="공유아이콘" />
@@ -294,49 +294,6 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 				</div>
 			</div>
-
-			<!-- 모달 창 -->
-			<div id="shareModal" class="modal">
-				<div class="modal-content" style="width: 20%;">
-					<div class="close">&times;</div>
-					<!-- 이미지를 표시하는 부분입니다 -->
-					<div
-						style="display: flex; text-align: center; justify-content: center; margin: 20px;">
-						<div
-							style="display: inline-block; margin-right: 50px; cursor: pointer;"
-							onclick="shareInsta()">
-							<!--인스타그램 클릭 -->
-							<div>
-								<img src="../img/insta_share.png"
-									style="width: 45px; height: 45px;" />
-							</div>
-							<div style="margin-top: 10px;">
-								<p3>인스타그램</p3>
-							</div>
-						</div>
-
-						<div style="display: inline-block; cursor: pointer;"
-							onclick="shareKakao()">
-							<!--카카오톡 클릭 -->
-							<div>
-								<img src="../img/kakao_share.png" alt="카카오톡"
-									style="width: 45px; height: 45px;" />
-							</div>
-							<div style="margin-top: 10px;">
-								<p3>카카오톡</p3>
-							</div>
-						</div>
-
-					</div>
-
-					<button class="btn btn-dark"
-						style="width: 150px; height: 50px; margin: auto;"
-						onclick="copyLink()">링크 복사</button>
-				</div>
-			</div>
-			<!-- 공유 모달창 끝 -->
-
-
 			<!-- 우측 예매 -->
 			<c:choose>
 				<c:when
@@ -477,41 +434,23 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 
 			<script>
-				// 공유 버튼 클릭 이벤트
-				document.getElementById('shareButton').onclick = function() {
-					document.getElementById('shareModal').style.display = "block";
-				}
-
-				// 모달창 닫기 버튼 클릭 이벤트
-				document.getElementsByClassName('close')[0].onclick = function() {
-					document.getElementById('shareModal').style.display = "none";
-				}
-
-				// 모달창 외부 클릭 시 모달창 닫기
-				window.onclick = function(event) {
-					if (event.target == document.getElementById('shareModal')) {
-						document.getElementById('shareModal').style.display = "none";
-					}
-				}
 
 				// 링크 복사 버튼 클릭 이벤트
 				function copyLink() {
-					var copyText = window.location.href; // 현재 주소창의 URL을 가져옵니다.
-					var tempInput = document.createElement("input");
-					document.body.appendChild(tempInput);
-					tempInput.value = copyText;
-					tempInput.select();
-					document.execCommand("copy");
-					document.body.removeChild(tempInput);
-					alert("링크가 복사되었습니다.");
-				}
-
-				function shareKakao() {
-					alert('카카오톡 공유');
-				}
-
-				function shareInsta() {
-					alert('인스타 공유');
+				    var copyText = window.location.href;
+				    var tempInput = document.createElement("input");
+				    document.body.appendChild(tempInput);
+				    tempInput.value = copyText;
+				    tempInput.select();
+				    document.execCommand("copy");
+				    document.body.removeChild(tempInput);
+				    
+				    Swal.fire({
+				        title: '성공!',
+				        text: '링크가 복사되었습니다.',
+				        icon: 'success',
+				        confirmButtonText: '확인'
+				    });
 				}
 			</script>
 
