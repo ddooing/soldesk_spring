@@ -39,6 +39,7 @@ $(document).ready(function(){
 
 
 <style>
+
 input[type="date"]{
 	box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 	position: relative;
@@ -46,7 +47,7 @@ input[type="date"]{
 	height: 48px;
 	padding-right: 42px;
 	border: 1px solid white;
-	border-radius: 12px;
+	
 }
 
 input[type="date"]::before{
@@ -250,30 +251,77 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top:30px;">
-						<h3>배너 결제 관리</h3>
+						<h3>배너 신청 결제 내역</h3>
 					</div>
 					
 					<div style="display: flex; justify-content: center; height: 95px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 						
-						<div style="margin-right: 50px;">
-							<div>결제일자</div>
-							<div style="display: flex; flex-direction: column;"> 결제 수단
-							<select name="usercombo" id="banner_type_combo"
-								style="width: 150px; height: 36px; margin-right: 30px;">
-								<option value="" selected>전체</option>
-								<option value="1">메인배너</option>
-								<option value="2">서브배너</option>
-
-							</select> 
-						</div>
-							<input id="datepicker" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
-								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
-								value="YYYY - MM - DD" spellcheck="false">
-          					<label style="margin-left: 30px; margin-right: 30px;">~</label>
-							<input id="datepicker2" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
-								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
-							value="YYYY - MM - DD" spellcheck="false">
-							
+						
+						
+							<div style="display: flex; flex-direction: column;"> 배너 타입
+								<select name="banner_type_combo" id="banner_type_combo"
+									style="width: 150px; height: 36px; margin-right: 30px;">
+									<option value="" disabled selected style="opacity:0;">전체</option>
+									<option value="전체" >전체</option>
+									<option value=1>메인 배너</option>
+									<option value=2>서브 배너</option>
+								</select> 
+							</div>
+							<script>
+							document.addEventListener('DOMContentLoaded', function() {
+							    var bannerTypeCombo = document.getElementById('banner_type_combo');
+							    var urlParams = new URLSearchParams(window.location.search);
+							    
+							    var bannerType = urlParams.get('banner_type'); // URL에서 'payment_method' 값을 가져옵니다.
+	
+							    if (bannerType) {
+							    	
+							        // 'payment_method' 값과 일치하는 옵션을 찾아 선택합니다.
+							        for (var i = 0; i < bannerTypeCombo.options.length; i++) {
+							            if (bannerTypeCombo.options[i].value === bannerType) {
+							            	bannerTypeCombo.selectedIndex = i;
+							                break;
+							            }
+							        }
+							        
+							    }else{
+							    	bannerTypeCombo.selectedIndex = 1;
+							    }
+							    bannerTypeCombo.addEventListener('change', function() {
+							        
+							    	var selectedBannerType = bannerTypeCombo.value;
+							        if (selectedBannerType === '전체') {
+							        	urlParams.delete('banner_type');
+							        } else{
+							        	urlParams.set('banner_type', selectedBannerType);
+							        }
+	
+							        if (urlParams.has('page')) {
+							            urlParams.delete('page');
+							        }
+	
+							        var newUrl = window.location.pathname + '?' + urlParams.toString();
+							        window.location.href = newUrl;
+							    });
+							});
+	
+							</script>
+						
+						
+							<div style="display: flex; flex-direction: column; ">
+								<div>
+									결제일자
+								</div>
+								<div style="display: flex; flex-direction:row; align-items: center; margin-right:30px;">
+									<input id="datepicker" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
+										style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
+										value="YYYY - MM - DD" spellcheck="false">
+		          					<label style="margin-left: 30px; margin-right: 30px;">~</label>
+									<input id="datepicker2" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
+										style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
+									value="YYYY - MM - DD" spellcheck="false">
+								</div>
+							</div>
 							  <script>
 							  
 							    window.addEventListener('DOMContentLoaded', () => {
@@ -286,7 +334,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							        // ISO 문자열로 변환 후 날짜 부분만 추출
 							        var formattedFirstRequestedAt = date.toISOString().substring(0, 10);
 
-
+									console.log("formattedFirstRequestedAt : ",formattedFirstRequestedAt);
 							    	var today = new Date();
 									var offset = today.getTimezoneOffset() * 60000; // 로컬 시간대 오프셋
 									var localToday = new Date(today.getTime() - offset);
@@ -311,7 +359,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									    var endDate = datepicker2Value;
 
 							            var urlParams = new URLSearchParams(window.location.search);
-
+										
+							         	//'page' 매개변수가 있으면 제거합니다.
+							            if (urlParams.has('page')) {
+							                urlParams.delete('page');
+							            }
 							           
 							            urlParams.set('startDate', startDate);
 							            urlParams.set('endDate', endDate);
@@ -327,13 +379,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							    	    var formattedDate = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2); // 'YYYY-MM-DD' 형식으로 변경
 										return formattedDate;
 									}
-									
+									var urlParams = new URLSearchParams(window.location.search);
+								    var startDateFromUrl = urlParams.get('startDate') ? new Date(urlParams.get('startDate')) : new Date(formattedFirstRequestedAt);
+								    var endDateFromUrl = urlParams.get('endDate') ? new Date(urlParams.get('endDate')) :new Date(formattedToday);
 									
 									new Pikaday({
 							        field: document.getElementById('datepicker'),
 							        theme: "pikaday-white",
 							        firstDay: 1,
-							       	defaultDate: new Date(formattedFirstRequestedAt), // 변환된 날짜를 기본값으로 설정
+							       	defaultDate: startDateFromUrl, // 변환된 날짜를 기본값으로 설정
 							        setDefaultDate: true,
 							        minDate: new Date(formattedFirstRequestedAt),
 							        maxDate: new Date(formattedToday),
@@ -362,7 +416,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							        firstDay: 1,
 							        minDate: new Date(formattedFirstRequestedAt),
 							        maxDate: new Date(formattedToday),//today,
-							        //defaultDate: formattedToday,//today, // 오늘 날짜를 기본값으로 설정
+							        defaultDate: endDateFromUrl,
 							        setDefaultDate: true, // 기본 날짜를 입력 필드에 표시
 							        i18n: {
 							        	previousMonth: 'Prev',
@@ -410,12 +464,14 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							  </script>
 							
 							
-						</div>
+						
 						<div style="display: flex; flex-direction: column;"> 결제 수단
 							<select name="usercombo" id="payment_method_combo"
 								style="width: 150px; height: 36px; margin-right: 30px;">
-								<option value="" selected>전체</option>
+								<option value="" disabled selected style="opacity:0;">전체</option>
+								<option value="전체" >전체</option>
 								<option value="간편결제">간편결제</option>
+								<option value="포인트결제">포인트결제</option>
 								<option value="신용·체크카드">신용·체크카드</option>
 								<option value="가상계좌">가상계좌</option>
 								<option value="휴대폰">휴대폰</option>
@@ -426,49 +482,98 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							</select> 
 						</div>
 						<script>
-							document.addEventListener('DOMContentLoaded', function() {
-							    // 결제 수단 콤보박스 요소를 가져옵니다.
-							    var paymentMethodCombo = document.getElementById('payment_method_combo');
-							
-							    // 결제 수단 콤보박스의 변경 사항을 감지합니다.
-							    paymentMethodCombo.addEventListener('change', function() {
-							    	var selectedPaymentMethod = paymentMethodCombo.value;
-						            var urlParams = new URLSearchParams(window.location.search);
+						document.addEventListener('DOMContentLoaded', function() {
+						    var paymentMethodCombo = document.getElementById('payment_method_combo');
+						    var urlParams = new URLSearchParams(window.location.search);
+						    
+						    var paymentMethod = urlParams.get('payment_method'); // URL에서 'payment_method' 값을 가져옵니다.
 
-						            // 'payment_method' 매개변수를 업데이트합니다.
-						            urlParams.set('payment_method', selectedPaymentMethod);
+						    if (paymentMethod) {
+						    	
+						        // 'payment_method' 값과 일치하는 옵션을 찾아 선택합니다.
+						        for (var i = 0; i < paymentMethodCombo.options.length; i++) {
+						            if (paymentMethodCombo.options[i].value === paymentMethod) {
+						                paymentMethodCombo.selectedIndex = i;
+						                break;
+						            }
+						        }
+						        
+						    }else{
+						    	paymentMethodCombo.selectedIndex = 1;
+						    }
+						    paymentMethodCombo.addEventListener('change', function() {
+						        
+						    	var selectedPaymentMethod = paymentMethodCombo.value;
+						        if (selectedPaymentMethod === '전체') {
+						        	urlParams.delete('payment_method');
+						        } else{
+						        	urlParams.set('payment_method', selectedPaymentMethod);
+						        }
 
-						            // 페이지를 업데이트된 URL로 리디렉션합니다.
-						            window.location.href = window.location.pathname + '?' + urlParams.toString();
-							    });
-							});
+						        if (urlParams.has('page')) {
+						            urlParams.delete('page');
+						        }
+
+						        var newUrl = window.location.pathname + '?' + urlParams.toString();
+						        window.location.href = newUrl;
+						    });
+						});
+
 						</script>
 						
-
-						<div id="user">구매자명</div>
-						<input type="text" name="usersearch" id="usersearch"
-							style="width: 250px; height: 36px; margin-right: 30px; margin-top: 20px;"
-							placeholder="검색어를 입력해주세요" />
+						
+						
+						<div style="display: flex; flex-direction: column;"> 구매자명
+							<input type="text" name="usersearch" id="usersearch"
+								style="width: 150px; height: 36px; margin-right: 30px;"
+								placeholder="입력" />
+						</div>
 						<button class="btn btn-dark" style="width: 80px; height: 40px; margin-top: 22px;">검색</button>
-					
 						<script>
 						    document.addEventListener('DOMContentLoaded', function() {
-						        // 검색 조건 콤보박스와 검색어 입력 필드, 검색 버튼 요소를 가져옵니다.
-						        var apply_user_name = document.getElementById('user');
+								
+							    
 						        var searchInput = document.getElementById('usersearch');
 						        var searchButton = document.querySelector('.btn-dark'); // 클래스 이름으로 검색 버튼을 선택합니다.
 						
 						        // 검색 버튼 클릭 이벤트 리스너를 추가합니다.
 						        searchButton.addEventListener('click', function() {
+						        	
 						            var searchText = searchInput.value;
 						            var urlParams = new URLSearchParams(window.location.search);
+									
+						            if(searchText === '') // 검색명 없이 눌렀을때, 
+					            	{
+						            	Swal.fire({
+										    text: "검색어를 입력해주세요",
+										    icon: "warning",
+										    showCancelButton: true, // '취소' 버튼만 표시합니다.
+										    cancelButtonColor: "gray", // 취소 버튼의 색상을 gray로 설정합니다.
+										    cancelButtonText: '닫기', // 취소 버튼의 텍스트를 '닫기'로 설정합니다.
+										    showConfirmButton: false, // '확인' 버튼은 표시하지 않습니다.
+										});
 
-						            // 선택된 검색 조건과 검색어를 URL 매개변수로 추가 또는 업데이트합니다.
-						            urlParams.set("user", searchText);
+						                return; // 함수 실행을 중단합니다.
+					            	}
+						            else{
+						            	urlParams.set('user_name', searchText);
+						            }
+						          
 
 						            // 페이지를 업데이트된 URL로 리디렉션합니다.
 						            window.location.href = window.location.pathname + '?' + urlParams.toString();
 						        });
+
+								var urlParams =new URLSearchParams(window.location.search);
+							    
+							    var nameParam = urlParams.get('user_name'); 
+							   
+							    var searchInput = document.getElementById('usersearch'); 
+							    
+							    if (nameParam) {
+							    	
+							    	searchInput.value = nameParam; 
+							    }
 						    });
 						</script>
 						
@@ -491,115 +596,229 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 					
 
 					<div style="background-color: white; margin-top: 30px;">
+						
 						<table class="table table-striped" style="text-align: center;">
 							<thead>
 								<tr>
 									<th scope="col">No</th>
 									<th scope="col" style="width: 150px;">주문일시</th>
 									<th scope="col" style="width: 150px;">결제일시</th>
-									<th scope="col">주문번호</th>
+									<th scope="col" style="width: 350px;">주문번호</th>
 									<th scope="col" style="width: 150px;">결제상태</th>
 									<th scope="col" style="width: 150px;">구매자명</th>
-									<th scope="col">결제액</th>
+									<th scope="col" style="width: 150px;">결제액</th>
 									<th scope="col" style="width: 130px;">결제 수단</th>
 									<th scope="col" style="width: 200px;">구매상품</th>
 									<th scope="col"></th>
 								</tr>
 							</thead>
-							<tbody>
 							
-								<c:forEach items="${bannerApplyFormBean}" var="bannerlist">
-									<tr style="vertical-align: middle;">
-										<th scope="row">${bannerlist.banner_apply_form_id}</th>
-										<td style="width: 150px;">${bannerlist.requested_at}</td>
-										<td style="width: 150px;">${bannerlist.approved_at}</td>
-										<td>${bannerlist.order_id}</td>
-										
-										<c:choose>
-									        <c:when test="${bannerlist.state == 1}">
-									            <td style="color: gray;">완료</td>
-									        </c:when>
-									        <c:when test="${bannerlist.state == 2}">
-									            <td style="color: gray;">완료</td>
-									        </c:when>
-									        <c:when test="${bannerlist.state == 3}">
-									            <td style="color: red;">취소</td>
-									        </c:when>
-									     
-									    </c:choose>
-									    
-									    
-										<td style="width: 150px;">${bannerlist.name}</td>
-										
-										
-										<c:choose>
-									        <c:when test="${bannerlist.state == 1}">
-									            <td style="width: 200px;">${bannerlist.payment}</td>
-									        </c:when>
-									         <c:when test="${bannerlist.state == 2}">
-										         <td style="width: 200px;">${bannerlist.payment}</td>
-										    </c:when>
-									        <c:when test="${bannerlist.state == 3}">
-									            <td style="width: 200px; color: #dc3545;">- ${bannerlist.payment}</td>
-									        </c:when>
-									     
-									    </c:choose>
-										<td>${bannerlist.payment_method}</td>
-										
-
-										<c:choose>
-									        <c:when test="${bannerlist.banner_type == 1}">
-									            <td >메인배너</td>
-									        </c:when>
-									        <c:when test="${bannerlist.banner_type == 2}">
-									            <td >서브배너</td>
-									        </c:when>
-									     
-									    </c:choose>
-									    
-										<td style="width: 150px;">
+							<tbody>
+								<c:choose>
+					                <c:when test="${empty bannerApplyFormBean}">
+					                    <tr>
+					                        <td colspan="9">
+					                            <div>결제 내역이 없습니다.</div>
+					                        </td>
+					                    </tr>
+					                </c:when>
+					                <c:otherwise>
+										<c:forEach items="${bannerApplyFormBean}" var="bannerPaylist">
 											
-											<button data-form-id="${bannerlist.banner_apply_form_id}" class="btn btn-danger"style="float: right; margin-right: 50px;
-											 margin-top: 20px; margin-bottom: 20px;" onclick="showConfrimCancle(this.getAttribute('data-form-id'))">취소</button>
-										
-										</td>
-										
-										
-									</tr>
-								</c:forEach>
+											<tr style="vertical-align: middle;">
+												<th scope="row">${bannerPaylist.banner_apply_form_id}</th>
+												<td style="width: 150px;">${bannerPaylist.requested_at}</td>
+												<td style="width: 150px;">${bannerPaylist.approved_at}</td>
+												<td>${bannerPaylist.order_id}</td>
+												
+												<c:choose>
+											        <c:when test="${bannerPaylist.state == 1 || bannerPaylist.state == 2}"><!--  1: 등록 대기 2: 등록완료 -->
+											            <td style="color: gray;">완료</td>
+											        </c:when>
+											        
+											        <c:when test="${bannerPaylist.state == 3}"><!-- 3: 결제 취소, 배너 거절 -->
+											            <td style="color: #dc3545;">취소</td>
+											        </c:when>
+											     
+											    </c:choose>
+											    
+											    
+												<td style="width: 150px;">${bannerPaylist.name}</td>
+												
+												
+												<c:choose>
+											        <c:when test="${bannerPaylist.state == 1 || bannerPaylist.state == 2 }">
+											            <td >${bannerPaylist.payment}</td>
+											        </c:when>
+											         
+											        <c:when test="${bannerPaylist.state == 3}">
+											            <td style="color: #dc3545;">- ${bannerPaylist.payment}</td>
+											        </c:when>
+											     
+											    </c:choose>
+											    
+												<td>${bannerPaylist.payment_method}</td>
+												
+		
+												<c:choose>
+											        <c:when test="${bannerPaylist.banner_type == 1}">
+											            <td >메인배너</td>
+											        </c:when>
+											        <c:when test="${bannerPaylist.banner_type == 2}">
+											            <td >서브배너</td>
+											        </c:when>
+											     
+											    </c:choose>
+											    
+												<td style="width: 150px;">
+													
+													
+													<c:choose>
+														<c:when test="${bannerPaylist.state == 1}">
+												            <button data-form-id="${bannerPaylist.banner_apply_form_id}" class="btn btn-danger"style="float: right; margin-right: 30px;
+															 margin-top: 20px; margin-bottom: 20px;" onclick="showConfrimCancel(this.getAttribute('data-form-id'))">취소</button>
+													
+												        </c:when>
+												        <c:when test="${ bannerPaylist.state == 2}">
+												            <button class="btn btn-danger"style="float: right; margin-right: 30px;
+															 margin-top: 20px; margin-bottom: 20px;" onclick="showConfrimCancelAlert()">취소</button>
+													
+												        </c:when>
+												        
+												     	<c:when test="${bannerPaylist.state == 3}">
+												            <button  class="btn btn-danger"style="float: right; margin-right: 30px;
+													 			margin-top: 20px; margin-bottom: 20px; cursor: not-allowed; opacity: 0.5;">취소</button>
+												        </c:when>
+											    	</c:choose>
+													
+												</td>
+												
+												
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
 							</tbody>
+								
 						</table>
+								
 						
+						<c:if test="${!empty pageBean}">
+							<div style="display: flex; justify-content: center; margin-top:30px;">
+								<nav aria-label="Page navigation example" class="mx-auto">
+									<ul class="pagination">
+									
+										<c:choose>
+											<c:when test="${pageBean.prevPage <= 0 }">
+												<li class="page-item disabled">
+													<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">이전</a>
+												</li>
+											</c:when>
+											<c:otherwise>
+												<li class="pre-page"><a
+													href="#"
+													class="page-link">이전</a></li>
+											</c:otherwise>
+										</c:choose>
+										<script>
+											document.addEventListener('DOMContentLoaded', function () {
+										        var pageLinks = document.querySelectorAll('.pre-page');
+										
+										        pageLinks.forEach(function(link) {
+										            link.addEventListener('click', function(event) {
+										                event.preventDefault();
+										                var pageNum = ${pageBean.prevPage};
+										                var urlParams = new URLSearchParams(window.location.search);
+										                urlParams.set('page', pageNum);
+										                window.location.href = window.location.pathname + '?' + urlParams.toString();
+										            });
+										        });
+										    });
+										</script>
+										
+										<c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
+										    <c:choose>
+										        <c:when test="${idx == pageBean.currentPage}">
+										            <li class="page-item active">
+										                <a href="${root}/adminPayment/manager_bannerPaymentList?page=${idx}" class="page-link">${idx}</a>
+										            </li>
+										        </c:when>
+										        <c:otherwise>
+										            <li class="page-item">
+										                <a href="#" class="page-link page-link-number" data-page="${idx}">${idx}</a>
+										            </li>
+										        </c:otherwise>
+										    </c:choose>
+										</c:forEach>
+										
+										<script>
+										    document.addEventListener('DOMContentLoaded', function () {
+										        var pageLinks = document.querySelectorAll('.page-link-number');
+										
+										        pageLinks.forEach(function(link) {
+										            link.addEventListener('click', function(event) {
+										                event.preventDefault();
+										                var pageNum = this.getAttribute('data-page');
+										                var urlParams = new URLSearchParams(window.location.search);
+										                urlParams.set('page', pageNum);
+										                window.location.href = window.location.pathname + '?' + urlParams.toString();
+										            });
+										        });
+										    });
+										</script>
 
-						<div style="display: flex; justify-content: center; margin-top:30px;">
-							<nav aria-label="Page navigation example" class="mx-auto">
-								<ul class="pagination">
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Previous"> <span
-											aria-hidden="true">&laquo;</span>
-									</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">1</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">2</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;">3</a></li>
-									<li class="page-item"><a class="page-link" href="#"
-										style="color: black;" aria-label="Next"> <span
-											aria-hidden="true">&raquo;</span>
-									</a></li>
-								</ul>
-							</nav>
-						</div>
-
+										<c:choose>
+											<c:when test="${pageBean.max >= pageBean.pageCnt  }">
+												<!-- max페이지 > 전체페이지개수 일때  -->
+												<li class="page-item disabled">
+													<a href="#" class="page-link">다음</a>
+												</li>
+											</c:when>
+											<c:otherwise>
+												<li class="next-page">
+													<a href="#"class="page-link">다음</a>
+												</li>
+											</c:otherwise>
+										</c:choose>
+										
+										<script>
+											document.addEventListener('DOMContentLoaded', function () {
+										        var pageLinks = document.querySelectorAll('.next-page');
+										
+										        pageLinks.forEach(function(link) {
+										            link.addEventListener('click', function(event) {
+										                event.preventDefault();
+										                var pageNum = ${pageBean.nextPage};
+										                var urlParams = new URLSearchParams(window.location.search);
+										                urlParams.set('page', pageNum);
+										                window.location.href = window.location.pathname + '?' + urlParams.toString();
+										            });
+										        });
+										    });
+										</script>
+									</ul>
+								</nav>
+							</div>
+						</c:if>
 					</div>
 				</div>
 			</main>
 		</div>
 
 	<script>
-		function showConfrimCancle(reserveId) {
-
+		function showConfrimCancelAlert(){
+			Swal.fire({
+	            title: "취소 불가",
+	            text: "이미 배너 등록된 결제건입니다",
+	            icon: "warning",
+	            showCancelButton: true,
+	            cancelButtonColor: "gray",
+	            cancelButtonText: '닫기'
+	        });
+		}
+	
+	
+		function showConfrimCancel(formId) {
 			Swal.fire({
 	            //title: "Are you sure?",
 	            text: "취소 처리하시겠습니까?",
@@ -611,11 +830,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 	            cancelButtonText: '닫기'
 	        }).then((result) => {
 	            if (result.isConfirmed) {
-	            	 window.location.href = '${root}/adminPayment/reserve_cancel?reserve_id='+reserveId;
-	            	console.log("클릭한 예매 reserve_id : ",reserveId);
+	            	 window.location.href = '${root}/adminPayment/bannerPayment_cancel?banner_form_id='+formId;
+	            	console.log("클릭한 예매 formId : ",formId);
 	            }
 	            
 	        });
+	
 		}
 
 		document.addEventListener("DOMContentLoaded", function() {

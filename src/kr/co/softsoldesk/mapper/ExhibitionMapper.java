@@ -217,4 +217,8 @@ public interface ExhibitionMapper {
 	// 메인 베너 추가시 모든 전시회 이름, id 반환
 	@Select("Select exhibition_id, title from exhibition")
 	List<ExhibitionBean> getexhibitionallTitle();
+	
+	// 전시회 예매 취소 .. 티켓 수 회수 
+	@Update("update exhibition set ticket_cnt  = ticket_cnt - #{ticket_count} where exhibition_id=#{exhibition_id}")
+	public void setExhibitionTicketCntMinus(@Param("ticket_count")int ticket_count,@Param("exhibition_id")int exhibition_id );
 }	

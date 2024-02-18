@@ -166,8 +166,8 @@ table, th, td {
                            </tr>
                            
                            <tr>
-                              <th><p>총 결제 금액</p></th>
-                              <td><p>${reservelist.total_price } 원</p></td>
+                              <th><p>결제 금액</p></th>
+                              <td><p>${reservelist.payment } 원</p></td>
                            </tr>
                            <tr>
                            <td>
@@ -182,24 +182,16 @@ table, th, td {
                                           <button class="reserCancel" data-target="detailInfo${reservelist.reserve_id}">상세보기</button>
                                        </td>
                                     </c:when>
-                                    <c:when test="${reservelist.state == 2 }">
+                                    <c:when test="${reservelist.state == 0}">
                                        <p style=" color:gray;">예매 상태 : 
                                           <span>
                                              결제취소
                                           </span>
                                        </p>
+                                       <td>
+                                          <button class="reserCancel" data-target="detailInfo${reservelist.reserve_id}">상세보기</button>
+                                       </td>
                                     </c:when>
-                                    <c:otherwise>
-                                       <p style=" color:gray;">예매 상태 : 
-                                          <span>
-                                             관람완료   
-                                          </span>
-                                       </p>
-                                          <td>
-                                             <button class="reserCancel" data-target="detailInfo${reservelist.reserve_id}">상세보기</button>
-                                          </td>
-                                       
-                                    </c:otherwise>
                                  </c:choose>
                                  </td>
                            </tr>
@@ -214,8 +206,8 @@ table, th, td {
                         <tr>
                            <th style="width: 300px; text-align: center;"><p>포인트 상세</p></th>
                            <td>
-                              <p style=" color: red">- 포인트 결제액 500P</p>
-                              <p style=" color: green">+ 포인트 적립액 200P</p>
+                              <p style=" color: red">- 포인트 결제액 ${reservelist.point_deduction} P</p>
+                              <p style=" color: green">+ 포인트 적립액 ${reservelist.point_plus} P</p>
                            </td>
                         </tr>
                         <tr>
@@ -224,9 +216,9 @@ table, th, td {
                         <tr>
                            <th style="width: 300px; text-align: center;"></th>
                            <td>
-                              <p>티켓 금액 : <b>50000</b> 원</p>
-                              <p style=" color: red">- 포인트 사용 할인금액 : <b>1000</b> 원</p>
-                              <p style="font-size: 30px;">총 결제 금액 : <b>49000</b> 원</p>
+                              <p>티켓 금액 : <b>${reservelist.total_price}</b> 원</p>
+                              <p style=" color: red">- 포인트 사용 금액 : <b>${reservelist.point_deduction}</b> 원</p>
+                              <p style="font-size: 30px;">총 결제 금액 : <b>${reservelist.payment }</b> 원</p>
                            </td>
                         </tr>
                         <tr>

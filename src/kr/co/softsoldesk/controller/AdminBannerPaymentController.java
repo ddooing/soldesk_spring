@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
+import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Service.BannerService;
 @Controller
 @RequestMapping("/adminPayment")
@@ -26,7 +27,8 @@ public class AdminBannerPaymentController {
 		    @RequestParam(value = "endDate", required = false) String endDate,
 		    @RequestParam(value = "payment_method", required = false) String payment_method,
 		    @RequestParam(value = "banner_type", required = false) Integer banner_type,
-		    @RequestParam(value = "user", required = false) String user_name) {
+		    @RequestParam(value = "user_name", required = false) String user_name
+		    , @RequestParam(value = "page", defaultValue = "1") int page) {
 		
 		System.out.println("endDate : "+endDate);
 		System.out.println("startDate : "+startDate);
@@ -47,19 +49,14 @@ public class AdminBannerPaymentController {
 		if(banner_type == null)
 		{
 			System.out.println("타입 null");
-			banner_type=null;
+			banner_type=3;
 		}
 		
-	    List<BannerApplyFormBean> bannerApplyFormBean = bannerSerivce.getBannerPaymentInfoList(startDate, endDate, payment_method,banner_type, user_name );
-	    for(BannerApplyFormBean b : bannerApplyFormBean)
-	    {
-	    	System.out.println("id : "+b.getBanner_apply_form_id());
-	    	System.out.println("type : "+b.getBanner_type());
-	    }
-		
-	   
+	    List<BannerApplyFormBean> bannerApplyFormBean = bannerSerivce.getBannerPaymentInfoList(startDate, endDate, payment_method,banner_type, user_name,page );
+	 // 리스트 개수 가져오기
+ 		PageBean pageBean = bannerSerivce.getBannerPaymentInfoListCnt(startDate, endDate, payment_method,banner_type, user_name,page );
+ 		model.addAttribute("pageBean", pageBean);
 	    
-
 
 		model.addAttribute("bannerApplyFormBean", bannerApplyFormBean);
 		return "adminPayment/manager_bannerPaymentList";

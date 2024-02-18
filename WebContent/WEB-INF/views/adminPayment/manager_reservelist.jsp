@@ -461,12 +461,41 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						            var searchText = searchInput.value;
 						            var urlParams = new URLSearchParams(window.location.search);
 
+						            
+						            if (!selectedOption || !searchText) {
+						                // 둘 중 하나라도 입력되지 않았다면 경고 메시지를 표시합니다.
+						                Swal.fire({
+										    text: "검색 조건과 검색어를 입력해주세요",
+										    icon: "warning",
+										    showCancelButton: true, // '취소' 버튼만 표시합니다.
+										    cancelButtonColor: "gray", // 취소 버튼의 색상을 gray로 설정합니다.
+										    cancelButtonText: '닫기', // 취소 버튼의 텍스트를 '닫기'로 설정합니다.
+										    showConfirmButton: false, // '확인' 버튼은 표시하지 않습니다.
+										});
+
+						                return; // 함수 실행을 중단합니다.
+						            }
+						            
 						            // 선택된 검색 조건과 검색어를 URL 매개변수로 추가 또는 업데이트합니다.
 						            urlParams.set(selectedOption, searchText);
 
 						            // 페이지를 업데이트된 URL로 리디렉션합니다.
 						            window.location.href = window.location.pathname + '?' + urlParams.toString();
 						        });
+						        var urlParams = new URLSearchParams(window.location.search);
+						        var nameParam = urlParams.get('user_name'); 
+							    var titleParam = urlParams.get('exhibition_title'); 
+							    
+							    var searchInput = document.getElementById('usersearch'); 
+							    
+							    if (nameParam) {
+							    	searchCombo.selectedIndex = 1;
+							    	searchInput.value = nameParam; 
+							    }
+							    if (titleParam) {
+							    	searchCombo.selectedIndex = 2;
+							    	searchInput.value = titleParam; 
+							    }
 						    });
 						</script>
 						
@@ -505,6 +534,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 								</tr>
 							</thead>
 							<tbody>
+								<c:choose>
+					                <c:when test="${empty reserveBean}">
+					                    <tr>
+					                        <td colspan="9">
+					                            <div>결제 내역이 없습니다.</div>
+					                        </td>
+					                    </tr>
+					                </c:when>
+					                <c:otherwise>
 								<c:forEach items="${reserveBean}" var="reservelist">
 									<tr style="vertical-align: middle;">
 										<th scope="row">${reservelist.reserve_id}</th>
@@ -557,6 +595,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 										
 									</tr>
 								</c:forEach>
+									</c:otherwise>
+								</c:choose>							
 							</tbody>
 						</table>
 						
