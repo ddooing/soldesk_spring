@@ -65,18 +65,18 @@ public class AdminBannerPaymentController {
 	
 	
 	@GetMapping("/bannerPayment_cancel")
-	public String bannerPayment_cancel(Model model,@RequestParam("banner_form_id") int banner_apply_form_id,RedirectAttributes redirectAttributes ) {
+	public String bannerPayment_cancel(Model model,@RequestParam("banner_form_id") int banner_form_id,RedirectAttributes redirectAttributes ) {
 
 		//취소 처리하기
 
 		//pay 상태 변경 
-		bannerSerivce.getCancelBanner(banner_apply_form_id);
+		bannerSerivce.getCancelBanner(banner_form_id);
 		
 
 		redirectAttributes.addFlashAttribute("canceled", true);
 		
 		
-		return "redirect:/adminPayment/bannerPayment_cancel";
+		return "redirect:/adminPayment/manager_bannerPaymentList";
 	}
 	
 	

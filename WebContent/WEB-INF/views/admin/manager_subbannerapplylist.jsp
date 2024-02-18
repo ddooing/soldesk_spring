@@ -56,11 +56,11 @@
 						<h3>배너 신청 관리</h3>
 					</div>
 					<div style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-					<div style="position: flex; margin-right: 60px; width: 450px; float: left;">
-						<span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">등록대기 ${BadgeCnt.state_1_count }건</span> 
-							<span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right: 10px;">등록완료 ${BadgeCnt.state_2_count }건</span> 
-							<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size: 15px;">배너신청 총${BadgeCnt.total_count}건</span>
-					</div>
+						<div style="display:flex;  margin-right:60px; width: 450px; float: left;">
+							<span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px; padding:10px;">등록대기 ${BadgeCnt.state_1_count }건</span> 
+							<span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right: 10px; padding:10px;">등록완료 ${BadgeCnt.state_2_count }건</span> 
+							<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size: 15px; padding:10px;">배너신청 총 ${BadgeCnt.total_count}건</span>
+						</div>
 
 					<form action="${root }/admin/manager_subbannerapplylist" method="get">
 								<select name="bannercombo" id="bannercombo" style="width: 150px; height: 40px; margin-right: 30px;">
@@ -68,10 +68,10 @@
 								</select>
 								<c:choose>
 									<c:when test="${bannersearch != null }">
-										<input type="text" name="bannersearch" id="bannersearch" style="width: 500px; height: 40px; margin-right: 30px;" value="${bannersearch }" />
+										<input type="text" name="bannersearch" id="bannersearch" style="width: 250px; height: 40px; margin-right: 30px;" value="${bannersearch }" />
 									</c:when>
 									<c:otherwise>
-										<input type="text" name="bannersearch" id="bannersearch" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
+										<input type="text" name="bannersearch" id="bannersearch" style="width: 250px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
 									</c:otherwise>
 								</c:choose>
 								
@@ -90,13 +90,13 @@
 							<thead>
 								<tr style="vertical-align: middle;">
 									<th scope="col" style="width:50px; margin-right:30px;">No</th>
-									<th scope="col" style="width:450px;">전시회</th>
-									<th scope="col" style="width:320px;">노출기간</th>
+									<th scope="col" style="width:300px;">전시회</th>
+									<th scope="col" style="width:270px;">노출기간</th>
 									<th scope="col" style="width:150px;">신청일</th>
 									<th scope="col" style="width:100px;">신청인</th>
 									<th scope="col" style="width:150px;">가격</th>
-									<th scope="col">상태</th>
-									<th scope="col">관리</th>
+									<th scope="col" style="width:130px;">상태</th>
+									<th scope="col" style="width:170px;">관리</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -104,8 +104,8 @@
 									<tr id="banner-${bannerBean.banner_apply_form_id}" style="vertical-align: middle; height:50px;">
 										<th scope="row" style="width:50px; margin-right:30px;">${bannerBean.banner_apply_form_id }</th>
 										
-										<td style="width:450px; text-align: left;"><a href="${root }/exhibition/exhibition_click?exhibition_id=${bannerBean.exhibition_id}" style="color:black;">${bannerBean.exhibition_title }</a></td>
-										<td stly=e"width:320px;>${bannerBean.start_date } ~ ${bannerBean.end_date }</td>
+										<td style="width:350px;""><a href="${root }/exhibition/exhibition_click?exhibition_id=${bannerBean.exhibition_id}" style="color:black;">${bannerBean.exhibition_title }</a></td>
+										<td style="width:270px;">${bannerBean.start_date } ~ ${bannerBean.end_date }</td>
 										<td style="width:150px;">${bannerBean.approved_at  }</td>
 										<td style="width:100px;">${bannerBean.user_name }</td>
 										<td style="width:150px;">
@@ -117,7 +117,7 @@
 												<td>등록대기</td>		
 												<td>
 													<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_bannerapplyadd?banner_apply_form_id=${bannerBean.banner_apply_form_id}'">추가</button>
-													<button class="btn btn-danger" type="button" onclick="confirmCancel('${bannerBean.banner_apply_form_id}', '${bannerBean.banner_type}')">취소</button>
+													<button class="btn btn-danger" data-form-id="${bannerBean.banner_apply_form_id}" data-bannertype="${bannerBean.banner_type}"  type="button" onclick="confirmCancel(this.getAttribute('data-form-id'), this.getAttribute('data-bannertype'))">거절</button>
 												</td>
 											</c:when>
 											<c:when test="${bannerBean.state  == 2}">
@@ -262,29 +262,38 @@
 	</div>
 	
 	<script>
-	function confirmCancel(bannerId, bannerType) {
-	    const redirectUrl = `${root}/admin/BannerApplyCancel?banner_apply_form_id=`+bannerId+`&banner_type=` + bannerType;
-	   console.log(redirectUrl);
+	function confirmCancel(bannerId,banner_type) {
+	   
 	    Swal.fire({
-	        title: '취소 하시겠습니까?',
+	        title: '거절 처리하시겠습니까?',
+	        text:'거절 처리 시, 결제가 취소 처리됩니다.',
 	        icon: 'warning',
 	        showCancelButton: true,
 	        confirmButtonColor: '#d33',
 	        cancelButtonColor: '#3085d6',
-	        confirmButtonText: '취소',
+	        confirmButtonText: '거절 처리',
 	        cancelButtonText: '닫기'
 	    }).then((result) => {
 	        if (result.isConfirmed) {
-	            Swal.fire({
-	                title: '취소되었습니다!',
-	                text: '성공적으로 취소되었습니다.',
-	                icon: 'success'
-	            }).then(() => {
-	                window.location.href = redirectUrl;
-	            });
+	        	console.log("확인 : ",bannerId);
+	        	console.log("확인 : ",banner_type);
+	        	window.location.href = '${root}/admin/BannerApplyCancel?banner_apply_form_id='+bannerId+"&banner_type="+banner_type;
+	    	    
 	        }
 	    });
 	}
+	
+	document.addEventListener("DOMContentLoaded", function() {
+        <% if (request.getAttribute("canceled") != null) { %>
+            Swal.fire({
+                title: "취소 처리 완료",
+                text: "취소 처리가 성공적으로 되었습니다",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        <% } %>
+    });
 
 	</script>
 	

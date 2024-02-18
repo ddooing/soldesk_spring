@@ -256,16 +256,17 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 					
 					<div style="display: flex; justify-content: center; height: 95px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 						
-						<div style="margin-right: 50px;">
+						<div style="margin-right: 30px;">
 							<div>결제일자</div>
+							<div style="display: flex; flex-direction: row; align-items: center;">
 							<input id="datepicker" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
-								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
+								style="width: 150px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 								value="YYYY - MM - DD" spellcheck="false">
-          					<label style="margin-left: 30px; margin-right: 30px;">~</label>
+          					<label style="margin-left: 10px; margin-right: 10px;">~</label>
 							<input id="datepicker2" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
-								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
+								style="width: 150px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 							value="YYYY - MM - DD" spellcheck="false">
-							
+							</div>
 							  <script>
 							  
 							    window.addEventListener('DOMContentLoaded', () => {
@@ -469,13 +470,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						</script>
 						
 						<select name="usercombo" id="searchcombo"
-							style="width: 150px; height: 36px; margin-right: 30px; margin-top: 22px;">
+							style="width: 150px; height: 36px; margin-right: 10px; margin-top: 22px;">
 							<option value="" disabled selected>검색조건선택</option>
 							<option value="user_name">구매자명</option>
 							<option value="exhibition_title">구매상품</option>
 						</select> 
 						<input type="text" name="usersearch" id="usersearch"
-							style="width: 250px; height: 36px; margin-right: 30px; margin-top: 20px;"
+							style="width: 250px; height: 36px; margin-right: 10px; margin-top: 20px;"
 							placeholder="검색어를 입력해주세요" />
 						<button class="btn btn-dark" style="width: 80px; height: 40px; margin-top: 22px;">검색</button>
 					
@@ -542,7 +543,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						</script>
 						
 						
-						<button class="button-39" id="resetButton" role="button" style="width: 80px; height: 44px; margin-top: 22px; margin-left: 30px;">초기화</button>
+						<button class="button-39" id="resetButton" role="button" style="width: 80px; height: 44px; margin-top: 22px; margin-left: 20px;">초기화</button>
 						
 						<script>
 						    document.addEventListener('DOMContentLoaded', function() {
@@ -566,12 +567,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									<th scope="col">No</th>
 									<th scope="col" style="width: 150px;">주문일시</th>
 									<th scope="col" style="width: 150px;">결제일시</th>
-									<th scope="col">주문번호</th>
+									<th scope="col" style="width: 370px;">주문번호</th>
 									<th scope="col" style="width: 150px;">결제상태</th>
 									<th scope="col" style="width: 150px;">구매자명</th>
 									<th scope="col">결제액</th>
 									<th scope="col" style="width: 130px;">결제 수단</th>
-									<th scope="col" style="width: 200px;">구매상품</th>
+									<th scope="col" style="width: 220px;">구매상품</th>
 									<th scope="col"></th>
 								</tr>
 							</thead>
@@ -621,12 +622,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 										<td style="width: 150px;">
 											<c:choose>
 										        <c:when test="${reservelist.state == 1}">
-										            <button data-reserve-id="${reservelist.reserve_id}" class="btn btn-danger"style="float: right; margin-right: 50px;
+										            <button data-reserve-id="${reservelist.reserve_id}" class="btn btn-danger"style="float: right; margin-right: 30px;
 											 margin-top: 20px; margin-bottom: 20px;" onclick="showConfrimCancle(this.getAttribute('data-reserve-id'))">취소</button>
 										
 										        </c:when>
 										        <c:when test="${reservelist.state == 0}">
-										            <button  class="btn btn-danger"style="float: right; margin-right: 50px;
+										            <button  class="btn btn-danger"style="float: right; margin-right: 30px;
 											 margin-top: 20px; margin-bottom: 20px; cursor: not-allowed; opacity: 0.5;">취소</button>
 										        </c:when>
 										    </c:choose>

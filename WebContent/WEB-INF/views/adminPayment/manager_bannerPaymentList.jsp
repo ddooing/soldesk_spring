@@ -251,7 +251,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top:30px;">
-						<h3>배너 신청 결제 내역</h3>
+						<h3>배너 결제 내역</h3>
 					</div>
 					
 					<div style="display: flex; justify-content: center; height: 95px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
@@ -311,11 +311,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 								</div>
 								<div style="display: flex; flex-direction:row; align-items: center; margin-right:30px;">
 									<input id="datepicker" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
-										style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
+										style="width: 150px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 										value="YYYY - MM - DD" spellcheck="false">
-		          					<label style="margin-left: 30px; margin-right: 30px;">~</label>
+		          					<label style="margin-left: 10px; margin-right: 10px;">~</label>
 									<input id="datepicker2" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
-										style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
+										style="width: 150px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 									value="YYYY - MM - DD" spellcheck="false">
 								</div>
 							</div>
@@ -523,7 +523,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						
 						<div style="display: flex; flex-direction: column;"> 구매자명
 							<input type="text" name="usersearch" id="usersearch"
-								style="width: 150px; height: 36px; margin-right: 30px;"
+								style="width: 150px; height: 36px; margin-right: 20px;"
 								placeholder="입력" />
 						</div>
 						<button class="btn btn-dark" style="width: 80px; height: 40px; margin-top: 22px;">검색</button>
@@ -680,8 +680,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 													
 												        </c:when>
 												        <c:when test="${ bannerPaylist.state == 2}">
-												            <button class="btn btn-danger"style="float: right; margin-right: 30px;
-															 margin-top: 20px; margin-bottom: 20px;" onclick="showConfrimCancelAlert()">취소</button>
+												            <button class="btn btn-danger"style="float: right; margin-right: 30px; border-color: var(--bs-btn-hover-border-color);
+															 margin-top: 20px; background-color: #771a23; margin-bottom: 20px;" cursor:help; onclick="showConfrimCancelAlert()">취소</button>
 													
 												        </c:when>
 												        
@@ -809,11 +809,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 		function showConfrimCancelAlert(){
 			Swal.fire({
 	            title: "취소 불가",
-	            text: "이미 배너 등록된 결제건입니다",
-	            icon: "warning",
-	            showCancelButton: true,
-	            cancelButtonColor: "gray",
-	            cancelButtonText: '닫기'
+	            text: "이미 등록된 결제건입니다",
+	            icon: "error",
+	            showCancelButton: true, // '취소' 버튼만 표시합니다.
+			    cancelButtonColor: "gray", // 취소 버튼의 색상을 gray로 설정합니다.
+			    cancelButtonText: '닫기', // 취소 버튼의 텍스트를 '닫기'로 설정합니다.
+			    showConfirmButton: false, //
+	            
 	        });
 		}
 	
@@ -831,7 +833,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 	        }).then((result) => {
 	            if (result.isConfirmed) {
 	            	 window.location.href = '${root}/adminPayment/bannerPayment_cancel?banner_form_id='+formId;
-	            	console.log("클릭한 예매 formId : ",formId);
+	    
 	            }
 	            
 	        });

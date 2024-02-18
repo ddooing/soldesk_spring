@@ -91,7 +91,7 @@
 		                </a>
 		                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 		                   <nav class="sb-sidenav-menu-nested nav">
-		                      <a class="nav-link" href="${root }/admin/manager_reservelist">전시회 결제 관리</a>
+		                      <a class="nav-link" href="${root }/adminPayment/manager_reservelist">전시회 결제 관리</a>
 		                      <a class="nav-link" href="${root }/adminPayment/manager_bannerPaymentList">배너 결제 관리</a>
 		                   </nav>
 		                </div>
