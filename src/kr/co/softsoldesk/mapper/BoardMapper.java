@@ -100,13 +100,13 @@ public interface BoardMapper {
 	void addComment(CommentBean commentBean);
 	
 	// 댓글 조회
-	@Select("SELECT b.comment_id AS comment_id, a.nickname AS nickname, b.regdate, b.modify_date, b.board_id, "
-			+ "b.contents AS contents, b.board_id AS board_id "
-			+ "FROM user_table a "
-			+ "JOIN comment_table b ON a.user_id = b.user_id "
-			+ "WHERE b.board_id = #{board_id} AND b.state != 0 "
-			+ "ORDER BY b.comment_id DESC")
-	List<CommentBean> getComment_s(int board_id, RowBounds rowBounds);
+	   @Select("SELECT b.comment_id AS comment_id, a.nickname AS nickname, b.regdate, b.modify_date, b.board_id, "
+	         + "b.contents AS contents, b.board_id AS board_id, b.user_id as user_id "
+	         + "FROM user_table a "
+	         + "JOIN comment_table b ON a.user_id = b.user_id "
+	         + "WHERE b.board_id = #{board_id} AND b.state != 0 "
+	         + "ORDER BY b.comment_id DESC")
+	   List<CommentBean> getComment_s(int board_id, RowBounds rowBounds);
 
 	
 	// 댓글 페이징처리

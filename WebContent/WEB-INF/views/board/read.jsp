@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
@@ -10,7 +10,7 @@
 <title>게시판</title>
 <meta charset="utf-8" />
 <meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+   content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
 
@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
 
 <!-- Bootstrap core JS-->
-<script	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script   src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="js/scripts.js"></script>
 
@@ -40,128 +40,128 @@
 <!-- Carousel 자바스크립트-->
 <script src='https://www.gmarwaha.com/script/lib/jquery-1.11.1.js'></script>
 <script src="https://www.gmarwaha.com/script/lib/jquery.easing-1.3.js"></script>
-<script	src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
-<script	src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
-<script	src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
+<script   src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
+<script   src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
+<script   src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
 
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css">
-<script	src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-	
+<script   src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+   
 </head>
 <body>
 <body id="page-top">
-	<!-- 메뉴바 -->
-	<c:import url="/WEB-INF/views/include/header.jsp" />
+   <!-- 메뉴바 -->
+   <c:import url="/WEB-INF/views/include/header.jsp" />
 
-	<div id="contents" class="contents_customer area_movingvar litype5">
+   <div id="contents" class="contents_customer area_movingvar litype5">
 
-		<div class="board_title"
-			style="margin-top: 80px; margin-bottom: 15px;">
-			<h3>
-				<a href="${root}/board/main"
-					style="font-size: 35px; margin-left: 20px; color: black; text-decoration: none;">게시판</a>
-			</h3>
-		</div>
-		<div>
-			<div class="active">
-				<div class="tab_con">
-						<table class="tbl_dtal" summary="게시판 상세내용에 대한 표입니다">
-							<tr>
-								<th scope="col" colspan="3" style="padding: 6px;">
-									<input type="text" id="title" name="title"class="form-control" value="${readContentBean.title }"
-									disabled="disabled" style="background: #f8f9fa; border: none;" />
-								</th>
-							</tr>
-							<tbody>
-								<tr style="text-align: center; background-color: rgb(200, 200, 200);">
-									<td>
-										<label for="user_id"> 
-											<span class="tit" style="margin-left: 20px;">작성자</span>
-										</label>
-										<label class="form-control" style="background: #c8c8c8; border: none; width: 120px; display: inline; margin-right: 20px;">${readContentBean.nickname}</label>
-									</td>
-									<td style="text-align: right;">
-										<label for="create_date"> 
-											<span class="tit">등록일</span>
-										</label> 
-										<label style="background: #c8c8c8; border: none; width: 120px; display: inline; margin-right: 20px; font-size: 15px;">${readContentBean.update_date}</label>
-									</td>
-									<td style="text-align: right;">
-										<label for="views"> 
-											<span class="tit">조회수</span>
-										</label> 
-										<label style="background: #c8c8c8; border: none; width: 120px; display: inline; margin-right: 20px; font-size: 15px;">${readContentBean.views}</label>
-									</td>
-								</tr>
-								<tr class="tb_content" style="height: 350px; vertical-align:text-top;">
-									<td colspan="3">
-										<div id="divNoticeContents">
-											<!-- 내용 -->
-											<textarea id="contents" name="contents"
-												style="resize: none; border: hidden; background-color: white;" disabled="disabled">${readContentBean.contents }</textarea>
-										</div>
-									</td>
-								</tr>
-								<%-- 다음글 링크 --%>
+      <div class="board_title"
+         style="margin-top: 80px; margin-bottom: 15px;">
+         <h3>
+            <a href="${root}/board/main"
+               style="font-size: 35px; margin-left: 20px; color: black; text-decoration: none;">게시판</a>
+         </h3>
+      </div>
+      <div>
+         <div class="active">
+            <div class="tab_con">
+                  <table class="tbl_dtal" summary="게시판 상세내용에 대한 표입니다">
+                     <tr>
+                        <th scope="col" colspan="3" style="padding: 6px;">
+                           <input type="text" id="title" name="title"class="form-control" value="${readContentBean.title }"
+                           disabled="disabled" style="background: #f8f9fa; border: none;" />
+                        </th>
+                     </tr>
+                     <tbody>
+                        <tr style="text-align: center; background-color: rgb(200, 200, 200);">
+                           <td>
+                              <label for="user_id"> 
+                                 <span class="tit" style="margin-left: 20px;">작성자</span>
+                              </label>
+                              <label class="form-control" style="background: #c8c8c8; border: none; width: 120px; display: inline; margin-right: 20px;">${readContentBean.nickname}</label>
+                           </td>
+                           <td style="text-align: right;">
+                              <label for="create_date"> 
+                                 <span class="tit">등록일</span>
+                              </label> 
+                              <label style="background: #c8c8c8; border: none; width: 120px; display: inline; margin-right: 20px; font-size: 15px;">${readContentBean.update_date}</label>
+                           </td>
+                           <td style="text-align: right;">
+                              <label for="views"> 
+                                 <span class="tit">조회수</span>
+                              </label> 
+                              <label style="background: #c8c8c8; border: none; width: 120px; display: inline; margin-right: 20px; font-size: 15px;">${readContentBean.views}</label>
+                           </td>
+                        </tr>
+                        <tr class="tb_content" style="height: 350px; vertical-align:text-top;">
+                           <td colspan="3">
+                              <div id="divNoticeContents">
+                                 <!-- 내용 -->
+                                 <textarea id="contents" name="contents"
+                                    style="resize: none; border: hidden; background-color: white;" disabled="disabled">${readContentBean.contents }</textarea>
+                              </div>
+                           </td>
+                        </tr>
+                        <%-- 다음글 링크 --%>
 
-								<tr class="tb_link">
-									<td colspan="3">
-										<a href="read?board_id=${NextBoard.board_id}" class="tb_next" style="text-decoration: none;"> <span style="margin-right: 10px; color:black; text-decoration: none;">다음글</span>
-												<span style="color: black; text-decoration: none;">${NextBoard.title}</span> <!-- 수정: 제목 동적 표시 -->
-										</a>
-									</td>
-								</tr>
-								<tr class="tb_link">
-									<td colspan="3">
-										<a href="read?board_id=${PreviousBoard.board_id}" class="tb_prev" style="text-decoration: none;">
-											<span style="margin-right: 10px; color:black; text-decoration: none;">이전글</span>
-											<span style="color: black; text-decoration: none;">${PreviousBoard.title != null ? PreviousBoard.title : '이전 게시글 없음'}</span>
-										</a>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-				</div>
-				<div class="btn3" style="display: flex; justify-content: flex-end; margin-top: 20px;">
-					<c:if test="${loginUserBean.user_id == readContentBean.user_id}">
-						<a class="btn btn-dark" style="margin-right: 10px;" href="${root}/board/modify?board_id=${board_id}">수정</a>
-						<a class="btn btn-dark" style="margin-right: 10px;" href="${root}/board/delete?board_id=${board_id}">삭제</a>
-					</c:if>
-						<a class="btn btn-dark" href="${root}/board/main">목록</a>
-				</div>
-			</div>
+                        <tr class="tb_link">
+                           <td colspan="3">
+                              <a href="read?board_id=${NextBoard.board_id}" class="tb_next" style="text-decoration: none;"> <span style="margin-right: 10px; color:black; text-decoration: none;">다음글</span>
+                                    <span style="color: black; text-decoration: none;">${NextBoard.title}</span> <!-- 수정: 제목 동적 표시 -->
+                              </a>
+                           </td>
+                        </tr>
+                        <tr class="tb_link">
+                           <td colspan="3">
+                              <a href="read?board_id=${PreviousBoard.board_id}" class="tb_prev" style="text-decoration: none;">
+                                 <span style="margin-right: 10px; color:black; text-decoration: none;">이전글</span>
+                                 <span style="color: black; text-decoration: none;">${PreviousBoard.title != null ? PreviousBoard.title : '이전 게시글 없음'}</span>
+                              </a>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+            </div>
+            <div class="btn3" style="display: flex; justify-content: flex-end; margin-top: 20px;">
+               <c:if test="${loginUserBean.user_id == readContentBean.user_id}">
+                  <a class="btn btn-dark" style="margin-right: 10px;" href="${root}/board/modify?board_id=${board_id}">수정</a>
+                  <a class="btn btn-dark" style="margin-right: 10px;" href="${root}/board/delete?board_id=${board_id}">삭제</a>
+               </c:if>
+                  <a class="btn btn-dark" href="${root}/board/main">목록</a>
+            </div>
+         </div>
 
-			<div class="comment-box">
-				<div class="reply-form">
-			        <h4>댓글 작성</h4>
-			        <div class="row" style="margin-right: 0; margin-left: 0;">
-			            <div class="col-md-11" style="border: 1px solid #c8c8c8; padding-right: 0; padding-left: 0;flex: 0 0 auto; width: 100%;">
-			                <textarea id="commentText" class="form-control" rows="3" placeholder="댓글을 입력하세요." style="border-radius: 4px; border-color: #ced4da; outline: none;"></textarea>
-			                <div style="border-top: 1px solid #c8c8c8; display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
-			                    <div id="commentCounter" style="margin-left: 10px; color: #6c757d; font-size: 0.875rem;">0/500</div>
-			                    <button id="submitReply" type="button" class="btn" style="background-color: #28a745; color: white; padding: .375rem .75rem; border-radius: 4px; border-color: #28a745;">등록</button>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
-				<div class="reply-section mt-4">
-					<h4>댓글</h4>
-					<div id="replySection"></div>
-				</div>
-				<div>
+         <div class="comment-box">
+            <div class="reply-form">
+                 <h4>댓글 작성</h4>
+                 <div class="row" style="margin-right: 0; margin-left: 0;">
+                     <div class="col-md-11" style="border: 1px solid #c8c8c8; padding-right: 0; padding-left: 0;flex: 0 0 auto; width: 100%;">
+                         <textarea id="commentText" class="form-control" rows="3" placeholder="댓글을 입력하세요." style="border-radius: 4px; border-color: #ced4da; outline: none;"></textarea>
+                         <div style="border-top: 1px solid #c8c8c8; display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                             <div id="commentCounter" style="margin-left: 10px; color: #6c757d; font-size: 0.875rem;">0/500</div>
+                             <button id="submitReply" type="button" class="btn" style="background-color: #28a745; color: white; padding: .375rem .75rem; border-radius: 4px; border-color: #28a745;">등록</button>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+            <div class="reply-section mt-4">
+               <h4>댓글</h4>
+               <div id="replySection"></div>
+            </div>
+            <div>
 
-					<ul id="comments-list"></ul>
-				</div>
-				<div id="pagination" style="justify-content: center"></div>
-			</div>
-		</div>
-	</div>
+               <ul id="comments-list"></ul>
+            </div>
+            <div id="pagination" style="justify-content: center"></div>
+         </div>
+      </div>
+   </div>
 
-	<!-- 푸터-->
-	<c:import url="/WEB-INF/views/include/footer.jsp" />
+   <!-- 푸터-->
+   <c:import url="/WEB-INF/views/include/footer.jsp" />
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -197,19 +197,19 @@ $(document).ready(function() {
     $("#submitReply").click(function() {
         var commentText = $("#commentText").val();
         if (commentText.trim() === '') {
-        	Swal.fire({
-        	    title: '댓글 입력',
-        	    input: 'text',
-        	    inputLabel: '댓글을 입력하세요',
-        	    showCancelButton: true,
-        	    confirmButtonText: '확인',
-        	    cancelButtonText: '취소',
-        	    inputValidator: (value) => {
-        	        if (!value) {
-        	            return '댓글을 입력해주세요.';
-        	        }
-        	    }
-        	})
+           Swal.fire({
+               title: '댓글 입력',
+               input: 'text',
+               inputLabel: '댓글을 입력하세요',
+               showCancelButton: true,
+               confirmButtonText: '확인',
+               cancelButtonText: '취소',
+               inputValidator: (value) => {
+                   if (!value) {
+                       return '댓글을 입력해주세요.';
+                   }
+               }
+           })
         }
         
         $.ajax({
@@ -245,6 +245,8 @@ $(document).ready(function() {
     });
 
     function updateReplyList(page) {
+        var loggedInUserId = ${loginUserBean.user_id}; // 서버 측에서 설정되어야 하는 로그인한 사용자의 ID
+
         $.ajax({
             url: '${root}/comment_s?board_id=${board_id}&page=' + page,
             type: 'GET',
@@ -252,14 +254,17 @@ $(document).ready(function() {
             success: function(response) {
                 $("#replySection").empty(); 
                 $.each(response.comment_s, function(index, comment) {
+                    var buttonsHtml = '';
+                    if (loggedInUserId === comment.user_id) {
+                        buttonsHtml = '<button class="btn btn-sm btn-primary edit-btn mr-2" data-id="' + comment.comment_id + '">수정</button>' +
+                                      '<button class="btn btn-sm btn-danger delete-btn" data-id="' + comment.comment_id + '">삭제</button>';
+                    }
+
                     var commentHtml = '<div class="card mt-2">' +
                                         '<div class="card-body">' +
                                             '<p class="card-subtitle text-muted">작성자: ' + comment.nickname + '</p>' +
                                             '<p class="card-text">' + comment.contents + '</p>' +
-                                            '<div>' +
-                                                '<button class="btn btn-sm btn-primary edit-btn mr-2" data-id="' + comment.comment_id + '">수정</button>' +
-                                                '<button class="btn btn-sm btn-danger delete-btn" data-id="' + comment.comment_id + '">삭제</button>' +
-                                            '</div>' +
+                                            '<div>' + buttonsHtml + '</div>' +
                                         '</div>' +
                                       '</div>';
                     $("#replySection").append(commentHtml); 
@@ -276,6 +281,7 @@ $(document).ready(function() {
             }
         });
     }
+
     var currentPage = 1;//현재 페이지 초기값
     
     function updatePagination(pageBean) {
@@ -315,46 +321,46 @@ $(document).ready(function() {
    
     function bindCommentActions() {
         // 댓글 수정 버튼 이벤트
-    	  $(".edit-btn").off('click').on('click', function() {
-    	        var comment_id = $(this).data("id");
-    	        var currentContents = $(this).closest('.card-body').find('.card-text').text();
+         $(".edit-btn").off('click').on('click', function() {
+               var comment_id = $(this).data("id");
+               var currentContents = $(this).closest('.card-body').find('.card-text').text();
 
-    	        Swal.fire({
-    	            title: '댓글 수정',
-    	            input: 'text',
-    	            inputValue: currentContents, // 기존 댓글 내용을 입력 필드에 표시합니다.
-    	            inputLabel: '수정할 댓글 내용을 입력하세요',
-    	            showCancelButton: true,
-    	            confirmButtonText: '확인',
-    	            cancelButtonText: '취소',
-    	            inputValidator: (value) => {
-    	                if (!value.trim()) {
-    	                    return '댓글 내용을 입력해주세요.';
-    	                }
-    	            }
-    	        }).then((result) => {
-    	            if (result.isConfirmed) {
-    	                $.ajax({
-    	                    url: '${root}/modifyComment',
-    	                    type: 'POST',
-    	                    contentType: 'application/json',
-    	                    data: JSON.stringify({
-    	                        comment_id: comment_id,
-    	                        contents: result.value
-    	                    }),
-    	                    success: function(response) {
-    	                    	Swal.fire('성공', '댓글이 수정되었습니다.', 'success').then(() => {
-    	                            location.reload();
-    	                        });
-    	                    },
-    	                    error: function(error) {
-    	                        console.log(error);
-    	                        Swal.fire('실패', '댓글 수정에 실패했습니다.', 'error');
-    	                    }
-    	                });
-    	            }
-    	        });
-    	    });
+               Swal.fire({
+                   title: '댓글 수정',
+                   input: 'text',
+                   inputValue: currentContents, // 기존 댓글 내용을 입력 필드에 표시합니다.
+                   inputLabel: '수정할 댓글 내용을 입력하세요',
+                   showCancelButton: true,
+                   confirmButtonText: '확인',
+                   cancelButtonText: '취소',
+                   inputValidator: (value) => {
+                       if (!value.trim()) {
+                           return '댓글 내용을 입력해주세요.';
+                       }
+                   }
+               }).then((result) => {
+                   if (result.isConfirmed) {
+                       $.ajax({
+                           url: '${root}/modifyComment',
+                           type: 'POST',
+                           contentType: 'application/json',
+                           data: JSON.stringify({
+                               comment_id: comment_id,
+                               contents: result.value
+                           }),
+                           success: function(response) {
+                              Swal.fire('성공', '댓글이 수정되었습니다.', 'success').then(() => {
+                                   location.reload();
+                               });
+                           },
+                           error: function(error) {
+                               console.log(error);
+                               Swal.fire('실패', '댓글 수정에 실패했습니다.', 'error');
+                           }
+                       });
+                   }
+               });
+           });
 
  
      // 댓글 삭제 버튼 이벤트
