@@ -83,11 +83,22 @@ public class AdminReserveController {
 		
 		//1. 포인트 회수  관리자이기때문에 회수하기 
 		int pointMinus = reserveBean.getPoint_plus()-reserveBean.getPoint_deduction();
+		
+		PointDetailBean pointDetailBean =new PointDetailBean();
+		
+		if(pointMinus < 0 )// 돌려주기 
+		{
+			 pointDetailBean.setPoint_state_code(1);	// 포인트 1:+
+		}
+		else {// 뺏기
+			pointDetailBean.setPoint_state_code(2);	// 포인트 2:-
+		}
 		userService.getPointMinus(pointMinus,reserveBean.getUser_id());
-		PointDetailBean pointDetailBean =new PointDetailBean(); 
+		
+		pointMinus = Math.abs(pointMinus); 
         pointDetailBean.setPoint(pointMinus);
         pointDetailBean.setUser_id(reserveBean.getUser_id());
-        pointDetailBean.setPoint_state_code(2);	// 포인트 2:-
+        
         pointDetailBean.setPoint_type_code(4);	// 예매 취소
         
         
