@@ -194,7 +194,7 @@
 								        data-reserve_date="${cartlist.reserve_date}"
 								        data-exhibition_id="${cartlist.exhibition_id}"
 								        data-ticket_count="${cartlist.ticket_count}"
-		               						 <c:if test="${status.last}">checked</c:if>> 
+		               						<c:if test="${status.first}">checked="checked"</c:if>> 
 								    </div>
 									<img src=${cartlist.main_poster_path}${cartlist.main_poster_name} alt="예약포스터"
 										style="width: 200px; height: 280px; margin-left: 150px; margin-top: 40px;" 

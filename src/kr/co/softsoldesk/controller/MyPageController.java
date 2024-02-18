@@ -115,6 +115,18 @@ public class MyPageController {
 		
 		model.addAttribute("user_id",user_id);
 		
+		// 리뷰 정보 가져오기 
+		
+		// 만약 첫 등록시 .... modify null 일때, 
+		
+		// 아카이브 작성시 경험치 공개 시 100 증가 아닐시 50증가
+		if(reviewInfoBean.getExpose() == 1) {
+			UserService.IncreaseExp(100, user_id);
+		} else {
+			UserService.IncreaseExp(50, user_id);
+		}
+		
+		
 		ReviewBean r1 = new ReviewBean();
 		r1.setReserve_id(reserve_id);
 		r1.setRating(rating);
