@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class ExhibitionBean {
 	
+	private String keyword;
+	
 	// 테이블 요소
 	private int exhibition_id;
 	private String title;

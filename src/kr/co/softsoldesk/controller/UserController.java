@@ -111,6 +111,11 @@ public class UserController {
 	      return "user/not_login";
 	}
 	
+	@GetMapping("/not_admin")
+	public String not_admin() {
+		return "user/not_admin";
+	}
+	
 	
 	@GetMapping("/paymentpage_error")
 	public String paymentpage_error() {

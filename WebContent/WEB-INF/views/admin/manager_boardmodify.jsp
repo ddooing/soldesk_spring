@@ -14,13 +14,23 @@
 <meta name="author" content="" />
 <link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 <title>관리자 페이지</title>
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+<link
+	href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
+	rel="stylesheet" />
 <link href="../css/styles_manager.css" rel="stylesheet" />
 <!--부트스트랩 아이콘 사용-->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+	rel="stylesheet">
 
-<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+	crossorigin="anonymous"></script>
+
+<!-- SweetAlert2 CSS 파일 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+  <!-- SweetAlert2 JS 파일 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- JQuery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -88,7 +98,7 @@ th{
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top: 30px; margin-left:20px;">
-						<h3>게시판 작성</h3>
+						<h3>게시판 글 수정</h3>
 					</div>
 					<div style="position: relative; margin:20px; display: flex; justify-content: start; height: 80px; align-items: center; background-color: #E8E8E8; margin-top: 20px;">
 						<button class="btn btn-dark" style="margin-left: 50px;" onclick="location.href='${root}/admin/manager_boardlist'">게시판 관리</button>
@@ -96,12 +106,13 @@ th{
 					</div>
 					
 					<div style="background-color: white; margin-top: 30px; margin: 20px;">
-						<form:form action="manager_boardwrite_pro" method="post" modelAttribute="boardBean">
+						<form:form action="boardmodify_pro" method="post" modelAttribute="bModifyBean">
+						<form:hidden path="board_id"/>
 							<table class="table table-bordered">
 								<tr style="align-items: center; height: 100px;">
 								    <th style="text-align: center; width: 200px; vertical-align: middle; font-size: 20px;">제목*</th>
 								    <td colspan="3" style="vertical-align: middle;">
-								       <input id="title" name="title" style="width: 100%; height: 50px; border: none; border-bottom: 1px solid black;" placeholder="제목을 입력하세요"/>
+								       <form:input id="title" path="title" value="${boardModify.title }" style="width: 100%; height: 50px; border: none; border-bottom: 1px solid black;"/>
 								    </td>
 								</tr>
 								<tr style="align-items: center; height: 100px;">
@@ -111,16 +122,31 @@ th{
 									</td>
 									<th style="vertical-align: middle; width:200px; font-size:20px; text-align: center;">공개 여부*</th>
 									<td style="vertical-align: middle; width:500px;">
-										<input type="radio" id="important" name="state" value="1" style="width: 20px; height: 20px; margin-left:50px;"> 
-										<label for="important" style="margin-right: 50px; font-size: 20px; margin-left:20px;">공개</label> 
-										<input type="radio" id="notimportant" name="state" value="0" style="width: 20px; height: 20px; margin-left:30px;"> 
-										<label for="notimportant" style="font-size: 20px; margin-left:20px;">비공개</label>
+										<c:choose>
+											<c:when test="${boardModify.state == 1 }">
+												<input type="radio" id="important" name="state" value="1" style="width: 20px; height: 20px; margin-left:50px;" checked> 
+												<label for="important" style="margin-right: 50px; font-size: 20px; margin-left:20px;">공개</label> 
+												<input type="radio" id="notimportant" name="state" value="0" style="width: 20px; height: 20px; margin-left:30px;"> 
+												<label for="notimportant" style="font-size: 20px; margin-left:20px;">비공개</label>
+											</c:when>
+											<c:otherwise>
+												<input type="radio" id="important" name="state" value="1" style="width: 20px; height: 20px; margin-left:50px;"> 
+												<label for="important" style="margin-right: 50px; font-size: 20px; margin-left:20px;">공개</label> 
+												<input type="radio" id="notimportant" name="state" value="0" style="width: 20px; height: 20px; margin-left:30px;"checked> 
+												<label for="notimportant" style="font-size: 20px; margin-left:20px;">비공개</label>
+											</c:otherwise>
+										</c:choose>
 									</td>
+									
+									
+									
+										
+									
 								</tr>
 								<tr style="align-items: center; height: 100px; ">
 									<th style="vertical-align: middle; font-size:20px; text-align: center;">내용</th>
 									<td colspan="3">
-										<textarea rows="15" cols="150" name="contents" style="resize:none;"></textarea>
+										<form:textarea rows="15" cols="150" path="contents" style="resize:none;" />
 									</td>
 								</tr>
 							</table>	

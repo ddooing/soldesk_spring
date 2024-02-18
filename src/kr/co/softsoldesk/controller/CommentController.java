@@ -41,7 +41,6 @@ public class CommentController {
 	// 조회
 	@GetMapping("/comment_s")
 	public Map<String, Object> getComment_s(@RequestParam("board_id") int board_id,
-										
 										  @RequestParam(value = "page", defaultValue = "1") int page, Model model) {
 	
 	    List<CommentBean> comment_s = boardService.getComment_s(board_id, page);

@@ -23,7 +23,11 @@ public class BoardBean {
     private String update_date;   // 수정날짜
     private int state;
     
+    private String reply;
+    
     private String nickname;
+    
+    private int rownum;
     
     
      

@@ -147,17 +147,17 @@ $(document).ready(function(){
 								</td>
 								
 								<td>
+								<a href="${root }/admin/manager_noticemodify?notice_id=${noticeList.notice_id}" class="btn btn-dark">수정</a>
 								<c:choose>
 								    <c:when test="${noticeList.state == 1 }">
-								        <a href="#" class="btn btn-danger delete-link" data-href="${root }/admin/onedelete?notice_id=${noticeList.notice_id}">삭제</a>
+								        <a href="#" class="btn btn-danger delete-link" data-href="${root }/admin/onedeleteN?notice_id=${noticeList.notice_id}">삭제</a>
 								    </c:when>
 								    <c:when test="${noticeList.state == 2 }">
-								        <a href="#" class="btn btn-danger delete-link" data-href="${root }/admin/onedelete?notice_id=${noticeList.notice_id}">삭제</a>
+								        <a href="#" class="btn btn-danger delete-link" data-href="${root }/admin/onedeleteN?notice_id=${noticeList.notice_id}">삭제</a>
 								    </c:when>
 								    <c:otherwise>
 								    </c:otherwise>
 								</c:choose>
-									<a href="${root }/admin/manager_noticemodify?notice_id=${noticeList.notice_id}" class="btn btn-dark">수정</a>
 								</td>
 							</tr>
 							<script>

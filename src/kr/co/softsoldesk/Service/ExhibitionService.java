@@ -167,6 +167,42 @@ public class ExhibitionService {
 	public void increase_exhibitionTotalTicket(int exhibition_id,int ticket_cnt) {
 		exhibitionDao.increase_exhibitionTotalTicket(exhibition_id,ticket_cnt);
 	}
+	
+	// 전시회 검색 리스트
+	public List<ExhibitionBean>SearchExhibition(String title, int page){
+		int start = (page - 1) * exhibition_listcnt;
+		RowBounds rowBounds = new RowBounds(start, exhibition_listcnt);
+		
+		return exhibitionDao.SearchExhibition(title, rowBounds);
+	}
+	
+	public PageBean SearchExhibitionCnt(String title, int currentPage) {
+		
+		int search_Cnt = exhibitionDao.SearchExhibitionCnt(title);
+		PageBean pageBean = new PageBean(search_Cnt, currentPage, exhibition_listcnt, exhibition_paginationcnt);
+		// 전체 게시글/현재 페이지/페이지제한(10)/화면에 보여지는 버튼의 최대개수(10)를 매개변수로 하는 pageBean을 객체로 생성해 리턴
+		
+		return pageBean;
+	}
+	
+	// 전시회 검색없음 리스트
+	public List<ExhibitionBean>AllExhibition(int page){
+		int start = (page - 1) * exhibition_listcnt;
+		RowBounds rowBounds = new RowBounds(start, exhibition_listcnt);
+		
+		return exhibitionDao.AllExhibition(rowBounds);
+	}
+	
+	public PageBean AllExhibitionCnt(int currentPage) {
+		
+		int all_Cnt = exhibitionDao.AllExhibitionCnt();
+		PageBean pageBean = new PageBean(all_Cnt, currentPage, exhibition_listcnt, exhibition_paginationcnt);
+		// 전체 게시글/현재 페이지/페이지제한(10)/화면에 보여지는 버튼의 최대개수(10)를 매개변수로 하는 pageBean을 객체로 생성해 리턴
+		
+		return pageBean;
+	}
+	
+	
 	// ========================== 전시회 등록 신청 ==================
 	
 	// exhibition_enroll 테이블에 추가

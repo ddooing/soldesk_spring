@@ -25,6 +25,7 @@ import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.intercepter.CheckAdminInterceptor;
 import kr.co.softsoldesk.intercepter.CheckLoginInterceptor;
 import kr.co.softsoldesk.intercepter.TopMenuInterceptor;
 import kr.co.softsoldesk.mapper.AdminContentsMapper;
@@ -256,12 +257,18 @@ public class ServletAppContext implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 	      TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(loginUserBean);
 	      CheckLoginInterceptor checkLoginInterceptor = new CheckLoginInterceptor(loginUserBean);
+	      CheckAdminInterceptor checkAdminInterceptor = new CheckAdminInterceptor(loginUserBean);
+	      
 
 	      InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
 	      InterceptorRegistration reg2 = registry.addInterceptor(checkLoginInterceptor);
+	      InterceptorRegistration reg3 = registry.addInterceptor(checkLoginInterceptor);
+	      InterceptorRegistration reg4 = registry.addInterceptor(checkAdminInterceptor);
 
 	      reg1.addPathPatterns("/**");
-	      reg2.addPathPatterns("/user/mypage", "/board/main");
+	      reg2.addPathPatterns("/mypage", "/board/main");
+	      reg3.addPathPatterns("/board/write");
+	      reg4.addPathPatterns("/admin/manager_accountmanager");
 
 
 	   }

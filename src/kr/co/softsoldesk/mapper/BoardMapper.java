@@ -32,10 +32,12 @@ public interface BoardMapper {
 	BoardBean getReadInfo(int board_id);
 
 	// 게시글 목록(사용자 명과 같은) 조회(내림차순)
-	@Select("SELECT a1.board_id, a1.title, a2.nickname AS nickname, TO_CHAR(a1.update_date, 'YYYY-MM-DD') AS update_date, a2.user_id AS user_id, a1.state "
-			+ "FROM board a1 "
-			+ "JOIN user_table a2 ON a1.user_id = a2.user_id AND a1.state != 0 "
-			+ "ORDER BY a1.board_id DESC")
+	@Select("select rownum, a.*\r\n"
+			+ "from (SELECT a1.board_id, a1.title, a2.nickname AS nickname, TO_CHAR(a1.update_date, 'YYYY-MM-DD') AS update_date, a2.user_id AS user_id, rownum\r\n"
+			+ "FROM board a1\r\n"
+			+ "JOIN user_table a2 ON a1.user_id = a2.user_id AND a1.state != 0\r\n"
+			+ "ORDER BY a1.board_id asc) a\r\n"
+			+ "order by rownum desc")
 	List<BoardBean> getBoardList(RowBounds rowBounds);
 
 	// 해당 게시글 번호에 해당하는 게시글 정보와 게시글 테이블에서 FK로 설정한 회원 번호를 찾아 회원 이름을 찾아온다.
@@ -65,7 +67,7 @@ public interface BoardMapper {
 	BoardBean getNextBoard(int board_id);
 
 	// 게시글 수정할 때 이름 조회
-	@Select("SELECT a1.nickname as nickname, a2.board_id as board_id, a2.title as title, a2.contents as contents, TO_CHAR(TRUNC(SYSDATE), 'YYYY-MM-DD') as update_date "
+	@Select("SELECT a1.nickname as nickname, a2.board_id as board_id, a2.title as title, a2.contents as contents, TO_CHAR(sysdate, 'YYYY-MM-DD') as create_date "
 	        + "FROM user_table a1, board a2 "
 	        + "WHERE a1.user_id = a2.user_id "
 	        + "AND a2.board_id = #{board_id} "
@@ -102,7 +104,7 @@ public interface BoardMapper {
 			+ "b.contents AS contents, b.board_id AS board_id "
 			+ "FROM user_table a "
 			+ "JOIN comment_table b ON a.user_id = b.user_id "
-			+ "WHERE b.board_id = 64 AND b.state != 0 "
+			+ "WHERE b.board_id = #{board_id} AND b.state != 0 "
 			+ "ORDER BY b.comment_id DESC")
 	List<CommentBean> getComment_s(int board_id, RowBounds rowBounds);
 
@@ -136,7 +138,7 @@ public interface BoardMapper {
 	CommentBean getCommentInfo(int comment_id);
 	*/
 	// 검색
-	@Select("SELECT b.board_id, u.nickname, b.title, b.update_date, b.views "
+	@Select("SELECT b.board_id, u.nickname, b.title, TO_CHAR(b.update_date, 'YYYY-MM-DD')as update_date, b.views, rownum "
 	        + "FROM board b "
 	        + "INNER JOIN user_table u ON b.user_id = u.user_id "
 	        + "WHERE b.state != 0 AND ("
@@ -144,9 +146,10 @@ public interface BoardMapper {
 	        + "    (#{searchType} = 'total' AND (b.title LIKE '%' || #{searchText} || '%' OR b.contents LIKE '%' || #{searchText} || '%')) OR "
 	        + "    (#{searchType} = 'title' AND b.title LIKE '%' || #{searchText} || '%') OR "
 	        + "    (#{searchType} = 'contents' AND b.contents LIKE '%' || #{searchText} || '%')) "
-	        + "ORDER BY b.board_id DESC")
+	        + "ORDER BY         bby bmnmmmmmmmmmm b.board_id DESC")
 	List<BoardBean> getSearchBoards(@Param("searchType") String searchType, @Param("searchText") String searchText, RowBounds rowBounds);
 
+	
 	// 검색 수
 	@Select("SELECT COUNT(*) AS count "
 	        + "FROM board b "

@@ -529,7 +529,7 @@ ul, ol {
 	<div id="contents" class="contents_customer area_movingvar litype5">
 
 		<div class="board_title" style="margin-top :110px; margin-bottom:15px;">
-		    <h2><a href="${root }/notice/main" style="font-size: 42px;">공지사항</a></h2>
+		    <h2><a href="${root }/notice/main" style="font-size: 42px; color: black; text-decoration: none;">공지사항</a></h2>
 		</div>
 		
 		<br>

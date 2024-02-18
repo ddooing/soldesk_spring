@@ -206,6 +206,83 @@ public interface ExhibitionMapper {
 	@Update("update exhibition set ticket_cnt= ticket_cnt + #{ticket_cnt}  where exhibition_id=#{exhibition_id}")
 	void increase_exhibitionTotalTicket(@Param("exhibition_id")int exhibition_id,@Param("ticket_cnt")int ticket_cnt);
 	
+	@Select("SELECT \r\n"
+			+ "    e.exhibition_id, \r\n"
+			+ "    e.title, \r\n"
+			+ "    e.regdate, \r\n"
+			+ "    e.author, \r\n"
+			+ "    e.price, \r\n"
+			+ "    e.exhibition_start, \r\n"
+			+ "    e.exhibition_end, \r\n"
+			+ "    e.open, \r\n"
+			+ "    e.holiday, \r\n"
+			+ "    e.ticket_cnt, \r\n"
+			+ "    e.address, \r\n"
+			+ "    e.place, \r\n"
+			+ "    e.site, \r\n"
+			+ "    e.views, \r\n"
+			+ "    e.state, \r\n"
+			+ "    f1.path as main_poster_path, \r\n"
+			+ "    f1.name as main_poster_name, \r\n"
+			+ "    f2.path as detail_poster_path, \r\n"
+			+ "    f2.name as detail_poster_name \r\n"
+			+ "FROM \r\n"
+			+ "    exhibition e \r\n"
+			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
+			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id \r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(e.title) LIKE '%' || upper(#{title}) || '%'"
+			+ "order by exhibition_id desc")
+	List<ExhibitionBean>SearchExhibition(@Param("title")String keyword, RowBounds rowBounds);
+	
+	@Select("SELECT \r\n"
+			+ "    count(*)\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition e \r\n"
+			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
+			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id \r\n"
+			+ "WHERE \r\n"
+			+ "    UPPER(e.title) LIKE '%' || upper(#{title}) || '%'")
+	int SearchExhibitionCnt(@Param("title")String title);
+	
+	
+	@Select("SELECT \r\n"
+			+ "    e.exhibition_id, \r\n"
+			+ "    e.title, \r\n"
+			+ "    e.regdate, \r\n"
+			+ "    e.author, \r\n"
+			+ "    e.price, \r\n"
+			+ "    e.exhibition_start, \r\n"
+			+ "    e.exhibition_end, \r\n"
+			+ "    e.open, \r\n"
+			+ "    e.holiday, \r\n"
+			+ "    e.ticket_cnt, \r\n"
+			+ "    e.address, \r\n"
+			+ "    e.place, \r\n"
+			+ "    e.site, \r\n"
+			+ "    e.views, \r\n"
+			+ "    e.state, \r\n"
+			+ "    f1.path as main_poster_path, \r\n"
+			+ "    f1.name as main_poster_name, \r\n"
+			+ "    f2.path as detail_poster_path, \r\n"
+			+ "    f2.name as detail_poster_name \r\n"
+			+ "FROM \r\n"
+			+ "    exhibition e \r\n"
+			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
+			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id\r\n"
+			+ "order by exhibition_id desc")
+	List<ExhibitionBean>AllExhibition(RowBounds rowBounds);
+	
+	
+	@Select("SELECT \r\n"
+			+ "    count(*)\r\n"
+			+ "FROM \r\n"
+			+ "    exhibition e \r\n"
+			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
+			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id")
+	int AllExhibitionCnt();
+	
+	
 	// =================================== 전시회 등록 신청 ==================================
 	
 	// 전시회 등록 신청 폼 작성

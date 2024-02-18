@@ -49,7 +49,7 @@
 			<hr style="width: 1200px; margin: auto; margin-top: 30px;" />
 		</div>
 
-		<div style="margin-top: 30px; text-align: center; margin-right: 850px;">
+		<div style="margin-top: 30px; text-align: center; margin-right: 880px;">
 			<button id="popularbtn" type="button" onclick="window.location.href='${root}/exhibition/exhibition_popular'"
 				style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent;">인기</button>
 			<button id="recentbtn" type="button" onclick="window.location.href='${root}/exhibition/exhibition_recent'"
@@ -60,6 +60,12 @@
 				style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent;  margin-left: 15px;">곧종료</button>
 		</div>
 	</section>
+	<div style="margin-top: 30px; text-align: center; margin-left: 850px;">
+					<form action="${root }/exhibition/exhibition_search" method="get" name="exhibitionSearch">
+						<input type="text" name="keyword" placeholder="키워드로 검색" style="width: 300px; height: 40px;" />
+						<button type="submit" class="btn btn-dark" style="margin-left: 10px;">검색</button>
+					</form>
+				</div>
 
 
 	<section id="최신">

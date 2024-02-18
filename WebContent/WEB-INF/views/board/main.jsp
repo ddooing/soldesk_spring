@@ -96,7 +96,7 @@
 						<tbody>
 							<c:forEach items="${boardList}" var="board">
 								<tr>
-									<td>${board.board_id}</td>
+									<td>${board.rownum}</td>
 									<td class="text_l" style="text-align:left">
 										<a href="${root}/board/read?board_id=${board.board_id}" style="text-align:left; color: black; text-decoration: none">${board.title}</a>
 									</td>

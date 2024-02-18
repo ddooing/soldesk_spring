@@ -107,6 +107,22 @@ public class ExhibitionDao {
 		exhibitionMapper.increase_exhibitionTotalTicket(exhibition_id,ticket_cnt);
 	}
 	
+	public List<ExhibitionBean>SearchExhibition(String title, RowBounds rowBounds){
+		return exhibitionMapper.SearchExhibition(title, rowBounds);
+	}
+	
+	public int SearchExhibitionCnt(String title) {
+		return exhibitionMapper.SearchExhibitionCnt(title);
+	}
+	
+	public List<ExhibitionBean>AllExhibition(RowBounds rowBounds){
+		return exhibitionMapper.AllExhibition(rowBounds);
+	}
+	
+	public int AllExhibitionCnt() {
+		return exhibitionMapper.AllExhibitionCnt();
+	}
+	
 	// =================== 전시회 등록신청 =======================
 	//전시회 등록 테이블에 추가
 	public void AddExhibition_Enroll(ExhibitionDetailBean exhibitionDetailBean) {

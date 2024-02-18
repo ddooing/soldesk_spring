@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -102,6 +103,32 @@ public class ExhibitionController {
      	model.addAttribute("pageBean", pageBean);
         
 		return "exhibition/exhibition_free";
+	}
+	
+	@GetMapping("/exhibition_search")
+	public String exhibition_search(@RequestParam(value = "page", defaultValue = "1") int page,
+									@RequestParam(value="keyword", required=false)String keyword, Model model) {
+		model.addAttribute("keyword", keyword);
+		if(keyword == null) {
+			List<ExhibitionBean> getAllExibitionInfo = exhibitionService.AllExhibition(page);
+			model.addAttribute("getAllExibitionInfo", getAllExibitionInfo);
+			
+			PageBean pageBean = exhibitionService.AllExhibitionCnt(page);
+			model.addAttribute("pageBean", pageBean);
+			
+			model.addAttribute("keyword", keyword);
+		
+		}else {
+			List<ExhibitionBean> getSearchExhibitionInfo = exhibitionService.SearchExhibition(keyword, page);
+			model.addAttribute("getAllExibitionInfo", getSearchExhibitionInfo);
+			
+			PageBean pageBean2 = exhibitionService.SearchExhibitionCnt(keyword, page);
+			model.addAttribute("pageBean2", pageBean2);
+			
+			model.addAttribute("keyword", keyword);
+		}
+		
+		return "exhibition/exhibition_search";
 	}
 	
 	

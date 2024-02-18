@@ -80,12 +80,12 @@ public interface AdminContentsMapper {
       
       //2. 게시판 관리=================================================================================================
 
-      @Insert("INSERT INTO board (board_id, title, create_date, views, contents, update_date, state) "
-  			+ "VALUES (board_id_seq.NEXTVAL, #{title}, SYSDATE, 0, #{contents}, SYSDATE, #{state})")
+    @Insert("INSERT INTO board (board_id, title, create_date, views, contents, update_date, state, user_id) "
+  			+ "VALUES (board_id_seq.NEXTVAL, #{title}, SYSDATE, 0, #{contents}, SYSDATE, #{state}, 1)")
   	void addboardFromAdmin(BoardBean boardBean);
   	
   	@Select("SELECT b.board_id, b.user_id, b.title, b.contents, "
-  			+ " TO_CHAR(b.create_date, 'yyyy-mm-dd') AS regdate, b.state, u.nickname "
+  			+ " TO_CHAR(b.create_date, 'yyyy-mm-dd') AS create_date, b.state, u.nickname "
   			+ "FROM board b "
   			+ "JOIN user_table u ON b.user_id = u.user_id "
   			+ "ORDER BY b.board_id DESC")
@@ -96,19 +96,19 @@ public interface AdminContentsMapper {
   	
   	// 제목만 검색
   	@Select("SELECT board_id, title, TO_CHAR(create_date, 'YYYY-MM-DD') AS create_date, views, state "
-  			+ "FROM board WHERE UPPER(title) LIKE '%' || UPPER(:title) || '%' "
-  			+ "ORDER BY board_id DESC;")
+  			+ "FROM board WHERE UPPER(title) LIKE '%' || UPPER(#{title}) || '%' "
+  			+ "ORDER BY board_id DESC")
   	List<BoardBean> getSearchBoardTitleList(@Param("title") String title, RowBounds rowBounds);
   	
   	// 제목만 검색 수량
   	@Select("SELECT COUNT(*) AS count "
   			+ "FROM board "
-  			+ "WHERE UPPER(title) LIKE '%' || UPPER(:title) || '%'")
+  			+ "WHERE UPPER(title) LIKE '%' || UPPER(#{title}) || '%'")
   	int SearchBoardCnt(@Param("title") String title);
 
   	// 제목+내용검색
   	@Select("SELECT board_id, title, TO_CHAR(create_date, 'YYYY-MM-DD') as create_date, views, state "
-  			+ "FROM notice WHERE UPPER(title) LIKE '%' || UPPER(#{title}) || '%' "
+  			+ "FROM board WHERE UPPER(title) LIKE '%' || UPPER(#{title}) || '%' "
   			+ "OR UPPER(contents) LIKE '%' || UPPER(#{title}) || '%' order by board_id desc")
   	List<BoardBean> getSearchBoardAllTitleList(@Param("title") String title, RowBounds rowBounds);
 
@@ -119,38 +119,44 @@ public interface AdminContentsMapper {
   	int AllSearchBoardCnt(@Param("title") String title);
   	
   	// 작성자만 검색
-  	@Select("SELECT b.board_id, u.name AS nick_name, b.title, TO_CHAR(b.create_date, 'YYYY-MM-DD') AS create_date "
-  			+ "FROM board b "
-  			+ "JOIN user_table u ON b.user_id = u.user_id "
-  			+ "WHERE UPPER(u.name) LIKE '%' || UPPER(:user_name) || '%' "
-  			+ "ORDER BY b.board_id DESC")
-  	List<BoardBean> getSearchBoardUserNameList(@Param("title") String title, RowBounds rowBounds);
+  	@Select("SELECT b.board_id, b.title, u.nickname AS nickname, b.title, TO_CHAR(b.create_date, 'YYYY-MM-DD') AS create_date, b.views, b.state "
+			+ "FROM board b "
+			+ "JOIN user_table u ON b.user_id = u.user_id "
+			+ "WHERE UPPER(u.nickname) LIKE '%' || UPPER(#{nickname}) || '%' "
+			+ "ORDER BY b.board_id DESC")
+	List<BoardBean> getSearchBoardUserNameList(@Param("nickname") String nickname, RowBounds rowBounds);
   	
   	// 작성자만 검색 수량
   	@Select("SELECT COUNT(*) AS count "
-  			+ "FROM board "
-  			+ "WHERE UPPER(title) LIKE '%' || UPPER(:title) || '%'")
-  	int getSearchBoardUserNameCnt(@Param("title") String title);
+			+ "FROM board b JOIN user_table u ON b.user_id = u.user_id WHERE UPPER(nickname) LIKE '%' || UPPER(#{nickname}) || '%'")
+	int getSearchBoardUserNameCnt(@Param("nickname") String nickname);
   	
   	// 닉네임, 사용자아이디, 이메일 검색 수정
   	
-  	// 게시글 세부정보 확인
-  	@Select("select board_id, title, create_date, contents, state, views from board "
-  			+ "where board_id = #{board_id}")
-  	BoardBean getBoardInfo(int board_id);
+ // 게시글 세부정보 확인
+ 	@Select("select b.board_id, b.title, b.create_date, b.contents, b.state, b.views, b.update_date, u.nickname "
+ 	        + "from board b join user_table u on b.user_id=u.user_id "
+ 	        + "where b.board_id = #{board_id}")
+ 	BoardBean getBoardInfo(int board_id);
   	
   	// 게시글 삭제
   	@Update("update board set state = 0 where board_id = #{board_id}")
   	void DeleteBoard(@Param("board_id") int board_id);
   	
   	// 게시글 복구처리 (state 0->1로변경)
+  	/*
   	@Update("UPDATE board "
   			+ "SET state = 1 "
-  			+ "WHERE board_id = :board_id AND state = 0 ")
+  			+ "WHERE board_id = #{board_id} AND state = 0 ")
   	void recoveryBoard(@Param("state") int state, @Param("board_id") int board_id);
-      
-      
-      
+      */
+    @Update("UPDATE board SET state = 1 WHERE board_id = #{board_id, jdbcType=INTEGER} AND state = 0")
+    void recoveryBoard(@Param("board_id") int board_id);
+    
+    @Update("update board\r\n"
+    		+ "set title = #{title}, contents = #{contents}, update_date = sysdate, state = #{state}\r\n"
+    		+ "where board_id = #{board_id}")
+    void managerModifyBoard(BoardBean bModifyBean);
       
       
       

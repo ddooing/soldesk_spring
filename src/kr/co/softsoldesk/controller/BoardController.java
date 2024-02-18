@@ -116,10 +116,12 @@ public class BoardController {
 		
 		//정보 가져옴 => 수정할 하나의 게시글 정보 가져옴
 		// 사용자 확인
-    	modifyContentBean = boardService.getmodifyContentInfo(board_id);
     	
-    	System.out.println(modifyContentBean.getNickname());
     	
+    	BoardBean tempContentBean = boardService.getmodifyContentInfo(board_id);
+    	model.addAttribute("ModifyBean", tempContentBean);
+    	
+    	modifyContentBean.setContents(tempContentBean.getContents());
     	
     	model.addAttribute("modifyContentBean", modifyContentBean);
 
