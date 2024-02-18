@@ -128,6 +128,11 @@
 .checkbox-wrapper-17 label:active:after {
 	width: 55%;
 }
+
+/* focus 상태일 때 스타일 */
+.review textarea:focus-visible{
+    border: none;
+}
 </style>
 
 </head>
@@ -213,7 +218,7 @@
 
 					<c:forEach items="${ArchiveAllInfoBean}" var="archivelist">
 						<c:choose>
-							<c:when test="${!empty archivelist.create_date}">
+							<c:when test="${!empty archivelist.modify_date}">
 								<!-- 메인포스터 나오는 코드 -->
 								<div class="archivediv btn-open-reviewmodal" data-toggle="modal"
 									data-target="#modal-${archivelist.reserve_id}">
@@ -382,7 +387,7 @@
 												style="width: 465px; height: 270px; border: none; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; border-radius: 20px; padding: 10px; outline: 0; resize: none;">
 
 												<textarea rows="10" cols="41" name="contents"
-													style="resize: none;">${archivelist.contents }</textarea>
+													style="resize: none; border:none;">${archivelist.contents }</textarea>
 												<!-- 임시로 텍스트에디터 사용안함 -->
 											</div>
 											<!-- textarea에 대한 팝업 크기 조절 추가하기 -->

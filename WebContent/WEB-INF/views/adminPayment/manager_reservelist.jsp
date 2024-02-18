@@ -251,21 +251,22 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top:30px;">
-						<h3>예매 결제 관리</h3>
+						<h3>예매 결제 내역</h3>
 					</div>
 					
 					<div style="display: flex; justify-content: center; height: 95px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
 						
-						<div style="margin-right: 50px;">
+						<div style="margin-right: 30px;">
 							<div>결제일자</div>
+							<div style="display: flex; flex-direction: row; align-items: center;">
 							<input id="datepicker" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
-								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
+								style="width: 150px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 								value="YYYY - MM - DD" spellcheck="false">
-          					<label style="margin-left: 30px; margin-right: 30px;">~</label>
+          					<label style="margin-left: 10px; margin-right: 10px;">~</label>
 							<input id="datepicker2" type="text" autocomplete="off" class="px-4 py-2 focus:outline-none focus:shadow-outline rounded shadow" 
-								style="width: 200px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
+								style="width: 150px; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;border-radius: 12px !important;border: none;"
 							value="YYYY - MM - DD" spellcheck="false">
-							
+							</div>
 							  <script>
 							  
 							    window.addEventListener('DOMContentLoaded', () => {
@@ -303,7 +304,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									    var endDate = datepicker2Value;
 
 							            var urlParams = new URLSearchParams(window.location.search);
-
+										
+							         	//'page' 매개변수가 있으면 제거합니다.
+							            if (urlParams.has('page')) {
+							                urlParams.delete('page');
+							            }
 							           
 							            urlParams.set('startDate', startDate);
 							            urlParams.set('endDate', endDate);
@@ -319,13 +324,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							    	    var formattedDate = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2); // 'YYYY-MM-DD' 형식으로 변경
 										return formattedDate;
 									}
-									
+									var urlParams = new URLSearchParams(window.location.search);
+								    var startDateFromUrl = urlParams.get('startDate') ? new Date(urlParams.get('startDate')) : new Date(formattedFirstRequestedAt);
+								    var endDateFromUrl = urlParams.get('endDate') ? new Date(urlParams.get('endDate')) :new Date(formattedToday);
 									
 									new Pikaday({
 							        field: document.getElementById('datepicker'),
 							        theme: "pikaday-white",
 							        firstDay: 1,
-							       	defaultDate: new Date(formattedFirstRequestedAt), // 변환된 날짜를 기본값으로 설정
+							       	defaultDate: startDateFromUrl, // 변환된 날짜를 기본값으로 설정
 							        setDefaultDate: true,
 							        minDate: new Date(formattedFirstRequestedAt),
 							        maxDate: new Date(formattedToday),
@@ -354,7 +361,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							        firstDay: 1,
 							        minDate: new Date(formattedFirstRequestedAt),
 							        maxDate: new Date(formattedToday),//today,
-							        //defaultDate: formattedToday,//today, // 오늘 날짜를 기본값으로 설정
+							        defaultDate: endDateFromUrl,
 							        setDefaultDate: true, // 기본 날짜를 입력 필드에 표시
 							        i18n: {
 							        	previousMonth: 'Prev',
@@ -406,8 +413,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						<div style="display: flex; flex-direction: column;"> 결제 수단
 							<select name="usercombo" id="payment_method_combo"
 								style="width: 150px; height: 36px; margin-right: 30px;">
-								<option value="" selected>전체</option>
+								<option value="" disabled selected style="opacity:0;">전체</option>
+								<option value="전체" >전체</option>
 								<option value="간편결제">간편결제</option>
+								
 								<option value="포인트결제">포인트결제</option>
 								<option value="신용·체크카드">신용·체크카드</option>
 								<option value="가상계좌">가상계좌</option>
@@ -419,32 +428,55 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							</select> 
 						</div>
 						<script>
-							document.addEventListener('DOMContentLoaded', function() {
-							    // 결제 수단 콤보박스 요소를 가져옵니다.
-							    var paymentMethodCombo = document.getElementById('payment_method_combo');
-							
-							    // 결제 수단 콤보박스의 변경 사항을 감지합니다.
-							    paymentMethodCombo.addEventListener('change', function() {
-							    	var selectedPaymentMethod = paymentMethodCombo.value;
-						            var urlParams = new URLSearchParams(window.location.search);
+						document.addEventListener('DOMContentLoaded', function() {
+						    var paymentMethodCombo = document.getElementById('payment_method_combo');
+						    var urlParams = new URLSearchParams(window.location.search);
+						    
+						    var paymentMethod = urlParams.get('payment_method'); // URL에서 'payment_method' 값을 가져옵니다.
 
-						            // 'payment_method' 매개변수를 업데이트합니다.
-						            urlParams.set('payment_method', selectedPaymentMethod);
+						    if (paymentMethod) {
+						    	
+						        // 'payment_method' 값과 일치하는 옵션을 찾아 선택합니다.
+						        for (var i = 0; i < paymentMethodCombo.options.length; i++) {
+						            if (paymentMethodCombo.options[i].value === paymentMethod) {
+						                paymentMethodCombo.selectedIndex = i;
+						                break;
+						            }
+						        }
+						        
+						    }else{
+						    	paymentMethodCombo.selectedIndex = 1;
+						    }
+						    paymentMethodCombo.addEventListener('change', function() {
+						        
+						    	var selectedPaymentMethod = paymentMethodCombo.value;
+						        if (selectedPaymentMethod === '전체') {
+						        	urlParams.delete('payment_method');
+						        } else{
+						        	urlParams.set('payment_method', selectedPaymentMethod);
+						        }
 
-						            // 페이지를 업데이트된 URL로 리디렉션합니다.
-						            window.location.href = window.location.pathname + '?' + urlParams.toString();
-							    });
-							});
+						        if (urlParams.has('page')) {
+						            urlParams.delete('page');
+						        }
+
+						        var newUrl = window.location.pathname + '?' + urlParams.toString();
+						        window.location.href = newUrl;
+
+				
+						    });
+						});
+
 						</script>
 						
 						<select name="usercombo" id="searchcombo"
-							style="width: 150px; height: 36px; margin-right: 30px; margin-top: 22px;">
+							style="width: 150px; height: 36px; margin-right: 10px; margin-top: 22px;">
 							<option value="" disabled selected>검색조건선택</option>
 							<option value="user_name">구매자명</option>
 							<option value="exhibition_title">구매상품</option>
 						</select> 
 						<input type="text" name="usersearch" id="usersearch"
-							style="width: 250px; height: 36px; margin-right: 30px; margin-top: 20px;"
+							style="width: 250px; height: 36px; margin-right: 10px; margin-top: 20px;"
 							placeholder="검색어를 입력해주세요" />
 						<button class="btn btn-dark" style="width: 80px; height: 40px; margin-top: 22px;">검색</button>
 					
@@ -461,17 +493,57 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						            var searchText = searchInput.value;
 						            var urlParams = new URLSearchParams(window.location.search);
 
+						            
+						            if (!selectedOption || !searchText) {
+						                // 둘 중 하나라도 입력되지 않았다면 경고 메시지를 표시합니다.
+						                Swal.fire({
+										    text: "검색 조건과 검색어를 입력해주세요",
+										    icon: "warning",
+										    showCancelButton: true, // '취소' 버튼만 표시합니다.
+										    cancelButtonColor: "gray", // 취소 버튼의 색상을 gray로 설정합니다.
+										    cancelButtonText: '닫기', // 취소 버튼의 텍스트를 '닫기'로 설정합니다.
+										    showConfirmButton: false, // '확인' 버튼은 표시하지 않습니다.
+										});
+
+						                return; // 함수 실행을 중단합니다.
+						            }
+						            
+						            // 선택된 옵션에 따라 다른 매개변수를 제거
+							        if (selectedOption === 'user_name') {
+							            urlParams.delete('exhibition_title');
+							        } else if (selectedOption === 'exhibition_title') {
+							            urlParams.delete('user_name');
+							        }
+						            
+						            //'page' 매개변수가 있으면 제거합니다.
+							        if (urlParams.has('page')) {
+							            urlParams.delete('page');
+							        }
 						            // 선택된 검색 조건과 검색어를 URL 매개변수로 추가 또는 업데이트합니다.
 						            urlParams.set(selectedOption, searchText);
 
 						            // 페이지를 업데이트된 URL로 리디렉션합니다.
 						            window.location.href = window.location.pathname + '?' + urlParams.toString();
 						        });
+						        var urlParams = new URLSearchParams(window.location.search);
+						        var nameParam = urlParams.get('user_name'); 
+							    var titleParam = urlParams.get('exhibition_title'); 
+							    
+							    var searchInput = document.getElementById('usersearch'); 
+							    
+							    if (nameParam) {
+							    	searchCombo.selectedIndex = 1;
+							    	searchInput.value = nameParam; 
+							    }
+							    if (titleParam) {
+							    	searchCombo.selectedIndex = 2;
+							    	searchInput.value = titleParam; 
+							    }
 						    });
 						</script>
 						
 						
-						<button class="button-39" id="resetButton" role="button" style="width: 80px; height: 44px; margin-top: 22px; margin-left: 30px;">초기화</button>
+						<button class="button-39" id="resetButton" role="button" style="width: 80px; height: 44px; margin-top: 22px; margin-left: 20px;">초기화</button>
 						
 						<script>
 						    document.addEventListener('DOMContentLoaded', function() {
@@ -495,16 +567,25 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									<th scope="col">No</th>
 									<th scope="col" style="width: 150px;">주문일시</th>
 									<th scope="col" style="width: 150px;">결제일시</th>
-									<th scope="col">주문번호</th>
+									<th scope="col" style="width: 370px;">주문번호</th>
 									<th scope="col" style="width: 150px;">결제상태</th>
 									<th scope="col" style="width: 150px;">구매자명</th>
 									<th scope="col">결제액</th>
 									<th scope="col" style="width: 130px;">결제 수단</th>
-									<th scope="col" style="width: 200px;">구매상품</th>
+									<th scope="col" style="width: 220px;">구매상품</th>
 									<th scope="col"></th>
 								</tr>
 							</thead>
 							<tbody>
+								<c:choose>
+					                <c:when test="${empty reserveBean}">
+					                    <tr>
+					                        <td colspan="9">
+					                            <div>결제 내역이 없습니다.</div>
+					                        </td>
+					                    </tr>
+					                </c:when>
+					                <c:otherwise>
 								<c:forEach items="${reserveBean}" var="reservelist">
 									<tr style="vertical-align: middle;">
 										<th scope="row">${reservelist.reserve_id}</th>
@@ -541,12 +622,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 										<td style="width: 150px;">
 											<c:choose>
 										        <c:when test="${reservelist.state == 1}">
-										            <button data-reserve-id="${reservelist.reserve_id}" class="btn btn-danger"style="float: right; margin-right: 50px;
+										            <button data-reserve-id="${reservelist.reserve_id}" class="btn btn-danger"style="float: right; margin-right: 30px;
 											 margin-top: 20px; margin-bottom: 20px;" onclick="showConfrimCancle(this.getAttribute('data-reserve-id'))">취소</button>
 										
 										        </c:when>
 										        <c:when test="${reservelist.state == 0}">
-										            <button  class="btn btn-danger"style="float: right; margin-right: 50px;
+										            <button  class="btn btn-danger"style="float: right; margin-right: 30px;
 											 margin-top: 20px; margin-bottom: 20px; cursor: not-allowed; opacity: 0.5;">취소</button>
 										        </c:when>
 										    </c:choose>
@@ -557,6 +638,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 										
 									</tr>
 								</c:forEach>
+									</c:otherwise>
+								</c:choose>							
 							</tbody>
 						</table>
 						

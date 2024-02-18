@@ -2,35 +2,29 @@ package kr.co.softsoldesk.controller;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.softsoldesk.Beans.BannerApplyFormBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
-import kr.co.softsoldesk.Beans.ExhibitionDetailBean;
-import kr.co.softsoldesk.Beans.FAQBean;
 import kr.co.softsoldesk.Beans.MainBannerBean;
 import kr.co.softsoldesk.Beans.PageBean;
-import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Beans.SubBannerBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.UserService;
-import kr.co.softsoldesk.dao.ExhibitionDao;
 
 @Controller
 @RequestMapping("/admin")
@@ -552,20 +546,25 @@ public class AdminController {
 	
 	// 배너 신청 취소 처리
 	@GetMapping("/BannerApplyCancel")
-	public String UpdateApplyBannerCancel(@RequestParam("banner_apply_form_id") int banner_apply_form_id, @RequestParam("banner_type") int banner_type) {
-
+	public String BannerApplyCancel(@RequestParam("banner_apply_form_id") Integer banner_apply_form_id,
+											@RequestParam("banner_type")Integer banner_type,
+											RedirectAttributes redirectAttributes)
+	{
+		adminService.UpdateApplyBannerCancle(banner_apply_form_id);
+		
+		String bannerUrl="";
 		// 메인베너 취소시 메인배너로 리다이렉트
 		if(banner_type == 1) {
-			adminService.UpdateApplyBannerCancle(banner_apply_form_id);
+			bannerUrl="manager_mainbannerapplylist";
+		} else if(banner_type == 2){ // 메인베너 취소시 서브배너로 리다이렉트
 			
-			return "redirect:/admin/manager_mainbannerapplylist";
-		} else { // 메인베너 취소시 서브배너로 리다이렉트
-			adminService.UpdateApplyBannerCancle(banner_apply_form_id);
-			
-			return "redirect:/admin/manager_subbannerapplylist";
+			bannerUrl="manager_subbannerapplylist";
 		}
-		
+		redirectAttributes.addFlashAttribute("canceled", true);
+		return "redirect:/admin/"+bannerUrl;
 	}
+	
+	
 	
 	// 배너 신청 추가/상세 페이지 매핑 (신청1개 모든 정보 가져가기)
 	@GetMapping("/manager_bannerapplyadd")

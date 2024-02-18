@@ -1,9 +1,9 @@
 package kr.co.softsoldesk.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.softsoldesk.Beans.CartBean;
 import kr.co.softsoldesk.Beans.ExhibitionBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
+import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.Service.ExhibitionService;
+import kr.co.softsoldesk.Service.UserService;
 
 
 @Controller
@@ -28,6 +30,12 @@ public class CartController {
 	
 	@Autowired
     private ExhibitionService exhibitionService;
+	
+	@Resource(name = "loginUserBean")
+	private UserBean loginUserBean;
+	
+	@Autowired
+	private UserService UserService;
 	
 	@PostMapping("/cart_insert") // /board/main
 	public String cart_insert(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
@@ -95,9 +103,11 @@ public class CartController {
 	    redirectAttributes.addFlashAttribute("cartMessage", "장바구니에 추가되었습니다");
 	    redirectAttributes.addFlashAttribute("icon", "success");
 	  }
+	  
+
 		System.out.println("cart insert 컨트롤러 - tempReserveBean.getExhibition_id "+tempReserveBean.getExhibition_id());
 
-	    return "redirect:/exhibition/exhibition_click";
+	    return "redirect:/exhibition/exhibition_click?user_id="+tempReserveBean.getUser_id();
 
 	}
 
@@ -118,7 +128,7 @@ public class CartController {
 	            System.out.println("cart select 티켓 수량 : " + avo.getTotal_price());
 	        }
 	    }
-	   Collections.reverse(list); // 리스트를 역순으로 정렬
+	   //Collections.reverse(list); // 리스트를 역순으로 정렬
 	  //데이터 전송
 	  model.addAttribute("list", list);
 	

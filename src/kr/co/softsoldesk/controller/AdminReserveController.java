@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.PointDetailBean;
 import kr.co.softsoldesk.Beans.ReserveBean;
+import kr.co.softsoldesk.Service.ExhibitionService;
 import kr.co.softsoldesk.Service.PointDetailService;
 import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.ReviewService;
@@ -35,13 +36,16 @@ public class AdminReserveController {
 	@Autowired
 	private PointDetailService pointDetailService;
 	
+	@Autowired
+	private ExhibitionService exhibitionService;
+	
 	@GetMapping("/manager_reservelist")
 	public String exhibition(Model model,
 			@RequestParam(value = "startDate", required = false) String startDate,
 		    @RequestParam(value = "endDate", required = false) String endDate,
 		    @RequestParam(value = "payment_method", required = false) String payment_method,
 		    @RequestParam(value = "exhibition_title", required = false) String exhibition_title,
-		    @RequestParam(value = "user", required = false) String user_name
+		    @RequestParam(value = "user_name", required = false) String user_name
 		    , @RequestParam(value = "page", defaultValue = "1") int page) {
 		
 		System.out.println("endDate : "+endDate);
@@ -74,7 +78,7 @@ public class AdminReserveController {
 	public String reserve_cancel(Model model,@RequestParam("reserve_id") int reserve_id,RedirectAttributes redirectAttributes ) {
 
 		//취소 처리하기
-		// user_id , point_deduction ,point_plus  
+		// user_id , point_deduction ,point_plus, exhibition_id,ticket_count
 		ReserveBean reserveBean = reserveService.getCancelList(reserve_id);  
 		
 		//1. 포인트 회수  관리자이기때문에 회수하기 
@@ -89,15 +93,16 @@ public class AdminReserveController {
         
 		// 포인트 이용 내역 추가
 		pointDetailService.PointList(pointDetailBean);
-		//3. 소감문 회수 
+		//2. 소감문 회수 
 		reviewService.getReviewDelete(reserve_id);
+		
+		//3. 전시회 티켓 수 빼기
+		exhibitionService.setExhibitionTicketCntMinus(reserveBean.getTicket_count(), reserveBean.getExhibition_id());
 		
 		//4. pay 상태 변경 
 		reserveService.updatePaymentCancle(reserve_id);
-		
 
 		redirectAttributes.addFlashAttribute("canceled", true);
-		
 		
 		return "redirect:/adminPayment/manager_reservelist";
 	}

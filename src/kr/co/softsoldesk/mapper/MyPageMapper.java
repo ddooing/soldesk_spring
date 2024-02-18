@@ -49,29 +49,30 @@ public interface MyPageMapper {
             + "    u.user_id")
       UserBean getMyPageTopInfo(int user_id);
       
-      // 마이페이지에서 예매 리스트 출력 위한 메소드
-      @Select("SELECT \r\n"
-            + "    r.user_id, \r\n"
-            + "    r.exhibition_id, \r\n"
-            + "    TO_CHAR(r.reserve_date, 'yyyy-mm-dd') AS reserve_date, \r\n"
-            + "    r.total_price, \r\n"
-            + "    r.ticket_count, \r\n"
-            + "    r.state,\r\n"
-            + "    r.reserve_id,\r\n"
-            + "    e.title, \r\n"
-            + "    f.name AS main_poster_name,\r\n"
-            + "    f.path AS main_poster_path\r\n"
-            + "FROM \r\n"
-            + "    reserve r\r\n"
-            + "INNER JOIN \r\n"
-            + "    exhibition e ON r.exhibition_id = e.exhibition_id\r\n"
-            + "INNER JOIN \r\n"
-            + "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
-            + "WHERE \r\n"
-            + "    r.user_id = #{user_id}"
-            + "order by r.reserve_id desc")
-      List<ReserveBean> getMyPageReserveList(int user_id, RowBounds rowBounds);
-      
+   // 마이페이지에서 예매 리스트 출력 위한 메소드
+   		@Select("SELECT \r\n"
+   				+ "    r.user_id, \r\n"
+   				+ "    r.exhibition_id, \r\n"
+   				+ "    TO_CHAR(r.reserve_date, 'yyyy-mm-dd') AS reserve_date, \r\n"
+   				+ "    r.total_price, r.point_plus,r.payment, "+
+   				"TO_CHAR(requested_at, 'YYYY-MM-DD HH24:MI:SS') as requested_at, " +
+   		        "TO_CHAR(approved_at, 'YYYY-MM-DD HH24:MI:SS') as approved_at, " +
+   				 "    r.ticket_count, \r\n"
+   				+ "    r.state,\r\n"
+   				+ "    r.reserve_id,\r\n"
+   				+ "    e.title, r.point_deduction,"
+   				+ "    f.name AS main_poster_name,\r\n"
+   				+ "    f.path AS main_poster_path "
+   				+ " FROM reserve r\r\n"
+   				+ "INNER JOIN \r\n"
+   				+ "    exhibition e ON r.exhibition_id = e.exhibition_id\r\n"
+   				+ "INNER JOIN \r\n"
+   				+ "    file_table f ON e.main_poster_file_id = f.file_id\r\n"
+   				+ "WHERE \r\n"
+   				+ "    r.user_id = #{user_id} AND payment_method is not null "// 0216
+   				+ "order by r.reserve_id desc")
+   		List<ReserveBean> getMyPageReserveList(int user_id, RowBounds rowBounds);
+   		
       // 마이페이지 북마크 메소드
       @Select("SELECT \r\n"
             + "    b.bookmark_id,\r\n"
@@ -150,8 +151,8 @@ public interface MyPageMapper {
       //
       
       
-      // 마이페이지 아카이브 글등록(말이 등록이지 예매시 review 테이블에 insert한 부분 수정) 메소드
-      @Update("UPDATE review SET contents = #{contents}, rating = #{rating}, expose = #{expose}, create_date = sysdate WHERE reserve_id = #{reserve_id}")
+      // 마이페이지 아카이브 글등록(말이 등록이지 예매시 review 테이블에 insert한 부분 수정) 메소드 //0218 수정
+      @Update("UPDATE review SET contents = #{contents}, rating = #{rating}, expose = #{expose}, modify_date = sysdate WHERE reserve_id = #{reserve_id}")
       void enrollArchive(ReviewBean reviewBean);
       
       // 마이페이지 아카이브 글수정 메소드

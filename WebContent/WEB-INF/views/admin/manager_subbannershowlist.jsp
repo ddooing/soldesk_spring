@@ -114,7 +114,12 @@ $(document).ready(function() {
 						<span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">노출배너 ${BadgeCnt.banner_show_Cnt }건</span> 
 						<span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right: 10px;">숨김배너 ${BadgeCnt.banner_hide_Cnt }건</span> 
 						<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size: 15px;">배너 총${BadgeCnt.banner_all_Cnt}건</span>
+						
+						
+					
 					</div>
+					
+					
 
 					<form action="${root }/admin/manager_subbannershowlist" method="get">
 								<select name="bannercombo" id="bannercombo" style="width: 150px; height: 40px; margin-right: 30px;">

@@ -134,4 +134,10 @@ public class ExhibitionDao {
 	public List<ExhibitionBean> getexhibitionallTitle() {
 		return exhibitionMapper.getexhibitionallTitle();
 	}
+	
+	
+	// 전시회 예매 취소 시, 티켓 수 회수
+	public void setExhibitionTicketCntMinus(int ticket_count,int exhibition_id ) {
+		exhibitionMapper.setExhibitionTicketCntMinus(ticket_count, exhibition_id);
+	}
 }

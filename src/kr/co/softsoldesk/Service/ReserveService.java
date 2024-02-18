@@ -75,8 +75,13 @@ public class ReserveService {
 		int searchautor_Cnt=  reserveDao.getReserveListCnt(startDate,endDate,payment_method,exhibition_title,user_name);
 		System.out.println("서비스 searchautor_Cnt : "+searchautor_Cnt);
 		PageBean pageBean = new PageBean(searchautor_Cnt, currentPage, admin_listcnt, admin_paginationcnt);
-		System.out.println(pageBean.getMin());
+		System.out.println("pageBean min : "+pageBean.getMin());
+		System.out.println("pageBean CurrentPage : "+pageBean.getCurrentPage());
+		System.out.println("pageBean max : "+pageBean.getMax());
+		System.out.println("pageBean cnt : "+pageBean.getPageCnt());
 		
+		System.out.println("pageBean prePage : "+pageBean.getPrevPage());
+		System.out.println("pageBean nextPage : "+pageBean.getNextPage());
 		return pageBean;
 	}
 	
