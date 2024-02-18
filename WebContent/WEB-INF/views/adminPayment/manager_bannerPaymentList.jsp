@@ -255,9 +255,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 					</div>
 					
 					<div style="display: flex; justify-content: center; height: 95px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-						
-						
-						
 							<div style="display: flex; flex-direction: column;"> 배너 타입
 								<select name="banner_type_combo" id="banner_type_combo"
 									style="width: 150px; height: 36px; margin-right: 30px;">
@@ -471,7 +468,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 								<option value="" disabled selected style="opacity:0;">전체</option>
 								<option value="전체" >전체</option>
 								<option value="간편결제">간편결제</option>
-								<option value="포인트결제">포인트결제</option>
 								<option value="신용·체크카드">신용·체크카드</option>
 								<option value="가상계좌">가상계좌</option>
 								<option value="휴대폰">휴대폰</option>
@@ -516,6 +512,8 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 						        var newUrl = window.location.pathname + '?' + urlParams.toString();
 						        window.location.href = newUrl;
+
+				
 						    });
 						});
 
@@ -559,7 +557,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						            	urlParams.set('user_name', searchText);
 						            }
 						          
-
+						            if (urlParams.has('page')) {
+							            urlParams.delete('page');
+							        }
 						            // 페이지를 업데이트된 URL로 리디렉션합니다.
 						            window.location.href = window.location.pathname + '?' + urlParams.toString();
 						        });

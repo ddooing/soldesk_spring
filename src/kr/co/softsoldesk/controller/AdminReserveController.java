@@ -45,7 +45,7 @@ public class AdminReserveController {
 		    @RequestParam(value = "endDate", required = false) String endDate,
 		    @RequestParam(value = "payment_method", required = false) String payment_method,
 		    @RequestParam(value = "exhibition_title", required = false) String exhibition_title,
-		    @RequestParam(value = "user", required = false) String user_name
+		    @RequestParam(value = "user_name", required = false) String user_name
 		    , @RequestParam(value = "page", defaultValue = "1") int page) {
 		
 		System.out.println("endDate : "+endDate);

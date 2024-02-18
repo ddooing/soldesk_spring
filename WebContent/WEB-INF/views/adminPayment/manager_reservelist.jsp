@@ -251,7 +251,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top:30px;">
-						<h3>예매 결제 관리</h3>
+						<h3>예매 결제 내역</h3>
 					</div>
 					
 					<div style="display: flex; justify-content: center; height: 95px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
@@ -303,7 +303,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									    var endDate = datepicker2Value;
 
 							            var urlParams = new URLSearchParams(window.location.search);
-
+										
+							         	//'page' 매개변수가 있으면 제거합니다.
+							            if (urlParams.has('page')) {
+							                urlParams.delete('page');
+							            }
 							           
 							            urlParams.set('startDate', startDate);
 							            urlParams.set('endDate', endDate);
@@ -319,13 +323,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							    	    var formattedDate = year + '-' + ('0' + month).slice(-2) + '-' + ('0' + day).slice(-2); // 'YYYY-MM-DD' 형식으로 변경
 										return formattedDate;
 									}
-									
+									var urlParams = new URLSearchParams(window.location.search);
+								    var startDateFromUrl = urlParams.get('startDate') ? new Date(urlParams.get('startDate')) : new Date(formattedFirstRequestedAt);
+								    var endDateFromUrl = urlParams.get('endDate') ? new Date(urlParams.get('endDate')) :new Date(formattedToday);
 									
 									new Pikaday({
 							        field: document.getElementById('datepicker'),
 							        theme: "pikaday-white",
 							        firstDay: 1,
-							       	defaultDate: new Date(formattedFirstRequestedAt), // 변환된 날짜를 기본값으로 설정
+							       	defaultDate: startDateFromUrl, // 변환된 날짜를 기본값으로 설정
 							        setDefaultDate: true,
 							        minDate: new Date(formattedFirstRequestedAt),
 							        maxDate: new Date(formattedToday),
@@ -354,7 +360,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							        firstDay: 1,
 							        minDate: new Date(formattedFirstRequestedAt),
 							        maxDate: new Date(formattedToday),//today,
-							        //defaultDate: formattedToday,//today, // 오늘 날짜를 기본값으로 설정
+							        defaultDate: endDateFromUrl,
 							        setDefaultDate: true, // 기본 날짜를 입력 필드에 표시
 							        i18n: {
 							        	previousMonth: 'Prev',
@@ -406,8 +412,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						<div style="display: flex; flex-direction: column;"> 결제 수단
 							<select name="usercombo" id="payment_method_combo"
 								style="width: 150px; height: 36px; margin-right: 30px;">
-								<option value="" selected>전체</option>
+								<option value="" disabled selected style="opacity:0;">전체</option>
+								<option value="전체" >전체</option>
 								<option value="간편결제">간편결제</option>
+								
 								<option value="포인트결제">포인트결제</option>
 								<option value="신용·체크카드">신용·체크카드</option>
 								<option value="가상계좌">가상계좌</option>
@@ -419,22 +427,45 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 							</select> 
 						</div>
 						<script>
-							document.addEventListener('DOMContentLoaded', function() {
-							    // 결제 수단 콤보박스 요소를 가져옵니다.
-							    var paymentMethodCombo = document.getElementById('payment_method_combo');
-							
-							    // 결제 수단 콤보박스의 변경 사항을 감지합니다.
-							    paymentMethodCombo.addEventListener('change', function() {
-							    	var selectedPaymentMethod = paymentMethodCombo.value;
-						            var urlParams = new URLSearchParams(window.location.search);
+						document.addEventListener('DOMContentLoaded', function() {
+						    var paymentMethodCombo = document.getElementById('payment_method_combo');
+						    var urlParams = new URLSearchParams(window.location.search);
+						    
+						    var paymentMethod = urlParams.get('payment_method'); // URL에서 'payment_method' 값을 가져옵니다.
 
-						            // 'payment_method' 매개변수를 업데이트합니다.
-						            urlParams.set('payment_method', selectedPaymentMethod);
+						    if (paymentMethod) {
+						    	
+						        // 'payment_method' 값과 일치하는 옵션을 찾아 선택합니다.
+						        for (var i = 0; i < paymentMethodCombo.options.length; i++) {
+						            if (paymentMethodCombo.options[i].value === paymentMethod) {
+						                paymentMethodCombo.selectedIndex = i;
+						                break;
+						            }
+						        }
+						        
+						    }else{
+						    	paymentMethodCombo.selectedIndex = 1;
+						    }
+						    paymentMethodCombo.addEventListener('change', function() {
+						        
+						    	var selectedPaymentMethod = paymentMethodCombo.value;
+						        if (selectedPaymentMethod === '전체') {
+						        	urlParams.delete('payment_method');
+						        } else{
+						        	urlParams.set('payment_method', selectedPaymentMethod);
+						        }
 
-						            // 페이지를 업데이트된 URL로 리디렉션합니다.
-						            window.location.href = window.location.pathname + '?' + urlParams.toString();
-							    });
-							});
+						        if (urlParams.has('page')) {
+						            urlParams.delete('page');
+						        }
+
+						        var newUrl = window.location.pathname + '?' + urlParams.toString();
+						        window.location.href = newUrl;
+
+				
+						    });
+						});
+
 						</script>
 						
 						<select name="usercombo" id="searchcombo"
@@ -476,6 +507,17 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 						                return; // 함수 실행을 중단합니다.
 						            }
 						            
+						            // 선택된 옵션에 따라 다른 매개변수를 제거
+							        if (selectedOption === 'user_name') {
+							            urlParams.delete('exhibition_title');
+							        } else if (selectedOption === 'exhibition_title') {
+							            urlParams.delete('user_name');
+							        }
+						            
+						            //'page' 매개변수가 있으면 제거합니다.
+							        if (urlParams.has('page')) {
+							            urlParams.delete('page');
+							        }
 						            // 선택된 검색 조건과 검색어를 URL 매개변수로 추가 또는 업데이트합니다.
 						            urlParams.set(selectedOption, searchText);
 
