@@ -173,23 +173,23 @@ table, th, td {
                            <td>
                               <c:choose>
                                     <c:when test="${reservelist.state == 1 }">
-                                       <p style=" color:gray;">예매 상태 : 
-                                          <span>
+                                       <p style=" color:gray; font-size: 25px;">예매 상태 : 
+                                          <span style="font-size: 25px;">
                                              결제완료
                                           </span>
                                        </p>
                                        <td>
-                                          <button class="reserCancel" data-target="detailInfo${reservelist.reserve_id}">상세보기</button>
+                                          <button style="width: 150px;height: 50px;font-size: 20px;"    class="reserCancel" data-target="detailInfo${reservelist.reserve_id}">상세보기</button>
                                        </td>
                                     </c:when>
                                     <c:when test="${reservelist.state == 0}">
-                                       <p style=" color:gray;">예매 상태 : 
-                                          <span>
+                                       <p style=" color:gray; font-size: 25px;">예매 상태 : 
+                                          <span style="font-size: 25px;">
                                              결제취소
                                           </span>
                                        </p>
                                        <td>
-                                          <button class="reserCancel" data-target="detailInfo${reservelist.reserve_id}">상세보기</button>
+                                          <button style="width: 150px;height: 50px;font-size: 20px;" class="reserCancel" data-target="detailInfo${reservelist.reserve_id}">상세보기</button>
                                        </td>
                                     </c:when>
                                  </c:choose>

@@ -329,7 +329,7 @@ public class TossController {
 		}
 
 	        // 3. 사용자 포인트와 경험치 exp 적립 update 
-			// 경험치 ) 예매 시 + 50
+			// 경험치 ) 예매 시 + 100
         	// 포인트 )최종적으로 사용자의 현재 포인트에 추가 혹은 감소 할 포인트 금액 = 예매 시 받는 포인트 - 포인트 사용 금액
 		int point = reserveBean.getPoint_plus() - reserveBean.getPoint_deduction();
         

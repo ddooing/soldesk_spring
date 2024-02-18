@@ -151,8 +151,8 @@ public interface MyPageMapper {
       //
       
       
-      // 마이페이지 아카이브 글등록(말이 등록이지 예매시 review 테이블에 insert한 부분 수정) 메소드
-      @Update("UPDATE review SET contents = #{contents}, rating = #{rating}, expose = #{expose}, create_date = sysdate WHERE reserve_id = #{reserve_id}")
+      // 마이페이지 아카이브 글등록(말이 등록이지 예매시 review 테이블에 insert한 부분 수정) 메소드 //0218 수정
+      @Update("UPDATE review SET contents = #{contents}, rating = #{rating}, expose = #{expose}, modify_date = sysdate WHERE reserve_id = #{reserve_id}")
       void enrollArchive(ReviewBean reviewBean);
       
       // 마이페이지 아카이브 글수정 메소드

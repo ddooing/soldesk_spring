@@ -81,11 +81,14 @@ public class MyPageController {
 		// 마이페이지 아카이브 글등록 메소드
 		MyPageService.enrollArchive(reviewBean);
 		
+		// 리뷰 30 exp 
+		// 공개 여부 50 exp
+		
 		// 아카이브 작성시 경험치 공개 시 100 증가 아닐시 50증가
 		if(reviewBean.getExpose() == 1) {
-			UserService.IncreaseExp(100, user_id);
+			UserService.IncreaseExp(80, user_id);
 		} else {
-			UserService.IncreaseExp(50, user_id);
+			UserService.IncreaseExp(30, user_id);
 		}
 		
 		return "redirect:/mypage/archive?user_id=" + user_id;
@@ -115,16 +118,6 @@ public class MyPageController {
 		
 		model.addAttribute("user_id",user_id);
 		
-		// 리뷰 정보 가져오기 
-		
-		// 만약 첫 등록시 .... modify null 일때, 
-		
-		// 아카이브 작성시 경험치 공개 시 100 증가 아닐시 50증가
-		if(reviewInfoBean.getExpose() == 1) {
-			UserService.IncreaseExp(100, user_id);
-		} else {
-			UserService.IncreaseExp(50, user_id);
-		}
 		
 		
 		ReviewBean r1 = new ReviewBean();

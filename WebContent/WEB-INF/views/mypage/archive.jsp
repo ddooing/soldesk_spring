@@ -218,7 +218,7 @@
 
 					<c:forEach items="${ArchiveAllInfoBean}" var="archivelist">
 						<c:choose>
-							<c:when test="${!empty archivelist.create_date}">
+							<c:when test="${!empty archivelist.modify_date}">
 								<!-- 메인포스터 나오는 코드 -->
 								<div class="archivediv btn-open-reviewmodal" data-toggle="modal"
 									data-target="#modal-${archivelist.reserve_id}">

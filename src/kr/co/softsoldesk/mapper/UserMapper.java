@@ -36,8 +36,8 @@ public interface UserMapper {
 	@Update("UPDATE user_table set exp = exp + #{exp} where user_id = #{user_id}")
 	void IncreaseExp(@Param("exp") int exp, @Param("user_id") int user_id);
 	
-	//포인트와 경험치 증가
-	@Update("update user_table set point=point + #{point}, exp=exp+50 where user_id= #{user_id}")
+	//포인트와 경험치 증가 // 0218 수정
+	@Update("update user_table set point=point + #{point}, exp=exp+100 where user_id= #{user_id}")
 	void point_expIncrease(@Param("user_id")int user_id,@Param("point")int point);
 	
 	// 재호부분 ================================================================

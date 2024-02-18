@@ -22,4 +22,7 @@ public interface ReviewMapper {
 	@Delete("DELETE FROM review WHERE reserve_id = #{reserve_id}")
 	public void getReviewDelete(int reserve_id);
 		
+	
+	
+	// 리뷰 
 }
