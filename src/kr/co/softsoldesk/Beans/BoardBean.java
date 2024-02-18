@@ -23,7 +23,17 @@ public class BoardBean {
     private String update_date;   // 수정날짜
     private int state;
     
+    // 쿼리문추가 
     private String nickname;
+    private String user_name;
+    
+ 	//?
+ 	private int total_count;
+ 	private int state_1_count;
+ 	private int state_0_count;
+ 	
+ 	private int row_number;
+    
     
 	public int getBoard_id() {
 		return board_id;
@@ -78,6 +88,36 @@ public class BoardBean {
 	}
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
+	}
+	public String getUser_name() {
+		return user_name;
+	}
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+	public int getTotal_count() {
+		return total_count;
+	}
+	public void setTotal_count(int total_count) {
+		this.total_count = total_count;
+	}
+	public int getState_1_count() {
+		return state_1_count;
+	}
+	public void setState_1_count(int state_1_count) {
+		this.state_1_count = state_1_count;
+	}
+	public int getState_0_count() {
+		return state_0_count;
+	}
+	public void setState_0_count(int state_0_count) {
+		this.state_0_count = state_0_count;
+	}
+	public int getRow_number() {
+		return row_number;
+	}
+	public void setRow_number(int row_number) {
+		this.row_number = row_number;
 	}
 
     

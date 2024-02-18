@@ -2,6 +2,7 @@ package kr.co.softsoldesk.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,6 +46,15 @@ public class AdminContentsDao {
 	public int AllSearchBoardCnt(String title) {
 		return adminContentsMapper.AllSearchBoardCnt(title);
 	}
+	
+	public List<BoardBean> getSearchBoardUserNameList(String nickname, RowBounds rowBounds){
+		return adminContentsMapper.getSearchBoardUserNameList(nickname, rowBounds);
+	}
+	
+	public int getSearchBoardUserNameCnt(String nickname) {
+		return adminContentsMapper.getSearchBoardUserNameCnt(nickname);
+	}
+	
 	// 관리자 게시글 상세보기
 	public BoardBean getBoardInfo(int board_id) {
 		return adminContentsMapper.getBoardInfo(board_id);
@@ -55,9 +65,9 @@ public class AdminContentsDao {
 		adminContentsMapper.DeleteBoard(board_id);
 	}
 
-	// QnA 복구 처리 (state 값 1로 변경)
-	public void recoveryBoard(int state, int board_id) {
-		adminContentsMapper.recoveryBoard(state, board_id);
+	// 게시판 복구 처리 (state 값 1로 변경)
+	public void recoveryBoard(int state) {
+		adminContentsMapper.recoveryBoard(state);
 	}
 	
 	/*

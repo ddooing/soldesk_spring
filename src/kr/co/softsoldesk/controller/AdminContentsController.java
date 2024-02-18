@@ -37,7 +37,7 @@ public class AdminContentsController {
 		// 제목 내용
 		 if ("titlecontents".equals(type) && keyword != null) {
 			 List<BoardBean> titleList = AdminContentsService.getSearchBoardAllTitleList(keyword, page);
-			 model.addAttribute("noticeList", titleList);
+			 model.addAttribute("boardList", titleList);
 			 
 			 PageBean pageBean2 = AdminContentsService.AllSearchBoardCnt(keyword, page);
 			 model.addAttribute("pageBean2", pageBean2);
@@ -51,7 +51,7 @@ public class AdminContentsController {
 			 
 		}else if("title".equals(type) && keyword != null) {
 			List<BoardBean> allList = AdminContentsService.getSearchBoardTitleList(keyword, page);
-			model.addAttribute("noticeList", allList);
+			model.addAttribute("boardList", allList);
 			
 			PageBean pageBean1 = AdminContentsService.SearchBoardCnt(keyword, page);
 			model.addAttribute("pageBean1", pageBean1);
@@ -63,7 +63,19 @@ public class AdminContentsController {
 			model.addAttribute("keyword",keyword);
 			
 				
-		}else {
+		}else if("nickname".equals(type) && keyword != null) {
+			List<BoardBean> nameList = AdminContentsService.getSearchBoardUserNameList(keyword, page);
+			model.addAttribute("boardList", nameList);
+			
+			PageBean pageBean3 = AdminContentsService.SearchBoardCnt(keyword, page);
+			model.addAttribute("pageBean3", pageBean3);
+			
+			int n4 = AdminContentsService.SearchBoardCnt(keyword);
+			model.addAttribute("n4", n4);
+			
+			model.addAttribute("type",type);
+			model.addAttribute("keyword",keyword);
+		} else {
 			List<BoardBean> boardList = AdminContentsService.getAllBoardList(page);
 			model.addAttribute("boardList", boardList);
 			
@@ -112,9 +124,9 @@ public class AdminContentsController {
     }
 	
 	@PostMapping("/DeleteBoard")
-	public ResponseEntity<?> AllDeleteBoard(@RequestParam("noIds") List<Integer> noIds) {
+	public ResponseEntity<?> AllDeleteBoard(@RequestParam("boardIds") List<Integer> boardIds) {
 		
-		AdminContentsService.DeleteBoard(noIds);
+		AdminContentsService.DeleteBoard(boardIds);
 		
 	    return ResponseEntity.ok().build();
 	} 
@@ -124,30 +136,18 @@ public class AdminContentsController {
 		
 		AdminContentsService.DeleteBoard(board_id);
 		
-		return "redirect:/admin/manager_noticemanage";
-	}
-	
-    
-	@GetMapping("/board_recovery")
-	public String board_recovery(@RequestParam("reply") String reply,
-								 @RequestParam(value="usercombo", required=false) String usercombo,
-								 @RequestParam(value="usersearch", required=false) String usersearch,
-								 @RequestParam(value = "page", defaultValue = "1") int page, Model model, 
-								 @ModelAttribute("boardBean") BoardBean boardBean, 
-								 @RequestParam("board_id") int board_id) {
-		
-		// QnA 복구 
-		if(reply != "") {	// 답글이 달려있을때는 state 값 1로 아닐때는 0으로 복구
-			int state = 1;
-			AdminContentsService.recoveryBoard(state, board_id);
-		} else {
-			int state = 0;
-			AdminContentsService.recoveryBoard(state, board_id);
-		}
-		
 		return "redirect:/admin/manager_boardlist";
 	}
-    
+	// 게시판 복구
+	@GetMapping("/board_recovery")
+	public String board_recovery(@RequestParam("board_id") int board_id,
+								 @RequestParam(value="type", required=false) String type,
+								 @RequestParam(value="keyword", required=false) String keyword,
+								 @RequestParam(value = "page", defaultValue = "1") int page, Model model, 
+								 @ModelAttribute("boardBean") BoardBean boardBean) {
+		AdminContentsService.recoveryBoard(board_id);
+	    return "redirect:/admin/manager_boardlist";
+	}
     
     
     // 참고

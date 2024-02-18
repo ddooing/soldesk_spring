@@ -27,7 +27,6 @@ public class AdminContentsService {
 
 	// 게시글을 데이터베이스에 추가
 	public void addboardFromAdmin(BoardBean boardBean) {
-
 		adminContentsDao.addboardFromAdmin(boardBean);
 	}
 	
@@ -86,26 +85,36 @@ public class AdminContentsService {
 	public int AllSearchBoardCnt(String title) {
 		return adminContentsDao.AllSearchBoardCnt(title);
 	}
+	public List<BoardBean> getSearchBoardUserNameList(String nickname,  int page) {
+		int start = (page - 1) * admin_listcnt;
+		RowBounds rowBounds = new RowBounds(start, admin_listcnt);
+		
+		return adminContentsDao.getSearchBoardUserNameList(nickname, rowBounds);
+	}
+	
+	public int getSearchBoardUserNameCnt(String nickname) {
+		return adminContentsDao.getSearchBoardUserNameCnt(nickname);
+	}
+	
+	
 	public BoardBean getBoardInfo(int board_id) {
 		return adminContentsDao.getBoardInfo(board_id);
 	}
 	
-	public void DeleteBoard(List<Integer> noIds) {
-		for (Integer noId : noIds) {
-			adminContentsDao.DeleteBoard(noId);
+	public void DeleteBoard(List<Integer> boardIds) {
+		for (Integer boardId : boardIds) {
+			adminContentsDao.DeleteBoard(boardId);
 		}
 	}
 
-	public void DeleteBoard(int notice_id) {
-		adminContentsDao.DeleteBoard(notice_id);
+	public void DeleteBoard(int board_id) {
+		adminContentsDao.DeleteBoard(board_id);
 	}
 
-	
-	// QnA 복구 처리 (state 값 1로 변경)
-	public void recoveryBoard(int state, int board_id) {
-		adminContentsDao.recoveryBoard(state, board_id);
+	// 게시글 복구 처리
+	public void recoveryBoard(int board_id) {
+	    adminContentsDao.recoveryBoard(board_id);
 	}
-	
 	
 	/*
 	public List<NoticeBean> getAllNoticeList(int page) {

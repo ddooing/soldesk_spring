@@ -102,11 +102,7 @@ $(document).ready(function(){
 						</form>
 					</div>
 
-
 					<div style="background-color: white; margin-top: 30px;">
-
-
-
 						<table class="table table-striped" style="text-align: center; ">
 							<thead>
 								<tr style="vertical-align: middle;">

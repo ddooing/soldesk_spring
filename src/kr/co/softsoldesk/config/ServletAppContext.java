@@ -174,6 +174,9 @@ public class ServletAppContext implements WebMvcConfigurer {
 	    /*
 	    InterceptorRegistration reg4 = registry.addInterceptor(checkWriterInterceptor);
 	    reg2.addPathPatterns("/comment_s");
+	    
+	    InterceptorRegistration reg5 = registry.addInterceptor(checkWriterInterceptor);
+	    reg2.addPathPatterns("/comment_modify", "/comment_delete");
 	     */
 	}
 	

@@ -19,70 +19,68 @@ public interface AdminContentsMapper {
 			+ "VALUES (board_id_seq.NEXTVAL, #{title}, SYSDATE, 0, #{contents}, SYSDATE, #{state})")
 	void addboardFromAdmin(BoardBean boardBean);
 	
-	@Select("SELECT b.board_id, b.user_id, b.title, b.contents, "
-			+ " TO_CHAR(b.create_date, 'yyyy-mm-dd') AS regdate, b.state, u.nickname "
-			+ "FROM board b "
-			+ "JOIN user_table u ON b.user_id = u.user_id "
-			+ "ORDER BY b.board_id DESC")
+	@Select("SELECT b.board_id, b.user_id,  b.title,  b.contents, b.views,"
+			+ "TO_CHAR(b.create_date, 'YYYY-MM-DD') AS create_date, "
+			+ "TO_CHAR(b.update_date, 'yyyy-mm-dd') AS update_date, b.state,  u.nickname "
+			+ "FROM  board b JOIN user_table u "
+			+ "ON  b.user_id = u.user_id "
+			+ "ORDER BY  b.board_id DESC")
 	List<BoardBean> AllBoardList(RowBounds rowBounds);
 	
 	@Select("select count(*), count(*) as count " + "from board")
 	int AllBoardCnt();
 	
 	// 제목만 검색
-	@Select("SELECT board_id, title, TO_CHAR(create_date, 'YYYY-MM-DD') AS create_date, views, state "
-			+ "FROM board WHERE UPPER(title) LIKE '%' || UPPER(:title) || '%' "
-			+ "ORDER BY board_id DESC;")
+	@Select("SELECT b.board_id, b.title, u.nickname AS nickname, b.title, TO_CHAR(b.create_date, 'YYYY-MM-DD') AS create_date, b.views, b.state "
+			+ "FROM board b JOIN user_table u ON b.user_id = u.user_id WHERE UPPER(b.title) LIKE '%' || UPPER(#{title}) || '%' "
+			+ "ORDER BY board_id DESC")
 	List<BoardBean> getSearchBoardTitleList(@Param("title") String title, RowBounds rowBounds);
 	
 	// 제목만 검색 수량
 	@Select("SELECT COUNT(*) AS count "
 			+ "FROM board "
-			+ "WHERE UPPER(title) LIKE '%' || UPPER(:title) || '%'")
+			+ "WHERE UPPER(title) LIKE '%' || UPPER(#{title}) || '%'")
 	int SearchBoardCnt(@Param("title") String title);
 
-	// 제목+내용검색
-	@Select("SELECT board_id, title, TO_CHAR(create_date, 'YYYY-MM-DD') as create_date, views, state "
-			+ "FROM notice WHERE UPPER(title) LIKE '%' || UPPER(#{title}) || '%' "
-			+ "OR UPPER(contents) LIKE '%' || UPPER(#{title}) || '%' order by board_id desc")
+	// 제목+수량 검색
+	@Select("SELECT b.board_id, b.title, u.nickname AS nickname, TO_CHAR(b.create_date, 'YYYY-MM-DD') AS create_date, b.views, b.state "
+	        + "FROM board b JOIN user_table u ON b.user_id = u.user_id WHERE UPPER(b.title) LIKE '%' || UPPER(#{title}) || '%' "
+	        + "OR UPPER(b.contents) LIKE '%' || UPPER(#{title}) || '%' order by b.board_id desc")
 	List<BoardBean> getSearchBoardAllTitleList(@Param("title") String title, RowBounds rowBounds);
+
 
 	// 제목+내용 수량체크
 	@Select("select count(*), count(*) as count\r\n" + "from board "
-			+ "where upper(title) LIKE '%' || UPPER(#{title}) || '%' "
-			+ "or upper(contents) LIKE '%' || UPPER(#{title}) || '%'")
+			+ "where upper(title) LIKE '%' || UPPER(#{title}) || '%'")
 	int AllSearchBoardCnt(@Param("title") String title);
 	
 	// 작성자만 검색
-	@Select("SELECT b.board_id, u.name AS nick_name, b.title, TO_CHAR(b.create_date, 'YYYY-MM-DD') AS create_date "
+	@Select("SELECT b.board_id, b.title, u.nickname AS nickname, b.title, TO_CHAR(b.create_date, 'YYYY-MM-DD') AS create_date, b.views, b.state "
 			+ "FROM board b "
 			+ "JOIN user_table u ON b.user_id = u.user_id "
-			+ "WHERE UPPER(u.name) LIKE '%' || UPPER(:user_name) || '%' "
+			+ "WHERE UPPER(u.nickname) LIKE '%' || UPPER(#{nickname}) || '%' "
 			+ "ORDER BY b.board_id DESC")
-	List<BoardBean> getSearchBoardUserNameList(@Param("title") String title, RowBounds rowBounds);
+	List<BoardBean> getSearchBoardUserNameList(@Param("nickname") String nickname, RowBounds rowBounds);
 	
 	// 작성자만 검색 수량
 	@Select("SELECT COUNT(*) AS count "
-			+ "FROM board "
-			+ "WHERE UPPER(title) LIKE '%' || UPPER(:title) || '%'")
-	int getSearchBoardUserNameCnt(@Param("title") String title);
-	
-	// 닉네임, 사용자아이디, 이메일 검색 수정
+			+ "FROM board b JOIN user_table u ON b.user_id = u.user_id WHERE UPPER(nickname) LIKE '%' || UPPER(#{nickname}) || '%'")
+	int getSearchBoardUserNameCnt(@Param("nickname") String nickname);
 	
 	// 게시글 세부정보 확인
-	@Select("select board_id, title, create_date, contents, state, views from board "
-			+ "where board_id = #{board_id}")
+	@Select("select b.board_id, b.title, b.create_date, b.contents, b.state, b.views, b.update_date, u.nickname "
+	        + "from board b join user_table u on b.user_id=u.user_id "
+	        + "where b.board_id = #{board_id}")
 	BoardBean getBoardInfo(int board_id);
 	
-	// 게시글 삭제
+	// 게시글 삭제 (0 으로 처리)
 	@Update("update board set state = 0 where board_id = #{board_id}")
 	void DeleteBoard(@Param("board_id") int board_id);
 	
-	// 게시글 복구처리 (state 0->1로변경)
-	@Update("UPDATE board "
-			+ "SET state = 1 "
-			+ "WHERE board_id = :board_id AND state = 0 ")
-	void recoveryBoard(@Param("state") int state, @Param("board_id") int board_id);
+	// 게시글 복구처리 (state 0->2로변경)
+	@Update("UPDATE board SET state = 2 WHERE board_id = #{board_id, jdbcType=INTEGER} AND state = 0")
+	void recoveryBoard(@Param("board_id") int board_id);
+
 	
 	/*
 	// =====================================1. 공지사항 관리
