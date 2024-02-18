@@ -184,7 +184,7 @@ table, th, td {
                                     </c:when>
                                     <c:when test="${reservelist.state == 0}">
                                        <p style=" color:gray; font-size: 25px;">예매 상태 : 
-                                          <span style="font-size: 25px;">
+                                          <span style="font-size: 25px; color: #dc3545;">
                                              결제취소
                                           </span>
                                        </p>
