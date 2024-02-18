@@ -146,7 +146,7 @@ public interface BoardMapper {
 	        + "    (#{searchType} = 'total' AND (b.title LIKE '%' || #{searchText} || '%' OR b.contents LIKE '%' || #{searchText} || '%')) OR "
 	        + "    (#{searchType} = 'title' AND b.title LIKE '%' || #{searchText} || '%') OR "
 	        + "    (#{searchType} = 'contents' AND b.contents LIKE '%' || #{searchText} || '%')) "
-	        + "ORDER BY         bby bmnmmmmmmmmmm b.board_id DESC")
+	        + "ORDER BY b.board_id DESC")
 	List<BoardBean> getSearchBoards(@Param("searchType") String searchType, @Param("searchText") String searchText, RowBounds rowBounds);
 
 	
