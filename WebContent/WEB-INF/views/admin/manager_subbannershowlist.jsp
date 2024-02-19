@@ -110,13 +110,10 @@ $(document).ready(function() {
 						<h3>서브 배너 관리</h3>
 					</div>
 					<div style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-					<div style="position: flex; margin-right: 60px; width: 450px; float: left;">
-						<span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">노출배너 ${BadgeCnt.banner_show_Cnt }건</span> 
-						<span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right: 10px;">숨김배너 ${BadgeCnt.banner_hide_Cnt }건</span> 
-						<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size: 15px;">배너 총${BadgeCnt.banner_all_Cnt}건</span>
-						
-						
-					
+					<div style="display:flex;  margin-right:60px; width: 450px; float: left;">
+						<span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px; padding:10px;">노출배너 ${BadgeCnt.banner_show_Cnt }건</span> 
+						<span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right: 10px; padding:10px;">숨김배너 ${BadgeCnt.banner_hide_Cnt }건</span> 
+						<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size: 15px; padding:10px;">배너 총 ${BadgeCnt.banner_all_Cnt}건</span>
 					</div>
 					
 					
