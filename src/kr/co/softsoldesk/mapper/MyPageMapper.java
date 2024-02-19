@@ -217,16 +217,22 @@ public interface MyPageMapper {
       int getarchivelistCnt(int user_id);
       
       //중요표시 먼저 풀력하는 매퍼들
-      @Select("select notice_id, title, to_char(create_date, 'yyyy-mm-dd')as create_date, contents, state, views\r\n"
-            + "from notice\r\n"
-            + "where state != 0\r\n"
-            + "order by notice_id desc, state desc")
+      @Select("SELECT notice_id, \r\n"
+      		+ "    title, \r\n"
+      		+ "    TO_CHAR(create_date, 'yyyy-mm-dd') AS create_date, \r\n"
+      		+ "    contents, \r\n"
+      		+ "    state, \r\n"
+      		+ "    views\r\n"
+      		+ "FROM notice\r\n"
+      		+ "where state != 0\r\n"
+      		+ "ORDER BY \r\n"
+      		+ "    CASE WHEN state = 2 THEN 0 ELSE 1 END,\r\n"
+      		+ "    notice_id DESC")
       List<NoticeBean>getImportantNoticeList(RowBounds rowBounds);
       
       @Select("select count(*)\r\n"
             + "from notice\r\n"
-            + "where state != 0\r\n"
-            + "order by notice_id desc, state desc")
+            + "where state != 0")
       int getImportantNoticeListCnt();
       
       @Select("select notice_id, title, to_char(create_date, 'yyyy-mm-dd')as create_date, contents, state, views\r\n"

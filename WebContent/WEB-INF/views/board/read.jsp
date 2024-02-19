@@ -106,7 +106,6 @@
                            </td>
                         </tr>
                         <%-- 다음글 링크 --%>
-
                         <tr class="tb_link">
                            <td colspan="3">
                            
@@ -139,8 +138,8 @@
             </div>
             <div class="btn3" style="display: flex; justify-content: flex-end; margin-top: 20px;">
                <c:if test="${loginUserBean.user_id == readContentBean.user_id}">
-                  <a class="btn btn-dark" style="margin-right: 10px;" href="${root}/board/modify?board_id=${board_id}">수정</a>
-                  <a class="btn btn-dark" style="margin-right: 10px;" href="${root}/board/delete?board_id=${board_id}">삭제</a>
+                  <a class="btn btn-dark" style="margin-right: 10px; float: right; margin: left;" href="${root}/board/modify?board_id=${board_id}">수정</a>
+                  <a class="btn btn-dark" style="margin-right: 10px; float: right;" href="${root}/board/delete?board_id=${board_id}">삭제</a>
                </c:if>
                   <a class="btn btn-dark" href="${root}/board/main">목록</a>
             </div>
