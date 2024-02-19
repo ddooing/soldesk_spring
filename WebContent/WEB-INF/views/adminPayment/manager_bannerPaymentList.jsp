@@ -356,12 +356,44 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									    
 									    var startDate = datepickerValue;
 									    var endDate = datepicker2Value;
-									    
+									    /*
 									 // 첫 번째 날짜가 두 번째 날짜보다 이후인지 확인
-									    if (startDate > endDate) {
-									        alert('시작 날짜는 종료 날짜보다 이후일 수 없습니다.');
-									        return; // 함수 실행 중단
+									    if (startDate < endDate) { // 시작 날짜 가 종료날짜보다 이전일때,
+									    	 if (startDate > endDate) 
+									    	 { // 시작 날짜를 종료날짜보다 이후로 선택했을때, 
+										    	Swal.fire({
+										            title: "날짜 선택 오류",
+										            text: "시작 날짜는 종료 날짜보다 이후일 수 없습니다",
+										            icon: "error",
+										            showCancelButton: true, 
+												    cancelButtonColor: "gray",
+												    cancelButtonText: '닫기', 
+												    showConfirmButton: false, 
+										            
+										        });
+										    	
+										        return;
+									    	 }
+									    
+									    	  if(startDate > endDate) // 종료날짜가 시작날짜보다 이전으로 선택
+										    	{
+											    	Swal.fire({
+											            title: "날짜 선택 오류",
+											            text: "종료 날짜는 시작 날짜보다 이전일 수 없습니다",
+											            icon: "error",
+											            showCancelButton: true, 
+													    cancelButtonColor: "gray",
+													    cancelButtonText: '닫기', 
+													    showConfirmButton: false, 
+											            
+											        });
+											    	
+											        return; 
+										    	}
+									    
 									    }
+									 
+									 */
 
 							            var urlParams = new URLSearchParams(window.location.search);
 										

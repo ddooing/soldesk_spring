@@ -61,20 +61,13 @@
 				</div>
 				<div
 					style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-					<div
-						style="position: flex; margin-right: 60px; width: 450px; float: left;">
-						<!-- 여기에 margin-right 추가 -->
-						<span class="badge text-bg-danger rounded-pill"
-							style="font-size: 15px; margin-right: 10px; margin-left: 50px;">등록대기
-							${countBean.stay_exhibition_eroll_count }건</span> <span
-							class="badge text-bg-success rounded-pill"
-							style="font-size: 15px; margin-right: 10px;">등록완료
-							${countBean.complete_exhibition_eroll_count }건</span> <span
-							class="badge bg-success-subtle text-success-emphasis rounded-pill"
-							style="background-color: black; font-size: 15px;">등록신청
-							총${countBean.total_exhibition_eroll_count}건</span>
+					
+					<div style="display:flex;  margin-right:60px; width: 450px; float: left;">
+						<span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px; padding:10px;">등록대기 ${countBean.stay_exhibition_eroll_count }건</span> 
+						<span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right: 10px; padding:10px;">등록완료 ${countBean.complete_exhibition_eroll_count }건</span> 
+						<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size: 15px; padding:10px;">등록신청 총 ${countBean.total_exhibition_eroll_count}건</span>
 					</div>
-
+					
 					<form action="${root }/admin/manager_exhibitionapplylist"
 						method="get">
 
