@@ -231,7 +231,7 @@ public interface ExhibitionMapper {
 			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
 			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id \r\n"
 			+ "WHERE \r\n"
-			+ "    UPPER(e.title) LIKE '%' || upper(#{title}) || '%'"
+			+ "    UPPER(e.title) LIKE '%' || upper(#{title}) || '%' and state = 1"
 			+ "order by exhibition_id desc")
 	List<ExhibitionBean>SearchExhibition(@Param("title")String keyword, RowBounds rowBounds);
 	
@@ -242,7 +242,7 @@ public interface ExhibitionMapper {
 			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
 			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id \r\n"
 			+ "WHERE \r\n"
-			+ "    UPPER(e.title) LIKE '%' || upper(#{title}) || '%'")
+			+ "    UPPER(e.title) LIKE '%' || upper(#{title}) || '%' and state = 1")
 	int SearchExhibitionCnt(@Param("title")String title);
 	
 	
@@ -270,7 +270,7 @@ public interface ExhibitionMapper {
 			+ "    exhibition e \r\n"
 			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
 			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id\r\n"
-			+ "order by exhibition_id desc")
+			+ "where state = 1 order by exhibition_id desc")
 	List<ExhibitionBean>AllExhibition(RowBounds rowBounds);
 	
 	
@@ -279,7 +279,7 @@ public interface ExhibitionMapper {
 			+ "FROM \r\n"
 			+ "    exhibition e \r\n"
 			+ "    JOIN file_table f1 ON e.main_poster_file_id = f1.file_id \r\n"
-			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id")
+			+ "    JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id where state = 1")
 	int AllExhibitionCnt();
 	
 	

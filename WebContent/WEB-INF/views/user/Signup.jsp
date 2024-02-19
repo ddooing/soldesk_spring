@@ -135,6 +135,18 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 .asdf tr {
 	height: 50px;
 }
+td, tr{
+	height: 80px;
+}
+input{
+	margin-bottom: 10px;
+}
+
+span{
+	position: absolute;
+}
+
+
 </style>
 
 </head>
@@ -234,112 +246,88 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 				style="display: flex; justify-content: center; align-content: center; text-align: left;">
 				<table class="asdf" style="margin-top: 50px;">
 					<tr>
-						<th style="width:200px;"><form:label path="name" style="font-size: 20px;">성함</form:label>
+						<th style="width:200px;">
+						<form:label path="name" style="font-size: 20px;">성함</form:label>
 						</th>
-
-						<td><form:input path="name" class="form-control" /> <form:errors
-								path="name" style="color:red" /></td>
-
-
+						<td><input type="text" name="name" id="name" class="form-control" onkeyup="validateName()" style="margin-bottom: 10px;" />
+						<span id="nameError" style="color:red;"></span></td>
 					</tr>
+					
+					
 
 					<tr>
-						<th style="width:200px;"><form:label path="id" style="font-size: 20px;">아이디</form:label>
-						</th>
-
-						<td><form:input path="id" onkeypress="resetIdExist()" 
-								class="form-control" /> <form:errors path="id"
-								style="color:red" /></td>
+						<th style="width:200px;">
+						<form:label path="id" style="font-size: 20px;">아이디</form:label></th>
+					<td>
+						<input name="id" id="id" onkeypress="resetIdExist()" class="form-control" onkeyup="validateId()" style="margin-bottom: 10px;"/>
+						<span id="idError" style="color:red;"></span>
+					</td>
 
 						<td>
 							<button type="button" class="btn btn-dark" style="margin-left:15px;"
 								onclick="checkIdExist()">중복확인</button>
 						</td>
 					</tr>
-
 					<tr>
-						<th style="width:200px;"><form:label path="email" style="font-size: 20px;">이메일</form:label>
-						</th>
-
-						<td><form:input path="email" class="form-control" /> <form:errors
-								path="email" style="color:red" /></td>
-					</tr>
-
-
-
-					<tr>
-						<th style="width:200px;"><form:label path="birth" style="font-size: 20px;">생년월일</form:label>
-						</th>
-
-						<td><input type="date" id="birth" name="birth" style="width:100%;"
-							pattern="yyyy-MM-dd" required="required" /></td>
-					</tr>
-
-					<tr>
-						<th style="width:200px;"><form:label path="password" style="font-size: 20px;">비밀번호</form:label>
-						</th>
-
+						<th style="width:200px;"><form:label path="email" style="font-size: 20px;">이메일</form:label></th>
 						<td>
-							<form:password path="password" class="form-control" id="pw1" oninput="pwCheck()" />
-							<form:errors path="password" style="color:red" />
+							<form:input path="email" class="form-control" required="required"/>
+							<form:errors path="email" style="color:red" />
+						</td>
+					</tr>
+					<tr>
+						<th style="width:200px;"><form:label path="birth" style="font-size: 20px;">생년월일</form:label></th>
+						<td><input type="date" id="birth" name="birth" style="width:100%;" pattern="yyyy-MM-dd" required="required" /></td>
+					</tr>
+
+					<tr>
+						<th style="width:200px;"><form:label path="password" style="font-size: 20px;">비밀번호</form:label></th>
+						<td>
+							<input type="password" name="password" class="form-control" id="pw1" oninput="pwCheck()" onkeyup="validatePw()"/>
+							<span id="pwError" style="color:red;"></span>
 						</td>
 					</tr>
 
 					<tr>
-						<th style="width:200px;"><form:label path="password2" style="font-size: 20px;">비밀번호 확인</form:label>
-						</th>
-
+						<th style="width:200px;"><form:label path="password2" style="font-size: 20px;">비밀번호 확인</form:label></th>
 						<td>
-							<form:password path="password2" class="form-control" id="pw2" oninput="pwCheck()" />
+							<input type="password" name="password2" class="form-control" id="pw2" oninput="pwCheck()" />
 							<form:errors path="password2" style="color:red" />
 						</td>
 						<td><span id="pwConfirm2" style="margin-left: 10px;"> 비밀번호를 입력하세요 </span></td>
 					</tr>
-
 					<tr>
-						<th style="width:200px;"><form:label path="nickname" style="font-size: 20px;">닉네임</form:label>
-						</th>
-
+						<th style="width:200px;"><form:label path="nickname" style="font-size: 20px;">닉네임</form:label></th>
 						<td>
-							<form:input path="nickname" class="form-control" onkeypress="resetNickExist()" />
-							<form:errors path="nickname" style="color:red" />
+							<input name="nickname" class="form-control" id="nickname" onkeypress="resetNickExist()" onkeyup="validateNickname()" style="margin-bottom: 10px;" />
+							<span id="nickError" style="color:red;"></span>
 						</td>
-
 						<td>
 							<button type="button" class="btn btn-dark" style="margin-left:15px;" onclick="checkNickExist()">중복확인</button>
 						</td>
 					</tr>
-
 					<tr>
-						<th style="width:200px;"><form:label path="gender" style="font-size: 20px;">성별</form:label>
-						</th>
-
+						<th style="width:200px;"><form:label path="gender" style="font-size: 20px;">성별</form:label>	</th>
 						<td>
 							<div style="display: flex; justify-content: center;">
-
 								<div style="margin-right: 80px;">
 									<form:radiobutton path="gender" value="male" id="male" />
 									<form:label path="gender" for="male" style="margin-left:10px;">남</form:label>
 								</div>
-
 								<div>
 									<form:radiobutton path="gender" value="female" id="female" />
 									<form:label path="gender" for="female" style="margin-left:10px;">여</form:label>
 								</div>
-							</div> <form:errors path="gender" style="color:red" />
+							</div>
+							<form:errors path="gender" style="color:red" />
 						</td>
-
 					</tr>
-
 					<tr>
-						<th style="width:200px;"><form:label path="telephone" style="font-size: 20px;">전화번호</form:label>
-						</th>
-
-						<td><form:input path="telephone" class="form-control" /> <form:errors
-								path="telephone" style="color:red;" /></td>
+						<th style="width:200px;">
+						<form:label path="telephone" style="font-size: 20px;">전화번호</form:label></th>
+						<td><input name="telephone" class="form-control" placeholder="'-' 없이 입력" />
+						<form:errors path="telephone" style="color:red;" /></td>
 					</tr>
-
-
 				</table>
 			</div>
 			<!-- 확인 버튼 -->
@@ -348,9 +336,6 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 				<button type="button" onclick="submitForm();" class="btn btn-dark" style="margin-top:30px;">확인</button>
 			</div>
 		</form:form>
-
-
-
 	</section>
 
 	<script>
@@ -370,6 +355,52 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 	<!-- 푸터-->
 
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
+	
+	<script>
+	    function validateName() {
+	        var name = document.getElementById("name").value;
+	        var regex = /^[가-힣]{2,4}$/;
+	
+	        if (!regex.test(name)) {
+	            document.getElementById("nameError").innerHTML = "성함은 2~4자 사이의 한글이어야 합니다.";
+	        } else {
+	            document.getElementById("nameError").innerHTML = "";
+	        }
+	    }
+	    
+	    function validateId() {
+	        var name = document.getElementById("id").value;
+	        var regex = /^[a-zA-Z0-9]{4,20}$/;
+	
+	        if (!regex.test(name)) {
+	            document.getElementById("idError").innerHTML = "사용자 아이디는 6~20자여야 하고 영대문자, 영소문자, 숫자만 허용합니다.";
+	        } else {
+	            document.getElementById("idError").innerHTML = "";
+	        }
+	    }
+	    
+	    function validatePw() {
+	        var name = document.getElementById("pw1").value;
+	        var regex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).{6,20}$/;
+	
+	        if (!regex.test(name)) {
+	            document.getElementById("pwError").innerHTML = "사용자 비밀번호는 6~20자여야 하고 \r\n숫자, 영소문자, 영대문자, 특수기호가 하나씩 들어가야 합니다.";
+	        } else {
+	            document.getElementById("pwError").innerHTML = "";
+	        }
+	    }
+	    
+	    function validateNickname() {
+	        var name = document.getElementById("nickname").value;
+	        var regex = /^{2,8}$/;
+	
+	        if (!regex.test(name)) {
+	            document.getElementById("nickError").innerHTML = "사용자 닉네임은 2~8자리여야 합니다.";
+	        } else {
+	            document.getElementById("nickError").innerHTML = "";
+	        }
+	    }
+	</script>
 
 <script>
     function submitForm() {

@@ -147,6 +147,9 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
 .asdf tr {
    height: 50px;
 }
+td, th{
+	height: 80px;
+}
 </style>
 <script>
    function checkNickExist() {
@@ -274,8 +277,9 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
                   <th><form:label path="password" style="font-size: 20px;">현재 비밀번호</form:label>
                   </th>
 
-                  <td><form:password path="password" class="form-control" />
-                     <form:errors path="password" style="color:red" /></td>
+                  <td><form:password path="password" id="pw" oninput="cpwCheck()" class="form-control" />
+                      
+                  </td><td><span id="pwConfirm" style="margin-left: 10px;"></span></td>
                </tr>
 
                <tr>
@@ -322,6 +326,22 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
                  $('#pwConfirm2').text('✖').css('color', 'red');
              }
          }
+         
+         function cpwCheck() {
+        	    var inputPassword = $('#pw').val();
+        	    var serverPassword = '${IC.password}';
+
+        	    if (inputPassword === '' || serverPassword === '') {
+        	        $('#pwConfirm').text('');
+        	    } else if (inputPassword === serverPassword) {
+        	        $('#pwConfirm').text('✔').css('color', 'green');
+        	    } else {
+        	        $('#pwConfirm').text('✖').css('color', 'red');
+        	    }
+        	}
+
+         
+         
              </script>
 <script>
     function confirmmodify() {

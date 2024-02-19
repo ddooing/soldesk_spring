@@ -157,7 +157,7 @@
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
 											<br /><br /><br />
 											<b style="margin-top: 10px;">5% 적립</b><br />
-											<b style="margin-top: 10px;">exp 0 ~ 299</b>
+											<b style="margin-top: 10px;">exp 0 ~ 300</b>
 					
 										</div>
 										<div
