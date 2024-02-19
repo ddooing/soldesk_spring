@@ -135,8 +135,7 @@
 
 	<c:choose>
 		<c:when test="${empty UserBookmarkBean}">
-			<div
-				style="background: #d3d3d32e; width: 860px; margin-top: 30px; height: 300px; margin: auto; border-radius: 15px;">
+			<div style="background: #d3d3d32e; width: 860px; margin-top: 30px; height: 300px; margin: auto; border-radius: 15px;">
 				<div class="test-center"
 					style="margin: auto; display: flex; flex-direction: column; align-items: center;">
 					<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"

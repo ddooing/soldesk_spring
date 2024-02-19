@@ -131,7 +131,7 @@
 
 /* focus 상태일 때 스타일 */
 .review textarea:focus-visible{
-    border: none;
+    outline: none;
 }
 </style>
 
@@ -213,7 +213,7 @@
 		<c:otherwise>
 			<div class="archive" style="margin: auto;">
 				<div class="archivegrid"
-					style="grid-auto-rows: minmax(350px, auto); display: grid; margin-left: 35px; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); padding: 30px; justify-content: center; margin: auto; \width: 860px;">
+					style="grid-auto-rows: minmax(350px, auto); display: grid; margin-left: 35px; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); padding: 30px; justify-content: center; margin: auto; width: 860px;">
 
 
 					<c:forEach items="${ArchiveAllInfoBean}" var="archivelist">
@@ -384,12 +384,42 @@
 
 
 											<div class="review"
-												style="width: 465px; height: 270px; border: none; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; border-radius: 20px; padding: 10px; outline: 0; resize: none;">
+												style="width: 465px; height: 260px; border: none; box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; border-radius: 20px; padding: 10px; outline: 0; resize: none;">
 
-												<textarea rows="10" cols="41" name="contents"
+												<textarea rows="11" cols="49" name="contents" id="commentText"
 													style="resize: none; border:none;">${archivelist.contents }</textarea>
+													<div style="margin-left: 10px; color: #6c757d; font-size: 0.875rem;" id="commentCounter">0/1000</div>
 												<!-- 임시로 텍스트에디터 사용안함 -->
 											</div>
+											
+											<script>
+											    document.addEventListener('DOMContentLoaded', function () {
+											        var commentTextArea = document.getElementById('commentText');
+											        var commentCounter = document.getElementById('commentCounter');
+											        var maxLength = 1000; // 최대 글자 수
+											
+											        function updateCommentCounter() {
+											            var textLength = commentTextArea.value.length;
+											            commentCounter.textContent = textLength + '/' + maxLength; // 글자 수 표시 업데이트
+											            // 글자 수 초과시 경고 및 초과분 자르기
+											            if (textLength > maxLength) {
+											                commentTextArea.value = commentTextArea.value.substring(0, maxLength);
+											                // SweetAlert2를 사용하여 경고창 표시
+											                Swal.fire({
+											                    icon: 'warning',
+											                    title: '경고',
+											                    text: '댓글은 최대 ' + maxLength + '자까지 입력 가능합니다.',
+											                    confirmButtonText: '확인'
+											                });
+											            }
+											        }
+											
+											        commentTextArea.addEventListener('input', updateCommentCounter);
+											
+											        // 페이지 로드 시 초기 글자 수 업데이트
+											        updateCommentCounter();
+											    });
+											</script>
 											<!-- textarea에 대한 팝업 크기 조절 추가하기 -->
 
 											<div class="checkbox-wrapper-17"

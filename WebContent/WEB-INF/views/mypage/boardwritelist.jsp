@@ -111,8 +111,28 @@ td > a{
 		 	</div>
 		</div>
 	</div>
-
-
+	
+	
+	<c:choose>
+		<c:when test="${empty boardList }">
+			<div style="background: #d3d3d32e; width: 860px; margin-top: 30px; height: 300px; margin: auto; border-radius: 15px;">
+				<div class="test-center"
+					style="margin: auto; display: flex; flex-direction: column; align-items: center;">
+					<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"
+						fill="currentColor" class="bi bi-x-circle"
+						style="margin-top: 80px;" viewBox="0 0 16 16">
+					        <path
+							d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+					        <path
+							d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+					    </svg>
+					<h3 style="margin-top: 50px;">내가 작성한 글 내역이 없습니다</h3>
+				</div>
+			</div>
+		</c:when>
+		
+		<c:otherwise>
+			
 			<!-- 작성한 글 -->
 			<div class="postList" style="margin:auto;"> 
 				<div style=" width:860px; display: flex;  padding: 30px; margin:auto;" >
@@ -129,7 +149,7 @@ td > a{
 						 <c:forEach items="${boardList }" var="list">
 						 	<tbody >
 							    <tr >
-							        <td class="atagg">${list.board_id }</td>
+							        <td class="atagg">${list.rownum }</td>
 							        <td class="atagg"><a href="${root }/board/read?board_id=${list.board_id}">${list.title }</a></td>
 							        <td >${list.create_date }</td>   
 							    </tr>
@@ -202,9 +222,8 @@ td > a{
 							</div>
 						</c:when>
 						</c:choose>
-		
-	
-	
+		</c:otherwise>
+	</c:choose>
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/> 
 	

@@ -240,7 +240,7 @@
   										</td>
   									</tr>
   									<tr style="height: 80px;">
-  										<th style="width:200px; text-align: center; font-size: 20px;">예매 가격*</th>
+  										<th style="width:200px; text-align: center; font-size: 20px;">티켓 가격*</th>
   										<td style="width:400px;">
   											<form:input path="price" style="border:none; border-bottom: 1px solid black; width:95%; text-align: right; font-size: 20px;"/>원
   										</td>
@@ -396,7 +396,7 @@
 					 var form = document.getElementById("myForm");
 					  
 					  Swal.fire({
-					    title: "전시회를 수정하시겠습니까?",
+					    title: "수정 내용을 저장하시겠습니까?",
 					    showCancelButton: true,
 					    icon: "warning",
 					    confirmButtonText: "수정",

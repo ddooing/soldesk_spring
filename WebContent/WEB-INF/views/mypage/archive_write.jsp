@@ -223,8 +223,38 @@
 			
 			<div class="text-center">
 				<div style="margin:auto;">
-					<form:textarea path="contents" style="width:800px; height:300px;"/>
+					<form:textarea path="contents"id="commentText" style="width:800px; height:300px; resize: none;"/>
+					<div style="margin-left: 10px; color: #6c757d; font-size: 0.875rem;" id="commentCounter">0/1000</div>
 				</div>
+				
+				<script>
+				    document.addEventListener('DOMContentLoaded', function () {
+				        var commentTextArea = document.getElementById('commentText');
+				        var commentCounter = document.getElementById('commentCounter');
+				        var maxLength = 1000; // 최대 글자 수
+				
+				        function updateCommentCounter() {
+				            var textLength = commentTextArea.value.length;
+				            commentCounter.textContent = textLength + '/' + maxLength; // 글자 수 표시 업데이트
+				            // 글자 수 초과시 경고 및 초과분 자르기
+				            if (textLength > maxLength) {
+				                commentTextArea.value = commentTextArea.value.substring(0, maxLength);
+				                // SweetAlert2를 사용하여 경고창 표시
+				                Swal.fire({
+				                    icon: 'warning',
+				                    title: '경고',
+				                    text: '댓글은 최대 ' + maxLength + '자까지 입력 가능합니다.',
+				                    confirmButtonText: '확인'
+				                });
+				            }
+				        }
+				
+				        commentTextArea.addEventListener('input', updateCommentCounter);
+				
+				        // 페이지 로드 시 초기 글자 수 업데이트
+				        updateCommentCounter();
+				    });
+				</script>
 			
 			
 			<div class="checkbox-wrapper-17" style="margin-top: 30px; margin-left:250px; display: flex; align-items: center;">

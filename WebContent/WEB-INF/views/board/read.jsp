@@ -178,7 +178,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         var commentTextArea = document.getElementById('commentText');
         var commentCounter = document.getElementById('commentCounter');
-        var maxLength = 500; // 최대 글자 수
+        var maxLength = 1000; // 최대 글자 수
 
         function updateCommentCounter() {
             var textLength = commentTextArea.value.length;

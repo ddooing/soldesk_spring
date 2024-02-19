@@ -282,14 +282,14 @@ public interface MyPageMapper {
       
       
       //내가 쓴 글 리스트 확인
-      @Select("select board_id, title, contents, TO_CHAR(create_date, 'yyyy-mm-dd') create_date, user_id\r\n"
+      @Select("select board_id, title, contents, TO_CHAR(create_date, 'yyyy-mm-dd') create_date, user_id, rownum\r\n"
       		+ "from board\r\n"
-      		+ "where user_id = #{user_id} order by board_id desc")
+      		+ "where user_id = #{user_id} and state != 0 order by board_id desc")
       List<BoardBean> myBoardList(int user_id, RowBounds rowBounds);
       
       @Select("select count(*)\r\n"
       		+ "from board\r\n"
-      		+ "where user_id = #{user_id}")
+      		+ "where user_id = #{user_id} and state != 0")
       int getMyBoardListCnt(int user_id);
       
 }

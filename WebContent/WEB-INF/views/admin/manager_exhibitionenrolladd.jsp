@@ -487,12 +487,12 @@ function showConfirmation() {
  var form = document.getElementById("myForm");
   
   Swal.fire({
-    title: "전시회를 저장하시겠습니까?",
-    showDenyButton: true,
+    title: "전시회를 등록하시겠습니까?",
+    //showDenyButton: true,
     showCancelButton: true,
     icon: "warning",
     confirmButtonText: "저장",
-    denyButtonText: "저장하지 않기",
+    //denyButtonText: "저장하지 않기",
     cancelButtonText: "취소"
   }).then((result) => {
     if (result.isConfirmed) {
