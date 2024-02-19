@@ -100,7 +100,7 @@
                            <td colspan="3">
                               <div id="divNoticeContents">
                                  <!-- 내용 -->
-                                 <textarea id="contents" name="contents"
+                                 <textarea id="contents" name="contents" rows="15" cols="150"
                                     style="resize: none; border: hidden; background-color: white;" disabled="disabled">${readContentBean.contents }</textarea>
                               </div>
                            </td>
@@ -267,7 +267,7 @@ $(document).ready(function() {
                 $.each(response.comment_s, function(index, comment) {
                     var buttonsHtml = '';
                     if (loggedInUserId === comment.user_id) {
-                        buttonsHtml = '<button class="btn btn-sm btn-primary edit-btn mr-2" data-id="' + comment.comment_id + '">수정</button>' +
+                        buttonsHtml = '<button class="btn btn-sm btn-primary edit-btn mr-2" style="margin-right: 10px;" data-id="' + comment.comment_id + '">수정</button>' +
                                       '<button class="btn btn-sm btn-danger delete-btn" data-id="' + comment.comment_id + '">삭제</button>';
                     }
 
@@ -275,7 +275,7 @@ $(document).ready(function() {
                                         '<div class="card-body">' +
                                             '<p class="card-subtitle text-muted">작성자: ' + comment.nickname + '</p>' +
                                             '<p class="card-text">' + comment.contents + '</p>' +
-                                            '<div>' + buttonsHtml + '</div>' +
+                                            '<div style="float: right;">' + buttonsHtml + '</div>' +
                                         '</div>' +
                                       '</div>';
                     $("#replySection").append(commentHtml); 

@@ -22,7 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.softsoldesk.Beans.BoardBean;
 import kr.co.softsoldesk.Beans.PageBean;
+import kr.co.softsoldesk.Beans.SubBannerBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Service.AdminService;
 import kr.co.softsoldesk.Service.BoardService;
 import kr.co.softsoldesk.Service.UserService;
 import kr.co.softsoldesk.dao.BoardDao;
@@ -37,6 +39,9 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+    
+    @Autowired
+    private AdminService adminService;
      
     @Resource(name = "loginUserBean")
     private UserBean loginUserBean;
@@ -46,6 +51,10 @@ public class BoardController {
 			    		@RequestParam(value="searchType", required=false) String searchType,
 				        @RequestParam(value="searchText", required=false) String searchText,
 				        @ModelAttribute("searchUserBean") UserBean searchUserBean) {
+    	
+    	// 서브 캐러셀
+    	List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+        model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
     	
     	  // 검색 조건이 있는 경우
         if (searchType != null && searchText != null && !searchType.isEmpty() && !searchText.isEmpty()) {
@@ -63,6 +72,8 @@ public class BoardController {
         
         model.addAttribute("searchType", searchType); // 검색 조건 유지를 위해 모델에 추가
         model.addAttribute("searchText", searchText);
+        
+     
         
         return "board/main"; // board/main 뷰로 이동합니다.
     }

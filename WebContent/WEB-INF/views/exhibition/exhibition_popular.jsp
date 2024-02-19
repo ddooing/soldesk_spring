@@ -43,29 +43,32 @@
 
 
 	<!--전시회 부분-->
-	<section class="vh-60">
-		<div class="text-center mb-4" style="margin-top: 180px;">
-			<h2>전시회</h2>
-			<hr style="width: 1200px; margin: auto; margin-top: 30px;" />
-		</div>
+	<!--전시회 부분-->
+   <section class="vh-60">
+      <div class="text-center mb-4" style="margin-top: 180px;">
+         <h2>전시회</h2>
+         <hr style="width: 1200px; margin: auto; margin-top: 30px;" />
+      </div>
 
-		<div style="margin-top: 30px; text-align: center; margin-right: 880px;">
-			<button id="popularbtn" type="button" onclick="window.location.href='${root}/exhibition/exhibition_popular'"
-				style="color: black; font-size: 25px; text-decoration: none; border: none; background-color: transparent;">인기</button>
-			<button id="recentbtn" type="button" onclick="window.location.href='${root}/exhibition/exhibition_recent'"
-				style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent;  margin-left: 15px;">최신</button>
-			<button id="freebtn" type="button" onclick="window.location.href='${root}/exhibition/exhibition_free'"
-				style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent;  margin-left: 15px;">무료</button>
-			<button id="soonendbtn" type="button" onclick="window.location.href='${root}/exhibition/exhibition_soon_end'"
-				style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent;  margin-left: 15px;">곧종료</button>
-		</div>
-	</section>
-		<div style="margin-top: 30px; text-align: center; margin-left: 850px;">
-					<form action="${root }/exhibition/exhibition_search" method="get" name="exhibitionSearch">
-						<input type="text" name="keyword" placeholder="키워드로 검색" style="width: 300px; height: 40px;" />
-						<button type="submit" class="btn btn-dark" style="margin-left: 10px;">검색</button>
-					</form>
-				</div>
+      <div style="text-align: center;">
+          <div style="display: inline-block; vertical-align: top;  ">
+              <button id="popularbtn" type="button" onclick="window.location.href='${root}/exhibition/exhibition_popular'"
+                  style="color: black; font-size: 25px; text-decoration: none; border: none; background-color: transparent;">인기</button>
+              <button id="recentbtn" type="button" onclick="window.location.href='${root}/exhibition/exhibition_recent'"
+                  style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 15px;">최신</button>
+              <button id="freebtn" type="button" onclick="window.location.href='${root}/exhibition/exhibition_free'"
+                  style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 15px;">무료</button>
+              <button id="soonendbtn" type="button" onclick="window.location.href='${root}/exhibition/exhibition_soon_end'"
+                  style="color: lightgray; font-size: 25px; text-decoration: none; border: none; background-color: transparent; margin-left: 15px;">곧종료</button>
+          </div>
+          <div style="display: inline-block; vertical-align: top; margin-left:500px;">
+              <form action="${root }/exhibition/exhibition_search" method="get" name="exhibitionSearch">
+                  <input type="text" name="keyword" placeholder="키워드로 검색" style="width: 300px; height: 40px;" />
+                  <button type="submit" class="btn btn-dark" style="margin-left: 10px;">검색</button>
+              </form>
+          </div>
+      </div>
+   </section>
 
 	<section id="인기">
 		<div class="text-center mb-4"

@@ -12,7 +12,7 @@
 <meta name="author" content="" />
 
 <!-- 메뉴바 -->
-<link rel="icon" type="image/x-icon" href="assets/ARTMEE_PAGELOGO.png" />
+<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 
 <!-- Font Awesome icons (free version)-->
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -514,15 +514,41 @@ a:hover {
                      
                         <c:forEach var="noticeList" items="${noticeList }">
                            <tr>
-                              <td>${noticeList.notice_id}</td>
-                              <td style="text-align: left;">
-                              	<a href="${root }/notice/read?notice_id=${noticeList.notice_id}" style="color: black; text-decoration: none;">${noticeList.title}</a>
-                              </td>
-                              <td>${noticeList.create_date}</td>
-                              <%-- <td>${noticeList.state }</td> --%>
+                              <c:choose>
+                              	<c:when test="${noticeList.state == 2 }">
+                              		<td style="background-color: #F8DAD5;">${noticeList.notice_id}</td>
+                              	</c:when>
+                              	<c:otherwise>
+                              		<td>${noticeList.notice_id}</td>
+                              	</c:otherwise>
+                              </c:choose>
+                              
+                              <c:choose>
+                              		<c:when test="${noticeList.state == 2 }">
+                              			<td style="text-align: left; background-color: #F8DAD5;">
+                              				<a href="${root }/notice/read?notice_id=${noticeList.notice_id}" style="color: black; text-decoration: none;">${noticeList.title}</a>
+                             			 </td>
+                              		</c:when>
+                              		<c:otherwise>
+                              			<td style="text-align: left;">
+                              				<a href="${root }/notice/read?notice_id=${noticeList.notice_id}" style="color: black; text-decoration: none;">${noticeList.title}</a>
+                             			 </td>
+                              		</c:otherwise>
+                              </c:choose>
+                              
+                              <c:choose>
+                              	<c:when test="${noticeList.state == 2 }">
+                              		<td style="background-color: #F8DAD5;">${noticeList.create_date}</td>
+                              	</c:when>
+                              	<c:otherwise>
+                              		<td>${noticeList.create_date}</td>
+                              	</c:otherwise>
+                              </c:choose>
+                              
+
                                  <c:choose>
                                     <c:when test="${noticeList.state == 2 }">
-                                       <td style="background-color: gray;">중요!</td>
+                                       <td style="background-color: #F8DAD5;">중요!</td>
                                     </c:when>
                                     <c:when test="${noticeList.state == 1 }">
                                        <td style="background-color: white;">일반</td>
@@ -738,42 +764,41 @@ a:hover {
    </div>
    </div>
    
-   <!-- 배너부분 -->
-            <section style="margin-top: 100px;">
-                   <div class="container px-1" style="width:1100px;">
-                       <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
-                           <!-- 캐러셀 인디케이터 -->
-                           <div class="carousel-indicators">
-                               <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
-                                   <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
-                                           class="${status.index == 0 ? 'active' : ''}" aria-label="Slide ${status.index + 1}">
-                                   </button>
-                               </c:forEach>
-                           </div>
-               
-                           <!-- 캐러셀 슬라이드 -->
-                           <div class="carousel-inner">
-                               <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
-                                   <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-                                       <a href='${root}/exhibition/exhibition_click?exhibition_id=${subBanner.exhibition_id}'>
-                                           <img src="${subBanner.sub_banner_path}${subBanner.sub_banner_name}" class="d-block w-100" alt="Banner ${status.index + 1}" style="height:150px;">
-                                       </a>
-                                   </div>
-                               </c:forEach>
-                           </div>
-               
-                           <!-- 캐러셀 컨트롤 -->
-                           <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-                               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                               <span class="visually-hidden">Previous</span>
-                           </button>
-                           <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-                               <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                               <span class="visually-hidden">Next</span>
-                           </button>
-                       </div>
-                   </div>
-               </section>
+   <section style="margin-top: 150px;">
+	    <div class="container px-1" style="width:1100px;">
+	        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+	            <!-- 캐러셀 인디케이터 -->
+	            <div class="carousel-indicators">
+	                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+	                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
+	                            class="${status.index == 0 ? 'active' : ''}" aria-label="Slide ${status.index + 1}">
+	                    </button>
+	                </c:forEach>
+	            </div>
+	
+	            <!-- 캐러셀 슬라이드 -->
+	            <div class="carousel-inner">
+	                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+	                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+	                        <a href='${root}/exhibition/exhibition_click?exhibition_id=${subBanner.exhibition_id}&user_id=${loginUserBean.user_id}'>
+	                            <img src="${subBanner.sub_banner_path}${subBanner.sub_banner_name}" class="d-block w-100" alt="Banner ${status.index + 1}" style="height:150px;">
+	                        </a>
+	                    </div>
+	                </c:forEach>
+	            </div>
+	
+	            <!-- 캐러셀 컨트롤 -->
+	            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+	                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	                <span class="visually-hidden">Previous</span>
+	            </button>
+	            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+	                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	                <span class="visually-hidden">Next</span>
+	            </button>
+	        </div>
+	    </div>
+	</section>
 
    <!-- 푸터-->
    <c:import url="/WEB-INF/views/include/footer.jsp"/>

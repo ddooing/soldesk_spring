@@ -135,14 +135,14 @@
 				    <c:choose>
 				        <c:when test="${status.index == 0}">
 				            <div class="carousel-item active">
-				                <a href='${root}/exhibition/exhibition_click?exhibition_id=${mainBanner.exhibition_id}'>
+				                <a href='${root}/exhibition/exhibition_click?exhibition_id=${mainBanner.exhibition_id}&user_id=${loginUserBean.user_id}'>
 				                    <img src="${mainBanner.main_banner_path}${mainBanner.main_banner_name}" class="d-block w-80 mx-auto img-fluid" style="height: 400px; width:1200px;" alt="img1">
 				                </a>
 				            </div>
 				        </c:when>
 				        <c:otherwise>
 				            <div class="carousel-item">
-				                <a href='${root}/exhibition/exhibition_click?exhibition_id=${mainBanner.exhibition_id}'>
+				                <a href='${root}/exhibition/exhibition_click?exhibition_id=${mainBanner.exhibition_id}&user_id=${loginUserBean.user_id}'>
 				                    <img src="${mainBanner.main_banner_path}${mainBanner.main_banner_name}" class="d-block w-80 mx-auto img-fluid" style="height: 400px; width:1200px;" alt="img1">
 				                </a>
 				            </div>
@@ -379,7 +379,7 @@
 	            <div class="carousel-inner">
 	                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
 	                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-	                        <a href='${root}/exhibition/exhibition_click?exhibition_id=${subBanner.exhibition_id}'>
+	                        <a href='${root}/exhibition/exhibition_click?exhibition_id=${subBanner.exhibition_id}&user_id=${loginUserBean.user_id}'>
 	                            <img src="${subBanner.sub_banner_path}${subBanner.sub_banner_name}" class="d-block w-100" alt="Banner ${status.index + 1}" style="height:150px;">
 	                        </a>
 	                    </div>

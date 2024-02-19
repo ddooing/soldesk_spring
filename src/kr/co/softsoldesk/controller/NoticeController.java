@@ -83,6 +83,10 @@ public class NoticeController {
          
        }
       
+      // 서브 캐러셀
+      List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+      model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+      
       return "notice/main";
    }
    
