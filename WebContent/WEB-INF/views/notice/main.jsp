@@ -455,40 +455,43 @@ a:hover {
       </div>
             <div>
                <div style="width:900px; display: flex; justify-content: center;">
-               <form action="${root }/notice/main" method="get">
-                  <c:choose>
-                     <c:when test="${type == 'title' }">
-                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px; font-size: 15px;">
-                           <option value="" disabled>검색조건선택</option>
-                           <option value="title" selected>제목</option>
-                           <option value="titlecontents">제목+내용</option>
-                        </select>
-                        <input type="text" name="keyword" value="${keyword }" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
-                        <button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
-                     </c:when>
-                     
-                     <c:when test="${type == 'titlecontents' }">
-                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px; font-size: 15px;">
-                           <option value="" disabled>검색조건선택</option>
-                           <option value="title">제목</option>
-                           <option value="titlecontents" selected>제목+내용</option>
-                        </select>
-                        <input type="text" name="keyword" value="${keyword }" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
-                        <button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
-                     </c:when>
-                     
-                     <c:otherwise>
-                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px; font-size: 15px;">
-                           <option value="" disabled selected>검색조건선택</option>
-                           <option value="title">제목</option>
-                           <option value="titlecontents">제목+내용</option>
-                        </select>
-                        <input type="text" name="keyword" style="width: 500px; height: 40px; margin-right: 30px;" placeholder="검색어를 입력해주세요" />
-                        <button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
-                     </c:otherwise>
-                     
-                  </c:choose>
-                  </form>
+               <fieldset class="search_wrap" id="search_wrap1" style="width: 930px;">
+                  <form action="${root }/notice/main" method="get">
+                     <c:choose>
+                        <c:when test="${type == 'title' }">
+                           <select name="type" style=" margin-right: 10px;">
+                              <option value="" disabled>검색조건선택</option>
+                              <option value="title" selected>제목</option>
+                              <option value="titlecontents">제목+내용</option>
+                           </select>
+                           <input type="text" name="keyword" value="${keyword }" style="width: 575px; height: 40px; margin-right: 10px;" placeholder="검색어를 입력해주세요" />
+                           <button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+                        </c:when>
+                        
+                        <c:when test="${type == 'titlecontents' }">
+                           <select name="type" style="margin-right: 10px;">
+                              <option value="" disabled>검색조건선택</option>
+                              <option value="title">제목</option>
+                              <option value="titlecontents" selected>제목+내용</option>
+                           </select>
+                           <input type="text" name="keyword" value="${keyword }" style="width: 575px; height: 40px; margin-right: 10px;" placeholder="검색어를 입력해주세요" />
+                           <button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+                        </c:when>
+                        
+                        <c:otherwise>
+                           <select name="type" style="margin-right: 10px;">
+                              <option value="" disabled selected>검색조건선택</option>
+                              <option value="title">제목</option>
+                              <option value="titlecontents">제목+내용</option>
+                           </select>
+                           <input type="text" name="keyword" style="width: 575px; height: 40px; margin-right: 10px;" placeholder="검색어를 입력해주세요" />
+                           <button class="btn btn-dark" style="width: 80px; height: 40px;">검색</button>
+                        </c:otherwise>
+                        
+                     </c:choose>
+                     </form>
+                     </fieldset>
+
                </div>
                
                <div style="display: flex; justify-content: center; align-content: center; align-items: center;">
