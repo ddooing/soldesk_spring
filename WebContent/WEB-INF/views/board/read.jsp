@@ -109,17 +109,29 @@
 
                         <tr class="tb_link">
                            <td colspan="3">
-                              <a href="read?board_id=${NextBoard.board_id}" class="tb_next" style="text-decoration: none;"> <span style="margin-right: 10px; color:black; text-decoration: none;">다음글</span>
-                                    <span style="color: black; text-decoration: none;">${NextBoard.title}</span> <!-- 수정: 제목 동적 표시 -->
-                              </a>
+                           
+                           	<c:choose>
+                           		<c:when test="${NextBoard.title == null }">
+                           			<span style="margin-right: 10px; color: black; text-decoration: none;">다음 게시글 없음</span>
+                           		</c:when>
+                           		<c:otherwise>
+                           			<span style="margin-right: 10px; color:black; text-decoration: none;">다음글</span>
+                           			<a href="read?board_id=${NextBoard.board_id }" class="tb_next" style="text-decoration: none; color: black;">${NextBoard.title }</a>
+                           		</c:otherwise>
+                           	</c:choose>
                            </td>
                         </tr>
                         <tr class="tb_link">
                            <td colspan="3">
-                              <a href="read?board_id=${PreviousBoard.board_id}" class="tb_prev" style="text-decoration: none;">
-                                 <span style="margin-right: 10px; color:black; text-decoration: none;">이전글</span>
-                                 <span style="color: black; text-decoration: none;">${PreviousBoard.title != null ? PreviousBoard.title : '이전 게시글 없음'}</span>
-                              </a>
+                              <c:choose>
+                              	<c:when test="${PreviousBoard.title == null }">
+                              		<span style="margin-right: 10px; color: black; text-decoration: none;">이전 게시글 없음</span>
+                              	</c:when>
+                              	<c:otherwise>
+                              		<span style="margin-right: 10px; color:black; text-decoration: none;">이전글</span>
+                              		<a href="read?board_id=${PreviousBoard.board_id }" class="tb-next" style="text-decoration: none; color: black;">${PreviousBoard.title }</a>
+                              	</c:otherwise>
+                              </c:choose>
                            </td>
                         </tr>
                      </tbody>
