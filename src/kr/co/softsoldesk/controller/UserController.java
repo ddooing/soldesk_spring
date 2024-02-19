@@ -17,7 +17,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.co.softsoldesk.Beans.ExhibitionBean;
+import kr.co.softsoldesk.Beans.MainBannerBean;
+import kr.co.softsoldesk.Beans.PointDetailBean;
+import kr.co.softsoldesk.Beans.ReserveBean;
+import kr.co.softsoldesk.Beans.SubBannerBean;
 import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Service.AdminService;
+import kr.co.softsoldesk.Service.ExhibitionService;
+import kr.co.softsoldesk.Service.PointDetailService;
+import kr.co.softsoldesk.Service.ReserveService;
 import kr.co.softsoldesk.Service.UserService;
 import kr.co.softsoldesk.validator.UserValidator;
 
@@ -29,6 +38,12 @@ public class UserController {
 	
 	@Autowired
 	private UserService UserService;
+	
+	@Autowired
+	private ExhibitionService ExhibitionService;
+	
+	@Autowired
+	private AdminService adminService;
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
@@ -45,13 +60,21 @@ public class UserController {
 						Model model) {
 		model.addAttribute("fail", fail);
 		
+		// 서브 캐러셀
+		List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+		model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
+		
 		return "user/login";
 	}
 	
 	@PostMapping("/login_pro")
-    public String login_pro(@ModelAttribute("tempLoginUserBean") UserBean tempLoginUserBean, BindingResult result) {
+    public String login_pro(@ModelAttribute("tempLoginUserBean") UserBean tempLoginUserBean, BindingResult result, Model model) {
 		
 		if(result.hasErrors()) {
+			
+			// 서브 캐러셀
+			List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
+			model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
 			
 			return "user/login";
 			
@@ -60,7 +83,9 @@ public class UserController {
         UserService.getLoginUserInfo(tempLoginUserBean);
         
         if(loginUserBean.isUserLogin() == true) {
-        	return "user/login_success";
+        	
+        	
+        	return "redirect:/view/index";
         } else {
         	return "user/login_fail";
         }
@@ -68,7 +93,7 @@ public class UserController {
     }
 	
 	@GetMapping("/logout")
-	public String logout() {
+	public String logout(Model model) {
 		loginUserBean.setUser_id(0);
 		loginUserBean.setId(null);
 		loginUserBean.setPassword(null);
@@ -76,14 +101,16 @@ public class UserController {
 		
 		loginUserBean.setUserLogin(false);
 		
-		return "user/logout";
+		
+		
+		return "redirect:/view/index";
 	}
 	
 	@GetMapping("/not_login")
 	public String not_login() {
-		
-		return "user/not_login";
+	      return "user/not_login";
 	}
+	
 	
 	@GetMapping("/paymentpage_error")
 	public String paymentpage_error() {
@@ -103,31 +130,27 @@ public class UserController {
 	
 	
 	@PostMapping("/Signup_pro")
-	public String Signup_pro(@Valid @ModelAttribute("joinUserBean")UserBean joinUserBean, BindingResult result) {
-		
-		System.out.println("===================");
-		System.out.println(joinUserBean.getId());
-		System.out.println("===================");
-	
+	public String Signup_pro(@Valid @ModelAttribute("joinUserBean")UserBean joinUserBean, BindingResult result,Model model) {
 		
 		if(result.hasErrors()) {
-			
-			System.out.println(result.getFieldErrors());
 			return "user/Signup";
-			
-			
 		}
 		UserService.addUserInfo(joinUserBean);
 		
-		return "user/Signup_success";
+    	
+    	return "user/join_success";
 	}
 	//-----------------------------------------------------
 	
 	@GetMapping("/InfoChange")
 	   public String InfoChange(@ModelAttribute("modifyUserBean")UserBean modifyUserBean,
 	                     @RequestParam("user_id")int user_id, Model model) {
+	      
+	      
 	      UserBean IC = UserService.getLoginUserAllInfo(user_id);
+	      
 	      model.addAttribute("IC", IC);
+
 	      
 	      return "user/InfoChange";
 	      
@@ -137,11 +160,13 @@ public class UserController {
 	   public String InfoChange_pro(@Valid @ModelAttribute("modifyUserBean")UserBean modifyUserBean,
 	         BindingResult result, Model model) {
 	      if(result.hasErrors()) {
+	      
+	    	  
 	         return "user/InfoChange";
 	      }
+	      
 	      UserService.ModifyUserInfo(modifyUserBean);
 	      model.addAttribute("user_id", modifyUserBean.getUser_id());
-	      
 	      return "user/InfoChange_success";
 	   }
 	
@@ -165,14 +190,23 @@ public class UserController {
 				loginUserBean.setState(0);
 		        
 				loginUserBean.setUserLogin(false);
-				return "user/delete_success";
+				
+				return "redirect:/view/index";
+				
 			} else {
 				return "user/delete_fail_1";		//비밀번호1, 2 불일치
-			}			
+			}
+			
+			
+			
 		} else {
 			return "user/delete_fail_2";			//비밀번호 부정확
 		}
+		
+		
+		
 	}
+	
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -180,6 +214,9 @@ public class UserController {
 		UserValidator validator1 = new UserValidator(loginUserBean);
 		
 		binder.addValidators(validator1);
+		
 	}
-
+	
+	
+	
 }

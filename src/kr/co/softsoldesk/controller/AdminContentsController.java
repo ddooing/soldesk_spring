@@ -2,13 +2,10 @@ package kr.co.softsoldesk.controller;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,143 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.softsoldesk.Beans.BoardBean;
+import kr.co.softsoldesk.Beans.FAQBean;
+import kr.co.softsoldesk.Beans.NoticeBean;
 import kr.co.softsoldesk.Beans.PageBean;
-import kr.co.softsoldesk.Beans.UserBean;
+import kr.co.softsoldesk.Beans.QnABean;
 import kr.co.softsoldesk.Service.AdminContentsService;
-import kr.co.softsoldesk.Service.BoardService;
-import kr.co.softsoldesk.Service.UserService;
+
 
 @Controller
 @RequestMapping("/admin")
 public class AdminContentsController {
-
+	
 	@Autowired
 	private AdminContentsService AdminContentsService;
 	
-	// 게시글 목록
-	@GetMapping("manager_boardlist")
-	public String manager_boardlist(Model model, @RequestParam(value="type", required=false) String type,
-										@RequestParam(value="keyword", required=false) String keyword,
-										@RequestParam(value="page", defaultValue = "1")int page) {
-		// 제목 내용
-		 if ("titlecontents".equals(type) && keyword != null) {
-			 List<BoardBean> titleList = AdminContentsService.getSearchBoardAllTitleList(keyword, page);
-			 model.addAttribute("boardList", titleList);
-			 
-			 PageBean pageBean2 = AdminContentsService.AllSearchBoardCnt(keyword, page);
-			 model.addAttribute("pageBean2", pageBean2);
-			 
-			 int n3 = AdminContentsService.AllSearchBoardCnt(keyword);
-			 model.addAttribute("n3", n3);
-			 
-			 
-			 model.addAttribute("type",type);
-			 model.addAttribute("keyword",keyword);
-			 
-		}else if("title".equals(type) && keyword != null) {
-			List<BoardBean> allList = AdminContentsService.getSearchBoardTitleList(keyword, page);
-			model.addAttribute("boardList", allList);
-			
-			PageBean pageBean1 = AdminContentsService.SearchBoardCnt(keyword, page);
-			model.addAttribute("pageBean1", pageBean1);
-			
-			int n2 = AdminContentsService.SearchBoardCnt(keyword);
-			model.addAttribute("n2", n2);
-			
-			model.addAttribute("type",type);
-			model.addAttribute("keyword",keyword);
-			
-				
-		}else if("nickname".equals(type) && keyword != null) {
-			List<BoardBean> nameList = AdminContentsService.getSearchBoardUserNameList(keyword, page);
-			model.addAttribute("boardList", nameList);
-			
-			PageBean pageBean3 = AdminContentsService.SearchBoardCnt(keyword, page);
-			model.addAttribute("pageBean3", pageBean3);
-			
-			int n4 = AdminContentsService.SearchBoardCnt(keyword);
-			model.addAttribute("n4", n4);
-			
-			model.addAttribute("type",type);
-			model.addAttribute("keyword",keyword);
-		} else {
-			List<BoardBean> boardList = AdminContentsService.getAllBoardList(page);
-			model.addAttribute("boardList", boardList);
-			
-			PageBean pageBean = AdminContentsService.AllBoardCnt(page);
-			model.addAttribute("pageBean", pageBean);
-			
-			int n1 = AdminContentsService.AllBoardCnt1();
-			model.addAttribute("n1", n1);
-			
-			model.addAttribute("type",type);
-			model.addAttribute("keyword",keyword);
-			
-		 }
-		
-		return "admin/manager_boardlist";
-	}
-	
-	// 게시판 상세보기
-	@GetMapping("/manager_boardlook") 
-	public String manager_boardlook(@RequestParam("board_id")int board_id, Model model) {
-	
-		model.addAttribute("board_id", board_id);
-		
-		BoardBean RN = AdminContentsService.getBoardInfo(board_id);
-		model.addAttribute("RN", RN);
-		
-		return "admin/manager_boardlook";
-	}
-	
-	
-	// 게시판 관리자 글쓰기
-	@GetMapping("/manager_boardwrite")
-	public String manager_boardwrite() {
-		
-		return "admin/manager_boardwrite";
-	}
-	
-	// 게시글 관리자 작성 처리
-    @PostMapping("/manager_boardwrite_pro")
-    public String manager_boardwrite_pro(@ModelAttribute("boardBean")BoardBean boardBean, Model model) {
-   
-    	// 게시글 추가
-    	AdminContentsService.addboardFromAdmin(boardBean);
-    	
-    	return "redirect:/admin/manager_boardlist";
-    }
-	
-	@PostMapping("/DeleteBoard")
-	public ResponseEntity<?> AllDeleteBoard(@RequestParam("boardIds") List<Integer> boardIds) {
-		
-		AdminContentsService.DeleteBoard(boardIds);
-		
-	    return ResponseEntity.ok().build();
-	} 
-	
-	@GetMapping("/onedelete")
-	public String onedelete(@RequestParam("board_id")int board_id) {
-		
-		AdminContentsService.DeleteBoard(board_id);
-		
-		return "redirect:/admin/manager_boardlist";
-	}
-	// 게시판 복구
-	@GetMapping("/board_recovery")
-	public String board_recovery(@RequestParam("board_id") int board_id,
-								 @RequestParam(value="type", required=false) String type,
-								 @RequestParam(value="keyword", required=false) String keyword,
-								 @RequestParam(value = "page", defaultValue = "1") int page, Model model, 
-								 @ModelAttribute("boardBean") BoardBean boardBean) {
-		AdminContentsService.recoveryBoard(board_id);
-	    return "redirect:/admin/manager_boardlist";
-	}
-    
-    
-    // 참고
-    /*
-    //1. 공지사항 관리==================================================================================================
+	//1. 공지사항 관리==================================================================================================
 	
 	@GetMapping("manager_noticemanage")
 	public String manager_noticemanage(Model model, @RequestParam(value="type", required=false) String type,
@@ -261,13 +136,134 @@ public class AdminContentsController {
 	    return ResponseEntity.ok().build();
 	} 
 	
-	@GetMapping("/onedelete")
-	public String onedelete(@RequestParam("notice_id")int notice_id) {
+	@GetMapping("/onedeleteN")
+	public String onedeleteN(@RequestParam("notice_id")int notice_id) {
 		
 		AdminContentsService.DeleteNotice(notice_id);
 		
 		return "redirect:/admin/manager_noticemanage";
 	}
+	
+	// 2. 게시판 관리==============================================================================================
+	
+	// 게시글 목록
+		@GetMapping("manager_boardlist")
+		public String manager_boardlist(Model model, @RequestParam(value="type", required=false) String type,
+											@RequestParam(value="keyword", required=false) String keyword,
+											@RequestParam(value="page", defaultValue = "1")int page) {
+			// 제목 내용
+			 if ("titlecontents".equals(type) && keyword != null) {
+				 List<BoardBean> titleList = AdminContentsService.getSearchBoardAllTitleList(keyword, page);
+				 model.addAttribute("noticeList", titleList);
+				 
+				 PageBean pageBean2 = AdminContentsService.AllSearchBoardCnt(keyword, page);
+				 model.addAttribute("pageBean2", pageBean2);
+				 
+				 int n3 = AdminContentsService.AllSearchBoardCnt(keyword);
+				 model.addAttribute("n3", n3);
+				 
+				 
+				 model.addAttribute("type",type);
+				 model.addAttribute("keyword",keyword);
+				 
+			}else if("title".equals(type) && keyword != null) {
+				List<BoardBean> allList = AdminContentsService.getSearchBoardTitleList(keyword, page);
+				model.addAttribute("noticeList", allList);
+				
+				PageBean pageBean1 = AdminContentsService.SearchBoardCnt(keyword, page);
+				model.addAttribute("pageBean1", pageBean1);
+				
+				int n2 = AdminContentsService.SearchBoardCnt(keyword);
+				model.addAttribute("n2", n2);
+				
+				model.addAttribute("type",type);
+				model.addAttribute("keyword",keyword);
+				
+					
+			}else {
+				List<BoardBean> boardList = AdminContentsService.getAllBoardList(page);
+				model.addAttribute("boardList", boardList);
+				
+				PageBean pageBean = AdminContentsService.AllBoardCnt(page);
+				model.addAttribute("pageBean", pageBean);
+				
+				int n1 = AdminContentsService.AllBoardCnt1();
+				model.addAttribute("n1", n1);
+				
+				model.addAttribute("type",type);
+				model.addAttribute("keyword",keyword);
+				
+			 }
+			
+			return "admin/manager_boardlist";
+		}
+		
+		// 게시판 상세보기
+		@GetMapping("/manager_boardlook") 
+		public String manager_boardlook(@RequestParam("board_id")int board_id, Model model) {
+		
+			model.addAttribute("board_id", board_id);
+			
+			BoardBean RN = AdminContentsService.getBoardInfo(board_id);
+			model.addAttribute("RN", RN);
+			
+			return "admin/manager_boardlook";
+		}
+		
+		
+		// 게시판 관리자 글쓰기
+		@GetMapping("/manager_boardwrite")
+		public String manager_boardwrite() {
+			
+			return "admin/manager_boardwrite";
+		}
+		
+		// 게시글 관리자 작성 처리
+	    @PostMapping("/manager_boardwrite_pro")
+	    public String manager_boardwrite_pro(@ModelAttribute("boardBean")BoardBean boardBean, Model model) {
+	   
+	    	// 게시글 추가
+	    	AdminContentsService.addboardFromAdmin(boardBean);
+	    	
+	    	return "redirect:/admin/manager_boardlist";
+	    }
+		
+		@PostMapping("/DeleteBoard")
+		public ResponseEntity<?> AllDeleteBoard(@RequestParam("noIds") List<Integer> noIds) {
+			
+			AdminContentsService.DeleteBoard(noIds);
+			
+		    return ResponseEntity.ok().build();
+		} 
+		
+		@GetMapping("/onedeleteB")
+		public String onedeleteB(@RequestParam("board_id")int board_id) {
+			
+			AdminContentsService.DeleteBoard(board_id);
+			
+			return "redirect:/admin/manager_noticemanage";
+		}
+		
+	    
+		@GetMapping("/board_recovery")
+		public String board_recovery(@RequestParam("reply") String reply,
+									 @RequestParam(value="usercombo", required=false) String usercombo,
+									 @RequestParam(value="usersearch", required=false) String usersearch,
+									 @RequestParam(value = "page", defaultValue = "1") int page, Model model, 
+									 @ModelAttribute("boardBean") BoardBean boardBean, 
+									 @RequestParam("board_id") int board_id) {
+			
+			// QnA 복구 
+			if(reply != "") {	// 답글이 달려있을때는 state 값 1로 아닐때는 0으로 복구
+				int state = 1;
+				AdminContentsService.recoveryBoard(state, board_id);
+			} else {
+				int state = 0;
+				AdminContentsService.recoveryBoard(state, board_id);
+			}
+			
+			return "redirect:/admin/manager_boardlist";
+		}
 	
 	
 	
@@ -481,8 +477,5 @@ public class AdminContentsController {
 	       return ResponseEntity.ok().build();
 	   }
 	
-	*/
-    
-    
 
 }

@@ -156,7 +156,7 @@
 											<img src="../img/level/profile_Lv1.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
 											<br /><br /><br />
-											<b style="margin-top: 10px;">1% 적립</b><br />
+											<b style="margin-top: 10px;">5% 적립</b><br />
 											<b style="margin-top: 10px;">exp 0 ~ 299</b>
 					
 										</div>
@@ -167,8 +167,8 @@
 											<img src="../img/level/profile_Lv2.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
 											<br /><br /><br />
-											<b style="margin-top: 10px;">3% 적립</b><br />
-											<b style="margin-top: 10px;">exp 300 ~ 899</b>
+											<b style="margin-top: 10px;">10% 적립</b><br />
+											<b style="margin-top: 10px;">exp 301 ~ 800</b>
 					
 										</div>
 										<div style="display: inline-block; text-align: center; width: 170px;">
@@ -177,8 +177,8 @@
 											<img src="../img/level/profile_Lv3.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
 											<br /><br /><br />
-											<b style="margin-top: 10px;">5% 적립</b><br />
-											<b style="margin-top: 10px;">exp 900 ~</b>
+											<b style="margin-top: 10px;">15% 적립</b><br />
+											<b style="margin-top: 10px;">exp 801 ~</b>
 					
 										</div>
 									</div>
@@ -187,9 +187,9 @@
 									
 									<div style=" margin-top: 30px; text-align: left; margin-right:220px;" >
 										<h3 >경험치 획득방법</h3>
-										<b style="margin-top: 50px;">전시회 예매 + 50 exp</b> <br /><br />
-										<b style="margin-top: 30px; ">소감문 작성시 최대 + 10 exp</b> <br /><br />
-										<b style="margin-top: 30px; ">소감문 공개 허용시 추가 + 5 exp</b> <br /><br />
+										<b style="margin-top: 50px;">전시회 예매 + 100 exp</b> <br /><br />
+										<b style="margin-top: 30px; ">소감문 작성 + 30 exp</b> <br /><br />
+										<b style="margin-top: 30px; ">소감문 공개 허용 + 50 exp</b> <br /><br />
 					
 									</div>
 									
@@ -204,7 +204,8 @@
 										 
 										<p > - &nbsp;기간 내에 구매금액에 구매 확정 시점에 적립 포인트가 지급됩니다. </p>		
 										<p >- &nbsp; 포인트 적립/이용 내역은 MyPage의 하위 메뉴에서 확인할 수 있습니다.</p>
-										<p >- &nbsp; 무료 전시회에 대해서는 포인트,경험치가 지급되지 않습니다.</p>	
+										<p >- &nbsp; 무료 전시회에 대해서는 포인트,경험치가 지급되지 않습니다.</p>
+										<p >- &nbsp; 소감문 공개 허용 시 지급하는 경험치는 소감문을 첫 작성 시에 지급합니다.</p>
 											
 									</div>
 									

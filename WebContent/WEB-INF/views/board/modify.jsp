@@ -73,14 +73,14 @@
 						<form:hidden path="board_id"/>
 						<div class="form-group">
 							<form:label path="nickname">작성자</form:label>
-							<form:input path="nickname" class="form-control" readonly="true" />
+							<form:input path="nickname" value="${ModifyBean.nickname }" class="form-control" readonly="true" />
 						</div>
 						<div class="form-group">
-							<form:label path="update_date">작성날짜</form:label>
-							<form:input path="update_date" class="form-control" readonly="true" />
+							<form:label path="create_date">작성날짜</form:label>
+							<form:input path="create_date" class="form-control" value="${ModifyBean.create_date }" readonly="true" />
 						</div>
 						<form:label path="title" class="font-weight-bold" style="font-size:20px;">제목</form:label>
-						<form:input path="title" id="title" placeholder="제목을 입력하세요."
+						<form:input path="title" value="${ModifyBean.title }" id="title" placeholder="제목을 입력하세요."
 							class="form-control form-control-sm"
 							style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cccccc; border-radius: 5px;" />
 
@@ -89,15 +89,11 @@
 					<div class="form-group" style="margin-top: 20px;">
 						<form:label path="contents" class="font-weight-bold"
 							style="font-size:20px;">내용</form:label>
-						<!-- SmartEditor2 텍스트 에디터 -->
-						<form:input path="contents" class="form-control form-control-sm"
-							placeholder="내용을 입력하세요."
+						<form:textarea path="contents" class="form-control form-control-sm"
 							style="height:300px; width: 100%; padding:10px;" />
-						<!-- <textarea name="contents" id="smarteditor" style="width:100%; height:300px;"></textarea> -->
 
 					</div>
 					<br />
-					<!-- 생략된 파일 업로드 및 기타 폼 요소 -->
 
 					<div class="text-center mt-4">
 						<a href="javascript:;" onclick="confirmExit()"

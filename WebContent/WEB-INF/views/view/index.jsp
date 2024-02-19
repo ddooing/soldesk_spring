@@ -33,7 +33,8 @@
 
 	<!-- JQuery 자바스크립트-->
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
+	<!-- sweetalert2 알림 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<!-- CSS -->
 	<link href="../css/styles.css" rel="stylesheet" />
@@ -44,7 +45,7 @@
 	<script src="https://www.gmarwaha.com/script/lib/jquery.easing.compatibility.js"></script>
 	<script src="https://www.gmarwaha.com/script/lib/jquery.mousewheel-3.1.12.js"></script>
 	<script src="https://www.gmarwaha.com/jquery/jcarousellite/script/jquery.jcarousellite.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
@@ -116,11 +117,9 @@
 
 <body id="page-top">
 	<!-- 메뉴바 -->
-	<div class="boardwritebtn" style="position: absolute; margin-left: 835px; margin-top:500px;">
-		<a href="${root}/admin/manager_boardlist" class="btn btn-primary">게시판 관리자페이지</a>
-	</div>
-	<c:import url="/WEB-INF/views/include/header.jsp"/> 
-	
+
+	 <c:import url="/WEB-INF/views/include/header.jsp"/> 
+
 	<!-- 상단 케러셀-->
 	<header class="masthead">
 		<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -197,7 +196,7 @@
 						</div>
 					</c:when>
 					<c:otherwise>
-					<div id="sidebar_menu" onclick="window.location.href='${root}/admin/bannerapply'" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
+					<div id="sidebar_menu" onclick="window.location.href='${root}/banner/bannerapply'" style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
 						<div style=" justify-content: center;">
 							<a href="#" style="color: black; text-decoration: none;">
 								<p1>배너 신청</p1>
@@ -208,16 +207,6 @@
 				</c:choose>
 			
 			
-			<hr style="margin:auto; width: 80px; color: black;" />
-
-			<div id="sidebar_menu"
-				style="border: 1px solid #e7e7e7; border-top-right-radius: 5%; border-top-left-radius: 5%; border-bottom: none; width: 100px; height: 80px; text-align: center; align-items: center; justify-content: center; display: flex;">
-				<div style=" justify-content: center;">
-					<a href="#" style="color: black; text-decoration: none;">
-						<p1>FAQ</p1>
-					</a>
-				</div>
-			</div>
 			<hr style="margin:auto; width: 80px; color: black;" />
 
 			<c:choose>
@@ -303,17 +292,9 @@
 							</button>
 							<div class="carousel">
 								<ul>
-									<li><img src="../img/poster4.png"></li>
-									<li><img src="../img/poster3.png"></li>
-									<li><img src="../img/poster2.png"></li>
-									<li><img src="../img/poster1.png"></li>
-									<li><img src="../img/poster4.png"></li>
-									<li><img src="../img/poster3.png"></li>
-									<li><img src="../img/poster2.png"></li>
-									<li><img src="../img/poster1.png"></li>
-									<li><img src="../img/poster1.png"></li>
-									<li><img src="../img/poster2.png"></li>
-									<li><img src="../img/poster3.png"></li>
+									<c:forEach items="${currentExhibitionInfo }" var="currentExhibition">
+										<li><a href="${root }/exhibition/exhibition_click?exhibition_id=${currentExhibition.exhibition_id}&user_id=${loginUserBean.user_id}"><img src="${currentExhibition.main_poster_path}${currentExhibition.main_poster_name}" style="width:255px; height:375px;"></a></li>
+									</c:forEach>
 								</ul>
 							</div>
 							<div class="clear"></div>
@@ -387,19 +368,22 @@
 	        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
 	            <!-- 캐러셀 인디케이터 -->
 	            <div class="carousel-indicators">
-	                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-	                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-	                <!-- 추가 슬라이드에 대한 버튼을 여기에 추가 -->
+	                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+	                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
+	                            class="${status.index == 0 ? 'active' : ''}" aria-label="Slide ${status.index + 1}">
+	                    </button>
+	                </c:forEach>
 	            </div>
 	
 	            <!-- 캐러셀 슬라이드 -->
 	            <div class="carousel-inner">
-	                <div class="carousel-item active">
-	                    <img src="../img/banner1.png" class="d-block w-100" alt="Banner 1" style="height:150px;">
-	                </div>
-	                <div class="carousel-item">
-	                    <img src="../img/banner1.png" class="d-block w-100" alt="Banner 2" style="height:150px;">
-	                </div>
+	                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+	                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+	                        <a href='${root}/exhibition/exhibition_click?exhibition_id=${subBanner.exhibition_id}'>
+	                            <img src="${subBanner.sub_banner_path}${subBanner.sub_banner_name}" class="d-block w-100" alt="Banner ${status.index + 1}" style="height:150px;">
+	                        </a>
+	                    </div>
+	                </c:forEach>
 	            </div>
 	
 	            <!-- 캐러셀 컨트롤 -->
@@ -414,6 +398,7 @@
 	        </div>
 	    </div>
 	</section>
+
 
 
 	<!-- 곧 전시 캐러셀 -->
@@ -510,8 +495,7 @@
 			}
 		});
 	</script>
-	<!-- 결제 실패 -->
-    <c:if test="${not empty failmsg}">
+	<c:if test="${not empty failmsg}">
         <script>
         Swal.fire({
             title: "결제 실패",

@@ -33,22 +33,20 @@ public class UserBean {
       private String id;
       
       @Size(min = 6, max = 20)
-      @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")
+      @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).*$")
       private String password;
-      
-      @NotEmpty(message = "필수 입력 항목입니다.")
-      @Size(min = 6, max = 20)
-      @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")
       private String password2;
-      
-      @NotEmpty(message = "필수 입력 항목입니다.")
+
+
       @Size(min = 6, max = 20)
-      @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")
-      private String password3;
+      @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).*$")
+      private String icpassword;
+      private String icpasscheck;
       
-      private String crpassword;
-      
+      @Size(min = 2, max = 8)
       private String nickname;
+      
+      @NotNull(message = "생년월일을 선택하세요.")
       private String birth;
       
       @NotNull(message = "성별을 선택하세요.")
@@ -129,17 +127,17 @@ public String getPassword2() {
 public void setPassword2(String password2) {
 	this.password2 = password2;
 }
-public String getPassword3() {
-	return password3;
+public String getIcpassword() {
+	return icpassword;
 }
-public void setPassword3(String password3) {
-	this.password3 = password3;
+public void setIcpassword(String icpassword) {
+	this.icpassword = icpassword;
 }
-public String getCrpassword() {
-	return crpassword;
+public String getIcpasscheck() {
+	return icpasscheck;
 }
-public void setCrpassword(String crpassword) {
-	this.crpassword = crpassword;
+public void setIcpasscheck(String icpasscheck) {
+	this.icpasscheck = icpasscheck;
 }
 public String getNickname() {
 	return nickname;

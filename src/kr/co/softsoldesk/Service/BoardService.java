@@ -5,25 +5,15 @@ import kr.co.softsoldesk.Beans.CommentBean;
 import kr.co.softsoldesk.Beans.PageBean;
 import kr.co.softsoldesk.Beans.UserBean;
 import kr.co.softsoldesk.dao.BoardDao;
-import kr.co.softsoldesk.mapper.BoardMapper;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @PropertySource("/WEB-INF/properties/option.properties")

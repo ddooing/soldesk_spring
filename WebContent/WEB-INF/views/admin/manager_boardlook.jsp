@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
@@ -81,8 +79,8 @@ $(document).ready(function(){
 						<h3>게시판 글보기</h3>
 					</div>
 					<div style="position: relative; margin:20px; display: flex; justify-content: start; height: 80px; align-items: center; background-color: #E8E8E8; margin-top: 20px;">
-						<a href="${root }/admin/manager_boardlist?board_id=${RN.board_id}" class="btn btn-dark">게시판 관리</a>
-						<a href="${root }/board/main" class="btn btn-dark" style="margin-left: 20px;">게시판 목록</a>	
+						<button class="btn btn-dark" style="margin-left: 50px;">게시판 관리</button>
+						<button class="btn btn-dark" style="margin-left: 20px;" onclick="location.href='manager_boardlist.jsp'">게시판 목록</button>
 					</div>
 
 					<div
@@ -92,33 +90,35 @@ $(document).ready(function(){
 							<tr style="align-items: center; height: 100px;">
 								<th style="width: 200px; vertical-align: middle; font-size:20px;">제목</th>
 								<td style="vertical-align: middle;">
-									 ${RN.title }
+									아트미 프로젝트에 대한 게시판 글입니다.
 								</td>
 							</tr>
 							<tr style="align-items: center; height: 100px;">
 								<th style="vertical-align: middle; font-size:20px;">작성자</th>
 								<td style="vertical-align: middle;">
-									${RN.nickname }
+									이이름
 								</td>
 							</tr>
 							<tr style="align-items: center; height: 100px;">
 								<th style="vertical-align: middle; width:200px; font-size:20px;">등록일</th>
 								<td style="vertical-align: middle;">
-									${RN.create_date }
+									2024-01-18
 								</td>
 							</tr>
 							<tr style="align-items: center; height: 600px; ">
 								<th style="vertical-align: middle; font-size:20px;">내용</th>
 								<td style="vertical-align: middle;">
-									${RN.contents }
+									아트미게시판입니다. 아트미게시판입니다.아트미게시판입니다.아트미게시판입니다 <br />
+									아트미 게시판입니다. 아트미게시판입니다 <br />
+									아트미게시판입니다. <br />
 								</td>
 							</tr>
 						</table>	
-	
-						<div style="float:right; margin-bottom:50px;">
-							<a href="${root }/admin/manager_boardlist" class="btn btn-dark" style="margin-right: 15px;">목록보기</a>
-							<a href="${root}/admin/onedelete?board_id=${board_id}" class="btn btn-dark" style="margin-right: 15px;">삭제</a>
-						</div>
+							
+							<div style="float:right; margin-bottom:50px;">
+								<button class="btn btn-dark" style="margin-right: 15px;" onclick="location.href='manager_boardlist.jsp'" type="submit">목록</button>
+								<button class="btn btn-danger" style="margin-right: 30px;" type="submit">삭제</button>
+							</div>
 					</div>
 				</div>
 			</main>

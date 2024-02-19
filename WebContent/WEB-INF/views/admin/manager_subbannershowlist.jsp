@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="currentDate"/>
 <c:set var="root" value="${pageContext.request.contextPath }" />	
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +101,7 @@ $(document).ready(function() {
 
 <body class="sb-nav-fixed">
 	<c:import url="/WEB-INF/views/include/admin_header.jsp" />
-
+	
 		<!--실제 내용(대시보드) 부분-->
 		<div id="layoutSidenav_content">
 			<main style="background-color: ivory;">
@@ -112,7 +114,12 @@ $(document).ready(function() {
 						<span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">노출배너 ${BadgeCnt.banner_show_Cnt }건</span> 
 						<span class="badge text-bg-danger rounded-pill" style="font-size: 15px; margin-right: 10px;">숨김배너 ${BadgeCnt.banner_hide_Cnt }건</span> 
 						<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size: 15px;">배너 총${BadgeCnt.banner_all_Cnt}건</span>
+						
+						
+					
 					</div>
+					
+					
 
 					<form action="${root }/admin/manager_subbannershowlist" method="get">
 								<select name="bannercombo" id="bannercombo" style="width: 150px; height: 40px; margin-right: 30px;">
@@ -160,14 +167,18 @@ $(document).ready(function() {
 										<td style="width:320px;"><img src="${bannerBean.sub_banner_path }${bannerBean.sub_banner_name }" style="width:300px; height:120px;" /></td>
 										<td>${bannerBean.start_date } ~ ${bannerBean.end_date }</td>
 										<td style="width:100px;">${bannerBean.expose_order }</td>
-										<c:choose>
-											<c:when test="${bannerBean.state  == 1}">
-												<td>노출중</td>		
-											</c:when>
-											<c:when test="${bannerBean.state  == 2}">
-												<td>숨김</td>		
-											</c:when>
-										</c:choose>
+										<td>
+										 <c:choose>
+							                <c:when test="${bannerBean.state == 1}">
+							                    <c:if test="${bannerBean.start_date gt currentDate}">
+							                        노출예정
+							                    </c:if>
+							                    <c:if test="${bannerBean.start_date le currentDate}">
+							                        노출중
+							                    </c:if>
+							                </c:when>
+							            </c:choose>
+							            </td>
 										<td>
 											<button class="btn btn-dark" onclick="location.href='${root}/admin/manager_subbannermodify?sub_banner_id=${bannerBean.sub_banner_id}'">수정</button>
 											<button class="btn btn-danger" type="button" onclick="confirmDelete(${bannerBean.sub_banner_id},${bannerBean.expose_order },${bannerBean.state })">삭제</button>

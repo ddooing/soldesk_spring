@@ -55,7 +55,7 @@
 	<div id="contents" class="contents_customer area_movingvar litype5">
 		<div class="board_title">
 			<h2 style="margin-left: 30px;">
-				<a href="${root }/board/main" style="font-size: 42px; margin-left: 8px;">게시판</a>
+				<a href="${root }/board/main" style="font-size: 42px; margin-left: 8px; color: black; text-decoration: none;">게시판</a>
 			</h2>
 		</div>
 		<div class="active contentshow" id="totalListContent">
@@ -66,20 +66,20 @@
 				    <fieldset class="search_wrap" id="search_wrap1" style="width: 930px; margin-left: 168px">
 				        <form action="${root}/board/main" method="get" name="searchForm">
 				            <select class="ty3" title="검색조건 제목 선택" id="selectCondition1" name="searchType">
+				                <option value="" disabled selected >검색조건선택</option>
 				                <option value="total" <c:if test="${param.searchType == 'total'}">selected</c:if>>전체</option> <!-- value 값을 컨트롤러와 일치시킵니다. -->
 				                <option value="title" <c:if test="${param.searchType == 'title'}">selected</c:if>>제목</option> <!-- value 값을 컨트롤러와 일치시킵니다. -->
 				                <option value="contents" <c:if test="${param.searchType == 'contents'}">selected</c:if>>내용</option> <!-- value 값을 컨트롤러와 일치시킵니다. -->
 				            </select> 
 				            <input type="text" name="searchText" placeholder="검색어를 입력해주세요." title="검색어를 입력해주세요" value="${param.searchText}"
-				                id="searchKeyword1" style="width: 630px;">
+				                id="searchKeyword1" style="width: 600px;">
 				            <button type="submit" class="btn_col2" id="btnSearch1">검색</button>
 				        </form>
 				    </fieldset>
 				</ul>
 		
 				<div>
-					<table class="tbl_list text_c" summary="공지사항에 대한 표입니다">
-						<caption>게시판 내용</caption>
+					<table class="tbl_list text_c">
 						<colgroup>
 							<col style="width: 10%;">
 							<col style="width: auto;">
@@ -97,9 +97,9 @@
 						<tbody>
 							<c:forEach items="${boardList}" var="board">
 								<tr>
-									<td>${board.board_id}</td>
+									<td>${board.rownum}</td>
 									<td class="text_l" style="text-align:left">
-										<a href="${root}/board/read?board_id=${board.board_id}" style="text-align:left">${board.title}</a>
+										<a href="${root}/board/read?board_id=${board.board_id}" style="text-align:left; color: black; text-decoration: none">${board.title}</a>
 									</td>
 									<td>${board.nickname}</td>
 									<td>${board.update_date}</td>
@@ -164,7 +164,7 @@
 						
 					</div>
 					<div class="boardwritebtn" style="position: absolute; margin-left: 835px;;">
-						<a href="${root}/board/write" class="btn btn-primary">글쓰기</a>
+						<a href="${root}/board/write" class="btn btn-dark">글쓰기</a>
 					</div>
 				</div>
 			</div>
@@ -181,9 +181,6 @@
 	</div>
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
-
-
-
 
 </body>
 </html>

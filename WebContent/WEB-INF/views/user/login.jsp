@@ -115,15 +115,15 @@
 
 	<!--로그인 부분-->
 	<section>
-		<div class="container py-5 h-100">
-			<div class="row d-flex align-items-center justify-content-center h-100">
-				<div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1" style="margin-top: 100px;">
+	    <div class="container py-5 h-100" style="margin-top:100px;">
+	        <div class="row d-flex align-items-center justify-content-center h-100">
+	            <div class="col-md-12 col-lg-5 col-xl-5">
 					<div class="text-center mb-4">
 						<img src="../img/ARTMEE.png" style="width: 250px; height: 100px;">
 					</div>
 					
 					<form:form action="${root }/user/login_pro" method="post" modelAttribute="tempLoginUserBean">
-						<div class="form-outline mb-4">
+						<div class="form-outline mb-4" style="margin-top:50px;">
 							<form:input path="id" class="form-control form-control-lg" />
 						</div>
 						
@@ -136,20 +136,51 @@
 					
 					</form:form>
 					
-					<!--밑부분 배너-->
-					<section style="margin-top: 100px;">
-						<div class="container px-1">
-							<div class="d-flex justify-content-center">
-								<img src="../img/banner1.png" alt="banner1" style="border: 1px solid black;">
-							</div>
-						</div>
-					</section>
+					
 
 				</div>
 			</div>
 		</div>
 	</section>
 
+					<!--밑부분 배너-->
+					<!-- 배너 캐러셀 -->
+					<section style="margin-top: 100px;">
+					    <div class="container px-1" style="width:1100px;">
+					        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+					            <!-- 캐러셀 인디케이터 -->
+					            <div class="carousel-indicators">
+					                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+					                    <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="${status.index}" 
+					                            class="${status.index == 0 ? 'active' : ''}" aria-label="Slide ${status.index + 1}">
+					                    </button>
+					                </c:forEach>
+					            </div>
+					
+					            <!-- 캐러셀 슬라이드 -->
+					            <div class="carousel-inner">
+					                <c:forEach items="${AllSubBannerInfo}" var="subBanner" varStatus="status">
+					                    <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+					                        <a href='${root}/exhibition/exhibition_click?exhibition_id=${subBanner.exhibition_id}'>
+					                            <img src="${subBanner.sub_banner_path}${subBanner.sub_banner_name}" class="d-block w-100" alt="Banner ${status.index + 1}" style="height:150px;">
+					                        </a>
+					                    </div>
+					                </c:forEach>
+					            </div>
+					
+					            <!-- 캐러셀 컨트롤 -->
+					            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+					                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					                <span class="visually-hidden">Previous</span>
+					            </button>
+					            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+					                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+					                <span class="visually-hidden">Next</span>
+					            </button>
+					        </div>
+					    </div>
+					</section>
+	
 
 
 

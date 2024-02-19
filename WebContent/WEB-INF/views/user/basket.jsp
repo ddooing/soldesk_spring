@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-<c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +10,7 @@
 	<meta name="description" content="" />
 	<meta name="author" content="" />
 	<title>ARTMEE</title>
-	<link rel="icon" type="image/x-icon" href="assets/ARTMEE_PAGELOGO.png" />
+	<link rel="icon" type="image/x-icon" href="../img/ARTMEE_PAGELOGO.png" />
 
 	<!-- Font Awesome icons (free version)-->
 	<script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -126,7 +126,7 @@
 				<button class="close-btn">X</button>
 			</div>
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="../img/poster1.png" alt="예약포스터"
+				<img src="assets/img/poster1.png" alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
 
 				<div style="margin-left: 200px;">
@@ -190,7 +190,7 @@
 				<button class="close-btn" onclick="closeExhibition(this)">X</button>
 			</div>
 			<div style="display: flex; align-items: center; flex-direction: row;">
-				<img src="../img/poster1.png" alt="예약포스터"
+				<img src="assets/img/poster1.png" alt="예약포스터"
 					style="width: 200px; height: 280px; margin-left: 300px; margin-top: 40px;" />
 
 				<div style="margin-left: 200px;">
@@ -249,7 +249,7 @@
 			<hr style="margin:auto; margin-top: 50px; width: 1000px;" />
 
 			<div class="text-center" style="margin-top: 50px;">
-				<button class="btn btn-dark" onclick="window.location.href = '${root}/exhibition/payment'"
+				<button class="btn btn-dark" onclick="window.location.href = 'payment.html'"
 					style=" width: 150px; height: 50px;">결제하기</button>
 			</div>
 

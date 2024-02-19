@@ -453,58 +453,51 @@
 		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
 
-	<script>
-		// JavaScript 삭제 버튼
-		$(document).ready(function() {
-			$("#deleteBtn").click(function() {
-				var selectedQnaIds = [];
-				$(".qna-checkbox:checked").each(function() {
-					selectedQnaIds.push(parseInt($(this).val()));
-				});
+	<script>	// 선택 삭제
+    $(document).ready(function() {
+        $("#deleteBtn").click(function() {
+            var selectedQnaIds = [];
+            $(".qna-checkbox:checked").each(function() {
+                selectedQnaIds.push(parseInt($(this).val()));
+            });
 
-				if (selectedQnaIds.length > 0) {
-					// AJAX 요청을 통해 서버에 삭제할 QnA ID 리스트를 전송
-					$.ajax({
-						url : "${root}/admin/deleteSelectedQnA",
-						type : "POST",
-						traditional : true, // 전통적인 방식으로 배열을 전송
-						data : {
-							qnaIds : selectedQnaIds
-						},
-						success: function(response) {
-						    Swal.fire({
-						        title: '완료!',
-						        text: '선택한 항목을 삭제 처리하였습니다.',
-						        icon: 'success',
-						        confirmButtonText: '확인'
-						    }).then((result) => {
-						        if (result.isConfirmed) {
-						            location.reload(); // 사용자가 '확인' 버튼을 클릭했을 때 페이지 새로고침
-						        }
-						    });
-						},
-						error : function(xhr, status, error) {
-							Swal.fire({
-							    title: '알림',
-							    text: '삭제 처리 중 문제가 발생하였습니다.',
-							    icon: 'warning',
-							    confirmButtonText: '확인'
-							});
+            if (selectedQnaIds.length > 0) {
+                // 사용자에게 삭제 확인 요청
+                Swal.fire({
+                    title: '삭제 하시겠습니까?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '삭제',
+                    cancelButtonText: '취소'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "${root}/admin/deleteSelectedQnA",
+                            type: "POST",
+                            traditional: true,
+                            data: { qnaIds: selectedQnaIds },
+                            success: function(response) {
+                                Swal.fire('삭제되었습니다!', '선택한 항목이 삭제되었습니다.', 'success').then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                });
+                            },
+                            error: function(xhr, status, error) {
+                                Swal.fire('오류', '삭제 처리 중 문제가 발생했습니다.', 'error');
+                            }
+                        });
+                    }
+                });
+            } else {
+                Swal.fire('알림', '삭제할 항목을 선택해주세요.', 'warning');
+            }
+        });
+    });
+</script>
 
-						}
-					});
-				} else {
-					Swal.fire({
-					    title: '알림',
-					    text: '삭제할 항목을 선택해주세요.',
-					    icon: 'warning',
-					    confirmButtonText: '확인'
-					});
-
-				}
-			});
-		});
-	</script>
 
 
 </body>

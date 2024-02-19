@@ -75,32 +75,28 @@
 				style="border-right: 1px solid black;">
 				<div class="sb-sidenav-menu">
 					<div class="nav">
-
 						<div class="sb-sidenav-menu-heading">카테고리</div>
-
 						<a class="nav-link" href="${root }/admin/manager_accountmanager">
 							<div class="sb-nav-link-icon">
 								<i class="bi bi-person-circle"></i>
 							</div> 사용자 관리
-						</a> <a class="nav-link collapsed"
-							href="${root }/admin/manager_reservelist">
-							<div class="sb-nav-link-icon">
-								<i class="bi bi-ticket-perforated"></i>
-							</div> 예매 관리
+						</a> 
+						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+		                   <div class="sb-nav-link-icon">
+		                      <i class="bi bi-ticket-perforated"></i>
+		                   </div> 결제관리
+		                   <div class="sb-sidenav-collapse-arrow">
+		                      <i class="fas fa-angle-down"></i>
+		                   </div>
+		                </a>
+		                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+		                   <nav class="sb-sidenav-menu-nested nav">
+		                      <a class="nav-link" href="${root }/adminPayment/manager_reservelist">전시회 결제 관리</a>
+		                      <a class="nav-link" href="${root }/adminPayment/manager_bannerPaymentList">배너 결제 관리</a>
+		                   </nav>
+		                </div>
 
-						</a>
-						<div class="collapse" id="collapseLayouts"
-							aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="#">예매 리스트(변경)</a> <a class="nav-link"
-									href="#">예매 기본설정(변경)</a> <a class="nav-link" href="#">예매
-									항목설정(변경)</a>
-							</nav>
-						</div>
-
-						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-							data-bs-target="#collapseReserve" aria-expanded="false"
-							aria-controls="collapseReserve">
+						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseReserve" aria-expanded="false" aria-controls="collapseReserve">
 							<div class="sb-nav-link-icon">
 								<i class="bi bi-calendar-check"></i>
 							</div> 컨텐츠
@@ -108,16 +104,15 @@
 								<i class="fas fa-angle-down"></i>
 							</div>
 						</a>
-						<div class="collapse" id="collapseReserve"
-							aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-							<nav class="sb-sidenav-menu-nested nav">
-								<a class="nav-link" href="manager_noticemanage.jsp">공지사항 관리</a>
-								<a class="nav-link" href="${root }/admin/manager_boardlist">게시물 관리</a> 
-								<a class="nav-link" href="${root }/admin/manager_QnAlist">QnA 관리</a>
-							</nav>
-						</div>
-						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-							data-bs-target="#collapsecontents" aria-expanded="false"
+						<div class="collapse" id="collapseReserve" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                     		<nav class="sb-sidenav-menu-nested nav">
+                        		<a class="nav-link" href="${root }/admin/manager_noticemanage">공지사항 관리</a> 
+                        		<a class="nav-link" href="${root }/admin/manager_boardlist">게시물 관리</a> 
+                        		<a class="nav-link" href="${root }/admin/manager_QnAlist">QnA 관리</a>
+                           		<a class="nav-link" href="${root }/admin/manager_FAQlist">FAQ 관리</a>
+                     		</nav>
+                  		</div>
+						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsecontents" aria-expanded="false"
 							aria-controls="collapsecontents">
 							<div class="sb-nav-link-icon">
 								<i class="bi bi-easel2"></i>
@@ -126,8 +121,7 @@
 								<i class="fas fa-angle-down"></i>
 							</div>
 						</a>
-						<div class="collapse" id="collapsecontents"
-							aria-labelledby="headingThree" data-bs-parent="#sidenavAccordion">
+						<div class="collapse" id="collapsecontents" aria-labelledby="headingThree" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="${root }/admin/manager_exhibitionlist">전시회
 									관리</a> <a class="nav-link" href="${root }/admin/manager_exhibitionapplylist">전시회
@@ -135,9 +129,7 @@
 							</nav>
 						</div>
 						
-						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-							data-bs-target="#collapseexhibition" aria-expanded="false"
-							aria-controls="collapseexhibition">
+						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseexhibition" aria-expanded="false" aria-controls="collapseexhibition">
 							<div class="sb-nav-link-icon">
 								<i class="bi bi-tv"></i>
 							</div> 배너
@@ -145,20 +137,13 @@
 								<i class="fas fa-angle-down"></i>
 							</div>
 						</a>
-						<div class="collapse" id="collapseexhibition"
-							aria-labelledby="headingFour" data-bs-parent="#sidenavAccordion">
+						<div class="collapse" id="collapseexhibition" aria-labelledby="headingFour" data-bs-parent="#sidenavAccordion">
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="${root }/admin/manager_mainbannershowlist">메인 배너 관리</a>
 								<a class="nav-link" href="${root }/admin/manager_subbannershowlist">서브 배너 관리</a> 
 								<a class="nav-link" href="${root }/admin/manager_mainbannerapplylist">배너 신청내역</a>
 							</nav>
 						</div>
-
-					</div>
-				</div>
-				<div class="sb-sidenav-footer">
-					<div style="font-size: 0.8em; color: white;">
-						Copyright &copy; 2023 개발해드림 <br /> ALL RIGHTS RESERVED
 					</div>
 				</div>
 			</nav>

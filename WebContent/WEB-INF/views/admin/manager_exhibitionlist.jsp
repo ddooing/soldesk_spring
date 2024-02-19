@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:set var="root" value="${pageContext.request.contextPath }" />
 <!DOCTYPE html>
 <html lang="en">
@@ -138,7 +139,15 @@
 									<th scope="row" style="width: 50px;"><input
 										type="checkbox" /></th>
 									<td style="width: 50px;">${exhibitionlist.exhibition_id }</td>
-									<td style="width: 150px;">${exhibitionlist.author }</td>
+									<c:choose>
+										<c:when test="${exhibitionlist.author == null }">
+											<td style="width: 150px;">없음</td>
+										</c:when>
+										<c:otherwise>
+											<td style="width: 150px;">${exhibitionlist.author }</td>	
+										</c:otherwise>
+									</c:choose>
+									
 									<td style="width: 550px; text-align: left;"><a
 										href="${root }/exhibition/exhibition_click?exhibition_id=${exhibitionlist.exhibition_id}&user_id=${loginUserBean.user_id}"
 										style="color: black; text-align: left;">${exhibitionlist.title }</a></td>
@@ -149,7 +158,9 @@
 											<td style="width: 100px;">무료</td>
 										</c:when>
 										<c:otherwise>
-											<td style="width: 100px;">${exhibitionlist.price } 원</td>
+											<td style="width:100px;">
+										    	<fmt:formatNumber value="${exhibitionlist.price}" groupingUsed="true" type="number"/> 원
+											</td>
 										</c:otherwise>
 									</c:choose>
 
@@ -197,8 +208,7 @@
 										</c:otherwise>
 									</c:choose>
 
-									<c:forEach var="idx" begin="${pageBean.min}"
-										end="${pageBean.max}">
+									<c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
 										<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
 										<c:choose>
 											<c:when test="${idx == pageBean.currentPage }">

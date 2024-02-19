@@ -1,6 +1,10 @@
 package kr.co.softsoldesk.Beans;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 
 public class CommentBean {
 	private int comment_id; // 댓글 ID
@@ -11,7 +15,6 @@ public class CommentBean {
     private String modify_date; // 수정 날짜
     private int state; // 상태값 (0:삭제, 1:정상)
     private String nickname;
-     
 	public int getComment_id() {
 		return comment_id;
 	}
@@ -60,4 +63,7 @@ public class CommentBean {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
+    
+    
+     
 }

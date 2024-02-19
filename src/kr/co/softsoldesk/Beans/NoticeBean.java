@@ -1,21 +1,27 @@
 package kr.co.softsoldesk.Beans;
 
-import java.util.Date;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-
-
+@Getter
+@Setter
 public class NoticeBean {
-	 private int notice_id; // 공지사항 ID
-	 @NotBlank
-	 private String title; // 제목
-	 private String create_date; // 생성 날짜
-	 private int views; // 조회수
-	 @NotBlank
-	 private String contents; // 내용
-	 private String update_date; // 수정 날짜
-	 private int state;
-	 
+	
+	private int notice_id;
+	private String title;
+	private String create_date;
+	private int views;
+	private String contents;
+	private String update_date;
+	private int state;
+	
+	private int total_count;
+	private int state_1_count;
+	private int state_0_count;
+	
+	private int row_number;
+	private int rnum;
+	private int count;
 	public int getNotice_id() {
 		return notice_id;
 	}
@@ -58,7 +64,50 @@ public class NoticeBean {
 	public void setState(int state) {
 		this.state = state;
 	}
+	public int getTotal_count() {
+		return total_count;
+	}
+	public void setTotal_count(int total_count) {
+		this.total_count = total_count;
+	}
+	public int getState_1_count() {
+		return state_1_count;
+	}
+	public void setState_1_count(int state_1_count) {
+		this.state_1_count = state_1_count;
+	}
+	public int getState_0_count() {
+		return state_0_count;
+	}
+	public void setState_0_count(int state_0_count) {
+		this.state_0_count = state_0_count;
+	}
+	public int getRow_number() {
+		return row_number;
+	}
+	public void setRow_number(int row_number) {
+		this.row_number = row_number;
+	}
+	public int getRnum() {
+		return rnum;
+	}
+	public void setRnum(int rnum) {
+		this.rnum = rnum;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+
 	
-	 
-	 
+	
+	
+	
+	
+	
+	
+	
+	
 }
