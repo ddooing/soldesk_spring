@@ -117,7 +117,7 @@
 								<th scope="col">작가</th>
 								<th scope="col">제목</th>
 								<th scope="col">전시기간</th>
-								<th scope="col">가격</th>
+								<th scope="col">티켓 가격</th>
 								<th scope="col">상태</th>
 								<th scope="col">공개여부</th>
 								<th scope="col">관리</th>

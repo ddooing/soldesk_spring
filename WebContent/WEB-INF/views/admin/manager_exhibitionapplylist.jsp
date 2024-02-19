@@ -156,7 +156,7 @@
 								<th scope="col">제목</th>
 								<th scope="col">전시기간</th>
 								<th scope="col">작가</th>
-								<th scope="col">가격</th>
+								<th scope="col">티켓 가격</th>
 								<th scope="col">상태</th>
 								<th scope="col">관리</th>
 							</tr>
@@ -171,9 +171,16 @@
 									<td style="width: 150px;">${enrolllist.apply_name }</td>
 									<td style="width: 500px; text-align: left;">${enrolllist.title }</td>
 									<td style="width: 300px;">${enrolllist.exhibition_start }~${enrolllist.exhibition_end }</td>
-									<td style="width: 150px;">${enrolllist.author }</td>
 									<c:choose>
-										<c:when test="${enrolllist.price ==0}">
+										<c:when test="${enrolllist.author == null}">
+											<td style="width: 150px;">없음</td>
+										</c:when>
+										<c:otherwise>
+											<td style="width: 150px;">${enrolllist.author }</td>
+										</c:otherwise>
+									</c:choose>
+									<c:choose>
+										<c:when test="${enrolllist.price == 0}">
 											<td style="width: 100px;">무료</td>
 										</c:when>
 										<c:otherwise>
