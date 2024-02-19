@@ -655,42 +655,87 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 												</li>
 											</c:when>
 											<c:otherwise>
-												<li class="page-item"><a
-													href="${root }/adminPayment/manager_reservelist?page=${pageBean.prevPage}"
+												<li class="pre-page"><a
+													href="#"
 													class="page-link">이전</a></li>
 											</c:otherwise>
 										</c:choose>
-
+										<script>
+											document.addEventListener('DOMContentLoaded', function () {
+										        var pageLinks = document.querySelectorAll('.pre-page');
+										
+										        pageLinks.forEach(function(link) {
+										            link.addEventListener('click', function(event) {
+										                event.preventDefault();
+										                var pageNum = ${pageBean.prevPage};
+										                var urlParams = new URLSearchParams(window.location.search);
+										                urlParams.set('page', pageNum);
+										                window.location.href = window.location.pathname + '?' + urlParams.toString();
+										            });
+										        });
+										    });
+										</script>
 										
 										<c:forEach var="idx" begin="${pageBean.min}" end="${pageBean.max}">
-											<!-- model로 가져온 pageBean의 최소페이지부터 최대페이지까지 반복 : idx 는 현재페이지-->
-											<c:choose>
-												<c:when test="${idx == pageBean.currentPage }">
-													<li class="page-item active"><a
-														href="${root }/adminPayment/manager_reservelist?page=${idx}"
-														class="page-link"> ${idx } </a></li>
-												</c:when>
-												<c:otherwise>
-													<li class="page-item"><a
-														href="${root }/adminPayment/manager_reservelist?page=${idx}"
-														class="page-link"> ${idx } </a></li>
-												</c:otherwise>
-											</c:choose>
-										 </c:forEach>
+										    <c:choose>
+										        <c:when test="${idx == pageBean.currentPage}">
+										            <li class="page-item active">
+										                <a href="${root}/adminPayment/manager_reservelist?page=${idx}" class="page-link">${idx}</a>
+										            </li>
+										        </c:when>
+										        <c:otherwise>
+										            <li class="page-item">
+										                <a href="#" class="page-link page-link-number" data-page="${idx}">${idx}</a>
+										            </li>
+										        </c:otherwise>
+										    </c:choose>
+										</c:forEach>
+										
+										<script>
+										    document.addEventListener('DOMContentLoaded', function () {
+										        var pageLinks = document.querySelectorAll('.page-link-number');
+										
+										        pageLinks.forEach(function(link) {
+										            link.addEventListener('click', function(event) {
+										                event.preventDefault();
+										                var pageNum = this.getAttribute('data-page');
+										                var urlParams = new URLSearchParams(window.location.search);
+										                urlParams.set('page', pageNum);
+										                window.location.href = window.location.pathname + '?' + urlParams.toString();
+										            });
+										        });
+										    });
+										</script>
 
 										<c:choose>
 											<c:when test="${pageBean.max >= pageBean.pageCnt  }">
 												<!-- max페이지 > 전체페이지개수 일때  -->
 												<li class="page-item disabled">
-													<!-- 1페이지에 있으면 이전 버튼 비활성화 --> <a href="#" class="page-link">다음</a>
+													<a href="#" class="page-link">다음</a>
 												</li>
 											</c:when>
 											<c:otherwise>
-												<li class="page-item"><a
-													href="${root }/adminPayment/manager_reservelist?page=${pageBean.nextPage}"
-													class="page-link">다음</a></li>
+												<li class="next-page">
+													<a href="#"class="page-link">다음</a>
+												</li>
 											</c:otherwise>
 										</c:choose>
+										
+										<script>
+											document.addEventListener('DOMContentLoaded', function () {
+										        var pageLinks = document.querySelectorAll('.next-page');
+										
+										        pageLinks.forEach(function(link) {
+										            link.addEventListener('click', function(event) {
+										                event.preventDefault();
+										                var pageNum = ${pageBean.nextPage};
+										                var urlParams = new URLSearchParams(window.location.search);
+										                urlParams.set('page', pageNum);
+										                window.location.href = window.location.pathname + '?' + urlParams.toString();
+										            });
+										        });
+										    });
+										</script>
 									</ul>
 								</nav>
 							</div>
