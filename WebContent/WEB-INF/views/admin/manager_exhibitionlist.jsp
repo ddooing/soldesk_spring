@@ -53,20 +53,11 @@
 				<div style="margin-top: 30px;">
 					<h3>전시회 관리</h3>
 				</div>
-				<div
-					style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
-					<div
-						style="position: flex; margin-right: 40px; width: 450px; float: left;">
-						<!-- 여기에 margin-right 추가 -->
-						<span class="badge text-bg-primary rounded-pill"
-							style="font-size: 15px; margin-right: 10px; margin-left: 50px;">전시중
-							${ExhibitionCountBean.current_exhibitions_count }건</span> <span
-							class="badge text-bg-success rounded-pill"
-							style="font-size: 15px; margin-right: 10px;">전시예정
-							${ExhibitionCountBean.upcoming_exhibitions_count }건</span> <span
-							class="badge bg-success-subtle text-success-emphasis rounded-pill"
-							style="background-color: black; font-size: 15px;">전시회 수
-							${ExhibitionCountBean.total_exhibitions_count}건</span>
+				<div style="position: relative; display: flex; justify-content: start; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">
+					<div style="display:flex;  margin-right:60px; width: 450px; float: left;">
+						<span class="badge text-bg-primary rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px; padding:10px;">전시중 ${ExhibitionCountBean.current_exhibitions_count }건</span> 
+						<span class="badge text-bg-success rounded-pill" style="font-size: 15px; margin-right: 10px; padding:10px;">전시예정 ${ExhibitionCountBean.upcoming_exhibitions_count }건</span> 
+						<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size: 15px; padding:10px;">전시회 수 ${ExhibitionCountBean.total_exhibitions_count}건</span>
 					</div>
 					<form action="${root }/admin/manager_exhibitionlist" method="get">
 						<c:choose>
