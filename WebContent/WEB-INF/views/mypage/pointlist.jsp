@@ -159,6 +159,9 @@
 					        		<c:if test="${pointlist.point_type_code == 3}">
 					        			<td>소감문 공개 포인트 적립</td>
 					        		</c:if>
+					        		<c:if test="${pointlist.point_type_code == 4}">
+					        			<td>예매 취소</td>
+					        		</c:if>
 					        	</c:if>
 					        	
 					        	<c:if test="${pointlist.point_state_code == 2}"><!-- 사용 -->

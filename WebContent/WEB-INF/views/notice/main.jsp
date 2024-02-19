@@ -189,7 +189,7 @@ tbody{
 }
 th, td {
    border-bottom: 1px solid #dee2e6;
-   padding: 10px;
+   padding: 20px;
    text-align: center;
    font-size: 20px;
 }
@@ -434,6 +434,9 @@ a:hover {
    color: #000000;
 }
 
+
+
+
 </style>
 
 </head>
@@ -455,7 +458,7 @@ a:hover {
                <form action="${root }/notice/main" method="get">
                   <c:choose>
                      <c:when test="${type == 'title' }">
-                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px;">
+                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px; font-size: 15px;">
                            <option value="" disabled>검색조건선택</option>
                            <option value="title" selected>제목</option>
                            <option value="titlecontents">제목+내용</option>
@@ -465,7 +468,7 @@ a:hover {
                      </c:when>
                      
                      <c:when test="${type == 'titlecontents' }">
-                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px;">
+                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px; font-size: 15px;">
                            <option value="" disabled>검색조건선택</option>
                            <option value="title">제목</option>
                            <option value="titlecontents" selected>제목+내용</option>
@@ -475,7 +478,7 @@ a:hover {
                      </c:when>
                      
                      <c:otherwise>
-                        <select name="type" style="width: 300px; height: 40px; margin-right: 30px;">
+                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px; font-size: 15px;">
                            <option value="" disabled selected>검색조건선택</option>
                            <option value="title">제목</option>
                            <option value="titlecontents">제목+내용</option>
@@ -493,7 +496,7 @@ a:hover {
                      <colgroup>
                         <col style="width: 10%;">
                         <col style="width: auto;">
-                        <col style="width: 15%;">
+                        <col style="width: 20%;">
                         <col style="width: 15%;">
                      </colgroup>
                      <thead>

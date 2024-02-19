@@ -156,7 +156,7 @@
 											<img src="../img/level/profile_Lv1.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1);" />
 											<br /><br /><br />
-											<b style="margin-top: 10px;">1% 적립</b><br />
+											<b style="margin-top: 10px;">5% 적립</b><br />
 											<b style="margin-top: 10px;">exp 0 ~ 299</b>
 					
 										</div>
@@ -167,8 +167,8 @@
 											<img src="../img/level/profile_Lv2.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
 											<br /><br /><br />
-											<b style="margin-top: 10px;">3% 적립</b><br />
-											<b style="margin-top: 10px;">exp 300 ~ 899</b>
+											<b style="margin-top: 10px;">10% 적립</b><br />
+											<b style="margin-top: 10px;">exp 301 ~ 800</b>
 					
 										</div>
 										<div style="display: inline-block; text-align: center; width: 170px;">
@@ -177,8 +177,8 @@
 											<img src="../img/level/profile_Lv3.png"
 												style="width:85px; height:85px; border-radius: 4em; box-shadow: 5px 5px rgb(0, 0, 0, 0.1); margin: auto;" />
 											<br /><br /><br />
-											<b style="margin-top: 10px;">5% 적립</b><br />
-											<b style="margin-top: 10px;">exp 900 ~</b>
+											<b style="margin-top: 10px;">15% 적립</b><br />
+											<b style="margin-top: 10px;">exp 801 ~</b>
 					
 										</div>
 									</div>

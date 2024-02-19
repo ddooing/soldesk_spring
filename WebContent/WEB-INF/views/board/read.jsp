@@ -106,20 +106,31 @@
                            </td>
                         </tr>
                         <%-- 다음글 링크 --%>
-
                         <tr class="tb_link">
                            <td colspan="3">
-                              <a href="read?board_id=${NextBoard.board_id}" class="tb_next" style="text-decoration: none;"> <span style="margin-right: 10px; color:black; text-decoration: none;">다음글</span>
-                                    <span style="color: black; text-decoration: none;">${NextBoard.title}</span> <!-- 수정: 제목 동적 표시 -->
-                              </a>
+                           
+                           	<c:choose>
+                           		<c:when test="${NextBoard.title == null }">
+                           			<span style="margin-right: 10px; color: black; text-decoration: none;">다음 게시글 없음</span>
+                           		</c:when>
+                           		<c:otherwise>
+                           			<span style="margin-right: 10px; color:black; text-decoration: none;">다음글</span>
+                           			<a href="read?board_id=${NextBoard.board_id }" class="tb_next" style="text-decoration: none; color: black;">${NextBoard.title }</a>
+                           		</c:otherwise>
+                           	</c:choose>
                            </td>
                         </tr>
                         <tr class="tb_link">
                            <td colspan="3">
-                              <a href="read?board_id=${PreviousBoard.board_id}" class="tb_prev" style="text-decoration: none;">
-                                 <span style="margin-right: 10px; color:black; text-decoration: none;">이전글</span>
-                                 <span style="color: black; text-decoration: none;">${PreviousBoard.title != null ? PreviousBoard.title : '이전 게시글 없음'}</span>
-                              </a>
+                              <c:choose>
+                              	<c:when test="${PreviousBoard.title == null }">
+                              		<span style="margin-right: 10px; color: black; text-decoration: none;">이전 게시글 없음</span>
+                              	</c:when>
+                              	<c:otherwise>
+                              		<span style="margin-right: 10px; color:black; text-decoration: none;">이전글</span>
+                              		<a href="read?board_id=${PreviousBoard.board_id }" class="tb-next" style="text-decoration: none; color: black;">${PreviousBoard.title }</a>
+                              	</c:otherwise>
+                              </c:choose>
                            </td>
                         </tr>
                      </tbody>
@@ -127,8 +138,8 @@
             </div>
             <div class="btn3" style="display: flex; justify-content: flex-end; margin-top: 20px;">
                <c:if test="${loginUserBean.user_id == readContentBean.user_id}">
-                  <a class="btn btn-dark" style="margin-right: 10px;" href="${root}/board/modify?board_id=${board_id}">수정</a>
-                  <a class="btn btn-dark" style="margin-right: 10px;" href="${root}/board/delete?board_id=${board_id}">삭제</a>
+                  <a class="btn btn-dark" style="margin-right: 10px; float: right; margin: left;" href="${root}/board/modify?board_id=${board_id}">수정</a>
+                  <a class="btn btn-dark" style="margin-right: 10px; float: right;" href="${root}/board/delete?board_id=${board_id}">삭제</a>
                </c:if>
                   <a class="btn btn-dark" href="${root}/board/main">목록</a>
             </div>
