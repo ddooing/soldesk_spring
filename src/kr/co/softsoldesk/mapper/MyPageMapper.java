@@ -235,11 +235,18 @@ public interface MyPageMapper {
             + "where state != 0")
       int getImportantNoticeListCnt();
       
-      @Select("select notice_id, title, to_char(create_date, 'yyyy-mm-dd')as create_date, contents, state, views\r\n"
-            + "from notice\r\n"
-            + "where state != 0\r\n"
-            + "and upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"
-            + "order by notice_id desc, state desc")
+      @Select("SELECT notice_id, \r\n"
+      		+ "    title, \r\n"
+      		+ "    TO_CHAR(create_date, 'yyyy-mm-dd') AS create_date, \r\n"
+      		+ "    contents, \r\n"
+      		+ "    state, \r\n"
+      		+ "    views\r\n"
+      		+ "FROM notice\r\n"
+      		+ "where state != 0\r\n"
+      		+ "    and upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"
+      		+ "ORDER BY \r\n"
+      		+ "    CASE WHEN state = 2 THEN 0 ELSE 1 END,\r\n"
+      		+ "    notice_id DESC")
       List<NoticeBean>getImportantNoticeSearchList(@Param("title")String title, RowBounds rowBounds);
       
       @Select("select count(*)\r\n"
@@ -249,12 +256,19 @@ public interface MyPageMapper {
             + "order by notice_id desc, state desc")
       int getImportantNoticeSearchListCnt(@Param("title")String title);
       
-      @Select("select notice_id, title, to_char(create_date, 'yyyy-mm-dd')as create_date, contents, state, views\r\n"
-            + "from notice\r\n"
-            + "where state != 0\r\n"
-            + "and upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"
-            + "or state != 0 and upper(contents) LIKE '%' || UPPER(#{title}) || '%'\r\n"
-            + "order by notice_id desc, state desc")
+      @Select("SELECT notice_id, \r\n"
+      		+ "    title, \r\n"
+      		+ "    TO_CHAR(create_date, 'yyyy-mm-dd') AS create_date, \r\n"
+      		+ "    contents, \r\n"
+      		+ "    state, \r\n"
+      		+ "    views\r\n"
+      		+ "FROM notice\r\n"
+      		+ "where state != 0\r\n"
+      		+ "    and upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"
+      		+ "    or state != 0 and upper(contents) LIKE '%' || UPPER(#{title}) || '%'\r\n"
+      		+ "ORDER BY \r\n"
+      		+ "    CASE WHEN state = 2 THEN 0 ELSE 1 END,\r\n"
+      		+ "    notice_id DESC")
       List<NoticeBean>getImportantNoticeSearchAllList(@Param("title")String title, RowBounds rowBounds);
       
       @Select("select count(*)\r\n"
