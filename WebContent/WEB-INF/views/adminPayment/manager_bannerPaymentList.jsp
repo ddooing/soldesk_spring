@@ -349,11 +349,19 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 									function redirectToAdminList() {
 										 var datepickerValue = document.getElementById('datepicker').value;
 										 var datepicker2Value = document.getElementById('datepicker2').value;
+										 
+										 
 										console.log("datepicker value:", datepickerValue);
 									    console.log("datepicker2Value  value:", datepicker2Value);
 									    
 									    var startDate = datepickerValue;
 									    var endDate = datepicker2Value;
+									    
+									 // 첫 번째 날짜가 두 번째 날짜보다 이후인지 확인
+									    if (startDate > endDate) {
+									        alert('시작 날짜는 종료 날짜보다 이후일 수 없습니다.');
+									        return; // 함수 실행 중단
+									    }
 
 							            var urlParams = new URLSearchParams(window.location.search);
 										

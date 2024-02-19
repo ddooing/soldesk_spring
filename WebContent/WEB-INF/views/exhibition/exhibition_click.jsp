@@ -437,7 +437,14 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 
 				// 링크 복사 버튼 클릭 이벤트
 				function copyLink() {
-				    var copyText = window.location.href;
+					
+					// 현재 URL에서 user_id 쿼리 파라미터 제거
+				    var currentUrl = new URL(window.location.href);
+				    var searchParams = new URLSearchParams(currentUrl.search);
+				    searchParams.delete('user_id'); // 'user_id' 파라미터 제거
+				    currentUrl.search = searchParams.toString();
+				    
+				    var copyText = currentUrl.href; 
 				    var tempInput = document.createElement("input");
 				    document.body.appendChild(tempInput);
 				    tempInput.value = copyText;
