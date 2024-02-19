@@ -455,7 +455,7 @@ a:hover {
                <form action="${root }/notice/main" method="get">
                   <c:choose>
                      <c:when test="${type == 'title' }">
-                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px;">
+                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px; font-size: 15px;">
                            <option value="" disabled>검색조건선택</option>
                            <option value="title" selected>제목</option>
                            <option value="titlecontents">제목+내용</option>
@@ -465,7 +465,7 @@ a:hover {
                      </c:when>
                      
                      <c:when test="${type == 'titlecontents' }">
-                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px;">
+                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px; font-size: 15px;">
                            <option value="" disabled>검색조건선택</option>
                            <option value="title">제목</option>
                            <option value="titlecontents" selected>제목+내용</option>
@@ -475,7 +475,7 @@ a:hover {
                      </c:when>
                      
                      <c:otherwise>
-                        <select name="type" style="width: 300px; height: 40px; margin-right: 30px;">
+                        <select name="type" style="width: 150px; height: 40px; margin-right: 30px; font-size: 15px;">
                            <option value="" disabled selected>검색조건선택</option>
                            <option value="title">제목</option>
                            <option value="titlecontents">제목+내용</option>

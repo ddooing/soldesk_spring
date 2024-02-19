@@ -71,30 +71,30 @@
 					modelAttribute="boardBean">
 					<div class="form-group" style="margin-top: 10px;">
 						<form:label path="title" class="font-weight-bold" style="font-size:20px;">제목</form:label>
-						<form:input path="title" id="title" placeholder="제목을 입력하세요." class="form-control form-control-sm"
+						<form:input path="title" id="title" placeholder="제목을 입력하세요." class="form-control form-control-sm" required="required"
 							style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #cccccc; border-radius: 5px;" />
-
+						<form:errors path="title" />
 					</div>
 
 					<div class="form-group" style="margin-top: 20px;">
 						<form:label path="contents" class="font-weight-bold"
 							style="font-size:20px;">내용</form:label>
 						<!-- SmartEditor2 텍스트 에디터 -->
-						<form:input path="contents" class="form-control form-control-sm"
+						<%-- <form:input path="contents" class="form-control form-control-sm"
 							placeholder="내용을 입력하세요."
-							style="height:300px; width: 100%; padding:10px;" />
-						<!-- <textarea name="contents" id="smarteditor" style="width:100%; height:300px;"></textarea> -->
-
+							style="height:300px; width: 100%; padding:10px;" /> --%>
+						<form:textarea required="required" path="contents" style="width:100%; height:300px; resize: none; padding-top:10px; padding-left: 10px;" placeholder="내용을 입력하세요"></form:textarea>
+						<form:errors path="contents" />
 					</div>
 					<br />
 					<!-- 생략된 파일 업로드 및 기타 폼 요소 -->
 
 					<div class="text-center mt-4">
 						<a href="javascript:;" onclick="confirmExit()"
-							class="btn btn-primary btn-lg ml-2"
-							style="border: 1px solid black; font-size: 25px; color: black; text-decoration: none;">취소</a>
-						<form:button type="submit" class="btn btn-primary"
-							style="text-decoration: none;border: 1px solid black; font-size: 25px; color: black;">완료</form:button>
+							class="btn btn-danger"
+							style="font-size: 25px; text-decoration: none;">취소</a>
+						<form:button type="submit" class="btn btn-dark"
+							style="text-decoration: none; font-size: 25px;">완료</form:button>
 					</div>
 				</form:form>
 			</div>
