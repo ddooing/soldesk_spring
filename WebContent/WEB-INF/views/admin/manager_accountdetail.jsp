@@ -81,27 +81,27 @@
 										<input type="radio" name="state" value="1" id="level1" style="margin-top:20px; width: 15px; height: 15px;" checked>
 										<label for="level1" style="font-size: 20px; margin-left: 30px;">활동</label> <br />
 										<input type="radio" name="state" value="2" id="level2" style="margin-top:20px; width: 15px; height: 15px;"> 
-										<label for="level2" style="font-size: 20px; margin-left: 30px;">휴면</label> <br />
+										<label for="level2" style="font-size: 20px; margin-left: 30px;">비활성화</label> <br />
 										<input type="radio" name="state" value="3" id="level3" style="margin-top:20px; width: 15px; height: 15px;">
-										<label for="level3" style="font-size: 20px; margin-left: 30px;">비활성화</label>
+										<label for="level3" style="font-size: 20px; margin-left: 30px;">관리자</label>
 									</c:if>
 									
 									<c:if test="${temp1.state == 2}">
 										<input type="radio" name="state" value="1" id="level1" style="margin-top:20px; width: 15px; height: 15px;" >
 										<label for="level1" style="font-size: 20px; margin-left: 30px;">활동</label> <br />
 										<input type="radio" name="state" value="2" id="level2" style="margin-top:20px; width: 15px; height: 15px;" checked> 
-										<label for="level2" style="font-size: 20px; margin-left: 30px;">휴면</label> <br />
+										<label for="level2" style="font-size: 20px; margin-left: 30px;">비활성화</label> <br />
 										<input type="radio" name="state" value="3" id="level3" style="margin-top:20px; width: 15px; height: 15px;">
-										<label for="level3" style="font-size: 20px; margin-left: 30px;">비활성화</label>
+										<label for="level3" style="font-size: 20px; margin-left: 30px;">관리자</label>
 									</c:if>
 									
 									<c:if test="${temp1.state == 3}">
 										<input type="radio" name="state" value="1" id="level1" style="margin-top:20px; width: 15px; height: 15px;" >
 										<label for="level1" style="font-size: 20px; margin-left: 30px;">활동</label> <br />
 										<input type="radio" name="state" value="2" id="level2" style="margin-top:20px; width: 15px; height: 15px;"> 
-										<label for="level2" style="font-size: 20px; margin-left: 30px;">휴면</label> <br />
+										<label for="level2" style="font-size: 20px; margin-left: 30px;">비활성화</label> <br />
 										<input type="radio" name="state" value="3" id="level3" style="margin-top:20px; width: 15px; height: 15px;" checked>
-										<label for="level3" style="font-size: 20px; margin-left: 30px;">비활성화</label>
+										<label for="level3" style="font-size: 20px; margin-left: 30px;">관리자</label>
 									</c:if>
 								</div>
 							</div>
