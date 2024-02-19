@@ -217,7 +217,7 @@ public interface MyPageMapper {
       int getarchivelistCnt(int user_id);
       
       //중요표시 먼저 풀력하는 매퍼들
-      @Select("select notice_id, title, create_date, contents, state, views\r\n"
+      @Select("select notice_id, title, to_char(create_date, 'yyyy-mm-dd')as create_date, contents, state, views\r\n"
             + "from notice\r\n"
             + "where state != 0\r\n"
             + "order by notice_id desc, state desc")
@@ -229,7 +229,7 @@ public interface MyPageMapper {
             + "order by notice_id desc, state desc")
       int getImportantNoticeListCnt();
       
-      @Select("select notice_id, title, create_date, contents, state, views\r\n"
+      @Select("select notice_id, title, to_char(create_date, 'yyyy-mm-dd')as create_date, contents, state, views\r\n"
             + "from notice\r\n"
             + "where state != 0\r\n"
             + "and upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"
@@ -243,7 +243,7 @@ public interface MyPageMapper {
             + "order by notice_id desc, state desc")
       int getImportantNoticeSearchListCnt(@Param("title")String title);
       
-      @Select("select notice_id, title, create_date, contents, state, views\r\n"
+      @Select("select notice_id, title, to_char(create_date, 'yyyy-mm-dd')as create_date, contents, state, views\r\n"
             + "from notice\r\n"
             + "where state != 0\r\n"
             + "and upper(title) LIKE '%' || UPPER(#{title}) || '%'\r\n"

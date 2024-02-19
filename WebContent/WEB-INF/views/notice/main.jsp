@@ -189,7 +189,7 @@ tbody{
 }
 th, td {
    border-bottom: 1px solid #dee2e6;
-   padding: 10px;
+   padding: 20px;
    text-align: center;
    font-size: 20px;
 }
@@ -434,6 +434,9 @@ a:hover {
    color: #000000;
 }
 
+
+
+
 </style>
 
 </head>
@@ -493,7 +496,7 @@ a:hover {
                      <colgroup>
                         <col style="width: 10%;">
                         <col style="width: auto;">
-                        <col style="width: 15%;">
+                        <col style="width: 20%;">
                         <col style="width: 15%;">
                      </colgroup>
                      <thead>
