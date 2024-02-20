@@ -38,7 +38,7 @@
 	            orderName: '${title}', // 주문명 
 	            customerName: '${loginUserDetailBean.name}', // 구매자 이름
 	            successUrl: 'http://localhost:8080/Spring_Project_Dream/toss/success',
-	            failUrl: 'http://localhost:8080/Spring_Project_Dream/exhibition/exhibition_click?exhibition_id=${cartlist.exhibition_id}'
+	            failUrl: 'http://localhost:8080/Spring_Project_Dream/exhibition/exhibition_click?exhibition_id=${tempReserveBean.exhibition_id}&user_id=${loginUserDetailBean.user_id}'
 	        }).catch(function (error) {
 	            handlePaymentError(error);    
 	        });
@@ -58,37 +58,24 @@
 	                }
 	            });
 	            return;
+	            
 	        } else if (error.code === 'INVALID_CARD_COMPANY') {
 	            msg = "유효하지 않는 카드사입니다.";
 	        } else if (error.code === 4001) {
 	            msg = "토큰이 만료되었습니다.";
-	        } else if (error.code === 4246) {
-	            Swal.fire({
-	                text: "이미 결제가 완료되었습니다. 예매 내역을 확인해주세요",
-	                icon: "warning",
-	                showCancelButton: true,
-	                confirmButtonColor: "#4F6F52",
-	                cancelButtonColor: "gray",
-	                confirmButtonText: "예매내역 보기",
-	                cancelButtonText: '닫기'
-	            }).then((result) => {
-	                if (result.isConfirmed) {
-	                    window.location.href = "${root}/mypage/reservelist?user_id=${tempReserveBean.user_id }";
-	                }
-	            });
-	            return;
-	        } else {
-	            Swal.fire({
-	                title: "결제 오류",
-	                text: msg + " 결제를 다시 진행해주세요.",
-	                icon: "warning",
-	                confirmButtonText: "확인"
-	            }).then((result) => {
-	                if (result.isConfirmed) {
-	                    document.forms["paymentForm"].submit();
-	                }
-	            });
 	        }
+	        
+            Swal.fire({
+                title: "결제 오류",
+                text: msg + " 결제를 다시 진행해주세요.",
+                icon: "warning",
+                confirmButtonText: "확인"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.forms["paymentForm"].submit();
+                }
+            });
+	        
 	    }
 	
 	    window.onload = initiatePayment;

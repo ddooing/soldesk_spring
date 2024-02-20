@@ -14,7 +14,6 @@
 </head>
 
 <body>
-	
 
 	<script>
 	    function initiatePayment() {
@@ -36,17 +35,29 @@
 	        });
 	    }
 	
+	    function moveWhatBannerType(){
+	    	var banner_type =${applybannerBean.banner_type};
+	    	var url="";
+	    	
+	    	if(banner_type == 1){//메인배너
+	    		url="${root }/banner/mainbannerapplyform";
+	    	}else if(banner_type == 2){//서브배너
+	    		url="${root }/banner/subbannerapplyform";
+	    	}
+	    	window.location.href=url;	
+	    	
+	    }
 	    function handlePaymentError(error) {
 	        console.log(error.code);
 	
 	        if (error.code === 'USER_CANCEL') {
 	            Swal.fire({
-	                title: "결제를 취소하셨습니다",
+	                title: "결제를 취소하셨습니다.",
 	                icon: "warning",
 	                confirmButtonText: "확인"
 	            }).then((result) => {
 	                if (result.isConfirmed) {
-	                    //document.forms["paymentForm"].submit();
+	                	moveWhatBannerType();
 	                }
 	            });
 	            return;
@@ -54,33 +65,23 @@
 	            msg = "유효하지 않는 카드사입니다.";
 	        } else if (error.code === 4001) {
 	            msg = "토큰이 만료되었습니다.";
-	        } else if (error.code === 4246) {
-	            Swal.fire({
-	                text: "이미 결제가 완료되었습니다. 예매 내역을 확인해주세요",
-	                icon: "warning",
-	                showCancelButton: true,
-	                confirmButtonColor: "#4F6F52",
-	                cancelButtonColor: "gray",
-	                confirmButtonText: "예매내역 보기",
-	                cancelButtonText: '닫기'
-	            }).then((result) => {
-	                if (result.isConfirmed) {
-	                    //window.location.href = "${root}/mypage/reservelist?user_id=${tempReserveBean.user_id }";
-	                }
-	            });
-	            return;
-	        } else {
-	            Swal.fire({
-	                title: "결제 오류",
-	                text: msg + " 결제를 다시 진행해주세요.",
-	                icon: "warning",
-	                confirmButtonText: "확인"
-	            }).then((result) => {
-	                if (result.isConfirmed) {
-	                   // document.forms["paymentForm"].submit();
-	                }
-	            });
-	        }
+	        } 
+	        
+	        /* 
+	        	error.code === 'DUPLICATED_ORDER_ID' 는 위젯에서 표기되므로, 
+	        	위젯 닫기 누르면 failUrl로 이동함
+	        */
+            Swal.fire({
+                title: "결제 오류",
+                text: msg + "<br><br>  결제를 다시 진행해주세요.",
+                icon: "warning",
+                confirmButtonText: "확인"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                	window.location.href="${root }/banner/bannerapply";
+                }
+            });
+	        
 	    }
 	
 	    window.onload = initiatePayment;
