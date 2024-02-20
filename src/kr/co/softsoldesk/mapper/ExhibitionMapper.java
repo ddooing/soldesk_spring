@@ -29,7 +29,7 @@ public interface ExhibitionMapper {
 	// 전시회 클릭시 조회수 증가
 	@Update("UPDATE exhibition SET views = views + 1 WHERE exhibition_id = #{exhibition_id}")
 	void increaseViewsExhibition(int exhibition_id);
-	
+	 
 	// 전시회 최신 페이지 리스트				페이징 처리 해야지이이이~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	@Select("SELECT \r\n"
 			+ "    e.exhibition_id, \r\n"
