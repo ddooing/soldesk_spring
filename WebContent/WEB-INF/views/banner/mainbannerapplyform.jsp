@@ -400,9 +400,25 @@
 					        }
 					    });
 					}
+					
+					
 	
 					document.getElementById('submit-button').addEventListener('click', submitApplication);		
-			</script>		
+			</script>
+			<script>
+			var start = document.getElementById('start_date');
+			var end = document.getElementById('end_date');
+			
+			end.addEventListener('change', function() {
+				if (end.value < start.value) {
+					Swal.fire({
+						  icon: "error",
+						  title: "날짜 선택 오류",
+						  text: "종료 날짜는 시작 날짜보다 이전일 수 없습니다!",
+						});
+					end.value = start.value;
+				}
+			</script>
 		
 			<script>
 			    function updateFileName() {

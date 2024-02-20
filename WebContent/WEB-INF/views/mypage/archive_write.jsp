@@ -134,6 +134,9 @@
 	  .checkbox-wrapper-17 label:active:after {
 	    width: 55%;
 	  }
+	  textarea:focus-visible{
+	  	outline: none;
+	  }
 </style>
 
 </head>

@@ -83,7 +83,7 @@
 						<a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
 		                   <div class="sb-nav-link-icon">
 		                      <i class="bi bi-ticket-perforated"></i>
-		                   </div> 결제관리
+		                   </div> 결제 관리
 		                   <div class="sb-sidenav-collapse-arrow">
 		                      <i class="fas fa-angle-down"></i>
 		                   </div>

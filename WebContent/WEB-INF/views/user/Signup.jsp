@@ -294,7 +294,7 @@ span{
 							<form:password path="password2" class="form-control" id="pw2" oninput="pwCheck()" required="required" />
 							<form:errors path="password2" style="color:red" />
 						</td>
-						<td><span id="pwConfirm2" style="margin-left: 10px;"> 비밀번호를 입력하세요 </span></td>
+						<td><span id="pwConfirm2" style="margin-left: 10px;">비밀번호를 입력하세요</span></td>
 					</tr>
 					<tr>
 						<th style="width:200px;"><form:label path="nickname" style="font-size: 20px;">닉네임</form:label></th>
@@ -402,7 +402,12 @@ span{
 	        }
 	    }
 	</script>
-
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("birth").setAttribute('max', today);
+    });
+</script>
 <script>
     function submitForm() {
         Swal.fire({
