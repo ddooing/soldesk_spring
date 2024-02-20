@@ -45,7 +45,7 @@ $(document).ready(function(){
 			<main style="background-color: ivory;">
 				<div class="container-fluid px-4">
 					<div style="margin-top: 30px;">
-						<h3>게시글 관리</h3>
+						<h3>게시판 관리</h3>
 					</div>
 					<div
 						style="position: relative; display: flex; justify-content: center; height: 80px; align-items: center; border: 0.2px solid black; background-color: white; margin-top: 20px;">

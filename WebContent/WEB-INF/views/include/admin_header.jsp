@@ -107,7 +107,7 @@
 						<div class="collapse" id="collapseReserve" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                      		<nav class="sb-sidenav-menu-nested nav">
                         		<a class="nav-link" href="${root }/admin/manager_noticemanage">공지사항 관리</a> 
-                        		<a class="nav-link" href="${root }/admin/manager_boardlist">게시물 관리</a> 
+                        		<a class="nav-link" href="${root }/admin/manager_boardlist">게시판 관리</a> 
                         		<a class="nav-link" href="${root }/admin/manager_QnAlist">QnA 관리</a>
                            		<a class="nav-link" href="${root }/admin/manager_FAQlist">FAQ 관리</a>
                      		</nav>
