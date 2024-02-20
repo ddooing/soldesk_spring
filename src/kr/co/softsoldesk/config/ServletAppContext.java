@@ -267,7 +267,7 @@ public class ServletAppContext implements WebMvcConfigurer {
 
 	      reg1.addPathPatterns("/**");
 	      reg2.addPathPatterns("/mypage", "/board/main");
-	      reg3.addPathPatterns("/board/write");
+	      reg3.addPathPatterns("/board/write", "/user/cart_list");
 	      reg4.addPathPatterns("/admin/manager_accountmanager");
 
 

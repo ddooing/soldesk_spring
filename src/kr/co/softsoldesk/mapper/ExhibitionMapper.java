@@ -15,11 +15,11 @@ import kr.co.softsoldesk.Beans.ReviewBean;
 public interface ExhibitionMapper {
 	
 	// 전시회 인기 페이지 조회	(상태값 1:현재 공개여부 공개된값)
-	@Select("SELECT e.exhibition_id, e.title, e.regdate, e.author, e.price, e.exhibition_start, e.exhibition_end, e.open, e.holiday, e.ticket_cnt, e.address, e.place, e.site, e.views, e.state, f1.path as main_poster_path, f1.name as main_poster_name, f2.path as detail_poster_path, f2.name as detail_poster_name FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND SYSDATE BETWEEN e.exhibition_start AND e.exhibition_end AND e.state = 1 ORDER BY e.ticket_cnt desc")
+	@Select("SELECT e.exhibition_id, e.title, e.regdate, e.author, e.price, e.exhibition_start, e.exhibition_end, e.open, e.holiday, e.ticket_cnt, e.address, e.place, e.site, e.views, e.state, f1.path as main_poster_path, f1.name as main_poster_name, f2.path as detail_poster_path, f2.name as detail_poster_name FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND SYSDATE BETWEEN e.exhibition_start AND e.exhibition_end AND e.state = 1 AND e.price != 0 ORDER BY e.ticket_cnt desc")
 	List<ExhibitionBean> getPopularExhibitionInfo(RowBounds rowBounds);
 	
 	// 전시회 인기 페이지 페이징처리를 위한 개수 반환 메소드
-	@Select("SELECT count(e.exhibition_id) FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND SYSDATE BETWEEN e.exhibition_start AND e.exhibition_end AND e.state = 1 ORDER BY e.ticket_cnt desc")
+	@Select("SELECT count(e.exhibition_id) FROM exhibition e JOIN file_table f1 ON e.main_poster_file_id = f1.file_id JOIN file_table f2 ON e.detail_poster_file_id = f2.file_id AND SYSDATE BETWEEN e.exhibition_start AND e.exhibition_end AND e.state = 1 AND e.price != 0 ORDER BY e.ticket_cnt desc")
 	int getPopularExhibitionCnt();
 	
 	// 전시회 상세페이지 조회
