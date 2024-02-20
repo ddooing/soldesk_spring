@@ -325,14 +325,12 @@ public interface AdminContentsMapper {
          //FAQ 리스트 뽑아오기
          @Select("select faq_id, title, contents, regdate, state\r\n"
                + "from faq\r\n"
-               + "where state = 1 or state = 2\r\n"
-               + "order by state asc")
+               + "order by faq_id desc")
          List<FAQBean> getFAQList(RowBounds rowBounds);
          
          //페이징
          @Select("select count(*)\r\n"
-                  + "from faq\r\n"
-                  + "where state = 1 or state = 2")
+                  + "from faq\r\n")
             int getTotalFAQCnt();
          
          
@@ -380,6 +378,10 @@ public interface AdminContentsMapper {
          //FAQ 삭제
          @Update("UPDATE faq set state = 2 where faq_id = #{faq_id}")
          void deleteSelectedFAQ(@Param("faq_id") int faq_id);
+         
+         // FAQ 복구처리 (state 2->1로변경)
+         @Update("UPDATE faq SET state = 1 WHERE faq_id = #{faq_id, jdbcType=INTEGER}")
+         void recoveryFAQ(@Param("faq_id") int faq_id);
       
       
 

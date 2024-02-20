@@ -26,6 +26,9 @@
 
 <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
 	crossorigin="anonymous"></script>
+	
+<!-- sweet alert 2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- JQuery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -93,6 +96,7 @@
 								<th scope="col" style="width: 800px;">제목</th>
 								<th scope="col" style="width: 200px;">등록일</th>
 								<th scope="col" style="width: 200px;">상태</th>
+								<th scope="col" style="width: 200px;">관리</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -103,7 +107,7 @@
 												value="${faqlist.faq_id}" /></th>
 											<td style="width: 50px;">${faqlist.faq_id}</td>
 											<td style="text-align: left; width: 800px;"><a
-												href="${root }/admin/manager_FAQdetail?qna_id=${faqlist.faq_id}"
+												href="${root }/admin/manager_FAQdetail?faq_id=${faqlist.faq_id}"
 												style="color: black;">${faqlist.title }</a></td>
 											<td style="width: 200px;">${faqlist.regdate }</td>
 											
@@ -113,6 +117,16 @@
 												</c:when>
 												<c:otherwise>
 													<td style="width:200px;">삭제처리</td>
+													
+												</c:otherwise>
+											</c:choose>
+											
+											<c:choose>
+												<c:when test="${faqlist.state == 1 }">
+													<td><a class="btn btn-dark" href="${root }/admin/manager_FAQdetail?faq_id=${faqlist.faq_id}">수정</a></td>
+												</c:when>
+												<c:otherwise>
+													<td><button class="btn btn-info" onclick="confirmRecovery('${faqlist.faq_id}')" >복구</button></td>
 												</c:otherwise>
 											</c:choose>
 										</tr>
@@ -186,6 +200,8 @@
 								</ul>
 							</div>
 						</c:when>
+						
+						
 
 						<c:when test="${!empty pageBean1}">
 							<div class="d-none d-md-block" style="margin-top: 50px;">
@@ -323,6 +339,33 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
+	<script>
+						function confirmRecovery(faqId) {
+						    Swal.fire({
+						        title: '복구하시겠습니까?',
+						        text: '선택한 항목을 복구합니다.',
+						        icon: 'question',
+						        showCancelButton: true,
+						        confirmButtonColor: '#3085d6',
+						        cancelButtonColor: '#d33',
+						        confirmButtonText: '복구',
+						        cancelButtonText: '취소'
+						    }).then((result) => {
+						        if (result.isConfirmed) {
+						            Swal.fire(
+						                '복구되었습니다!',
+						                '항목이 복구되었습니다.',
+						                'success'
+						            ).then((result) => {
+						                if (result.isConfirmed) {
+						                    // 복구 처리 URL로 리디렉션
+						                    window.location.href = '${root}/admin/FAQ_recovery?faq_id=' + faqId;
+						                }
+						            });
+						        }
+						    });
+						}
+						</script>
 
 	<script>
 		// JavaScript 삭제 버튼

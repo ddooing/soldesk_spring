@@ -452,16 +452,12 @@ public class AdminContentsController {
 	   }
 	   
 	   @PostMapping("FAQreg_pro")
-	   public String FAQreg_pro(@ModelAttribute("FAQBean")FAQBean FAQBean, Model model, @RequestParam(value="page", defaultValue = "1")int page) {
+	   public String FAQreg_pro(@ModelAttribute("FAQBean")FAQBean FAQBean) {
 	      
 		   AdminContentsService.regFAQ(FAQBean);
-	      List<FAQBean> FAQList = AdminContentsService.getFAQList(page);
-	       model.addAttribute("FAQList", FAQList);
-	       
-	       PageBean pageBean1 = AdminContentsService.getTotalFAQCnt(page);
-	       model.addAttribute("pageBean1", pageBean1);
 	      
-	      return "admin/manager_FAQlist";
+	      
+	      return "redirect:/admin/manager_FAQlist";
 	   }
 	   
 	   @GetMapping("manager_FAQdetail")
@@ -495,6 +491,13 @@ public class AdminContentsController {
 		   AdminContentsService.deleteSelectedFAQ(faqIds);
 	      
 	       return ResponseEntity.ok().build();
+	   }
+	   
+	   @GetMapping("FAQ_recovery")
+	   public String FAQ_recovery(@RequestParam("faq_id")int faq_id) {
+		   AdminContentsService.recoveryFAQ(faq_id);
+		   
+		   return "redirect:/admin/manager_FAQlist";
 	   }
 	
 

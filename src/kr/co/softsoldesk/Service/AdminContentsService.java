@@ -368,6 +368,10 @@ public class AdminContentsService {
 		    	  adminContentsDao.deleteSelectedFAQ(faqId);
 		       }
 		   }
+		   
+		   public void recoveryFAQ(int faq_id) {
+			   adminContentsDao.recoveryFAQ(faq_id);
+		   }
 	
 	
 

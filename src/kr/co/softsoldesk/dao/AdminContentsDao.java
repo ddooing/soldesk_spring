@@ -241,6 +241,10 @@ public class AdminContentsDao {
 		   public void deleteSelectedFAQ(int faq_id) {
 			   adminContentsMapper.deleteSelectedFAQ(faq_id);
 		   }
+		   
+		   public void recoveryFAQ(int faq_id) {
+			   adminContentsMapper.recoveryFAQ(faq_id);
+		   }
 		
 
 }
