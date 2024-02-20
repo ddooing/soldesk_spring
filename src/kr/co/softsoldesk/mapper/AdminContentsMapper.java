@@ -85,7 +85,7 @@ public interface AdminContentsMapper {
   	void addboardFromAdmin(BoardBean boardBean);
   	
   	@Select("SELECT b.board_id, b.user_id, b.title, b.contents, "
-  			+ " TO_CHAR(b.create_date, 'yyyy-mm-dd') AS create_date, b.state, u.nickname "
+  			+ " TO_CHAR(b.create_date, 'yyyy-mm-dd') AS create_date, b.state, u.nickname, b.views "
   			+ "FROM board b "
   			+ "JOIN user_table u ON b.user_id = u.user_id "
   			+ "ORDER BY b.board_id DESC")
