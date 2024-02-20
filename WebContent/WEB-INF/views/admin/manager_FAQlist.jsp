@@ -368,37 +368,63 @@
 						</script>
 
 	<script>
-		// JavaScript 삭제 버튼
-		$(document).ready(function() {
-			$("#deleteBtn").click(function() {
-				var selectedFAQIds = [];
-				$(".faq-checkbox:checked").each(function() {
-					selectedFAQIds.push(parseInt($(this).val()));
-				});
+$(document).ready(function() {
+    $("#deleteBtn").click(function() {
+        var selectedFAQIds = [];
+        $(".faq-checkbox:checked").each(function() {
+            selectedFAQIds.push(parseInt($(this).val()));
+        });
 
-				if (selectedFAQIds.length > 0) {
-					// AJAX 요청을 통해 서버에 삭제할 QnA ID 리스트를 전송
-					$.ajax({
-						url : "${root}/admin/deleteSelectedFAQ",
-						type : "POST",
-						traditional : true, // 전통적인 방식으로 배열을 전송
-						data : {
-							faqIds : selectedFAQIds
-						},
-						success : function(response) {
-							alert('선택한 항목을 삭제 처리하였습니다.');
-							location.reload(); // 페이지를 새로고침하여 변경된 상태를 반영합니다.
-						},
-						error : function(xhr, status, error) {
-							alert('삭제 처리 중 문제가 발생하였습니다.');
-						}
-					});
-				} else {
-					alert('삭제할 항목을 선택해주세요.');
-				}
-			});
-		});
-	</script>
+        if (selectedFAQIds.length > 0) {
+            Swal.fire({
+                title: '선택한 항목을 삭제하시겠습니까?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '삭제',
+                cancelButtonText: '취소'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "${root}/admin/deleteSelectedFAQ",
+                        type: "POST",
+                        traditional: true,
+                        data: {
+                            faqIds: selectedFAQIds
+                        },
+                        success: function(response) {
+                            Swal.fire(
+                                '삭제 완료!',
+                                '선택한 항목이 삭제되었습니다.',
+                                'success'
+                            ).then((result) => {
+                                if (result.value) {
+                                    location.reload();
+                                }
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire(
+                                '오류 발생',
+                                '삭제 처리 중 문제가 발생하였습니다.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        } else {
+            Swal.fire(
+                '선택된 항목 없음',
+                '삭제할 항목을 선택해주세요.',
+                'info'
+            );
+        }
+    });
+});
+</script>
+
 
 
 </body>

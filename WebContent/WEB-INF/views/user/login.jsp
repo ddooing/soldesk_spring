@@ -124,11 +124,11 @@
 					
 					<form:form action="${root }/user/login_pro" method="post" modelAttribute="tempLoginUserBean">
 						<div class="form-outline mb-4" style="margin-top:50px;">
-							<form:input path="id" class="form-control form-control-lg" />
+							<input name="id" class="form-control form-control-lg" placeholder="아이디" />
 						</div>
 						
 						<div class="form-outline mb-4">
-							<form:password path="password" class="form-control form-control-lg" />
+							<input type="password" name="password" class="form-control form-control-lg" placeholder="비밀번호" />
 						</div>
 						
 						<form:button type="submit" class="btn btn-primary btn-lg btn-block w-100" style="background-color: #000; color: #fff; border:none;">로그인</form:button>
@@ -180,11 +180,6 @@
 					        </div>
 					    </div>
 					</section>
-	
-
-
-
-
 	<!-- 푸터-->
 	<c:import url="/WEB-INF/views/include/footer.jsp"/>
 
