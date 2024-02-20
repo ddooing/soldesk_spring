@@ -148,7 +148,7 @@ section#scroll *, section#scroll *::before, section#scroll *::after {
    height: 50px;
 }
 td, th{
-	height: 80px;
+	height: 110px;
 }
 </style>
 <script>
@@ -261,7 +261,7 @@ td, th{
 
                   <td>
                   		<form:input path="nickname" id="nickname" value="${IC.nickname }" class="form-control" onfocus="resetNickExist()" />
-                        <form:errors path="nickname" style="color:red" />
+                        <form:errors path="nickname" style="color:red; position: absolute;" />
                   </td>
                   <td>
                      <button type="button" style="margin-left: 15px;"
@@ -274,7 +274,7 @@ td, th{
                   </th>
 
                   <td><form:password path="password" id="pw" oninput="cpwCheck()" class="form-control" />
-                      
+                      <form:errors path="password" style="color:red; position: absolute;"/>
                   </td><td><span id="pwConfirm" style="margin-left: 10px;"></span></td>
                </tr>
 
@@ -284,7 +284,7 @@ td, th{
 
                   <td><form:password path="icpassword" class="form-control" id="pw1" oninput="pwCheck()" />
                   
-                     <form:errors path="icpassword" style="color:red" /></td>
+                     <form:errors path="icpassword" style="color:red; position: absolute;" /></td>
 
                </tr>
                
@@ -294,8 +294,8 @@ td, th{
                   </th>
 
                   <td><form:password path="icpasscheck" class="form-control" id="pw2" oninput="pwCheck()" />
-                     <form:errors path="icpasscheck" style="color:red" /></td>
-                     <td><span id="pwConfirm2" style="margin-left: 10px;"> 비밀번호를 입력하세요 </span></td>
+                     <form:errors path="icpasscheck" style="color:red; position: absolute;" /></td>
+                     <td><span id="pwConfirm2" style="margin-left: 10px;">비밀번호를 입력하세요</span></td>
                </tr>
             </table>
          </div>

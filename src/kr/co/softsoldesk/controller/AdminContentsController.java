@@ -461,17 +461,17 @@ public class AdminContentsController {
 	   }
 	   
 	   @GetMapping("manager_FAQdetail")
-	   public String FAQdetail(@RequestParam("qna_id") int faq_id, Model model,
+	   public String FAQdetail(@RequestParam("faq_id") int faq_id, Model model,
 	                     @ModelAttribute("FAQmodifyBean")FAQBean FAQmodifyBean) {
 	      
 	     // System.out.println(faq_id);
 	      
-	      FAQBean oneQnaInfo = AdminContentsService.getOneFAQInfo(faq_id);
+	      FAQBean oneFAQInfo = AdminContentsService.getOneFAQInfo(faq_id);
 	      
-	      FAQmodifyBean.setContents(oneQnaInfo.getContents());
-	      FAQmodifyBean.setTitle(oneQnaInfo.getTitle());
-	      FAQmodifyBean.setState(oneQnaInfo.getState());
-	      model.addAttribute("oneQnaInfo", oneQnaInfo);
+	      FAQmodifyBean.setContents(oneFAQInfo.getContents());
+	      FAQmodifyBean.setTitle(oneFAQInfo.getTitle());
+	      FAQmodifyBean.setState(oneFAQInfo.getState());
+	      model.addAttribute("oneFAQInfo", oneFAQInfo);
 	     // System.out.println(FAQmodifyBean.getState());
 	      
 	      return "admin/manager_FAQdetail";

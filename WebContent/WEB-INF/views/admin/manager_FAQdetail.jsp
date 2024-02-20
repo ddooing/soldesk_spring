@@ -105,19 +105,19 @@ $(document).ready(function(){
 					</div>
 					<div style="background-color: white; margin-top: 30px; margin: 20px;">
 						<form:form action="${root }/admin/manager_FAQdetail_pro" method="post" modelAttribute="FAQmodifyBean">
-					    <form:hidden path="faq_id" value="${oneQnaInfo.faq_id }"/>
-					    <form:hidden path="state" value="${oneQnaInfo.state }" />
+					    <form:hidden path="faq_id" value="${oneFAQInfo.faq_id }"/>
+					    <form:hidden path="state" value="${oneFAQInfo.state }" />
 					    <table class="table table-bordered">
 					        <!-- 제목 행 -->
 					        <tr style="vertical-align: middle; height: 20px;">
 					            <th style="font-size:20px; width: 200px; text-align:center; margin-right: 30px;">제목</th>
-					            <td style="text-align:center;">
-					                <form:input path="title" value="${oneQnaInfo.title }" style="width: 800px;" />
+					            <td>
+					                <form:input path="title" value="${oneFAQInfo.title }" style="width: 100%;" />
 					                <c:choose>
-									<c:when test="${oneQnaInfo.state == 1 }">
+									<c:when test="${oneFAQInfo.state == 1 }">
 										<span class="badge text-bg-success rounded-pill" style="font-size:15px;">게시중</span>
 									</c:when>
-									<c:when test="${oneQnaInfo.state == 2 }">
+									<c:when test="${oneFAQInfo.state == 2 }">
 										<span class="badge text-bg-warning rounded-pill" style="font-size:15px;">비공개</span>
 									</c:when>
 									<c:otherwise>
@@ -130,16 +130,16 @@ $(document).ready(function(){
 					        <tr>
 					            <th style="font-size:20px; text-align:center; vertical-align:middle; align-items: center; ">내용</th>
 					            <td>
-                				<form:textarea path="contents" rows="15" cols="133" name="reply" style="resize:none;"/>
-            </td>
-        </tr>
-    </table>    
-    <!-- 나머지 폼 내용 -->
-     <div style="float:right; margin-bottom:50px;">
+                				<form:textarea path="contents" rows="15" name="reply" style="resize:none; width: 100%;" />
+					            </td>
+					        </tr>
+					    </table>    
+					    <!-- 나머지 폼 내용 -->
+					     <div style="float:right; margin-bottom:50px;">
 										<a href="${root}/admin/manager_FAQlist" class="btn btn-danger" style="margin-right: 15px;">돌아가기</a>
 										<form:button class="btn btn-dark" id="submitButton" style="margin-right: 30px;" >등록하기</form:button>
 							</div>
-</form:form>
+						</form:form>
 						
 						<script>
 							document.addEventListener('DOMContentLoaded', function() {

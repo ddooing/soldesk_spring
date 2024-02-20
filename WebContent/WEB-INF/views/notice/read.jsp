@@ -552,7 +552,7 @@ ul, ol {
 										<span class="tit">조회수</span><span class="cont">${RN.views }</span>
 									</td>
 								</tr>
-								<tr class="tb_content" style="height: 350px;">
+								<tr class="tb_content" style="height: 350px; vertical-align: top;">
 									<td><div id="divNoticeContents">
 										${RN.contents }
 										</div></td>

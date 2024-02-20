@@ -322,7 +322,7 @@ input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-o
 					</div>
 					
 					<div class="form-group" style="margin-top: 30px;">
-						<label for="price" style="width: 150px; display: inline-block; font-size: 20px;">가격*</label>
+						<label for="price" style="width: 150px; display: inline-block; font-size: 20px;">티켓가격*</label>
 						<form:input type="number" path="price" id="price" style="width:365px; margin-right:10px;" required="required" />원
 					</div>
 					

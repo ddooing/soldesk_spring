@@ -37,7 +37,7 @@ public class UserValidator implements Validator {
          
          if(loginUserBean.getPassword().equals(userBean.getPassword()) == false) {
             
-            errors.rejectValue("icpassword", "CurrentPasswordNotMatch");
+            errors.rejectValue("password", "CurrentPasswordNotMatch");
             
          }
          

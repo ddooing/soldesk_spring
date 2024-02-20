@@ -51,8 +51,7 @@
 			<i class="fas fa-bars" style="color: white;"></i>
 		</button>
 		<!-- 사용자 아이콘 우측 정렬-->
-		<div
-			class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" />
+		<div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0" />
 		<!-- 네비바-->
 		<ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
 			<li class="nav-item dropdown"><a
@@ -91,7 +90,7 @@
 		                </a>
 		                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
 		                   <nav class="sb-sidenav-menu-nested nav">
-		                      <a class="nav-link" href="${root }/adminPayment/manager_reservelist">전시회 결제 관리</a>
+		                      <a class="nav-link" href="${root }/adminPayment/manager_reservelist">예매 결제 관리</a>
 		                      <a class="nav-link" href="${root }/adminPayment/manager_bannerPaymentList">배너 결제 관리</a>
 		                   </nav>
 		                </div>
