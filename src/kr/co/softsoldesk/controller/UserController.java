@@ -76,6 +76,8 @@ public class UserController {
 			List<SubBannerBean> AllSubBannerInfo = adminService.IndexSubBannerBeanList();
 			model.addAttribute("AllSubBannerInfo", AllSubBannerInfo);
 			
+			model.addAttribute("tempLoginUserBean", tempLoginUserBean);
+			
 			return "user/login";
 			
 		}

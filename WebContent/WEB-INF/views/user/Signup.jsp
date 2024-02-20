@@ -249,7 +249,7 @@ span{
 						<th style="width:200px;">
 						<form:label path="name" style="font-size: 20px;">성함</form:label>
 						</th>
-						<td><input type="text" name="name" id="name" class="form-control" onkeyup="validateName()" style="margin-bottom: 10px;" />
+						<td><form:input type="text" path="name" id="name" class="form-control" value="${tempLoginUserBean.name }" onkeyup="validateName()" style="margin-bottom: 10px;" />
 						<span id="nameError" style="color:red;"></span></td>
 					</tr>
 					
@@ -259,7 +259,7 @@ span{
 						<th style="width:200px;">
 						<form:label path="id" style="font-size: 20px;">아이디</form:label></th>
 					<td>
-						<input name="id" id="id" onkeypress="resetIdExist()" class="form-control" onkeyup="validateId()" style="margin-bottom: 10px;"/>
+						<form:input path="id" id="id" onkeypress="resetIdExist()" class="form-control" value="${tempLoginUserBean.id }" onkeyup="validateId()" style="margin-bottom: 10px;"/>
 						<span id="idError" style="color:red;"></span>
 					</td>
 
@@ -271,19 +271,19 @@ span{
 					<tr>
 						<th style="width:200px;"><form:label path="email" style="font-size: 20px;">이메일</form:label></th>
 						<td>
-							<form:input path="email" class="form-control" required="required"/>
+							<form:input path="email" class="form-control" required="required" value="${tempLoginUserBean.email }"/>
 							<form:errors path="email" style="color:red" />
 						</td>
 					</tr>
 					<tr>
 						<th style="width:200px;"><form:label path="birth" style="font-size: 20px;">생년월일</form:label></th>
-						<td><input type="date" id="birth" name="birth" style="width:100%;" pattern="yyyy-MM-dd" required="required" /></td>
+						<td><form:input type="date" id="birth" path="birth" value="${tempLoginUserBean.birth }" style="width:100%;" pattern="yyyy-MM-dd" required="required"/></td>
 					</tr>
 
 					<tr>
 						<th style="width:200px;"><form:label path="password" style="font-size: 20px;">비밀번호</form:label></th>
 						<td>
-							<input type="password" name="password" class="form-control" id="pw1" oninput="pwCheck()" onkeyup="validatePw()"/>
+							<form:password path="password" class="form-control" id="pw1" oninput="pwCheck()" onkeyup="validatePw()" required="required"/>
 							<span id="pwError" style="color:red;"></span>
 						</td>
 					</tr>
@@ -291,7 +291,7 @@ span{
 					<tr>
 						<th style="width:200px;"><form:label path="password2" style="font-size: 20px;">비밀번호 확인</form:label></th>
 						<td>
-							<input type="password" name="password2" class="form-control" id="pw2" oninput="pwCheck()" />
+							<form:password path="password2" class="form-control" id="pw2" oninput="pwCheck()" required="required" />
 							<form:errors path="password2" style="color:red" />
 						</td>
 						<td><span id="pwConfirm2" style="margin-left: 10px;"> 비밀번호를 입력하세요 </span></td>
@@ -299,7 +299,7 @@ span{
 					<tr>
 						<th style="width:200px;"><form:label path="nickname" style="font-size: 20px;">닉네임</form:label></th>
 						<td>
-							<input name="nickname" class="form-control" id="nickname" onkeypress="resetNickExist()" onkeyup="validateNickname()" style="margin-bottom: 10px;" />
+							<form:input path="nickname" class="form-control" id="nickname" value="${tempLoginUserBean.nickname }" onkeypress="resetNickExist()" onkeyup="validateNickname()" style="margin-bottom: 10px;" />
 							<span id="nickError" style="color:red;"></span>
 						</td>
 						<td>
@@ -326,7 +326,7 @@ span{
 					<tr>
 						<th style="width:200px;">
 						<form:label path="telephone" style="font-size: 20px;">전화번호</form:label></th>
-						<td><input name="telephone" class="form-control" placeholder="'-' 없이 입력" />
+						<td><form:input path="telephone" class="form-control" placeholder="'-' 없이 입력" value="${tempLoginUserBean.telephone }"/>
 						<form:errors path="telephone" style="color:red;" /></td>
 					</tr>
 				</table>
