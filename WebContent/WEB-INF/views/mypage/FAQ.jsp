@@ -182,7 +182,7 @@
 							<!-- 입력 필드 및 버튼 -->
 
 
-							<form:form action="${root }/user/delete_pro?user_id=${loginUserBean.user_id }" method="post" modelAttribute="deleteUserBean">
+							<form:form action="${root }/user/delete_pro?user_id=${loginUserBean.user_id }" method="post" modelAttribute="deleteUserBean"  id="delete_user">
 							<div class="mb-3 text-center">
 								<div class="form-label-group">
 									<input type="text" class="form-control" placeholder="아이디"
