@@ -307,7 +307,8 @@ span{
 						</td>
 					</tr>
 					<tr>
-						<th style="width:200px;"><form:label path="gender" style="font-size: 20px;">성별</form:label>	</th>
+						<th style="width:200px;">
+						<form:label path="gender" style="font-size: 20px;">성별</form:label>	</th>
 						<td>
 							<div style="display: flex; justify-content: center;">
 								<div style="margin-right: 80px;">
@@ -355,7 +356,7 @@ span{
 	<!-- 푸터-->
 
 	<c:import url="/WEB-INF/views/include/footer.jsp" />
-	
+	</body>
 	<script>
 	    function validateName() {
 	        var name = document.getElementById("name").value;
@@ -392,7 +393,7 @@ span{
 	    
 	    function validateNickname() {
 	        var name = document.getElementById("nickname").value;
-	        var regex = /^{2,8}$/;
+	        var regex = /^.{2,8}$/;
 	
 	        if (!regex.test(name)) {
 	            document.getElementById("nickError").innerHTML = "사용자 닉네임은 2~8자리여야 합니다.";
@@ -436,6 +437,6 @@ span{
 
 
 
-</body>
+
 
 </html>
