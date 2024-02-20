@@ -384,7 +384,7 @@
 	        if (result.isConfirmed) {
 	            Swal.fire(
 	                '수정되었습니다!',
-	                '메인 배너가 성공적으로 수정되었습니다.',
+	                '서브 배너가 성공적으로 수정되었습니다.',
 	                'success'
 	            ).then((result) => {
 	                if (result.isConfirmed) {
