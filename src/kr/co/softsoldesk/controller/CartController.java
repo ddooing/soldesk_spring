@@ -41,7 +41,7 @@ public class CartController {
 	public String cart_insert(@ModelAttribute("tempReserveBean") ReserveBean tempReserveBean,
 			HttpSession session,Model model,RedirectAttributes redirectAttributes) {
 		
-		System.out.println("cart insert 컨트롤러 실행됨");
+		//System.out.println("cart insert 컨트롤러 실행됨");
 		
 		
 	 ArrayList< CartBean > list = (ArrayList < CartBean > ) session.getAttribute("cart");
@@ -51,20 +51,24 @@ public class CartController {
 	  }
 	  
 	  
-	  System.out.println("cart insert 컨트롤러 - ");
-	  System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getReserve_date());
-	System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getOrder_id());
-	System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getTicket_count());
-	System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getUser_id());
+		/*
+		 * System.out.println("cart insert 컨트롤러 - ");
+		 * System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getReserve_date());
+		 * System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getOrder_id());
+		 * System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getTicket_count());
+		 * System.out.println("cart insert 컨트롤러 실행됨"+tempReserveBean.getUser_id());
+		 */
 	  CartBean cvo = new CartBean();
-	  System.out.println("cart insert 컨트롤러 실행됨 title : "+tempReserveBean.getExhibition_id());
+	  //System.out.println("cart insert 컨트롤러 실행됨 title : "+tempReserveBean.getExhibition_id());
 	  cvo.setExhibition_id(tempReserveBean.getExhibition_id());
 	 // cvo.setUser_id(tempReserveBean.getUser_id());
 	  cvo.setReserve_date(tempReserveBean.getReserve_date());
 	  cvo.setTicket_count(tempReserveBean.getTicket_count());
-	  System.out.println("cart insert 예매 전시회 : "+ cvo.getTitle());
-	  System.out.println("cart insert 예매 날짜 : "+ cvo.getReserve_date());
-	  System.out.println("cart insert 티켓 수량 : "+ cvo.getTicket_count());
+		/*
+		 * System.out.println("cart insert 예매 전시회 : "+ cvo.getTitle());
+		 * System.out.println("cart insert 예매 날짜 : "+ cvo.getReserve_date());
+		 * System.out.println("cart insert 티켓 수량 : "+ cvo.getTicket_count());
+		 */
 	  
 	  redirectAttributes.addAttribute("exhibition_id", tempReserveBean.getExhibition_id());
 	  
@@ -89,9 +93,14 @@ public class CartController {
 
 		  ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(tempReserveBean.getExhibition_id());
 		  
-		  System.out.println("cart insert 컨트롤러 실행됨 title : "+exhibitionBean.getTitle());
-		  System.out.println("cart insert 컨트롤러 실행됨 main-poster-name : "+exhibitionBean.getMain_poster_name());
-		System.out.println("cart insert 컨트롤러 실행됨 main-poster-path"+exhibitionBean.getMain_poster_path());
+			/*
+			 * System.out.println("cart insert 컨트롤러 실행됨 title : "+exhibitionBean.getTitle())
+			 * ;
+			 * System.out.println("cart insert 컨트롤러 실행됨 main-poster-name : "+exhibitionBean.
+			 * getMain_poster_name());
+			 * System.out.println("cart insert 컨트롤러 실행됨 main-poster-path"+exhibitionBean.
+			 * getMain_poster_path());
+			 */
 			
 		  cvo.setTitle(exhibitionBean.getTitle());
 		  cvo.setMain_poster_name(exhibitionBean.getMain_poster_name());
@@ -105,7 +114,7 @@ public class CartController {
 	  }
 	  
 
-		System.out.println("cart insert 컨트롤러 - tempReserveBean.getExhibition_id "+tempReserveBean.getExhibition_id());
+		//System.out.println("cart insert 컨트롤러 - tempReserveBean.getExhibition_id "+tempReserveBean.getExhibition_id());
 
 	    return "redirect:/exhibition/exhibition_click?user_id="+tempReserveBean.getUser_id();
 
@@ -125,7 +134,7 @@ public class CartController {
 	        for (CartBean avo : list) {
 	            System.out.println("cart select 예매 날짜 : " + avo.getReserve_date());
 	            System.out.println("cart select 티켓 수량 : " + avo.getTicket_count());
-	            System.out.println("cart select 티켓 수량 : " + avo.getTotal_price());
+	            System.out.println("cart select 티켓 가격 : " + avo.getTotal_price());
 	        }
 	    }
 	   //Collections.reverse(list); // 리스트를 역순으로 정렬

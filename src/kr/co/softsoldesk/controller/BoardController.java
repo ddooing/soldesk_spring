@@ -157,8 +157,7 @@ public class BoardController {
     	if(result.hasErrors()) {
 			return "board/modify_not";
 		}
-    	System.out.println(modifyContentBean.getTitle());
-    	System.out.println(modifyContentBean.getBoard_id());
+
     	boardService.modifyContentInfo(modifyContentBean); //service, dao, mappper 껴서 db 수정
          return "board/modify_success";
     }

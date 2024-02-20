@@ -48,11 +48,13 @@ public class AdminReserveController {
 		    @RequestParam(value = "user_name", required = false) String user_name
 		    , @RequestParam(value = "page", defaultValue = "1") int page) {
 		
-		System.out.println("endDate : "+endDate);
-		System.out.println("startDate : "+startDate);
-		System.out.println("payment_method : "+payment_method);
-		System.out.println("exhibition_title : "+exhibition_title);
-		System.out.println("user_name : "+user_name);
+		/*
+		 * System.out.println("endDate : "+endDate);
+		 * System.out.println("startDate : "+startDate);
+		 * System.out.println("payment_method : "+payment_method);
+		 * System.out.println("exhibition_title : "+exhibition_title);
+		 * System.out.println("user_name : "+user_name);
+		 */
 		
 		//첫 결제 내역 날짜 받기
 		String firstPayDate = reserveService.getFirstPayDate();

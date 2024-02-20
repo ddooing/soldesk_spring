@@ -72,7 +72,9 @@
 	rel="stylesheet">
 
 <style>
-
+.commentText:focus {
+    outline: none;
+}
 
 
 .star-rating {
@@ -223,7 +225,7 @@
 			
 			<div class="text-center">
 				<div style="margin:auto;">
-					<form:textarea path="contents" id="commentText" style="width:800px; height:300px; resize: none;"/>
+					<form:textarea path="contents" id="commentText" class="commentText" style="width:800px; height:300px; resize: none;"/>
 					<div style="margin-left: 10px; color: #6c757d; font-size: 0.875rem;" id="commentCounter">0/1000</div>
 				</div>
 				

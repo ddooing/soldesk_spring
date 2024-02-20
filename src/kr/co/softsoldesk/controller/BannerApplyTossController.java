@@ -122,10 +122,13 @@ public class BannerApplyTossController {
 		bannerSerivce.insertbanner_apply(applybannerBean);
 		
 		
-		//확인
-		System.out.println(" /checkout - tempReserveBean oderid : "+ applybannerBean.getOrder_id());
-	    System.out.println(" /checkout ReserveBean.payment: " + applybannerBean.getPayment());
-	    System.out.println("/checkout Exhibition ID: " + applybannerBean.getExhibition_id());
+		/*
+		 * //확인 System.out.println(" /checkout - tempReserveBean oderid : "+
+		 * applybannerBean.getOrder_id());
+		 * System.out.println(" /checkout ReserveBean.payment: " +
+		 * applybannerBean.getPayment()); System.out.println("/checkout Exhibition ID: "
+		 * + applybannerBean.getExhibition_id());
+		 */
 		
 	    
 		model.addAttribute("orderid", applybannerBean.getOrder_id()); 
@@ -146,16 +149,17 @@ public class BannerApplyTossController {
             					@RequestParam int amount,HttpServletRequest request, Model model,
             					RedirectAttributes redirectAttributes) throws Exception  {
 		
-		System.out.println("orderId :"+orderId);
-		System.out.println("paymentKey :"+paymentKey);
-		System.out.println("amount :"+amount);
-
+		/*
+		 * System.out.println("orderId :"+orderId);
+		 * System.out.println("paymentKey :"+paymentKey);
+		 * System.out.println("amount :"+amount);
+		 */
 		// [1].결제 요청 전에 예매정보 데이터(/checkout 에서 저장한 정보)와 인증 결과(orderId,paymentKey,amount) 검증
 		BannerApplyFormBean validBannerBean = bannerSerivce.validcheckOrderId(orderId);
 		String  isOrderIdValid=validBannerBean.getOrder_id();
 		
 		//확인
-		System.out.println("isOrderIdValid :"+isOrderIdValid);
+		//System.out.println("isOrderIdValid :"+isOrderIdValid);
 		
 		//돌아갈 폼 페이지 
 		String formUrl="";
@@ -191,14 +195,19 @@ public class BannerApplyTossController {
 		}
 		
 			//(2 결과: true) :결제 승인 요청 전에 db 저장 
-		System.out.println("reqBeforePayment==amount, 결제 승인 전");
+		// System.out.println("reqBeforePayment==amount, 결제 승인 전");
 		
 		//[3]. 결제 승인 
         ResponseEntity<String> paymentConfirmationResponse = completePayment(paymentKey, orderId, amount);
-        System.out.println("결제 승인 후");
-        System.out.println("결제 승인 후, paymentConfirmationResponse 코드 확인 :" + paymentConfirmationResponse.getStatusCode());
-        System.out.println("결제 승인 후, paymentConfirmationResponse 헤더 확인 :" + paymentConfirmationResponse.getHeaders());
-        System.out.println("결제 승인 후, paymentConfirmationResponse 응답 본문 확인 :" + paymentConfirmationResponse.getBody());
+		/*
+		 * System.out.println("결제 승인 후");
+		 * System.out.println("결제 승인 후, paymentConfirmationResponse 코드 확인 :" +
+		 * paymentConfirmationResponse.getStatusCode());
+		 * System.out.println("결제 승인 후, paymentConfirmationResponse 헤더 확인 :" +
+		 * paymentConfirmationResponse.getHeaders());
+		 * System.out.println("결제 승인 후, paymentConfirmationResponse 응답 본문 확인 :" +
+		 * paymentConfirmationResponse.getBody());
+		 */
  
         //(3 결과 : 승인 실패 )
         if (!paymentConfirmationResponse.getStatusCode().is2xxSuccessful()) {
@@ -239,9 +248,10 @@ public class BannerApplyTossController {
         byte[] bytes = method.getBytes(StandardCharsets.ISO_8859_1);
         method = new String(bytes, StandardCharsets.UTF_8);
         
-        System.out.println("orderName: " + method);
-        System.out.println("approvedAt: " + approvedAt);
-        System.out.println("requestedAt: " + requestedAt);
+		/*
+		 * System.out.println("orderName: " + method); System.out.println("approvedAt: "
+		 * + approvedAt); System.out.println("requestedAt: " + requestedAt);
+		 */
         
     
     	// #DB 저장 ................................... 함수 ) 0원일때랑 합치기 
@@ -261,11 +271,11 @@ public class BannerApplyTossController {
         //등록한 파일 정보 가져오기
         ExhibitionDetailBean getfileinfo = bannerSerivce.getfileinfo(bannerPaymentInfoBean.getBanner_file_id());
 		
-        System.out.println("결제가 성공적으로 처리되었습니다.");
+        //System.out.println("결제가 성공적으로 처리되었습니다.");
 
-        System.out.println("validReserveBean.getRequested_at() : "+bannerPaymentInfoBean.getRequested_at());
-        System.out.println("validReserveBean.getBanner_type() : "+bannerPaymentInfoBean.getBanner_type());
-        System.out.println("결제가 성공적으로 처리되었습니다.");
+        //System.out.println("validReserveBean.getRequested_at() : "+bannerPaymentInfoBean.getRequested_at());
+        //System.out.println("validReserveBean.getBanner_type() : "+bannerPaymentInfoBean.getBanner_type());
+        //System.out.println("결제가 성공적으로 처리되었습니다.");
         
 
         model.addAttribute("exhibition_title", exhibition_title);

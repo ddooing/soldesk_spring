@@ -61,15 +61,15 @@
 											<h5>게시글</h5>
 											<h5>댓글</h5>
 											<h5>문의</h5>
-											<h5>배너신청</h5>
 											<h5>전시회신청</h5>
+											<h5>배너신청</h5>
 										</div>
 										<div>
-											<h5>0</h5>
-											<h5>0</h5>
-											<h5>0</h5>
-											<h5>0</h5>
-											<h5>0</h5>											
+											<h5>${countBean.board_count }</h5>
+											<h5>${countBean.comment_count}</h5>
+											<h5>${countBean.qna_count}</h5>
+											<h5>${countBean.banner_apply_count}</h5>
+											<h5>${countBean.exhibition_enroll_count}</h5>											
 										</div>
 									</div>
 								</div>

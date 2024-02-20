@@ -30,15 +30,17 @@ public class AdminBannerPaymentController {
 		    @RequestParam(value = "user_name", required = false) String user_name
 		    , @RequestParam(value = "page", defaultValue = "1") int page) {
 		
-		System.out.println("endDate : "+endDate);
-		System.out.println("startDate : "+startDate);
-		System.out.println("payment_method : "+payment_method);
-		System.out.println("banner_type : "+banner_type);
-		System.out.println("user_name : "+user_name);
+		/*
+		 * System.out.println("endDate : "+endDate);
+		 * System.out.println("startDate : "+startDate);
+		 * System.out.println("payment_method : "+payment_method);
+		 * System.out.println("banner_type : "+banner_type);
+		 * System.out.println("user_name : "+user_name);
+		 */
 		
 		//첫 결제 내역 날짜 받기
 		String firstPayDate = bannerSerivce.getFirstPayDate();
-		System.out.println("firstPayDate : "+firstPayDate);
+		//System.out.println("firstPayDate : "+firstPayDate);
 		model.addAttribute("firstPayDate", firstPayDate);
 		
 		
@@ -48,7 +50,7 @@ public class AdminBannerPaymentController {
 		}
 		if(banner_type == null)
 		{
-			System.out.println("타입 null");
+			//System.out.println("타입 null");
 			banner_type=3;
 		}
 		

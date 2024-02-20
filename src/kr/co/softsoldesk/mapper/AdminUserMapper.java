@@ -162,6 +162,14 @@ public interface AdminUserMapper {
 					+ "where user_id = #{user_id}")
 			void AdminModifyInfo(UserBean acModifyBean);
 			
-			
+			// 유저 수정 페이지에 게시글, 댓글, qna, 전시회 요청, 전시회 등록 개수 반환
+			@Select("SELECT \r\n"
+					+ "        (SELECT COUNT(*) FROM board WHERE user_id = #{user_id}) AS board_count,\r\n"
+					+ "        (SELECT COUNT(*) FROM comment_table WHERE user_id = #{user_id}) AS comment_count,\r\n"
+					+ "        (SELECT COUNT(*) FROM QnA WHERE user_id = #{user_id}) AS qna_count,\r\n"
+					+ "        (SELECT COUNT(*) FROM banner_apply_form WHERE apply_person_id = #{user_id}) AS banner_apply_count,\r\n"
+					+ "        (SELECT COUNT(*) FROM exhibition_enroll WHERE apply_person = #{user_id}) AS exhibition_enroll_count\r\n"
+					+ "    FROM dual")
+			UserBean getUserCountInfo(int user_id);
 
 }

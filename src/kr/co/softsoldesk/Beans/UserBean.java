@@ -72,7 +72,44 @@ public class UserBean {
    // 마이페이지용
    private int exp_to_next_level;
    private String next_grade;
+   
+// 유저 수정페이지 개수 반환용
+   private int board_count;
+   private int comment_count;
+   private int qna_count;
+   private int banner_apply_count;
+   private int exhibition_enroll_count;
 
+public int getBoard_count() {
+	return board_count;
+}
+public void setBoard_count(int board_count) {
+	this.board_count = board_count;
+}
+public int getComment_count() {
+	return comment_count;
+}
+public void setComment_count(int comment_count) {
+	this.comment_count = comment_count;
+}
+public int getQna_count() {
+	return qna_count;
+}
+public void setQna_count(int qna_count) {
+	this.qna_count = qna_count;
+}
+public int getBanner_apply_count() {
+	return banner_apply_count;
+}
+public void setBanner_apply_count(int banner_apply_count) {
+	this.banner_apply_count = banner_apply_count;
+}
+public int getExhibition_enroll_count() {
+	return exhibition_enroll_count;
+}
+public void setExhibition_enroll_count(int exhibition_enroll_count) {
+	this.exhibition_enroll_count = exhibition_enroll_count;
+}
 public boolean isIdExist() {
 	return IdExist;
 }

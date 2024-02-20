@@ -468,7 +468,7 @@ public class AdminContentsController {
 	   public String FAQdetail(@RequestParam("qna_id") int faq_id, Model model,
 	                     @ModelAttribute("FAQmodifyBean")FAQBean FAQmodifyBean) {
 	      
-	      System.out.println(faq_id);
+	     // System.out.println(faq_id);
 	      
 	      FAQBean oneQnaInfo = AdminContentsService.getOneFAQInfo(faq_id);
 	      
@@ -476,7 +476,7 @@ public class AdminContentsController {
 	      FAQmodifyBean.setTitle(oneQnaInfo.getTitle());
 	      FAQmodifyBean.setState(oneQnaInfo.getState());
 	      model.addAttribute("oneQnaInfo", oneQnaInfo);
-	      System.out.println(FAQmodifyBean.getState());
+	     // System.out.println(FAQmodifyBean.getState());
 	      
 	      return "admin/manager_FAQdetail";
 	   }

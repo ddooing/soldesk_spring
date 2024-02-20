@@ -400,19 +400,22 @@
 		
 		
 			<script>
-			function updateFileName() {
-			    var input = document.getElementById('file');
-			    var fileNameSpan = document.getElementById('file-name');
+			    function updateFileName() {
+			        var input = document.getElementById('file');
+			        var fileNameSpan = document.getElementById('file-name');
 			
-			    if (input.files && input.files.length > 0) {
-			        // 첫 번째 파일의 이름을 가져옵니다.
-			        var fileName = input.files[0].name;
-			        fileNameSpan.textContent = fileName;
-			    } else {
-			        // 파일이 선택되지 않았을 경우 초기 텍스트로 설정합니다.
-			        fileNameSpan.textContent = '선택된 파일 없음';
+			        if (input.files && input.files.length > 0) {
+			            var fileName = input.files[0].name;
+			
+			            if (fileName.length > 15) {
+			                fileName = fileName.substring(0, 20) + "...";
+			            }
+			
+			            fileNameSpan.textContent = fileName;
+			        } else {
+			            fileNameSpan.textContent = '선택된 파일 없음';
+			        }
 			    }
-			}
 			</script>
 
 		<div class="info"

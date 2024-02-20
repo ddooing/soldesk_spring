@@ -124,7 +124,7 @@ public class ExhibitionController {
 			
 			PageBean pageBean2 = exhibitionService.SearchExhibitionCnt(keyword, page);
 			model.addAttribute("pageBean2", pageBean2);
-			
+			 
 			model.addAttribute("keyword", keyword);
 		}
 		
@@ -201,7 +201,7 @@ public class ExhibitionController {
 		ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(exhibition_id);	
 	    model.addAttribute("exhibitionBean", exhibitionBean);		// 전시회 정보 객체
 		
-	    System.out.println("tempReserveBean 티켓 날짜 처리 전  : "+tempReserveBean.getReserve_date());
+	    //System.out.println("tempReserveBean 티켓 날짜 처리 전  : "+tempReserveBean.getReserve_date());
 	    String replace_reserve_date = removeCommasFromReserveDate(tempReserveBean.getReserve_date());
 	    tempReserveBean.setReserve_date(replace_reserve_date);
 	    
@@ -219,12 +219,15 @@ public class ExhibitionController {
 		int plus_point = getPlusePoint(loginUserBean.getUser_id(),tempReserveBean.getTotal_price()); 
 		tempReserveBean.setPoint_plus(plus_point);
 		
-		// 확인용 
-		System.out.println("exhibition_id : "+exhibitionBean.getExhibition_id());
-		System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getTicket_count());
-		System.out.println("tempReserveBean 티켓 날짜 처리 휴: "+tempReserveBean.getReserve_date());
-		System.out.println("tempReserveBean 포인트 : "+tempReserveBean.getPoint_plus());
-		System.out.println("LoginAllInfoBean : "+LoginAllInfoBean.getName());
+		/*
+		 * // 확인용
+		 * System.out.println("exhibition_id : "+exhibitionBean.getExhibition_id());
+		 * System.out.println("tempReserveBean 티켓 : "+tempReserveBean.getTicket_count())
+		 * ; System.out.println("tempReserveBean 티켓 날짜 처리 휴: "+tempReserveBean.
+		 * getReserve_date());
+		 * System.out.println("tempReserveBean 포인트 : "+tempReserveBean.getPoint_plus());
+		 * System.out.println("LoginAllInfoBean : "+LoginAllInfoBean.getName());
+		 */
 		return "exhibition/payment";
 	}
 	
@@ -234,8 +237,10 @@ public class ExhibitionController {
 	                                  @ModelAttribute("exhibitionBean") ExhibitionBean exhibitionBean, 
 	                                  Model model) {
 	    // 데이터 출력
-	    System.out.println("ReserveBean: " + tempReserveBean);
-	    System.out.println("exhibitionBean : " + exhibitionBean);
+		/*
+		 * System.out.println("ReserveBean: " + tempReserveBean);
+		 * System.out.println("exhibitionBean : " + exhibitionBean);
+		 */
 
 	    // 뷰에 데이터 추가
 	    model.addAttribute("tempReserveBean", tempReserveBean);

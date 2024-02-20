@@ -85,7 +85,7 @@ public class TossController {
 		reserveService.paymentZeroReserveInfo(tempReserveBean); 
 		
 		//저장된 예매 정보 부르기 .. reserve_id를 가져오기 위함 
-		System.out.println("/toss_pro - orderid :"+tempReserveBean.getOrder_id());
+		//System.out.println("/toss_pro - orderid :"+tempReserveBean.getOrder_id());
 		ReserveBean reserveInfoBean =reserveService.validcheckOrderId(tempReserveBean.getOrder_id());
 		
 		// 2. 나머지 저장 
@@ -119,7 +119,7 @@ public class TossController {
 		
 		//예매하려는 전시회 제목=> orderName 찾기
 		String title = exhibitionService.getExhibitionTitle(tempReserveBean.getExhibition_id());
-		System.out.println(" /checkout - tempReserveBean pluspoint  : "+tempReserveBean.getPoint_plus());
+		//System.out.println(" /checkout - tempReserveBean pluspoint  : "+tempReserveBean.getPoint_plus());
 		
 		//결제 요청 전에 예매정보 데이터 저장
 		//checkout 지점 db 저장                                  *후에 임시 저장하는 방식으로 바꾸기 
@@ -152,16 +152,18 @@ public class TossController {
             					@RequestParam int amount,HttpServletRequest request, Model model,
             					RedirectAttributes redirectAttributes) throws Exception  {
 		
-		System.out.println("orderId :"+orderId);
-		System.out.println("paymentKey :"+paymentKey);
-		System.out.println("amount :"+amount);
+		/*
+		 * System.out.println("orderId :"+orderId);
+		 * System.out.println("paymentKey :"+paymentKey);
+		 * System.out.println("amount :"+amount);
+		 */
 
 		// [1].결제 요청 전에 예매정보 데이터(/checkout 에서 저장한 정보)와 인증 결과(orderId,paymentKey,amount) 검증
 		ReserveBean validReserveBean = reserveService.validcheckOrderId(orderId);
 		String isOrderIdValid=validReserveBean.getOrder_id();
 		
 		//확인
-		System.out.println("isOrderIdValid :"+isOrderIdValid);
+		// System.out.println("isOrderIdValid :"+isOrderIdValid);
 
 		
 			// (1 결과 : false): 다를 경우, 실패 페이지로 이동 
@@ -185,14 +187,19 @@ public class TossController {
 		}
 		
 			//(2 결과: true) :결제 승인 요청 전에 db 저장 
-		System.out.println("reqBeforePayment==amount, 결제 승인 전");
+		// System.out.println("reqBeforePayment==amount, 결제 승인 전");
 		
 		//[3]. 결제 승인 
         ResponseEntity<String> paymentConfirmationResponse = completePayment(paymentKey, orderId, amount);
-        System.out.println("결제 승인 후");
-        System.out.println("결제 승인 후, paymentConfirmationResponse 코드 확인 :" + paymentConfirmationResponse.getStatusCode());
-        System.out.println("결제 승인 후, paymentConfirmationResponse 헤더 확인 :" + paymentConfirmationResponse.getHeaders());
-        System.out.println("결제 승인 후, paymentConfirmationResponse 응답 본문 확인 :" + paymentConfirmationResponse.getBody());
+		/*
+		 * System.out.println("결제 승인 후");
+		 * System.out.println("결제 승인 후, paymentConfirmationResponse 코드 확인 :" +
+		 * paymentConfirmationResponse.getStatusCode());
+		 * System.out.println("결제 승인 후, paymentConfirmationResponse 헤더 확인 :" +
+		 * paymentConfirmationResponse.getHeaders());
+		 * System.out.println("결제 승인 후, paymentConfirmationResponse 응답 본문 확인 :" +
+		 * paymentConfirmationResponse.getBody());
+		 */
  
         //(3 결과 : 승인 실패 )
         if (!paymentConfirmationResponse.getStatusCode().is2xxSuccessful()) {
@@ -235,9 +242,10 @@ public class TossController {
         byte[] bytes = method.getBytes(StandardCharsets.ISO_8859_1);
         method = new String(bytes, StandardCharsets.UTF_8);
         
-        System.out.println("orderName: " + method);
-        System.out.println("approvedAt: " + approvedAt);
-        System.out.println("requestedAt: " + requestedAt);
+		/*
+		 * System.out.println("orderName: " + method); System.out.println("approvedAt: "
+		 * + approvedAt); System.out.println("requestedAt: " + requestedAt);
+		 */
         
     
     	// #DB 저장 ................................... 함수 ) 0원일때랑 합치기 
@@ -254,13 +262,16 @@ public class TossController {
         //결제된 예매 정보 가져오기 
         ReserveBean reserveInfoBean =reserveService.validcheckOrderId(orderId);
 		
-        System.out.println("결제가 성공적으로 처리되었습니다.");
+        // System.out.println("결제가 성공적으로 처리되었습니다.");
         
         ExhibitionBean exhibitionBean = exhibitionService.getExhibitionDetailInfo(reserveInfoBean.getExhibition_id());
        
-        System.out.println("validReserveBean.getRequested_at() : "+reserveInfoBean.getRequested_at());
-        System.out.println("validReserveBean.getReserve_date() : "+reserveInfoBean.getReserve_date());
-        System.out.println("결제가 성공적으로 처리되었습니다.");
+		/*
+		 * System.out.println("validReserveBean.getRequested_at() : "+reserveInfoBean.
+		 * getRequested_at());
+		 * System.out.println("validReserveBean.getReserve_date() : "+reserveInfoBean.
+		 * getReserve_date()); System.out.println("결제가 성공적으로 처리되었습니다.");
+		 */
        
         
         model.addAttribute("exhibitionBean", exhibitionBean);
@@ -342,7 +353,7 @@ public class TossController {
         											// 예매한 전시회 id			       			//예매한 티켓 수 int 값
         exhibitionService.increase_exhibitionTotalTicket(reserveBean.getExhibition_id(),reserveBean.getTicket_count());
  
-        System.out.println("add service 처리 완료 ");
+        //System.out.println("add service 처리 완료 ");
 	}
 	
 	private ResponseEntity<String> completePayment(String paymentKey, String orderId, int amount) {
@@ -363,11 +374,11 @@ public class TossController {
             requestBody.put("orderId", orderId);
             requestBody.put("amount", amount);
             
-            System.out.println("Map");
+            //System.out.println("Map");
             
             HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
 
-            System.out.println("HTTP POST 요청 전");
+            // System.out.println("HTTP POST 요청 전");
             // HTTP POST 요청하기
             RestTemplate restTemplate = new RestTemplate();
             return restTemplate.exchange(confirmUrl, HttpMethod.POST, requestEntity, String.class);

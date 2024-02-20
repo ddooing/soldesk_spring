@@ -65,4 +65,8 @@ public class AdminUserDao {
 			adminUserMapper.AdminModifyInfo(acModifyBean);
 		}
 
+		// count 가져가기
+		public UserBean getUserCountInfo(int user_id) {
+			return adminUserMapper.getUserCountInfo(user_id);
+		}
 }

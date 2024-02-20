@@ -192,6 +192,8 @@
       transform-origin: top;
    }
 
+	
+	
 </style>
 </head>
 <body>
@@ -402,18 +404,24 @@
 			</script>		
 		
 			<script>
-			function updateFileName() {
-			    var input = document.getElementById('file');
-			    var fileNameSpan = document.getElementById('file-name');
+			    function updateFileName() {
+			        var input = document.getElementById('file');
+			        var fileNameSpan = document.getElementById('file-name');
 			
-			    if (input.files && input.files.length > 0) {
-			        var fileName = input.files[0].name;
-			        fileNameSpan.textContent = fileName;
-			    } else {
-			        fileNameSpan.textContent = '선택된 파일 없음';
+			        if (input.files && input.files.length > 0) {
+			            var fileName = input.files[0].name;
+			
+			            if (fileName.length > 15) {
+			                fileName = fileName.substring(0, 20) + "...";
+			            }
+			
+			            fileNameSpan.textContent = fileName;
+			        } else {
+			            fileNameSpan.textContent = '선택된 파일 없음';
+			        }
 			    }
-			}
 			</script>
+
 
 			<script>
 			

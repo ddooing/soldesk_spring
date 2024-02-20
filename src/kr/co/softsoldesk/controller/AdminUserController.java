@@ -103,6 +103,9 @@ public class AdminUserController {
 		
 		model.addAttribute("temp1", temp1);
 		
+		// count 찍는거
+		UserBean countBean = adminUserService.getUserCountInfo(user_id);
+		model.addAttribute("countBean",countBean);
 		
 		return "admin/manager_accountdetail";
 	}

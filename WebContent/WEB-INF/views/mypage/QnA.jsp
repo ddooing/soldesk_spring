@@ -240,7 +240,22 @@
 										</c:choose>
 									</div>
 								</c:forEach>
-								<div class="d-none d-md-block" style="margin-top:50px;">
+								
+							</c:otherwise>
+						</c:choose>
+
+
+
+					</div>
+				</div>
+			</section>
+
+
+
+
+		</div>
+		
+		<div class="d-none d-md-block" style="margin-top:50px;">
 				<ul class="pagination justify-content-center">
 					<c:choose>
 						<c:when test="${pageBean.prevPage <= 0 }">
@@ -301,19 +316,6 @@
 					</li>
 				</ul>
 			</div>
-							</c:otherwise>
-						</c:choose>
-
-
-
-					</div>
-				</div>
-			</section>
-
-
-		</div>
-		
-		
 		
 		
 		
@@ -486,24 +488,20 @@
     });
 </script>
 
-	<script>
-    // 모든 질문 요소에 대한 클릭 이벤트 리스너 추가
-    document.querySelectorAll('.question').forEach(question => {
-        question.addEventListener('click', function() {
-            // 질문의 ID에서 qna_id 추출
-            const qnaId = this.id.split('_')[1];
+<script>
+$(document).ready(function() {
+    $('.question').click(function(event) {
+    	// 스크롤방지
+        event.preventDefault();
 
-            // 관련된 답변 요소 찾기
-            const answer = document.getElementById('answer_' + qnaId);
+        const qnaId = this.id.split('_')[1];
+        const answer = $('#answer_' + qnaId);
 
-            // 답변 요소의 표시 상태 토글
-            if (answer.style.display === 'none') {
-                answer.style.display = 'block';
-            } else {
-                answer.style.display = 'none';
-            }
-        });
+        $('.answer').not(answer).slideUp('slow');
+
+        answer.slideToggle('slow');
     });
+});
 </script>
 
 	<script>	// 회원탈퇴 모달

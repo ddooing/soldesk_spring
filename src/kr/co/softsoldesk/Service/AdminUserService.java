@@ -105,5 +105,10 @@ public class AdminUserService {
 	public void AdminModifyBean(UserBean acModifyBean) {
 		adminUserDao.AdminModifyInfo(acModifyBean);
 	}
+	
+	// count 가져가기
+	public UserBean getUserCountInfo(int user_id) {
+		return adminUserDao.getUserCountInfo(user_id);
+	}
 
 }
