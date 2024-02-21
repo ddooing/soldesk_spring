@@ -176,7 +176,7 @@ public class MyPageController {
 	}
 		
 	@GetMapping("/FAQ")			// FAQ 매핑
-	public String FAQ(@RequestParam("user_id") int user_id, Model model) {
+	public String FAQ(@RequestParam("user_id") int user_id, Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
 		
 		// 모든 유저 인포 내용
 		UserBean UserAllInfoBean = UserService.getLoginUserAllInfo(user_id);
@@ -187,8 +187,12 @@ public class MyPageController {
 		model.addAttribute("UserTopInfoBean",UserTopInfoBean);
 		
 		// FaQ 목록
-		List<FAQBean> FAQ1 = adminContentsService.getmpFAQList();
+		List<FAQBean> FAQ1 = adminContentsService.getmpFAQList(page);
 	    model.addAttribute("FAQ1", FAQ1);
+	    
+	    // 페이징처리용
+	    PageBean pageBean = adminContentsService.getFaQCnt(page);
+		model.addAttribute("pageBean", pageBean);
 
 		return "/mypage/FAQ";
 	}

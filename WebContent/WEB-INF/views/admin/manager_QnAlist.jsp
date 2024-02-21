@@ -60,13 +60,13 @@
 					<div style="position: flex; margin-right: 60px; width: 450px; float: left;">
 						<!-- 여기에 margin-right 추가 -->
 						<span class="badge text-bg-danger rounded-pill"
-							style="font-size: 15px; margin-right: 10px; margin-left: 50px;">답변대기
+							style="font-size: 15px; margin-right: 10px; margin-left: 50px; padding:10px;">답변대기
 							${qnaCountBean.state_0_count }건</span> <span
 							class="badge text-bg-success rounded-pill"
-							style="font-size: 15px; margin-right: 10px;">답변완료
+							style="font-size: 15px; margin-right: 10px; padding:10px;">답변완료
 							${qnaCountBean.state_1_count }건</span> <span
 							class="badge bg-success-subtle text-success-emphasis rounded-pill"
-							style="background-color: black; font-size: 15px;">QnA
+							style="background-color: black; font-size: 15px; padding:10px;">QnA
 							총${qnaCountBean.total_count}건</span>
 					</div>
 					<form action="${root }/admin/manager_QnAlist" method="get">
@@ -148,7 +148,7 @@
 											<td style="width: 150px;">${qnalist.nickname }</td>
 											<td style="text-align: left; width: 800px;"><a
 												href="${root }/admin/manager_QnAwrite?qna_id=${qnalist.qna_id}"
-												style="color: black;">${qnalist.title }</a></td>
+												style="color: black; text-decoration: none;">${qnalist.title }</a></td>
 											<td style="width: 200px;">${qnalist.regdate }</td>
 											<c:choose>
 												<c:when test="${qnalist.state == 0 }">

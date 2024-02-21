@@ -24,6 +24,8 @@
 <!-- JQuery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	
 <script>
 $(document).ready(function(){
     $("#allcheck").click(function(){
@@ -45,6 +47,9 @@ $(document).ready(function(){
 </script>
 
 <style>
+textarea:focus {
+    outline: none;
+}
 .filebox .upload-name {
 	display: inline-block;
 	height: 40px;
@@ -96,7 +101,7 @@ th{
 					</div>
 					
 					<div style="background-color: white; margin-top: 30px; margin: 20px;">
-						<form:form action="manager_boardwrite_pro" method="post" modelAttribute="boardBean">
+						<form:form action="manager_boardwrite_pro" method="post" modelAttribute="boardBean" name="myForm" onsubmit="return validateForm()">
 							<table class="table table-bordered">
 								<tr style="align-items: center; height: 100px;">
 								    <th style="text-align: center; width: 200px; vertical-align: middle; font-size: 20px;">제목*</th>
@@ -105,7 +110,7 @@ th{
 								    </td>
 								</tr>
 								<tr style="align-items: center; height: 100px;">
-									<th style="vertical-align: middle; font-size:20px; text-align: center;">작성자</th>
+									<th style="vertical-align: middle; width: 200px; font-size:20px; text-align: center;">작성자</th>
 									<td style="vertical-align: middle; font-size:20px;">
 										관리자
 									</td>
@@ -120,7 +125,7 @@ th{
 								<tr style="align-items: center; height: 100px; ">
 									<th style="vertical-align: middle; font-size:20px; text-align: center;">내용</th>
 									<td colspan="3">
-										<textarea rows="15" cols="150" name="contents" style="resize:none;"></textarea>
+										<textarea rows="15" cols="140" name="contents" style="resize:none;"></textarea>
 									</td>
 								</tr>
 							</table>	
@@ -141,5 +146,22 @@ th{
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
+	<script>
+function validateForm() {
+    var title = document.forms["myForm"]["title"].value;
+    var contents = document.forms["myForm"]["contents"].value;
+    if (title == "" || contents == "") {
+        Swal.fire({
+            title: '필수 정보 누락',
+            text: '제목과 내용을 모두 입력해주세요!',
+            icon: 'warning',
+            confirmButtonText: '확인'
+        });
+        return false;
+    }
+    return true;
+}
+</script>
+	
 </body>
 </html>

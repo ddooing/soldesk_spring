@@ -124,7 +124,7 @@
 							<nav class="sb-sidenav-menu-nested nav">
 								<a class="nav-link" href="${root }/admin/manager_exhibitionlist">전시회
 									관리</a> <a class="nav-link" href="${root }/admin/manager_exhibitionapplylist">전시회
-									신청내역</a>
+									신청관리</a>
 							</nav>
 						</div>
 						

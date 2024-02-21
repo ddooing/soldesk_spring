@@ -103,6 +103,7 @@ public interface MyPageMapper {
             + "    rv.total_price,\r\n"
             + "    e.title,\r\n"
             + "    e.place,\r\n"
+            + "    e.exhibition_id,\r\n"
             + "    f.name AS main_poster_name,\r\n"
             + "    f.path AS main_poster_path\r\n"
             + "FROM \r\n"

@@ -548,7 +548,7 @@ a:hover {
 
                                  <c:choose>
                                     <c:when test="${noticeList.state == 2 }">
-                                       <td style="background-color: #F8DAD5;">중요!</td>
+                                       <td style="background-color: #F8DAD5;">중요</td>
                                     </c:when>
                                     <c:when test="${noticeList.state == 1 }">
                                        <td style="background-color: white;">일반</td>

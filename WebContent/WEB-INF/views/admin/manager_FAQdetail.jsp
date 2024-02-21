@@ -107,23 +107,21 @@ $(document).ready(function(){
 						<form:form action="${root }/admin/manager_FAQdetail_pro" method="post" modelAttribute="FAQmodifyBean">
 					    <form:hidden path="faq_id" value="${oneFAQInfo.faq_id }"/>
 					    <form:hidden path="state" value="${oneFAQInfo.state }" />
+					    <c:choose>
+									<c:when test="${oneFAQInfo.state == 1 }">
+										<span class="badge text-bg-success rounded-pill" style="font-size:15px; margin-left:20px; margin-bottom:20px;">게시중</span>
+									</c:when>
+									<c:when test="${oneFAQInfo.state == 2 }">
+										<span class="badge text-bg-warning rounded-pill" style="font-size:15px; margin-left:20px; margin-bottom:20px;">비공개</span>
+									</c:when>
+								</c:choose>
 					    <table class="table table-bordered">
 					        <!-- 제목 행 -->
 					        <tr style="vertical-align: middle; height: 20px;">
 					            <th style="font-size:20px; width: 200px; text-align:center; margin-right: 30px;">제목</th>
 					            <td>
 					                <form:input path="title" value="${oneFAQInfo.title }" style="width: 100%;" />
-					                <c:choose>
-									<c:when test="${oneFAQInfo.state == 1 }">
-										<span class="badge text-bg-success rounded-pill" style="font-size:15px;">게시중</span>
-									</c:when>
-									<c:when test="${oneFAQInfo.state == 2 }">
-										<span class="badge text-bg-warning rounded-pill" style="font-size:15px;">비공개</span>
-									</c:when>
-									<c:otherwise>
-										오잉
-									</c:otherwise>
-								</c:choose>
+					             
 					            </td>
 					        </tr>
 					        <!-- 내용 행 -->

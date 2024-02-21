@@ -57,13 +57,13 @@ $(document).ready(function(){
 						<div style="position: absolute; left: 10px;">
 							<c:choose>
 								<c:when test="${!empty pageBean }">
-									<span class="badge text-bg-dark rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">공지사항 게시글 ${n1 }건</span>
+									<span class="badge text-bg-dark rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px; padding:10px;">공지사항 게시글 ${n1 }건</span>
 								</c:when>
 								<c:when test="${!empty pageBean1 }">
-									<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size:15px;">공지사항 게시글 ${n2 }건</span>
+									<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size:15px; padding:10px;">공지사항 게시글 ${n2 }건</span>
 								</c:when>
 								<c:when test="${!empty pageBean2 }">
-									<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size:15px;">공지사항 게시글 ${n3 }건</span>
+									<span class="badge bg-success-subtle text-success-emphasis rounded-pill" style="background-color: black; font-size:15px; padding:10px;">공지사항 게시글 ${n3 }건</span>
 								</c:when>
 							</c:choose>
 						

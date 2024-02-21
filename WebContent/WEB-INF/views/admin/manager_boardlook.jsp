@@ -89,27 +89,26 @@ $(document).ready(function(){
 						style="background-color: white; margin-top: 30px; margin: 20px;">
 						
 						<table class="table table-bordered">
-							<tr style="align-items: center; height: 100px;">
-								<th style="width: 200px; vertical-align: middle; font-size:20px;">제목</th>
-								<td style="vertical-align: middle;">
-									 ${RN.title }
-								</td>
-							</tr>
+							
 							<tr style="align-items: center; height: 100px;">
 								<th style="vertical-align: middle; font-size:20px;">작성자</th>
-								<td style="vertical-align: middle;">
+								<td style="vertical-align: middle; width:500px;">
 									${RN.nickname }
 								</td>
-							</tr>
-							<tr style="align-items: center; height: 100px;">
-								<th style="vertical-align: middle; width:200px; font-size:20px;">등록일</th>
+								<th style="vertical-align: middle; font-size:20px;">등록일</th>
 								<td style="vertical-align: middle;">
 									${RN.create_date }
 								</td>
 							</tr>
+							<tr style="align-items: center; height: 100px;">
+								<th style="width: 200px; vertical-align: middle; font-size:20px;">제목</th>
+								<td style="vertical-align: middle;" colspan="4">
+									 ${RN.title }
+								</td>
+							</tr>
 							<tr style="align-items: center; height: 600px; ">
 								<th style="vertical-align: middle; font-size:20px;">내용</th>
-								<td style="vertical-align: middle;">
+								<td style="vertical-align: middle;" colspan="4">
 									${RN.contents }
 								</td>
 							</tr>

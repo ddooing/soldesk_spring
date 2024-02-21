@@ -97,10 +97,10 @@
 
 					<div class="text-center mt-4">
 						<a href="javascript:;" onclick="confirmExit()"
-							class="btn btn-primary btn-lg ml-2"
-							style="border: 1px solid black; font-size: 25px; color: black; text-decoration: none;">취소</a>
-						<form:button type="submit" class="btn btn-primary"
-							style="text-decoration: none;border: 1px solid black; font-size: 25px; color: black;">완료</form:button>
+							class="btn btn-danger"
+							style="font-size: 25px; text-decoration: none;">취소</a>
+						<form:button type="submit" class="btn btn-dark"
+							style="text-decoration: none; font-size: 25px;">완료</form:button>
 					</div>
 				</form:form>
 			</div>

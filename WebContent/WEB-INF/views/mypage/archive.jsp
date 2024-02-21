@@ -247,15 +247,15 @@
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalLabel">소감문 작성</h5>
+										<h5 class="modal-title" id="exampleModalLabel"></h5>
 
 									</div>
 									<div class="modal-body">
 										<div style="display: flex; margin-top: 20px;">
 											<div style="float: left;">
-												<img
+												<a href="${root }/exhibition/exhibition_click?exhibition_id=${archivelist.exhibition_id}&user_id=${loginUserBean.user_id}"><img
 													src="${archivelist.main_poster_path}${archivelist.main_poster_name}"
-													style="width: 170px; height: 245px;" />
+													style="width: 170px; height: 245px;" /></a>
 											</div>
 											<div
 												style="float: right; margin-left: 20px; text-align: left;">

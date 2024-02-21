@@ -208,8 +208,8 @@ public class AdminContentsDao {
 		      return adminContentsMapper.getFAQList(rowBounds);
 		   }
 		   
-		   public List<FAQBean>getmpFAQList(){
-		      return adminContentsMapper.getmpFAQList();
+		   public List<FAQBean>getmpFAQList(RowBounds rowBounds){
+		      return adminContentsMapper.getmpFAQList(rowBounds);
 		   }
 		   
 		   public void regFAQ(FAQBean FAQBean) {
@@ -227,6 +227,10 @@ public class AdminContentsDao {
 		   
 		   public List<FAQBean>getFAQSerchList(RowBounds rowBounds, String title){
 		      return adminContentsMapper.getFAQSerchList(rowBounds, title);
+		   }
+		   
+		   public int getFaQCnt() {
+			   return adminContentsMapper.getFaQCnt();
 		   }
 		   
 		   public int getFAQSerchListCnt(String keyword) {

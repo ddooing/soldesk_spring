@@ -81,18 +81,21 @@
                               <label for="user_id"> 
                                  <span class="tit" style="margin-left: 20px;">작성자</span>
                               </label>
+                              <pre style="display: inline;"> | </pre>
                               <label class="form-control" style="background: #c8c8c8; border: none; width: 120px; display: inline; margin-right: 20px;">${readContentBean.nickname}</label>
                            </td>
                            <td style="text-align: right;">
                               <label for="create_date"> 
                                  <span class="tit">등록일</span>
                               </label> 
+                              <pre style="display: inline;"> | </pre>
                               <label style="background: #c8c8c8; border: none; width: 120px; display: inline; margin-right: 20px; font-size: 15px;">${readContentBean.update_date}</label>
                            </td>
                            <td style="text-align: right;">
                               <label for="views"> 
                                  <span class="tit">조회수</span>
                               </label> 
+                              <pre style="display: inline;"> | </pre>
                               <label style="background: #c8c8c8; border: none; width: 120px; display: inline; margin-right: 20px; font-size: 15px;">${readContentBean.views}</label>
                            </td>
                         </tr>

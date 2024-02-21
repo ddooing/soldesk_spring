@@ -212,7 +212,6 @@ $(document).ready(function(){
     function submitForm() {
         Swal.fire({
             title: '등록하시겠습니까?',
-            text: '변경 사항을 저장합니다.',
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -223,7 +222,7 @@ $(document).ready(function(){
             if (result.isConfirmed) {
                 Swal.fire(
                     '등록되었습니다!',
-                    '변경 사항이 저장되었습니다.',
+                    '',
                     'success'
                 ).then((result) => {
                     if (result.isConfirmed) {

@@ -157,8 +157,10 @@ public class BoardController {
     	if(result.hasErrors()) {
 			return "board/modify_not";
 		}
-
+    	System.out.println(modifyContentBean.getContents());
+    	System.out.println(modifyContentBean.getNickname());
     	boardService.modifyContentInfo(modifyContentBean); //service, dao, mappper 껴서 db 수정
+    	
          return "board/modify_success";
     }
     // 로그인 연동하고 넣을것

@@ -21,6 +21,7 @@ public class ArchiveBean {
 	private String place;
 	private String main_poster_name;
 	private String main_poster_path;
+	private int exhibition_id;
 	public String getContents() {
 		return contents;
 	}

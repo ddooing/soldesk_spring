@@ -263,12 +263,12 @@ public class ServletAppContext implements WebMvcConfigurer {
 	      InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
 	      InterceptorRegistration reg2 = registry.addInterceptor(checkLoginInterceptor);
 	      InterceptorRegistration reg3 = registry.addInterceptor(checkLoginInterceptor);
-	      InterceptorRegistration reg4 = registry.addInterceptor(checkAdminInterceptor);
+	      //InterceptorRegistration reg4 = registry.addInterceptor(checkAdminInterceptor);
 
 	      reg1.addPathPatterns("/**");
 	      reg2.addPathPatterns("/mypage", "/board/main");
 	      reg3.addPathPatterns("/board/write", "/user/cart_list");
-	      reg4.addPathPatterns("/admin/manager_accountmanager");
+	      //reg4.addPathPatterns("/admin/manager_accountmanager");
 
 
 	   }

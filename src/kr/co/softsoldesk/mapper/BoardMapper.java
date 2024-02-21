@@ -77,15 +77,12 @@ public interface BoardMapper {
 	// 게시글 수정 (날짜는 수정불가)
 	@Update("UPDATE board "
 			+ "SET title = #{title}, contents = #{contents}, update_date = TRUNC(SYSDATE) "
-			+ "WHERE board_id = #{board_id} AND (user_id = #{user_id} "
-			+ "OR (SELECT state FROM user_table WHERE user_id = #{user_id}) = 3)")
+			+ "WHERE board_id = #{board_id}")
 	void modifyContentInfo(BoardBean modifyContentBean);
 
 	// 게시글 삭제
 	@Update("UPDATE board SET state = 0 "
-			+ "WHERE board_id = #{board_id} "
-			+ "AND (user_id = #{user_id} "
-			+ "OR (SELECT state FROM user_table WHERE user_id = #{user_id}) = 3)")
+			+ "WHERE board_id = #{board_id} ")
 	void deleteBoardInfo(int board_id);
 
 	// 해당 게시판의 전체 글 수 가져오기

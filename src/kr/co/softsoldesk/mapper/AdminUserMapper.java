@@ -148,7 +148,7 @@ public interface AdminUserMapper {
 			
 			//-----------------------(관리자) 계정정보수정 기본값 가져오기
 			@Select("SELECT ut.user_id, ut.nickname, ut.id, ut.email,\r\n"
-					+ "TO_CHAR(ut.create_date, 'YYYY-MM-DD') as create_date, ut.state, ut.exp, g.grade\r\n"
+					+ "TO_CHAR(ut.create_date, 'YYYY-MM-DD') as create_date, ut.state, ut.point ,ut.exp, g.grade\r\n"
 					+ "FROM user_table ut\r\n"
 					+ "LEFT JOIN grade g\r\n"
 					+ "ON ut.exp BETWEEN g.start_exp AND g.end_exp\r\n"

@@ -52,16 +52,16 @@ $(document).ready(function(){
 						<div style="position: absolute; left: 10px;">
 							<c:choose>
 								<c:when test="${!empty pageBean }">
-									<span class="badge text-bg-dark" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">게시글 ${n1 }건</span>
+									<span class="badge text-bg-dark rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px; padding:10px;">게시글 ${n1 }건</span>
 								</c:when>
 								<c:when test="${!empty pageBean1 }">
-									<span class="badge text-bg-dark" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">게시글 ${n2 }건</span>
+									<span class="badge text-bg-dark rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px; padding:10px;">게시글 ${n2 }건</span>
 								</c:when>
 								<c:when test="${!empty pageBean2 }">
-									<span class="badge text-bg-dark" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">게시글 ${n3 }건</span>
+									<span class="badge text-bg-dark rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px; padding:10px;">게시글 ${n3 }건</span>
 								</c:when>
 								<c:when test="${!empty pageBean3 }">
-									<span class="badge text-bg-dark" style="font-size: 15px; margin-right: 10px; margin-left: 50px;">게시글 ${n4 }건</span>
+									<span class="badge text-bg-dark rounded-pill" style="font-size: 15px; margin-right: 10px; margin-left: 50px; padding:10px;">게시글 ${n4 }건</span>
 								</c:when>
 							</c:choose>
 						</div>

@@ -46,6 +46,9 @@ $(document).ready(function(){
 </script>
 
 <style>
+textarea:focus {
+    outline: none;
+}
 .filebox .upload-name {
 	display: inline-block;
 	height: 40px;
@@ -115,7 +118,7 @@ $(document).ready(function(){
 							<tr style="align-items: center; height: 100px; ">
 								<th style="vertical-align: middle; font-size:20px;">내용</th>
 								<td colspan="3">
-									<textarea rows="15" cols="150" name="contents"></textarea>
+									<textarea rows="15" cols="140" style="resize:none;" name="contents"></textarea>
 								</td>
 							</tr>
 						</table>	

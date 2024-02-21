@@ -108,8 +108,6 @@ $(document).ready(function(){
 					            <th style="font-size:20px; width: 200px; text-align:center; margin-right: 30px;">제목</th>
 					            <td style="text-align:center;">
 					                <form:input path="title" style="width: 100%;" required="required"/>
-
-	   						 		
 					            </td>
 					        </tr>
 					        <!-- 내용 행 -->
@@ -129,11 +127,10 @@ $(document).ready(function(){
 						<script>
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('submitButton').addEventListener('click', function(event) {
-    event.preventDefault(); // 폼 자동 제출 방지
+    event.preventDefault(); 
 
-    // 수정 확인 요청
     Swal.fire({
-      title: '제출하시겠습니까?',
+      title: '등록하시겠습니까?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -142,9 +139,8 @@ document.addEventListener('DOMContentLoaded', function() {
       cancelButtonText: '취소'
     }).then((result) => {
       if (result.value) {
-        // 성공 메시지 표시
         Swal.fire(
-          '제출 완료!',
+          '등록 완료!',
           '등록이 완료되었습니다.',
           'success'
         ).then(() => {

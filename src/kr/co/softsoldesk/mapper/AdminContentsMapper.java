@@ -337,9 +337,12 @@ public interface AdminContentsMapper {
          //MyPage에서 보이는 FAQ리스트 뽑아오기
          @Select("SELECT title, contents, faq_id, TO_CHAR(regdate, 'YYYY-MM-DD') AS regdate, ROWNUM as rnum\r\n"
                + "FROM faq\r\n"
-               + "WHERE state = 1 AND ROWNUM <= 5")
-         List<FAQBean> getmpFAQList();
+               + "WHERE state = 1")
+         List<FAQBean> getmpFAQList(RowBounds rowBounds);
          
+         // mypage faq 페이징처리용
+         @Select("select count(*) from faq where state = 1")
+         int getFaQCnt();
          
          //FAQ 글쓰기
          @Insert("INSERT INTO FAQ (faq_id, title, regdate, contents, state)\r\n"

@@ -26,6 +26,11 @@ public class AdminContentsService {
 	@Value("${admin.paginationcnt}")
 	private int admin_paginationcnt;
 	
+	@Value("${Mypagepoint.listcnt}")
+	private int point_listcnt;
+	   
+	@Value("${Mypagepoint.paginationcnt}")
+	private int point_paginationcnt;
 	
 	//======================================================1. 공지사항
 	
@@ -320,8 +325,20 @@ public class AdminContentsService {
 		      return adminContentsDao.getFAQList(rowBounds);
 		   }
 		   
-		   public List<FAQBean>getmpFAQList(){
-		      return adminContentsDao.getmpFAQList();
+		   public List<FAQBean>getmpFAQList(int page){
+			   
+			   int start = (page - 1) * point_listcnt;
+			   RowBounds rowBounds = new RowBounds(start, point_listcnt); 
+			   
+		      return adminContentsDao.getmpFAQList(rowBounds);
+		   }
+		   
+		   public PageBean getFaQCnt(int currentPage) {
+			   
+			   int faq_Cnt = adminContentsDao.getFaQCnt();
+			   PageBean pageBean1 = new PageBean(faq_Cnt, currentPage, point_listcnt, point_paginationcnt);
+				
+				return pageBean1;
 		   }
 		   
 		   public void regFAQ(FAQBean FAQBean) {
